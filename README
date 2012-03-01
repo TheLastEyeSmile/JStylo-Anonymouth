@@ -1,37 +1,32 @@
-JGAAP (Java Graphical Authorship Attribution Program)
-From the Evaluating Variation in Language (EVL) Lab http://evllabs.com
+JSAN - The Integrated JStylo and Anonymouth Package
+====================================================
 
-JGAAP is released under the AGPL v3.0 a copy should be included 
-if not it can be found at http://www.gnu.org/licenses/agpl.html
+The Privacy, Security and Automation lab (PSAL)
+Drexel University, Philadelphia, PA
 
-To run JGAAP in Windows, click on the jgaap.jar file in the bin directory.
+----------------------------------------------------
 
-On Unix-based systems, or from the Windows command-line, you can also run:
+JStylo
+- Authorship recognition analysis tool
+- Version: 0.0.1
+For further details look in jstylo.txt
 
-java -jar jgaap.jar
+Anonymouth
+- Authorship recognition evasion tool
+- Version: 0.0.2
+For further details look in anonymouth.txt 
 
-NOTE: It is suggested that you increase the Heap size alloted to the JVM 
-     when using JGAAP since it is very memory intensive 2GB is good for 
-     most applications
+----------------------------------------------------
 
-java -Xmx2048m -jar jgaap.jar
+Usage:
 
-from the bin directory.
+In windows: double-click jsan.jar
+In other platforms / to view on-the-fly log:
 
+> java [-Xmx2048m] -jar jsan.jar
 
-JGAAP also has a command line mode.  You can see the command 
-line options by running:
+Note:
+For usage with large corpora or feature sets, it is recommended
+to increase the JVM heap size using the -Xmx option.
+ 
 
-java -jar jgaap.jar -h
-or
-java -jar jgaap.jar --help
-
-
-JGAAP also comes with a ant build file in the src directorie.  
-To compile the system:
-
-ant build
-
-To launch the gui:
-
-ant run-gui

@@ -171,6 +171,9 @@ class DocumentHelper {
 <<<<<<< HEAD
 =======
 		int status = reader.read(text);
+<<<<<<< HEAD
+>>>>>>> 84b6a7d81857415f26d6d837efa1314255acbd01
+=======
 >>>>>>> 84b6a7d81857415f26d6d837efa1314255acbd01
 		if(/*status != length || */reader.read() != -1)
 			throw new IOException("Document too large to load for processing (atempted read length "+length+" actual read length "+status);

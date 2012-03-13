@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 import edu.drexel.psal.anonymouth.gooie.ClusterViewerDriver;
+import edu.drexel.psal.anonymouth.utils.Pair;
+import edu.drexel.psal.anonymouth.utils.SmartIntegerArray;
 import edu.drexel.psal.jstylo.generics.Logger;
 
 /**

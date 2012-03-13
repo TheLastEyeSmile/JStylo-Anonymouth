@@ -10,7 +10,7 @@ import javax.swing.*;
 
 import edu.drexel.psal.anonymouth.projectDev.Attribute;
 import edu.drexel.psal.anonymouth.projectDev.Cluster;
-import edu.drexel.psal.anonymouth.projectDev.Pair;
+import edu.drexel.psal.anonymouth.utils.Pair;
 
 public class ClusterViewer extends JPanel {
 	

@@ -39,7 +39,7 @@ public class DictionaryBinding {
 	
 	public static void initDictListeners(final DictionaryConsole dc){
 		
-		System.setProperty("wordnet.database.dir",JGAAPConstants.JGAAP_RESOURCE_PACKAGE+"wordnet");
+		System.setProperty("wordnet.database.dir","./src"+JGAAPConstants.JGAAP_RESOURCE_PACKAGE+"wordnet");
 		
 		
 		dc.notFound.addActionListener(new ActionListener(){
@@ -206,7 +206,7 @@ public class DictionaryBinding {
 	
 	public static boolean readInAndScan(String nGram) throws IOException{
 		Logger.logln("reading in comprehensive word list");
-		FileReader fr = new FileReader(new File("./resources/allWords.txt"));
+		FileReader fr = new FileReader(new File("./allWords.txt"));
 		BufferedReader buff = new BufferedReader(fr);
 		String temp;
 		gramFindings = "";

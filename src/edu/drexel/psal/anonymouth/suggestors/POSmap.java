@@ -58,6 +58,7 @@ public class POSmap {
 		case WP: return "Wh-pronoun";
 		case WP$: return "Possesive wh-pronoun";
 		case WRB: return "Wh-adverb";
+		
 		}
 		return tag.toString(); // This can't happen.
 	}

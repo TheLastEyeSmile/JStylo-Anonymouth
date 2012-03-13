@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.jgaap.JGAAPConstants;
 import com.jgaap.generics.EventGenerationException;
 
 import edu.drexel.psal.anonymouth.gooie.EditorTabDriver;
@@ -272,7 +273,8 @@ abstract public class TheOracle implements Runnable {
 	
 	private void initMaxentTagger(){	
 		try {
-			mt = new MaxentTagger("./external/MaxentTagger/left3words-wsj-0-18.tagger");
+			mt = new MaxentTagger("."+JGAAPConstants.JGAAP_RESOURCE_PACKAGE+"models/postagger/english-left3words-distsim.tagger");
+			//mt = new MaxentTagger(".lib/external/MaxentTagger/left3words-wsj-0-18.tagger");
 			taggerPresent = true;
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -2,6 +2,8 @@ package edu.drexel.psal.anonymouth.projectDev;
 
 import java.util.ArrayList;
 
+import edu.drexel.psal.anonymouth.utils.Pair;
+
 /**
  * Cluster class holds each cluster being utilized by 'TargetExtractor'. 
  * @author Andrew W.E. McDonald

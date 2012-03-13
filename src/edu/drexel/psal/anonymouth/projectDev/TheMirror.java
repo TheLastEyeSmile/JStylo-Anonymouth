@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 
 /**
- * Class TheChief is responsible for dynamically creating instances (and invoking their methods) of the suggestion classes. (therefore, the chief)
+ * Class TheMirror is responsible for dynamically creating instances (and invoking their methods) of the suggestion classes. (therefore, the chief)
  * It also updates the present value of each feature within the Attribute object prior to computing a suggestion; this helps ensure that each suggestion will 
  * deliver accurate responses without the need for re=processing/ re=classifying the document after a change is made.
  * @author Andrew W.E. McDonald

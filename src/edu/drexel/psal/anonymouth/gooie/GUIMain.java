@@ -47,6 +47,16 @@ import edu.drexel.psal.jstylo.analyzers.WekaAnalyzer;
  */
 public class GUIMain extends javax.swing.JFrame {
 
+	{
+		//Set Look & Feel
+		try {
+			javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+
 	// main instance
 	public static GUIMain inst;
 
@@ -185,6 +195,8 @@ public class GUIMain extends javax.swing.JFrame {
 	protected JTable resultsTable;
 	protected JLabel classificationLabel;
 	protected JLabel suggestionLabel;
+	protected JButton nextSentenceButton;
+	protected JButton lastSentenceButton;
 	protected JTextField searchInputBox;
 	protected JComboBox highlightSelectionBox;
 	protected JLabel highlightLabel;
@@ -1122,6 +1134,16 @@ public class GUIMain extends javax.swing.JFrame {
 							}
 						}
 						{
+							lastSentenceButton = new JButton();
+							lastSentenceButton.setText("Last Sentence");
+							lastSentenceButton.setEnabled(false);
+						}
+						{
+							nextSentenceButton = new JButton();
+							nextSentenceButton.setText("Next Sentence");
+							nextSentenceButton.setEnabled(false);
+						}
+						{
 							clearHighlightingButton = new JButton();
 							clearHighlightingButton.setText("Clear Highlights");
 						}
@@ -1228,108 +1250,114 @@ public class GUIMain extends javax.swing.JFrame {
 							featureNameLabel = new JLabel();
 							featureNameLabel.setText("Feature Name:");
 						}
-						editorTabLayout.setVerticalGroup(editorTabLayout.createSequentialGroup()
-								.addContainerGap()
-								.addGroup(editorTabLayout.createParallelGroup()
-										.addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
-												.addComponent(editTP, 0, 616, Short.MAX_VALUE)
-												.addGap(0, 44, GroupLayout.PREFERRED_SIZE))
-												.addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
-														.addGap(11)
-														.addComponent(suggestionLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-														.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-														.addComponent(suggestionPane, GroupLayout.PREFERRED_SIZE, 247, GroupLayout.PREFERRED_SIZE)
-														.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-														.addComponent(featureNameLabel, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
-														.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-														.addGroup(editorTabLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-																.addComponent(presentValueField, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
-																.addComponent(presentValueLabel, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE))
-																.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-																.addGroup(editorTabLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-																		.addComponent(targetValueField, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
-																		.addComponent(targetValueLabel, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE))
-																		.addGap(18)
-																		.addComponent(suggestionListLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-																		.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-																		.addGroup(editorTabLayout.createParallelGroup()
-																				.addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
-																						.addComponent(suggestionListPane, GroupLayout.PREFERRED_SIZE, 235, GroupLayout.PREFERRED_SIZE)
-																						.addGap(0, 14, Short.MAX_VALUE))
-																						.addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
-																								.addGap(0, 201, Short.MAX_VALUE)
-																								.addGroup(editorTabLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-																										.addComponent(highlightSelectionBox, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-																										.addComponent(searchInputBox, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
-																										.addComponent(highlightLabel, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE))
-																										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 0, GroupLayout.PREFERRED_SIZE)
-																										.addComponent(editingProgressBarLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)))))
-																										.addGroup(editorTabLayout.createParallelGroup()
-																												.addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-																														.addComponent(dictButton, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-																														.addComponent(saveButton, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-																														.addComponent(exitButton, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-																														.addComponent(processButton, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-																														.addComponent(clearHighlightingButton, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-																														.addComponent(verboseButton, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-																														.addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
-																																.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-																																.addComponent(editorProgressBar, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
-																																.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)))
-																																.addContainerGap());
 						editorTabLayout.setHorizontalGroup(editorTabLayout.createParallelGroup()
-								.addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
-										.addComponent(editTP, 0, 770, Short.MAX_VALUE)
-										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-										.addGroup(editorTabLayout.createParallelGroup()
-												.addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
-														.addComponent(suggestionListLabel, 0, 178, Short.MAX_VALUE)
-														.addGap(43))
-														.addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
-																.addComponent(suggestionLabel, 0, 155, Short.MAX_VALUE)
-																.addGap(66))
-																.addComponent(suggestionPane, GroupLayout.Alignment.LEADING, 0, 221, Short.MAX_VALUE)
-																.addComponent(featureNameLabel, GroupLayout.Alignment.LEADING, 0, 221, Short.MAX_VALUE)
-																.addComponent(suggestionListPane, GroupLayout.Alignment.LEADING, 0, 221, Short.MAX_VALUE))
-																.addContainerGap())
-																.addGroup(editorTabLayout.createSequentialGroup()
-																		.addGap(0, 11, GroupLayout.PREFERRED_SIZE)
-																		.addGroup(editorTabLayout.createParallelGroup()
-																				.addComponent(editingProgressBarLabel, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 342, GroupLayout.PREFERRED_SIZE)
-																				.addComponent(editorProgressBar, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 342, GroupLayout.PREFERRED_SIZE))
-																				.addGroup(editorTabLayout.createParallelGroup()
-																						.addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
-																								.addComponent(highlightLabel, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-																								.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-																								.addComponent(highlightSelectionBox, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
-																								.addComponent(searchInputBox, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
-																								.addGap(76))
-																								.addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
-																										.addGap(0, 12, Short.MAX_VALUE)
-																										.addComponent(processButton, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
-																										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 0, GroupLayout.PREFERRED_SIZE)
-																										.addComponent(clearHighlightingButton, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE)
-																										.addComponent(dictButton, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
-																										.addComponent(verboseButton, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)))
-																										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-																										.addGroup(editorTabLayout.createParallelGroup()
-																												.addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
-																														.addComponent(saveButton, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
-																														.addComponent(exitButton, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
-																														.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED))
-																														.addGroup(editorTabLayout.createSequentialGroup()
-																																.addGap(0, 10, GroupLayout.PREFERRED_SIZE)
-																																.addGroup(editorTabLayout.createParallelGroup()
-																																		.addComponent(presentValueLabel, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
-																																		.addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
-																																				.addComponent(targetValueLabel, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
-																																				.addGap(13)))
-																																				.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 6, GroupLayout.PREFERRED_SIZE)
-																																				.addGroup(editorTabLayout.createParallelGroup()
-																																						.addComponent(targetValueField, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
-																																						.addComponent(presentValueField, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE))))
-																																						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 1, 1)));
+							.addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
+							    .addComponent(editTP, GroupLayout.PREFERRED_SIZE, 770, GroupLayout.PREFERRED_SIZE)
+							    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+							    .addGroup(editorTabLayout.createParallelGroup()
+							        .addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
+							            .addComponent(suggestionListLabel, 0, 179, Short.MAX_VALUE)
+							            .addGap(43))
+							        .addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
+							            .addComponent(suggestionLabel, 0, 156, Short.MAX_VALUE)
+							            .addGap(66))
+							        .addComponent(suggestionListPane, GroupLayout.Alignment.LEADING, 0, 222, Short.MAX_VALUE)
+							        .addComponent(suggestionPane, GroupLayout.Alignment.LEADING, 0, 222, Short.MAX_VALUE)
+							        .addComponent(featureNameLabel, GroupLayout.Alignment.LEADING, 0, 222, Short.MAX_VALUE))
+							    .addContainerGap())
+							.addGroup(editorTabLayout.createSequentialGroup()
+							    .addPreferredGap(editTP, getLastSentenceButton(), LayoutStyle.ComponentPlacement.INDENT)
+							    .addGroup(editorTabLayout.createParallelGroup()
+							        .addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
+							            .addComponent(getLastSentenceButton(), GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)
+							            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+							            .addComponent(getNextSentenceButton(), GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)
+							            .addGap(106))
+							        .addGroup(editorTabLayout.createSequentialGroup()
+							            .addPreferredGap(getLastSentenceButton(), editorProgressBar, LayoutStyle.ComponentPlacement.INDENT)
+							            .addGroup(editorTabLayout.createParallelGroup()
+							                .addComponent(editorProgressBar, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 342, GroupLayout.PREFERRED_SIZE)
+							                .addComponent(editingProgressBarLabel, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 342, GroupLayout.PREFERRED_SIZE))))
+							    .addGroup(editorTabLayout.createParallelGroup()
+							        .addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
+							            .addComponent(highlightLabel, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
+							            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+							            .addComponent(highlightSelectionBox, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
+							            .addComponent(searchInputBox, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
+							            .addGap(0, 76, Short.MAX_VALUE))
+							        .addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
+							            .addGap(0, 12, Short.MAX_VALUE)
+							            .addComponent(processButton, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
+							            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+							            .addComponent(clearHighlightingButton, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE)
+							            .addComponent(dictButton, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
+							            .addComponent(verboseButton, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)))
+							    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+							    .addGroup(editorTabLayout.createParallelGroup()
+							        .addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
+							            .addComponent(saveButton, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
+							            .addComponent(exitButton, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
+							            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED))
+							        .addGroup(editorTabLayout.createSequentialGroup()
+							            .addGap(10)
+							            .addGroup(editorTabLayout.createParallelGroup()
+							                .addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
+							                    .addComponent(targetValueLabel, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
+							                    .addGap(13))
+							                .addComponent(presentValueLabel, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE))
+							            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+							            .addGroup(editorTabLayout.createParallelGroup()
+							                .addComponent(targetValueField, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
+							                .addComponent(presentValueField, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE))))
+							    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 1, 1)));
 						editorTabLayout.linkSize(SwingConstants.HORIZONTAL, new Component[] {dictButton, processButton, verboseButton});
+						editorTabLayout.setVerticalGroup(editorTabLayout.createSequentialGroup()
+							.addContainerGap()
+							.addGroup(editorTabLayout.createParallelGroup()
+							    .addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
+							        .addComponent(editTP, GroupLayout.PREFERRED_SIZE, 617, GroupLayout.PREFERRED_SIZE)
+							        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+							        .addGroup(editorTabLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+							            .addComponent(getLastSentenceButton(), GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+							            .addComponent(highlightLabel, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+							            .addComponent(highlightSelectionBox, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+							            .addComponent(searchInputBox, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
+							            .addComponent(getNextSentenceButton(), GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)))
+							    .addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
+							        .addGap(11)
+							        .addComponent(suggestionLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+							        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+							        .addComponent(suggestionPane, GroupLayout.PREFERRED_SIZE, 247, GroupLayout.PREFERRED_SIZE)
+							        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+							        .addComponent(featureNameLabel, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
+							        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+							        .addGroup(editorTabLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+							            .addComponent(presentValueField, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
+							            .addComponent(presentValueLabel, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE))
+							        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+							        .addGroup(editorTabLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+							            .addComponent(targetValueField, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
+							            .addComponent(targetValueLabel, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE))
+							        .addGap(18)
+							        .addComponent(suggestionListLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+							        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+							        .addComponent(suggestionListPane, GroupLayout.PREFERRED_SIZE, 235, GroupLayout.PREFERRED_SIZE)
+							        .addGap(6)))
+							.addGap(0, 40, Short.MAX_VALUE)
+							.addComponent(editingProgressBarLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGroup(editorTabLayout.createParallelGroup()
+							    .addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+							        .addComponent(processButton, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+							        .addComponent(saveButton, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+							        .addComponent(exitButton, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+							        .addComponent(clearHighlightingButton, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+							        .addComponent(dictButton, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+							        .addComponent(verboseButton, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+							    .addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
+							        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 0, GroupLayout.PREFERRED_SIZE)
+							        .addComponent(editorProgressBar, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
+							        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)))
+							.addContainerGap());
 					}
 				}
 				/* ============
@@ -1434,6 +1462,14 @@ public class GUIMain extends javax.swing.JFrame {
 	
 	public JTextField getSearchInputBox() {
 		return searchInputBox;
+	}
+	
+	public JButton getLastSentenceButton() {
+		return lastSentenceButton;
+	}
+	
+	public JButton getNextSentenceButton() {
+		return nextSentenceButton;
 	}
 
 }

@@ -11,6 +11,7 @@ import edu.drexel.psal.anonymouth.suggestors.HighlightMapList;
 import edu.drexel.psal.anonymouth.suggestors.HighlightMapMaker;
 import edu.drexel.psal.anonymouth.suggestors.Prophecy;
 import edu.drexel.psal.anonymouth.suggestors.TheOracle;
+import edu.drexel.psal.anonymouth.utils.SentenceTools;
 import edu.drexel.psal.jstylo.generics.FeatureDriver;
 import edu.drexel.psal.jstylo.generics.Logger;
 import edu.drexel.psal.jstylo.generics.WekaInstancesBuilder;
@@ -86,6 +87,8 @@ import com.jgaap.generics.Document;
  */
 public class EditorTabDriver {
 	
+	
+	protected static SentenceTools sentenceTools;
 	private static int highlightSelectionBoxSelectionNumber;
 	public static boolean isUsingNineFeatures = false;
 	protected static boolean hasBeenInitialized = false;
@@ -149,6 +152,7 @@ public class EditorTabDriver {
 			public synchronized void actionPerformed(ActionEvent event) {
 				main.processButton.setEnabled(false);
 				if(isFirstRun==true){
+					sentenceTools = new SentenceTools();
 					Logger.logln("Intial processing starting...");
 					int i =0;
 					sizeOfCfd = main.cfd.numOfFeatureDrivers();
@@ -211,6 +215,29 @@ public class EditorTabDriver {
 				
 
 				}	
+			
+		});
+		
+		main.nextSentenceButton.addActionListener(new ActionListener(){
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0){
+				Logger.logln("next sentence button pressed.");
+				sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
+				eits.getSentenceEditPane().setText(sentenceTools.getNext());
+			}
+			
+		});
+		
+		main.lastSentenceButton.addActionListener(new ActionListener(){
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0){
+				Logger.logln("last sentence button pressed.");
+				sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
+				eits.getSentenceEditPane().setText(sentenceTools.getLast());
+				
+			}
 			
 		});
 	
@@ -890,6 +917,7 @@ public class EditorTabDriver {
 	}
 			
 	 class SuggestionCalculator implements Runnable{
+		//TODO: need to process sentence to find most salient features
 		 
 		 GUIMain main;
 		 EditorInnerTabSpawner eits;

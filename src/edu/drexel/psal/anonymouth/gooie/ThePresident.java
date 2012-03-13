@@ -95,7 +95,6 @@ public class ThePresident {
 		}
 		sessionName = "anonymous"; 
 		String tempName = null;
-		int count = 0 ;
 		boolean acceptableName = false;
 		tempName = JOptionPane.showInputDialog("Please name your session:", sessionName);
 		if((tempName == null || tempName.trim().equals("")))
@@ -111,7 +110,7 @@ public class ThePresident {
 			sessionName = tempName;
 		//System.out.println(tempName+" "+sessionName);
 		Logger.setFilePrefix("Anonymouth_"+sessionName);
-		Logger.logFile = false;								//TODO <<<<<<<<<<<< FILE LOGGING IS OFF !!! >>>>>>>>>>>>>>>>
+		Logger.logFile = true;	
 		Logger.initLogFile();
 		Logger.logln("Gooie starting...");
 		GUIMain.startGooie();

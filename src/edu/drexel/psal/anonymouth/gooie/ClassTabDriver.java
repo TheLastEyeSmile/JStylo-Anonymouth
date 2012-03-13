@@ -266,6 +266,7 @@ public class ClassTabDriver {
 								"Error",
 								JOptionPane.ERROR_MESSAGE,
 								GUIMain.iconNO);
+						//e1.printStackTrace();
 					} finally{
 						EditorTabDriver.shouldReset = false;
 					}

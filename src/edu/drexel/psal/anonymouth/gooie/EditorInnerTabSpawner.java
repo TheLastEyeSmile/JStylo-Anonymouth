@@ -104,8 +104,8 @@ public class EditorInnerTabSpawner {
 						editBox.setViewportView(editorBox);
 						if(oldEditorBoxDoc.equals(" ")){
 							editorBox.setText("Your document will be here.");
-							editorBox.setEditable(false);
 							editorBox.setPreferredSize(new java.awt.Dimension(758, 388));
+							editorBox.setEditable(false);
 						}
 						else 
 							editorBox.setText(oldEditorBoxDoc);
@@ -167,16 +167,15 @@ public class EditorInnerTabSpawner {
 					.addContainerGap());
 			editBoxPanelLayout.setVerticalGroup(editBoxPanelLayout.createSequentialGroup()
 					.addContainerGap(33, 33)
-					.addComponent(getSentencePane(), GroupLayout.PREFERRED_SIZE, 8, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-					.addComponent(editBox, GroupLayout.PREFERRED_SIZE, 379, GroupLayout.PREFERRED_SIZE)
+					.addComponent(getSentencePane(), 0, 60, Short.MAX_VALUE)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+					.addComponent(editBox, GroupLayout.PREFERRED_SIZE, 324, GroupLayout.PREFERRED_SIZE)
 					.addGap(16)
 					.addComponent(resultsTableLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-					.addComponent(resultsTablePane, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-					.addComponent(classificationLabel, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 0, Short.MAX_VALUE));
+					.addComponent(resultsTablePane, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+					.addComponent(classificationLabel, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE));
 				}
 				tabMade = true;
 				return this;
@@ -194,8 +193,7 @@ public class EditorInnerTabSpawner {
 				if(sentenceEditPane == null) {
 					sentenceEditPane = new JTextPane();
 					sentenceEditPane.setText("Edit here");
-					sentenceEditPane.setEnabled(false);
-					sentenceEditPane.setVisible(false);
+					sentenceEditPane.setVisible(true);
 				}
 				return sentenceEditPane;
 			}

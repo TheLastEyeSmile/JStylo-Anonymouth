@@ -1,5 +1,7 @@
 package edu.drexel.psal.anonymouth.projectDev;
 
+import edu.drexel.psal.anonymouth.utils.SmartIntegerArray;
+
 /**
  * holds a group of clusters pertaining to one or more documents, and facilitates operations on it
  * @author Andrew W.E. McDonald

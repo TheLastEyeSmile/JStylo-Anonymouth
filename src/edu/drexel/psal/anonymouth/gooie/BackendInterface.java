@@ -424,6 +424,10 @@ public class BackendInterface {
 			eits.resultsTablePane.setEnabled(true);
 			eits.resultsTablePane.setOpaque(true);
 			EditorTabDriver.okayToSelectSuggestion = true;
+			EditorTabDriver.sentenceTools.makeSentenceTokens(eits.editorBox.getText());
+			eits.getSentenceEditPane().setText(EditorTabDriver.sentenceTools.getNext());
+			main.nextSentenceButton.setEnabled(true);
+			main.lastSentenceButton.setEnabled(true);
 			Logger.logln("Finished in BackendInterface - postTargetSelection");
 			
 			

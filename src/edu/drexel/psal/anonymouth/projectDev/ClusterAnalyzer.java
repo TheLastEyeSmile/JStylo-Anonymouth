@@ -113,7 +113,7 @@ public class ClusterAnalyzer {
 			for(i=0; i< lenKey; i++){
 				tempSum += (keyRay[i]*((lenKey+1) - i))/lenKey;
 			}	
-			tempSum = tempSum * ((double)clusterGroupFreq[j]/numDocs);
+			//tempSum = tempSum * ((double)(.25)*clusterGroupFreq[j]/numDocs);
 			someClusters[j] = new ClusterGroup(tempKey,tempSum);
 			j++;
 		}

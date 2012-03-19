@@ -36,6 +36,14 @@ public class Sentence implements Comparable<Sentence>{
 		}
 		
 		/**
+		 * adds the numToAdd to the number of appearances of this sentence
+		 * @param numToAdd the amount to add to the count
+		 */
+		public void addToCount(int numToAdd){
+			count += numToAdd;
+		}
+		
+		/**
 		 * increments the count of this sentence
 		 */
 		public void increment(){

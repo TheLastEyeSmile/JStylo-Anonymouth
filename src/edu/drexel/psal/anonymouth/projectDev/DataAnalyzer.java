@@ -573,9 +573,9 @@ public class DataAnalyzer{
 	public void reRunModified(DocumentMagician magician) throws Exception{
 		
 		magician.reRunModified();
-		runGeneric(magician);
-		int maxClusters = runAllTopFeatures();
-		runClusterAnalysis(maxClusters);
+		//runGeneric(magician);
+		//int maxClusters = runAllTopFeatures();
+		//runClusterAnalysis(maxClusters);
 		Logger.logln("Calling makeViewer in ClusterViewer after re-running modified.");
 		ClusterViewer.makeViewer(topAttributes);
 		Logger.logln("viewer made");
@@ -613,7 +613,7 @@ public class DataAnalyzer{
 			if((mapMakerSentenceTargetSet && mapMakerCharTargetSet) == false)
 				mapMakerTargetSetter(topAttributes[i].getGenericName(),target);
 		}
-		boolean mustSaveTargets = true;
+		boolean mustSaveTargets = false;
 		if(mustSaveTargets == true){
 			while(targetsSaved != 1){
 				targetsSaved = saveTargets(targetSaver);

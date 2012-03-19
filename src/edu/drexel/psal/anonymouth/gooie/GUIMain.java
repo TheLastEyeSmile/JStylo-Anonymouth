@@ -195,6 +195,31 @@ public class GUIMain extends javax.swing.JFrame {
 	protected JTable resultsTable;
 	protected JLabel classificationLabel;
 	protected JLabel suggestionLabel;
+	protected JTextPane elementsToAddPane;
+	protected JPanel editorRowTwoButtonBufferPanel;
+	protected JPanel buttonBufferJPanel;
+	protected JPanel editorBottomRowButtonPanel;
+	protected JPanel editorTopRowButtonsPanel;
+	protected JPanel editorButtonJPanel;
+	protected JPanel editorInteractionWestPanel;
+	protected JPanel editorInteractionJPanel;
+	protected JPanel jPanel2;
+	protected JPanel dummyPanelUpdatorLeftSide;
+	protected JPanel elementsToAddBoxLabelJPanel;
+	protected JPanel suggestionBoxLabelJPanel;
+	protected JPanel jPanel1;
+	protected JPanel featureNameJPanel;
+	protected JPanel valueLabelJPanel;
+	protected JPanel valueBoxPanel;
+	protected JPanel updaterJPanel;
+	protected JScrollPane elementsToAddScrollPane;
+	protected JScrollPane suggestionPane;
+	protected JPanel editorInfoJPanel;
+	protected JScrollPane editorInteractionScrollPane;
+	protected JScrollPane EditorInfoScrollPane;
+	protected JTabbedPane editTP;
+	protected JLabel elementsToAddLabel;
+	protected JScrollPane wordsToAddPane;
 	protected JButton nextSentenceButton;
 	protected JButton lastSentenceButton;
 	protected JTextField searchInputBox;
@@ -220,17 +245,14 @@ public class GUIMain extends javax.swing.JFrame {
 	protected JScrollPane editBox;
 	protected JPanel editBoxPanel;
 	protected JScrollPane suggestionListPane;
-	protected JScrollPane suggestionPane;
-	protected JTabbedPane editTP;
-	
-	
+
 	// Cluster tab
 	protected JScrollPane theScrollPane;
 	protected JPanel examplePlotPanel;
 	protected JPanel topPanel;
 	protected JPanel secondPanel;
 	protected JPanel holderPanel;
-	protected JButton configureButton;
+	protected JButton refreshButton;
 	protected JTabbedPane clusterTab;
 	protected JCheckBox shouldCloseBox;
 	protected JButton selectClusterConfiguration;
@@ -1116,14 +1138,249 @@ public class GUIMain extends javax.swing.JFrame {
 					theEditorScrollPane.setOpaque(true);
 					//theScrollPane.setPreferredSize(new java.awt.Dimension(518, 369));
 					theEditorScrollPane.setSize(900, 600);
+					theEditorScrollPane.setPreferredSize(new java.awt.Dimension(953, 670));
 					{
 
 						editorTab = new JPanel(new BorderLayout(cellPadding,cellPadding));
-						theEditorScrollPane.setViewportView(editorTab);
-						GroupLayout editorTabLayout = new GroupLayout((JComponent)editorTab);
+						BorderLayout editorTabLayout = new BorderLayout();
 						editorTab.setLayout(editorTabLayout);
+						theEditorScrollPane.setViewportView(editorTab);
+						editorTab.setPreferredSize(new java.awt.Dimension(950, 654));
+						{
+							EditorInfoScrollPane = new JScrollPane();
+							editorTab.add(EditorInfoScrollPane, BorderLayout.EAST);
+							EditorInfoScrollPane.setPreferredSize(new java.awt.Dimension(330, 492));
+							{
+								editorInfoJPanel = new JPanel();
+								BorderLayout editorInfoJPanelLayout = new BorderLayout();
+								editorInfoJPanel.setLayout(editorInfoJPanelLayout);
+								EditorInfoScrollPane.setViewportView(editorInfoJPanel);
+								editorInfoJPanel.setPreferredSize(new java.awt.Dimension(326, 617));
+								{
+									jPanel1 = new JPanel();
+									editorInfoJPanel.add(jPanel1, BorderLayout.NORTH);
+									jPanel1.setPreferredSize(new java.awt.Dimension(326, 327));
+									{
+										suggestionBoxLabelJPanel = new JPanel();
+										jPanel1.add(suggestionBoxLabelJPanel);
+										suggestionBoxLabelJPanel.setPreferredSize(new java.awt.Dimension(314, 22));
+										{
+											suggestionLabel = new JLabel();
+											suggestionBoxLabelJPanel.add(suggestionLabel);
+											suggestionLabel.setText("Suggestion / Instructions:");
+										}
+									}
+									{
+										suggestionPane = new JScrollPane();
+										jPanel1.add(suggestionPane);
+										suggestionPane.setPreferredSize(new java.awt.Dimension(317, 134));
+										{
+											suggestionBox = new JTextPane();
+											suggestionPane.setViewportView(suggestionBox);
+											suggestionBox.setText("Edit the sentence in the top window to the left by trying to rewrite it without the highlighted words. Try to add some of the 'elements to add' from the window below. ");
+										}
+									}
+									{
+										elementsToAddBoxLabelJPanel = new JPanel();
+										jPanel1.add(elementsToAddBoxLabelJPanel);
+										elementsToAddBoxLabelJPanel.setPreferredSize(new java.awt.Dimension(314, 24));
+										{
+											elementsToAddLabel = new JLabel();
+											elementsToAddBoxLabelJPanel.add(elementsToAddLabel);
+											elementsToAddLabel.setText("Elements to (try to) add:");
+										}
+									}
+									{
+										elementsToAddScrollPane = new JScrollPane();
+										jPanel1.add(elementsToAddScrollPane);
+										elementsToAddScrollPane.setPreferredSize(new java.awt.Dimension(313, 119));
+										elementsToAddScrollPane.setSize(306, 157);
+										{
+											elementsToAddPane = new JTextPane();
+											elementsToAddScrollPane.setViewportView(elementsToAddPane);
+											elementsToAddPane.setText("I, to, himself, wasn't , he was, it went, because we went, an example is, she was, they were,");
+										}
+									}
+								}
+								{
+									updaterJPanel = new JPanel();
+									editorInfoJPanel.add(updaterJPanel, BorderLayout.SOUTH);
+									BorderLayout updaterJPanelLayout = new BorderLayout();
+									updaterJPanel.setLayout(updaterJPanelLayout);
+									updaterJPanel.setPreferredSize(new java.awt.Dimension(311, 288));
+									{
+										valueBoxPanel = new JPanel();
+										updaterJPanel.add(valueBoxPanel, BorderLayout.EAST);
+										valueBoxPanel.setPreferredSize(new java.awt.Dimension(131, 76));
+										{
+											presentValueField = new JTextField();
+											valueBoxPanel.add(presentValueField);
+											presentValueField.setText("null");
+											presentValueField.setPreferredSize(new java.awt.Dimension(76, 27));
+										}
+										{
+											targetValueField = new JTextField();
+											valueBoxPanel.add(targetValueField);
+											targetValueField.setText("null");
+											targetValueField.setPreferredSize(new java.awt.Dimension(76, 27));
+										}
+									}
+									{
+										valueLabelJPanel = new JPanel();
+										FlowLayout valueLabelJPanelLayout = new FlowLayout();
+										valueLabelJPanel.setLayout(valueLabelJPanelLayout);
+										updaterJPanel.add(valueLabelJPanel, BorderLayout.WEST);
+										valueLabelJPanel.setPreferredSize(new java.awt.Dimension(180, 76));
+										{
+											presentValueLabel = new JLabel();
+											valueLabelJPanel.add(presentValueLabel);
+											presentValueLabel.setText("Present Value:");
+										}
+										{
+											dummyPanelUpdatorLeftSide = new JPanel();
+											valueLabelJPanel.add(dummyPanelUpdatorLeftSide);
+											dummyPanelUpdatorLeftSide.setPreferredSize(new java.awt.Dimension(154, 8));
+										}
+										{
+											targetValueLabel = new JLabel();
+											valueLabelJPanel.add(targetValueLabel);
+											targetValueLabel.setText("Target Value:");
+										}
+									}
+									{
+										featureNameJPanel = new JPanel();
+										FlowLayout featureNameJPanelLayout = new FlowLayout();
+										featureNameJPanel.setLayout(featureNameJPanelLayout);
+										updaterJPanel.add(featureNameJPanel, BorderLayout.NORTH);
+										featureNameJPanel.setPreferredSize(new java.awt.Dimension(326, 25));
+										{
+											featureNameLabel = new JLabel();
+											FlowLayout featureNameLabelLayout = new FlowLayout();
+											featureNameLabel.setLayout(null);
+											featureNameJPanel.add(featureNameLabel);
+											featureNameLabel.setText("Feature Name:");
+										}
+									}
+									{
+										jPanel2 = new JPanel();
+										updaterJPanel.add(jPanel2, BorderLayout.SOUTH);
+										jPanel2.setPreferredSize(new java.awt.Dimension(326, 187));
+										{
+											suggestionListLabel = new JLabel();
+											jPanel2.add(suggestionListLabel);
+											suggestionListLabel.setText("Clickable Feature List");
+											suggestionListLabel.setPreferredSize(new java.awt.Dimension(146, 16));
+										}
+										{
+											suggestionListPane = new JScrollPane();
+											jPanel2.add(suggestionListPane);
+											suggestionListPane.setPreferredSize(new java.awt.Dimension(315, 155));
+											{
+												TableModel suggestionTableModel = 
+														new DefaultTableModel(
+																new String[][] { { "One", "Two" }, { "Three", "Four" } },
+																new String[] { "Column 1", "Column 2" });
+												suggestionTable = new JTable();
+												suggestionListPane.setViewportView(suggestionTable);
+												suggestionTable.setModel(suggestionTableModel);
+											}
+										}
+									}
+								}
+							}
+						}
+						{
+							editorInteractionScrollPane = new JScrollPane();
+							editorTab.add(editorInteractionScrollPane, BorderLayout.SOUTH);
+							editorInteractionScrollPane.setPreferredSize(new java.awt.Dimension(999, 84));
+							{
+								editorInteractionJPanel = new JPanel();
+								BorderLayout editorInteractionJPanelLayout = new BorderLayout();
+								editorInteractionJPanel.setLayout(editorInteractionJPanelLayout);
+								editorInteractionScrollPane.setViewportView(editorInteractionJPanel);
+								editorInteractionJPanel.setPreferredSize(new java.awt.Dimension(995, 63));
+								{
+									editorInteractionWestPanel = new JPanel();
+									BorderLayout editorInteractionWestPanelLayout = new BorderLayout();
+									editorInteractionWestPanel.setLayout(editorInteractionWestPanelLayout);
+									editorInteractionJPanel.add(editorInteractionWestPanel, BorderLayout.WEST);
+									editorInteractionWestPanel.setPreferredSize(new java.awt.Dimension(352, 87));
+									{
+										editorProgressBar = new JProgressBar();
+										editorInteractionWestPanel.add(editorProgressBar, BorderLayout.SOUTH);
+										editorProgressBar.setPreferredSize(new java.awt.Dimension(352, 20));
+									}
+									{
+										editingProgressBarLabel = new JLabel();
+										editorInteractionWestPanel.add(editingProgressBarLabel, BorderLayout.CENTER);
+										editingProgressBarLabel.setText("Progress...");
+									}
+								}
+								{
+									editorButtonJPanel = new JPanel();
+									BorderLayout editorButtonJPanelLayout = new BorderLayout();
+									editorButtonJPanel.setLayout(editorButtonJPanelLayout);
+									editorInteractionJPanel.add(editorButtonJPanel, BorderLayout.CENTER);
+									editorButtonJPanel.setPreferredSize(new java.awt.Dimension(640, 57));
+									{
+										editorTopRowButtonsPanel = new JPanel();
+										editorButtonJPanel.add(editorTopRowButtonsPanel, BorderLayout.NORTH);
+										editorTopRowButtonsPanel.setPreferredSize(new java.awt.Dimension(643, 36));
+										{
+											nextSentenceButton = new JButton();
+											editorTopRowButtonsPanel.add(nextSentenceButton);
+											nextSentenceButton.setText("Next Sentence");
+										}
+										{
+											lastSentenceButton = new JButton();
+											editorTopRowButtonsPanel.add(lastSentenceButton);
+											lastSentenceButton.setText("Last Sentence");
+										}
+										{
+											buttonBufferJPanel = new JPanel();
+											editorTopRowButtonsPanel.add(buttonBufferJPanel);
+											buttonBufferJPanel.setPreferredSize(new java.awt.Dimension(230, 5));
+										}
+										{
+											processButton = new JButton();
+											editorTopRowButtonsPanel.add(processButton);
+											processButton.setText("Process");
+											processButton.setPreferredSize(new java.awt.Dimension(118, 29));
+										}
+									}
+									{
+										editorBottomRowButtonPanel = new JPanel();
+										editorButtonJPanel.add(editorBottomRowButtonPanel, BorderLayout.SOUTH);
+										editorBottomRowButtonPanel.setPreferredSize(new java.awt.Dimension(643, 34));
+										{
+											dictButton = new JButton();
+											editorBottomRowButtonPanel.add(dictButton);
+											dictButton.setText("Phrase and Word Synonym Dictionary");
+										}
+										{
+											saveButton = new JButton();
+											editorBottomRowButtonPanel.add(saveButton);
+											saveButton.setText("Save...");
+										}
+										{
+											editorRowTwoButtonBufferPanel = new JPanel();
+											editorBottomRowButtonPanel.add(editorRowTwoButtonBufferPanel);
+											editorRowTwoButtonBufferPanel.setPreferredSize(new java.awt.Dimension(170, 9));
+										}
+										{
+											exitButton = new JButton();
+											editorBottomRowButtonPanel.add(exitButton);
+											exitButton.setText("Close");
+											exitButton.setPreferredSize(new java.awt.Dimension(81, 27));
+										}
+									}
+								}
+							}
+						}
 						{
 							editTP = new JTabbedPane();
+							editorTab.add(editTP, BorderLayout.WEST);
+							editTP.setPreferredSize(new java.awt.Dimension(659, 616));
 							{
 
 								EditorInnerTabSpawner eits = (new EditorInnerTabSpawner()).spawnTab();
@@ -1133,231 +1390,6 @@ public class GUIMain extends javax.swing.JFrame {
 								editTP.addTab("Original",eits.editBoxPanel);
 							}
 						}
-						{
-							lastSentenceButton = new JButton();
-							lastSentenceButton.setText("Last Sentence");
-							lastSentenceButton.setEnabled(false);
-						}
-						{
-							nextSentenceButton = new JButton();
-							nextSentenceButton.setText("Next Sentence");
-							nextSentenceButton.setEnabled(false);
-						}
-						{
-							clearHighlightingButton = new JButton();
-							clearHighlightingButton.setText("Clear Highlights");
-						}
-						{
-							suggestionLabel = new JLabel();
-							suggestionLabel.setText("Suggestion");
-						}
-						{
-							editingProgressBarLabel = new JLabel();
-							editingProgressBarLabel.setText("Editing Progress:");
-						}
-						{
-							highlightLabel = new JLabel();
-							highlightLabel.setText("Highlight:");
-						}
-						{
-							ComboBoxModel higlightBoxModel = 
-									new DefaultComboBoxModel(
-											new String[] { " "});
-							highlightSelectionBox = new JComboBox();
-							highlightSelectionBox.setModel(higlightBoxModel);
-							highlightSelectionBox.setEnabled(false);
-						}
-						{
-							searchInputBox = new JTextField();
-							searchInputBox.setText("specific value");
-							searchInputBox.setEnabled(false);
-						}
-						{
-							editorProgressBar = new JProgressBar();
-						}
-						{
-							suggestionPane = new JScrollPane();
-							suggestionPane.setAutoscrolls(false);
-							{
-								suggestionBox = new JTextPane();
-								suggestionPane.setViewportView(suggestionBox);
-								suggestionBox.setText(" ");
-								suggestionBox.setPreferredSize(new java.awt.Dimension(222, 243));
-								suggestionBox.setEditable(false);
-								suggestionBox.setAutoscrolls(false);
-							}
-						}
-						{
-							suggestionListPane = new JScrollPane();
-							{
-								TableModel suggestionTableModel = 
-										new DefaultTableModel(
-												new String[][] { { " ", " " }, { " ", " " } },
-												new String[] { "No.", "Feature Name" });
-								suggestionTable = new JTable();
-								suggestionListPane.setViewportView(suggestionTable);
-								suggestionTable.setModel(suggestionTableModel);
-								suggestionTable.setRowSelectionAllowed(true);
-								suggestionTable.setColumnSelectionAllowed(false);
-								//suggestionTable.getSelectionModel().setValueIsAdjusting(false);
-
-							}
-						}
-						{
-							dictButton = new JButton();
-							dictButton.setText("Dictionary");
-						}
-						{
-							verboseButton = new JButton();
-							verboseButton.setText("Verbose");
-						}
-						{
-							processButton = new JButton();
-							processButton.setText("Process");
-							processButton.setSelected(true);
-						}
-						{
-							exitButton = new JButton();
-							exitButton.setText("Exit");
-						}
-						{
-							saveButton = new JButton();
-							saveButton.setText("Save...");
-						}
-						{
-							suggestionListLabel = new JLabel();
-							suggestionListLabel.setText("List of Suggestions");
-						}
-						{
-							presentValueField = new JTextField();
-							presentValueField.setText(" ");
-							presentValueField.setEditable(false);
-						}
-						{
-							targetValueField = new JTextField();
-							targetValueField.setText(" ");
-							targetValueField.setEditable(false);
-						}
-						{
-							presentValueLabel = new JLabel();
-							presentValueLabel.setText("Present Value:");
-						}
-						{
-							targetValueLabel = new JLabel();
-							targetValueLabel.setText("Target Value:");
-						}
-						{
-							featureNameLabel = new JLabel();
-							featureNameLabel.setText("Feature Name:");
-						}
-						editorTabLayout.setHorizontalGroup(editorTabLayout.createParallelGroup()
-							.addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
-							    .addComponent(editTP, GroupLayout.PREFERRED_SIZE, 770, GroupLayout.PREFERRED_SIZE)
-							    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							    .addGroup(editorTabLayout.createParallelGroup()
-							        .addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
-							            .addComponent(suggestionListLabel, 0, 179, Short.MAX_VALUE)
-							            .addGap(43))
-							        .addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
-							            .addComponent(suggestionLabel, 0, 156, Short.MAX_VALUE)
-							            .addGap(66))
-							        .addComponent(suggestionListPane, GroupLayout.Alignment.LEADING, 0, 222, Short.MAX_VALUE)
-							        .addComponent(suggestionPane, GroupLayout.Alignment.LEADING, 0, 222, Short.MAX_VALUE)
-							        .addComponent(featureNameLabel, GroupLayout.Alignment.LEADING, 0, 222, Short.MAX_VALUE))
-							    .addContainerGap())
-							.addGroup(editorTabLayout.createSequentialGroup()
-							    .addPreferredGap(editTP, getLastSentenceButton(), LayoutStyle.ComponentPlacement.INDENT)
-							    .addGroup(editorTabLayout.createParallelGroup()
-							        .addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
-							            .addComponent(getLastSentenceButton(), GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)
-							            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							            .addComponent(getNextSentenceButton(), GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)
-							            .addGap(106))
-							        .addGroup(editorTabLayout.createSequentialGroup()
-							            .addPreferredGap(getLastSentenceButton(), editorProgressBar, LayoutStyle.ComponentPlacement.INDENT)
-							            .addGroup(editorTabLayout.createParallelGroup()
-							                .addComponent(editorProgressBar, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 342, GroupLayout.PREFERRED_SIZE)
-							                .addComponent(editingProgressBarLabel, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 342, GroupLayout.PREFERRED_SIZE))))
-							    .addGroup(editorTabLayout.createParallelGroup()
-							        .addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
-							            .addComponent(highlightLabel, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-							            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							            .addComponent(highlightSelectionBox, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
-							            .addComponent(searchInputBox, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
-							            .addGap(0, 76, Short.MAX_VALUE))
-							        .addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
-							            .addGap(0, 12, Short.MAX_VALUE)
-							            .addComponent(processButton, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
-							            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							            .addComponent(clearHighlightingButton, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE)
-							            .addComponent(dictButton, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
-							            .addComponent(verboseButton, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)))
-							    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							    .addGroup(editorTabLayout.createParallelGroup()
-							        .addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
-							            .addComponent(saveButton, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
-							            .addComponent(exitButton, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
-							            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED))
-							        .addGroup(editorTabLayout.createSequentialGroup()
-							            .addGap(10)
-							            .addGroup(editorTabLayout.createParallelGroup()
-							                .addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
-							                    .addComponent(targetValueLabel, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
-							                    .addGap(13))
-							                .addComponent(presentValueLabel, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE))
-							            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							            .addGroup(editorTabLayout.createParallelGroup()
-							                .addComponent(targetValueField, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
-							                .addComponent(presentValueField, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE))))
-							    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 1, 1)));
-						editorTabLayout.linkSize(SwingConstants.HORIZONTAL, new Component[] {dictButton, processButton, verboseButton});
-						editorTabLayout.setVerticalGroup(editorTabLayout.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(editorTabLayout.createParallelGroup()
-							    .addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
-							        .addComponent(editTP, GroupLayout.PREFERRED_SIZE, 617, GroupLayout.PREFERRED_SIZE)
-							        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							        .addGroup(editorTabLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-							            .addComponent(getLastSentenceButton(), GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-							            .addComponent(highlightLabel, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-							            .addComponent(highlightSelectionBox, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-							            .addComponent(searchInputBox, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
-							            .addComponent(getNextSentenceButton(), GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)))
-							    .addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
-							        .addGap(11)
-							        .addComponent(suggestionLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-							        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							        .addComponent(suggestionPane, GroupLayout.PREFERRED_SIZE, 247, GroupLayout.PREFERRED_SIZE)
-							        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							        .addComponent(featureNameLabel, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
-							        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-							        .addGroup(editorTabLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-							            .addComponent(presentValueField, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
-							            .addComponent(presentValueLabel, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE))
-							        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-							        .addGroup(editorTabLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-							            .addComponent(targetValueField, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
-							            .addComponent(targetValueLabel, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE))
-							        .addGap(18)
-							        .addComponent(suggestionListLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-							        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							        .addComponent(suggestionListPane, GroupLayout.PREFERRED_SIZE, 235, GroupLayout.PREFERRED_SIZE)
-							        .addGap(6)))
-							.addGap(0, 40, Short.MAX_VALUE)
-							.addComponent(editingProgressBarLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGroup(editorTabLayout.createParallelGroup()
-							    .addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-							        .addComponent(processButton, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-							        .addComponent(saveButton, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-							        .addComponent(exitButton, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-							        .addComponent(clearHighlightingButton, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-							        .addComponent(dictButton, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-							        .addComponent(verboseButton, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-							    .addGroup(GroupLayout.Alignment.LEADING, editorTabLayout.createSequentialGroup()
-							        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 0, GroupLayout.PREFERRED_SIZE)
-							        .addComponent(editorProgressBar, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
-							        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)))
-							.addContainerGap());
 					}
 				}
 				/* ============
@@ -1390,18 +1422,19 @@ public class GUIMain extends javax.swing.JFrame {
 							{
 								reClusterAllButton = new JButton();
 								topPanel.add(reClusterAllButton);
-								reClusterAllButton.setText("re-cluster (all)");
+								reClusterAllButton.setText("find different green ovals");
 								reClusterAllButton.setRolloverEnabled(true);
 							}
 							{
-								configureButton = new JButton();
-								topPanel.add(configureButton);
-								configureButton.setText("configure...");
-								configureButton.setEnabled(false);
-								configureButton.setVisible(false);
+								refreshButton = new JButton();
+								topPanel.add(refreshButton);
+								refreshButton.setText("show me where my red dot is right now");
+								refreshButton.setEnabled(true);
+								refreshButton.setVisible(true);
 							}
 							secondPanel = new JPanel();
 							holderPanel.add(secondPanel);
+							/*
 							{
 								ComboBoxModel clusterConfigurationBoxModel = 
 										new DefaultComboBoxModel(
@@ -1410,11 +1443,13 @@ public class GUIMain extends javax.swing.JFrame {
 								secondPanel.add(clusterConfigurationBox);
 								clusterConfigurationBox.setModel(clusterConfigurationBoxModel);
 								
+								
 							}
+							*/
 							{
 								selectClusterConfiguration = new JButton();
 								secondPanel.add(selectClusterConfiguration);
-								selectClusterConfiguration.setText("choose selected configuration");
+								selectClusterConfiguration.setText("help me move the red dots to the center of the green ovals");
 							}
 							
 						}
@@ -1428,6 +1463,9 @@ public class GUIMain extends javax.swing.JFrame {
 						}
 					}
 				}
+			
+			
+
 
 				{
 					// bottom toolbar buttons
@@ -1470,6 +1508,14 @@ public class GUIMain extends javax.swing.JFrame {
 	
 	public JButton getNextSentenceButton() {
 		return nextSentenceButton;
+	}
+	
+	public JScrollPane getWordsToAddPane() {
+		return wordsToAddPane;
+	}
+	
+	public JLabel getElementsToAddLabel() {
+		return elementsToAddLabel;
 	}
 
 }

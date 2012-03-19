@@ -29,19 +29,19 @@ public class LegendPanel extends JPanel {
 		double yPos = (height/2)-(dim/2);
 		int yID = (int) yPos+ 11;
 		
+		g2.setColor(blk);
+		g2.fill(new Ellipse2D.Double(xPos,yPos,dim,dim));
+		g2.setColor(blk);
+		xPos += dim;
+		String id = " = your present value "; 
+		g2.drawString(id,xPos,yID);
+		
+		xPos+= spacing +(id.length()*7);
 		g2.setColor(transRed);
 		g2.fill(new Ellipse2D.Double(xPos,yPos,dim,dim));
 		g2.setColor(blk);
 		xPos += dim;
-		String id = " = user value"; 
-		g2.drawString(id,xPos,yID);
-		
-		xPos+= spacing +(id.length()*7);
-		g2.setColor(transPurple);
-		g2.fill(new Ellipse2D.Double(xPos,yPos,dim,dim));
-		g2.setColor(blk);
-		xPos += dim;
-		id = " = user confidence interval";
+		id = " = your normal range (move black dot away from here) ";
 		g2.drawString(id,xPos,yID);
 		
 		xPos += spacing +(id.length()*7);
@@ -49,9 +49,9 @@ public class LegendPanel extends JPanel {
 		g2.fill(new Ellipse2D.Double(xPos,yPos,dim,dim));
 		g2.setColor(blk);
 		xPos += dim;
-		id = " = user target cluster";
+		id = " = a safe zone (move black dot to here) ";
 		g2.drawString(id,xPos,yID);
-		
+		/*
 		xPos += spacing +(id.length()*7);
 		Stroke defaultStroke = g2.getStroke();
 		Stroke biggerStroke = new BasicStroke(2);
@@ -80,7 +80,7 @@ public class LegendPanel extends JPanel {
 		xPos += dim;
 		id = " = non-user value";
 		g2.drawString(id,xPos,yID);
-		
+		*/
 				
 		
 		

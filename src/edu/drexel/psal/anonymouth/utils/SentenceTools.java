@@ -38,7 +38,7 @@ public class SentenceTools {
 	private boolean mustAddToIndex = false;
 	
 	
-	public void makeSentenceTokens(String text){
+	public ArrayList<String> makeSentenceTokens(String text){
 		ArrayList<String> sents = new ArrayList<String>(MAX_SENTENCES);
 		Matcher sent = EOS_chars.matcher(text);
 		int currentStart = 1;
@@ -60,6 +60,7 @@ public class SentenceTools {
 		sentNumber = 0;
 		//sentenceIterator = sentsToEdit.iterator();
 		sentsToEdit = sents;
+		return sents;
 	}
 	
 	
@@ -122,6 +123,7 @@ public class SentenceTools {
 	public ArrayList<String> getSentenceTokens(){
 		return sentsToEdit;
 	}
+	
 	
 	/*
 	public String editBySentence(){

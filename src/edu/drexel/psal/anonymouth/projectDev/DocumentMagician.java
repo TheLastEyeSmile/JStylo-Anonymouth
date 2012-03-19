@@ -16,8 +16,10 @@ import weka.classifiers.Classifier;
 import weka.core.Instances;
 import edu.drexel.psal.anonymouth.gooie.ThePresident;
 import edu.drexel.psal.jstylo.generics.*;
+import edu.drexel.psal.jstylo.generics.Logger.LogOut;
 
 import edu.drexel.psal.jstylo.analyzers.WekaAnalyzer;
+import edu.drexel.psal.anonymouth.utils.DocumentParser;
 
 import com.jgaap.generics.Document;
 
@@ -325,6 +327,7 @@ public class DocumentMagician {
 		theClassifier = classifier;
 		ProblemSet pSetCopy = new ProblemSet(pSet);
 		trainSet = pSetCopy.getAllTrainDocs();
+		
 		toModifySet = pSetCopy.getTestDocs(); // docToModify is the test doc already
 		Logger.logln("True test doc author: "+toModifySet.get(0).getAuthor()); //TODO: this is an issue...
 		
@@ -339,6 +342,15 @@ public class DocumentMagician {
 		//System.out.println("AUTHOR TO REMOVE: "+authorToRemove);
 		//System.out.println("AUTHOR SAMPLES SET: "+authorSamplesSet.toString());
 		noAuthorTrainSet = pSetCopy.getAllTrainDocs();
+		Logger.logln("Attempting to load and parse documents...");
+		try {
+			DocumentParser.setDocs(noAuthorTrainSet,authorSamplesSet,toModifySet);
+		} catch (Exception e) {
+			Logger.logln("ERROR: Could not load documents or for parsing!!!",LogOut.STDERR);
+			System.out.println("docToModify (in DocumentMagician: "+toModifySet.get(0).getFilePath());
+			e.printStackTrace();
+		}
+		Logger.logln("Documents successfully loaded and/or parsed...");
 		int i = 0;
 		int lenTSet = noAuthorTrainSet.size();
 		trainTitlesList = new ArrayList<String>(lenTSet);

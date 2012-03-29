@@ -1,7 +1,10 @@
 package edu.drexel.psal.jstylo.generics;
 
 import java.util.*;
+
+import weka.classifiers.Evaluation;
 import weka.core.*;
+
 import com.jgaap.generics.*;
 
 /**
@@ -65,6 +68,18 @@ public abstract class Analyzer {
 	 */
 	public abstract List<Map<String,Double>> classify(Instances trainingSet, Instances testSet);
 	
+	/**
+	 * Runs cross validation with given number of folds on the given Instances object.
+	 * @param data
+	 * 		The data to run CV over.
+	 * @param folds
+	 * 		The number of folds to use.
+	 * @param randSeed
+	 * 		Random seed to be used for fold generation.
+	 *  @return
+	 * 		The evaluation object with cross-validation results, or null if did not succeed running.
+	 */
+	public abstract Evaluation runCrossValidation(Instances data, int folds, long randSeed);
 	
 	/* =======
 	 * getters

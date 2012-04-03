@@ -111,8 +111,7 @@ public abstract class Analyzer {
 		f.format("%-14s |", "doc \\ author");
 		
 		List<String> actualAuthors = new ArrayList<String>(authors);
-		actualAuthors.remove(WekaInstancesBuilder.getDummy());
-		actualAuthors.remove(ProblemSet.getDummyAuthor());
+		//actualAuthors.remove(WekaInstancesBuilder.getDummy());
 		
 		for (String author: actualAuthors)
 			f.format(" %-14s |",author);

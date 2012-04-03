@@ -557,7 +557,6 @@ public class CumulativeFeatureDriver {
 		cfd.addFeatureDriver(fd);
 		ProblemSet ps = new ProblemSet("./problem_sets/sample_problem_set.xml");
 		WekaInstancesBuilder w = new WekaInstancesBuilder(false);
-		w.setUseDummyAuthor(false);
 		w.prepareTrainingSet(ps.getTrainDocs("aa"), cfd);
 		System.out.println(w.getTrainingSet());
 	}

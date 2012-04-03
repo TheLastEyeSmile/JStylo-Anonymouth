@@ -251,7 +251,7 @@ public class EditorTabDriver {
 			}
 			
 		});	
-		
+		/*
 		main.clearHighlightingButton.addActionListener(new ActionListener(){
 
 			@Override
@@ -267,7 +267,7 @@ public class EditorTabDriver {
 			}
 			
 		});
-		
+		*/
 		main.editTP.addChangeListener(new ChangeListener(){
 
 			@Override
@@ -282,7 +282,7 @@ public class EditorTabDriver {
 			 
 			
 		});
-		
+		/*
 		main.getHighlightSelectionBox().addActionListener(new ActionListener(){
 			
 			public void actionPerformed(ActionEvent act){
@@ -331,9 +331,9 @@ public class EditorTabDriver {
 		
 		
 			
+			*/
 			
-			
-		
+		/*
 		main.searchInputBox.addActionListener(new ActionListener(){
 			
 			public void actionPerformed(ActionEvent act){
@@ -380,7 +380,7 @@ public class EditorTabDriver {
 			}
 			
 		});
-	
+	*/
 		
 		main.suggestionTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 			
@@ -413,7 +413,7 @@ public class EditorTabDriver {
 			}
 			
 		});
-		
+		/*
 		main.verboseButton.addActionListener(new ActionListener(){
 
 			@Override
@@ -428,7 +428,7 @@ public class EditorTabDriver {
 			
 			
 		});
-		
+		*/
 		main.dictButton.addActionListener(new ActionListener(){
 
 			@Override

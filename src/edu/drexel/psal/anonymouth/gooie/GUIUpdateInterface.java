@@ -22,7 +22,7 @@ public class GUIUpdateInterface {
 	// about dialog
 	// ============
 	
-	protected static String version = "0.0.2";
+	protected static String version = "0.0.3";
 /*
 	protected static void showAbout(GUIMain main) {
 		ImageIcon logo = new ImageIcon("./Anonymouth_LOGO.png", "Anonymouth Logo");

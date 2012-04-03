@@ -406,7 +406,7 @@ public class BackendInterface {
 			tCol.setMinWidth(30);
 			tCol.setPreferredWidth(30);
 			// make highlight bar
-			main.highlightSelectionBox.setModel(makeHighlightBarModel());
+			//main.highlightSelectionBox.setModel(makeHighlightBarModel());
 			TheOracle.setTheDocument(eits.editorBox.getText());
 			main.processButton.setText("Re-process");
 			main.processButton.setToolTipText("Click this button once you have made all changes in order to see how they have affected the classification of your document.");
@@ -416,7 +416,7 @@ public class BackendInterface {
 			
 			// XXX for AFTER everything is done
 				
-			main.highlightSelectionBox.setEnabled(true);
+			//main.highlightSelectionBox.setEnabled(true);
 			main.processButton.setSelected(false);
 			cpb.setText("User Editing... Waiting to\"Re-process\"");
 			cpb.stop();

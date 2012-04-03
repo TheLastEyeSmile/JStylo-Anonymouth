@@ -127,7 +127,7 @@ public class TreeData{
 	}
 	
 	/**
-	 * returns a single string of the sentence text, ordered by number of occurances of each string. 
+	 * returns a single string of the sentence text, ordered by number of occurrences of each string. 
 	 * @param escapeChars if 'true', commas will be escaped and newlines will be changed 
 	 * @return
 	 */

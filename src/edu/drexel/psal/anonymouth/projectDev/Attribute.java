@@ -392,6 +392,10 @@ public class Attribute {
 			return -1;
 	}
 	
+	public int getPercentChangeNeeded(){
+		return 0;
+	}
+	
 	
 	public void setAuthorConfidence(double authorConfidence){
 		this.authorConfidence = authorConfidence;

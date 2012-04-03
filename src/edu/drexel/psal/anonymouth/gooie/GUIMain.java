@@ -1149,7 +1149,7 @@ public class GUIMain extends javax.swing.JFrame {
 						{
 							EditorInfoScrollPane = new JScrollPane();
 							editorTab.add(EditorInfoScrollPane, BorderLayout.EAST);
-							EditorInfoScrollPane.setPreferredSize(new java.awt.Dimension(330, 492));
+							EditorInfoScrollPane.setPreferredSize(new java.awt.Dimension(365, 612));
 							{
 								editorInfoJPanel = new JPanel();
 								BorderLayout editorInfoJPanelLayout = new BorderLayout();
@@ -1177,7 +1177,10 @@ public class GUIMain extends javax.swing.JFrame {
 										{
 											suggestionBox = new JTextPane();
 											suggestionPane.setViewportView(suggestionBox);
-											suggestionBox.setText("Edit the sentence in the top window to the left by trying to rewrite it without the highlighted words. Try to add some of the 'elements to add' from the window below. ");
+											suggestionBox.setText("Edit the sentence in the top window to the left by trying to rewrite it without the highlighted words. Try to add some of the 'elements to add' from the window below.\n" +
+													"Things highlighted to remove include (delimited by \"|\"): | Noun, plural | | , |\n" +
+													"Your percentage of letters is too low. Consider using less: | \" |");
+											suggestionBox.setPreferredSize(new java.awt.Dimension(318, 130));
 										}
 									}
 									{
@@ -1198,7 +1201,8 @@ public class GUIMain extends javax.swing.JFrame {
 										{
 											elementsToAddPane = new JTextPane();
 											elementsToAddScrollPane.setViewportView(elementsToAddPane);
-											elementsToAddPane.setText("I, to, himself, wasn't , he was, it went, because we went, an example is, she was, they were,");
+											elementsToAddPane.setText("i, in, and, her");
+											elementsToAddPane.setPreferredSize(new java.awt.Dimension(321, 115));
 										}
 									}
 								}
@@ -1379,8 +1383,8 @@ public class GUIMain extends javax.swing.JFrame {
 						}
 						{
 							editTP = new JTabbedPane();
-							editorTab.add(editTP, BorderLayout.WEST);
-							editTP.setPreferredSize(new java.awt.Dimension(659, 616));
+							editorTab.add(editTP, BorderLayout.CENTER);
+							editTP.setPreferredSize(new java.awt.Dimension(634, 612));
 							{
 
 								EditorInnerTabSpawner eits = (new EditorInnerTabSpawner()).spawnTab();
@@ -1428,7 +1432,7 @@ public class GUIMain extends javax.swing.JFrame {
 							{
 								refreshButton = new JButton();
 								topPanel.add(refreshButton);
-								refreshButton.setText("show me where my red dot is right now");
+								refreshButton.setText("show me where my black dot is right now");
 								refreshButton.setEnabled(true);
 								refreshButton.setVisible(true);
 							}
@@ -1449,7 +1453,7 @@ public class GUIMain extends javax.swing.JFrame {
 							{
 								selectClusterConfiguration = new JButton();
 								secondPanel.add(selectClusterConfiguration);
-								selectClusterConfiguration.setText("help me move the red dots to the center of the green ovals");
+								selectClusterConfiguration.setText("help me move the black dots to the center of the green ovals");
 							}
 							
 						}

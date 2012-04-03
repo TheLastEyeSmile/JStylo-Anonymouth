@@ -191,7 +191,7 @@ public class DocumentMagician {
 	 */
 	public void reRunModified(){ // this may be unnecessary - it may be possible to re-use 'instanceSet'... TODO: look into this.
 		Logger.logln("Called reRunModified (DocumentMagician)");
-		InstanceConstructor oneAndDone = new InstanceConstructor(isSparse,theseFeaturesCfd,false,false);
+		InstanceConstructor oneAndDone = new InstanceConstructor(isSparse,theseFeaturesCfd,false);
 		//System.out.println("**********OLD TEXT************** ");
 		//System.out.print(toModifySet.get(0).stringify());
 		String pathToTempModdedDoc = writeDirectory+ThePresident.sessionName+"_"+numProcessRequests+".txt";
@@ -241,7 +241,7 @@ public class DocumentMagician {
 	 */
 	public void buildTrainAndToModifyInstances(){
 		Logger.logln("Building train (with author) and toModify instances");
-		instanceSet = new InstanceConstructor(isSparse,theseFeaturesCfd, false,false);
+		instanceSet = new InstanceConstructor(isSparse,theseFeaturesCfd,false);
 		int i;
 		//for(i=0;i<trainSet.size();i++){
 		//	if(trainSet.get(i).getAuthor().equals(dummyName))
@@ -276,8 +276,8 @@ public class DocumentMagician {
 	 */
 	public void buildAuthorAndNoAuthorTrainInstances(){
 		Logger.logln("Building author and no author train instances");
-		authorInstanceConstructor = new InstanceConstructor(isSparse,theseFeaturesCfd, false,false);
-		noAuthorTrainInstanceConstructor = new InstanceConstructor(isSparse,theseFeaturesCfd,false,false);
+		authorInstanceConstructor = new InstanceConstructor(isSparse,theseFeaturesCfd,false);
+		noAuthorTrainInstanceConstructor = new InstanceConstructor(isSparse,theseFeaturesCfd,false);
 		int i;
 		int authSampleSetSize = authorSamplesSet.size();
 		//for (i=0;i<authSampleSetSize;i++){

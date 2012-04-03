@@ -113,7 +113,7 @@ public class DocumentParser {
 			
 	}
 
-	public void parseAllDocs() throws IOException{ 
+	public HashMap<String,ArrayList<TreeData>> parseAllDocs() throws IOException{ 
 		String grammar =  "./jsan_resources/englishPCFG.ser.gz";
 		String[] options = { "-maxLength", "120", "-retainTmpSubcategories" };
 		LexicalizedParser lp = new LexicalizedParser(grammar, options);
@@ -225,6 +225,7 @@ public class DocumentParser {
 		//ArrayList<TreeData> sortedTD = TreeContainer.sortTreeData(TreeContainer.allProcessedTrees);
 		//TreeContainer.writeTreeDataToCSV(sortedTD,"ALL_AUTHORS");
 		
+		return allParsedAndOrdered;
 	}
 
 

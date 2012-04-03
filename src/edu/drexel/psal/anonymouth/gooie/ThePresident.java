@@ -83,7 +83,7 @@ public class ThePresident {
 			app.setAboutHandler(new AboutHandler(){
 				public void handleAbout(AboutEvent e){
 					JOptionPane.showMessageDialog(null, 
-							"Anonymouth\nVersion 0.0.2\nAuthor: Andrew W.E. McDonald\nDrexel University, PSAL, Dr. Rachel Greenstadt - P.I.",
+							"Anonymouth\nVersion 0.0.3\nAuthor: Andrew W.E. McDonald\nDrexel University, PSAL, Dr. Rachel Greenstadt - P.I.",
 							"About Anonymouth",
 							JOptionPane.INFORMATION_MESSAGE,
 							LOGO);

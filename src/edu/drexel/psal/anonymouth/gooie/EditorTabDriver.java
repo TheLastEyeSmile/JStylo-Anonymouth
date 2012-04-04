@@ -11,6 +11,7 @@ import edu.drexel.psal.anonymouth.suggestors.HighlightMapList;
 import edu.drexel.psal.anonymouth.suggestors.HighlightMapMaker;
 import edu.drexel.psal.anonymouth.suggestors.Prophecy;
 import edu.drexel.psal.anonymouth.suggestors.TheOracle;
+import edu.drexel.psal.anonymouth.utils.DocumentParser;
 import edu.drexel.psal.anonymouth.utils.SentenceTools;
 import edu.drexel.psal.jstylo.generics.FeatureDriver;
 import edu.drexel.psal.jstylo.generics.Logger;
@@ -135,6 +136,7 @@ public class EditorTabDriver {
 	public static Attribute[] attribs;
 	public static HashMap<FeatureList,Integer> attributesMappedByName;
 	public static HashMap<Integer,Integer> suggestionToAttributeMap;
+	protected static DocumentParser docParser;
 	
 	protected static void signalTargetsSelected(GUIMain main, boolean goodToGo){
 		if(goodToGo == true)
@@ -177,6 +179,7 @@ public class EditorTabDriver {
 					wizard = new DataAnalyzer(main.ps,ThePresident.sessionName);
 					magician = new DocumentMagician(false);
 					theMirror = new TheMirror();
+					docParser = new DocumentParser();
 					main.mainJTabbedPane.getComponentAt(4).setEnabled(false);
 					
 				}
@@ -209,12 +212,14 @@ public class EditorTabDriver {
 					cpb.setText("Initializing... Done");
 					Logger.logln("calling backendInterface for preTargetSelectionProcessing");
 					BackendInterface.preTargetSelectionProcessing(main,wizard,magician,cpb);
+					//TODO: Create thread in BackendInterface that parses documents, and calls some class like ConsolidationStation to run the features down the "ramp"
 				}
 				else
 					main.processButton.setEnabled(true);
 				
 
 				}	
+				
 			
 		});
 		
@@ -234,8 +239,13 @@ public class EditorTabDriver {
 			@Override
 			public void actionPerformed(ActionEvent arg0){
 				Logger.logln("last sentence button pressed.");
-				sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
-				eits.getSentenceEditPane().setText(sentenceTools.getLast());
+				if(sentenceTools.moreToCheck() == true){
+					sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
+					eits.getSentenceEditPane().setText(sentenceTools.getLast());
+				}
+				else{
+					eits.getSentenceEditPane().setText("END OF DOCUMENT");
+				}
 				
 			}
 			

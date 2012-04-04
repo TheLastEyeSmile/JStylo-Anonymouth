@@ -25,6 +25,12 @@ public class ProblemSet {
 	
 	private String trainCorpusName;	
 	
+	private static String dummyAuthor = "_dummy_"; 
+	
+	// whether to use the dummy author name for test instances
+	// or the default - an arbitrary author name from the training authors
+	private boolean useDummyAuthor = false;
+	
 	/* ============
 	 * constructors
 	 * ============
@@ -353,6 +359,27 @@ public class ProblemSet {
 		return testDocs.remove(doc);
 	}
 	
+	// other
+	
+	/**
+	 * Sets the dummy author name to the given one.
+	 * @param dummyAuthor
+	 * 		The dummy author name to set to.
+	 */
+	public static void setDummyAuthor(String dummyAuthor) {
+		ProblemSet.dummyAuthor = dummyAuthor;
+	}
+	
+	/**
+	 * Sets whether to use dummy author name for the test instances.
+	 * @see ProblemSet#usesDummyAuthor()
+	 * @param useDummyAuthor
+	 * 		Whether to use a summy author name for the test instances.
+	 */
+	public void useDummyAuthor(boolean useDummyAuthor) {
+		this.useDummyAuthor = useDummyAuthor;
+	}
+	
 	
 	/* =======
 	 * getters
@@ -558,6 +585,27 @@ public class ProblemSet {
 		return res;
 	}
 	
+	// other
+	
+	/**
+	 * Returns the dummy author name.
+	 * @return
+	 * 		The dummy author name.
+	 */
+	public static String getDummyAuthor() {
+		return dummyAuthor;
+	}
+	
+	/**
+	 * Returns whether a dummy author name is used for the test instances.
+	 * If it is not used, an arbitrary training author name is used.
+	 * @return
+	 * 		Whether a dummy author name is used for the test instances.
+	 */
+	public boolean usesDummyAuthor() {
+		return useDummyAuthor;
+	}
+	
 	
 	/* ===========
 	 * XML parsing
@@ -661,7 +709,11 @@ public class ProblemSet {
 				currTag = Tag.AUTHOR;
 				
 			} else if (qName.equalsIgnoreCase("test")) {
-				author = testAuthor;
+				if (useDummyAuthor) {
+					author = dummyAuthor;
+				} else {
+					author = testAuthor;
+				}
 				currTag = Tag.TEST;
 				
 			} else if (qName.equalsIgnoreCase("document")) {

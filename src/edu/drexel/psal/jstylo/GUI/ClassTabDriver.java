@@ -21,6 +21,7 @@ import weka.classifiers.functions.*;
 import weka.classifiers.lazy.*;
 import weka.classifiers.rules.ZeroR;
 import weka.classifiers.trees.*;
+import weka.core.Option;
 
 public class ClassTabDriver {
 
@@ -290,6 +291,7 @@ public class ClassTabDriver {
 		"weka.classifiers.functions.Logistic",
 		"weka.classifiers.functions.MultilayerPerceptron",
 		"weka.classifiers.functions.SMO",
+		"weka.classifiers.functions.LibSVM",
 
 		// lazy
 		"weka.classifiers.lazy.IBk",
@@ -370,6 +372,16 @@ public class ClassTabDriver {
 		}
 		else if (c instanceof SMO) {
 			return ((SMO) c).globalInfo();
+		}
+		else if (c instanceof LibSVM) {
+			LibSVM s = (LibSVM) c;
+			String res = s.globalInfo()+"\n\nOptions:\n";
+			Enumeration e = s.listOptions();
+			while (e.hasMoreElements()) {
+				Option o = (Option) e.nextElement();
+				res += "-"+o.name()+": "+o.description()+"\n\n";
+			}
+			return res;
 		}
 		
 		// lazy

@@ -23,10 +23,7 @@ public class ProblemSet {
 	
 	private List<Document> testDocs;
 	
-	private String trainCorpusName;
-	
-	private static String dummyAuthorName = "_dummy_";
-	
+	private String trainCorpusName;	
 	
 	/* ============
 	 * constructors
@@ -308,16 +305,7 @@ public class ProblemSet {
 	
 	
 	// test documents
-	
-	/**
-	 * Sets the dummy author name (name of author given to the test documents) to the given one.
-	 * @param name
-	 * 		The name of the dummy author to set to.
-	 */
-	public static void setDummyAuthor(String name) {
-		dummyAuthorName = name;
-	}
-	
+		
 	/**
 	 * Adds the given document to the list of test documents. Returns true iff the addition succeeded.
 	 * @param doc
@@ -491,15 +479,6 @@ public class ProblemSet {
 	// test documents
 	
 	/**
-	 * Returns the name of the dummy author (given to the test documents).
-	 * @return
-	 * 		The name of the dummy author.
-	 */
-	public static String getDummyAuthor() {
-		return dummyAuthorName;
-	}
-	
-	/**
 	 * Returns true iff the list of test documents is not empty.
 	 * @return
 	 * 		true iff the list of test documents is not empty.
@@ -614,6 +593,10 @@ public class ProblemSet {
 		private boolean underTraining;
 		private String docTitle;
 		
+		private String testAuthor = null;
+		private boolean testAuthorSet = false;
+		
+		
 		
 		/* ============
 		 * constructors
@@ -670,10 +653,15 @@ public class ProblemSet {
 				
 			} else if (qName.equalsIgnoreCase("author")) {
 				author = attributes.getValue(0);
+				// set arbitrary test author from the training authors
+				if (!testAuthorSet) {
+					testAuthorSet = true;
+					testAuthor = author;
+				}
 				currTag = Tag.AUTHOR;
 				
 			} else if (qName.equalsIgnoreCase("test")) {
-				author = dummyAuthorName;
+				author = testAuthor;
 				currTag = Tag.TEST;
 				
 			} else if (qName.equalsIgnoreCase("document")) {

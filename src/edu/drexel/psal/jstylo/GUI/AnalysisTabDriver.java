@@ -29,6 +29,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
+import weka.classifiers.functions.LibSVM;
 
 
 public class AnalysisTabDriver {
@@ -471,7 +472,7 @@ public class AnalysisTabDriver {
 
 		public void run() {
 			Logger.logln(">>> Run Analysis thread started.");
-			
+						
 			// initialize results tab
 			JPanel tab = new JPanel(new BorderLayout());
 			main.analysisResultsJTabbedPane.addTab(getTimestamp(), tab);
@@ -543,9 +544,6 @@ public class AnalysisTabDriver {
 			Logger.logln("Extracting features from training corpus...");
 			
 			main.wib.setSparse(main.analysisSparseInstancesJCheckBox.isSelected());
-			
-			// use dummy author only in the event of train and test
-			main.wib.setUseDummyAuthor(main.analysisClassTestDocsJRadioButton.isSelected());
 			
 			content += getTimestamp()+" Extracting features from training corpus ("+(main.wib.isSparse() ? "" : "not ")+"using sparse representation)...\n";
 			updateResultsView();

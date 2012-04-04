@@ -132,13 +132,7 @@ public class WekaInstancesBuilder {
 	/**
 	 * Used for workaround a Weka sparse representation bug.
 	 */
-	private static String dummy = "___";
-	
-	/**
-	 * To hold whether have the test documents dummy author (defined at ProblemSet.dummyAuthorName) in
-	 * the list of authors.
-	 */
-	private boolean useDummyAuthor = true;
+	//private static String dummy = "___";
 	
 	/* ============
 	 * constructors
@@ -152,18 +146,6 @@ public class WekaInstancesBuilder {
 	 */
 	public WekaInstancesBuilder(boolean isSparse) {
 		this.isSparse = isSparse;
-	}
-	
-	/**
-	 * Constructor for Weka Instances builder.
-	 * @param isSparse
-	 * 		Set the representation of the data instances to be sparse (using SparseInstance instead of Instance).
-	 * @param useDummyAuthor
-	 * 		Set whether to use a dummy author name for the test documents, i.e. add it to the author names list.
-	 */
-	public WekaInstancesBuilder(boolean isSparse, boolean useDummyAuthor) {
-		this.isSparse = isSparse;
-		this.useDummyAuthor = useDummyAuthor;
 	}
 	
 	/* ==========
@@ -207,8 +189,7 @@ public class WekaInstancesBuilder {
 				authors.add(author);
 		}
 		Collections.sort(authors);
-		if (useDummyAuthor) authors.add(0,ProblemSet.getDummyAuthor());
-		if (isSparse) authors.add(0,dummy);
+		//if (isSparse) authors.add(0,dummy);
 		
 		// initialize Weka attributes vector (but authors attribute will be added last)
 		attributeList = new FastVector();
@@ -557,7 +538,12 @@ public class WekaInstancesBuilder {
 			}
 			
 			// update author
-			inst.setValue((Attribute) attributeList.lastElement(), unknownDocs.get(i).getAuthor());
+			if (hasDocNames) {
+				inst.setValue((Attribute) attributeList.lastElement(), unknownDocs.get(i).getAuthor());
+			} else {
+				// arbitrarily set the author name to that of the first training instance
+				inst.setValue((Attribute) attributeList.lastElement(), trainingSet.instance(0).stringValue(trainingSet.classAttribute()));
+			}
 
 			testSet.add(inst);
 		}
@@ -883,16 +869,7 @@ public class WekaInstancesBuilder {
 	
 	public void setTestSet(Instances testSet) {
 		this.testSet = testSet;
-	}
-	
-	/**
-	 * Sets whether to use a summy author name for the test documents.
-	 * @param useDummyAuthor
-	 */
-	public void setUseDummyAuthor(boolean useDummyAuthor) {
-		this.useDummyAuthor = useDummyAuthor;
-	}
-	
+	}	
 	
 	/*
 	 * =======
@@ -990,7 +967,9 @@ public class WekaInstancesBuilder {
 	 * @return
 	 * 		The dummy author name used to bypass Weka bug when using sparse representation.
 	 */
+	/*
 	public static String getDummy() {
 		return dummy;
 	}
+	*/
 }

@@ -134,6 +134,11 @@ public class WekaInstancesBuilder {
 	 */
 	//private static String dummy = "___";
 	
+	/**
+	 * Whether to use a dummy author name for the test instances.
+	 */
+	private boolean useDummyAuthor = false;
+	
 	/* ============
 	 * constructors
 	 * ============
@@ -146,6 +151,18 @@ public class WekaInstancesBuilder {
 	 */
 	public WekaInstancesBuilder(boolean isSparse) {
 		this.isSparse = isSparse;
+	}
+	
+	/**
+	 * Constructor for Weka Instances builder.
+	 * @param isSparse
+	 * 		Set the representation of the data instances to be sparse (using SparseInstance instead of Instance).
+	 * @param useDummyAuthor
+	 * 		Set the test instances author names to use a dummy author name. 
+	 */
+	public WekaInstancesBuilder(boolean isSparse, boolean useDummyAuthor) {
+		this.isSparse = isSparse;
+		this.useDummyAuthor = useDummyAuthor;
 	}
 	
 	/* ==========
@@ -190,6 +207,8 @@ public class WekaInstancesBuilder {
 		}
 		Collections.sort(authors);
 		//if (isSparse) authors.add(0,dummy);
+		if (useDummyAuthor)
+			authors.add(0,ProblemSet.getDummyAuthor());
 		
 		// initialize Weka attributes vector (but authors attribute will be added last)
 		attributeList = new FastVector();
@@ -538,8 +557,9 @@ public class WekaInstancesBuilder {
 			}
 			
 			// update author
-			if (hasDocNames) {
-				inst.setValue((Attribute) attributeList.lastElement(), unknownDocs.get(i).getAuthor());
+			if (useDummyAuthor) {
+				// use dummy author name
+				inst.setValue((Attribute) attributeList.lastElement(), ProblemSet.getDummyAuthor());
 			} else {
 				// arbitrarily set the author name to that of the first training instance
 				inst.setValue((Attribute) attributeList.lastElement(), trainingSet.instance(0).stringValue(trainingSet.classAttribute()));

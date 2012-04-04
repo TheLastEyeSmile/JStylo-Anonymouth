@@ -2,6 +2,7 @@ package edu.drexel.psal.anonymouth.gooie;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,11 +48,13 @@ import edu.drexel.psal.anonymouth.projectDev.TheMirror;
 import edu.drexel.psal.anonymouth.suggestors.HighlightMapList;
 import edu.drexel.psal.anonymouth.suggestors.StringFormulator;
 import edu.drexel.psal.anonymouth.suggestors.TheOracle;
+import edu.drexel.psal.anonymouth.utils.TreeData;
 
 import weka.core.Attribute;
 import edu.drexel.psal.jstylo.generics.CumulativeFeatureDriver;
 import edu.drexel.psal.jstylo.generics.FeatureDriver;
 import edu.drexel.psal.jstylo.generics.Logger;
+import edu.drexel.psal.jstylo.generics.Logger.LogOut;
 import edu.drexel.psal.jstylo.generics.ProblemSet;
 import edu.drexel.psal.jstylo.generics.WekaInstancesBuilder;
 
@@ -194,6 +197,30 @@ public class BackendInterface {
 				EditorTabDriver.isWorkingOnUpdating = false;
 				
 			}
+		}
+	}
+	
+	protected static void parseDocs(GUIMain main){
+		(new Thread(bei.new ParseDocs(main))).start();
+	}
+	
+	public class ParseDocs extends GUIThread{
+		
+		ParseDocs(GUIMain main){
+			super(main);
+		}
+		
+		public void run(){
+			HashMap<String,ArrayList<TreeData>> parsed = null;
+			try {
+				parsed = EditorTabDriver.docParser.parseAllDocs();
+			} catch (IOException e) {
+				Logger.logln("Fatal Error: Failed to parse documents",LogOut.STDERR);
+				e.printStackTrace();
+			}
+			//if(parsed != null)
+				
+			
 		}
 	}
 	

@@ -169,7 +169,7 @@ public class DocsTabDriver {
 						path = file.getAbsolutePath();
 						if (allTestDocPaths.contains(path))
 							continue;
-						main.ps.addTestDoc(new Document(path,ProblemSet.getDummyAuthor(),file.getName()));
+						main.ps.addTestDoc(new Document(path,"dummy",file.getName()));
 					}
 					
 					GUIUpdateInterface.updateTestDocTable(main);
@@ -339,7 +339,7 @@ public class DocsTabDriver {
 								skipList += "\n"+path+" - already contained as a test document";
 								continue;
 							}
-							main.ps.addTrainDoc(author, new Document(path,ProblemSet.getDummyAuthor(),file.getName()));
+							main.ps.addTrainDoc(author, new Document(path,"dummy",file.getName()));
 						}
 
 						if (!skipList.equals("")) {

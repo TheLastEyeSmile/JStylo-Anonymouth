@@ -48,6 +48,7 @@ import edu.drexel.psal.anonymouth.projectDev.TheMirror;
 import edu.drexel.psal.anonymouth.suggestors.HighlightMapList;
 import edu.drexel.psal.anonymouth.suggestors.StringFormulator;
 import edu.drexel.psal.anonymouth.suggestors.TheOracle;
+import edu.drexel.psal.anonymouth.utils.ConsolidationStation;
 import edu.drexel.psal.anonymouth.utils.TreeData;
 
 import weka.core.Attribute;
@@ -217,9 +218,12 @@ public class BackendInterface {
 			} catch (IOException e) {
 				Logger.logln("Fatal Error: Failed to parse documents",LogOut.STDERR);
 				e.printStackTrace();
+				ErrorHandler.fatalError();
 			}
-			//if(parsed != null)
-				
+			if(parsed != null){
+				EditorTabDriver.consolidator = new ConsolidationStation(EditorTabDriver.attribs,parsed);
+				EditorTabDriver.consolidator.beginConsolidation();
+			}
 			
 		}
 	}

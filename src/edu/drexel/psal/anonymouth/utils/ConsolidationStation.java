@@ -21,11 +21,20 @@ public class ConsolidationStation {
 	}
 	
 	/**
+	 * Starts the consolidation process
+	 */
+	public void beginConsolidation(){
+		
+		
+	}
+	
+	/**
 	 * runs through all attributes in attribs and pulls out the stringInBraces if it is there, and the percent (positive and negative)  
 	 * change needed
 	 * 
 	 */
 	public void getStringsFromAttribs(){
+		
 		
 	}
 

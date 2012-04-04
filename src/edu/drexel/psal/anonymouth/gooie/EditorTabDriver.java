@@ -11,6 +11,7 @@ import edu.drexel.psal.anonymouth.suggestors.HighlightMapList;
 import edu.drexel.psal.anonymouth.suggestors.HighlightMapMaker;
 import edu.drexel.psal.anonymouth.suggestors.Prophecy;
 import edu.drexel.psal.anonymouth.suggestors.TheOracle;
+import edu.drexel.psal.anonymouth.utils.ConsolidationStation;
 import edu.drexel.psal.anonymouth.utils.DocumentParser;
 import edu.drexel.psal.anonymouth.utils.SentenceTools;
 import edu.drexel.psal.jstylo.generics.FeatureDriver;
@@ -137,6 +138,7 @@ public class EditorTabDriver {
 	public static HashMap<FeatureList,Integer> attributesMappedByName;
 	public static HashMap<Integer,Integer> suggestionToAttributeMap;
 	protected static DocumentParser docParser;
+	protected static ConsolidationStation consolidator;
 	
 	protected static void signalTargetsSelected(GUIMain main, boolean goodToGo){
 		if(goodToGo == true)

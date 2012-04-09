@@ -45,6 +45,7 @@ import edu.drexel.psal.jstylo.analyzers.WekaAnalyzer;
  * 
  * @author Andrew W.E. McDonald
  */
+//This is a comment from Joe Muoio to see if he can commit changes.
 public class GUIMain extends javax.swing.JFrame {
 
 	{

@@ -35,6 +35,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
 
 import weka.classifiers.Classifier;
 import edu.drexel.psal.jstylo.analyzers.WekaAnalyzer;
@@ -145,10 +149,17 @@ public class EditorInnerTabSpawner {
                                     sentencePane = new JScrollPane();
                                     sentencePanel.add(sentencePane, BorderLayout.CENTER);
                                     {
-                                        sentenceEditPane = new JTextPane();
+                                    	StyleContext sc = new StyleContext();
+                                        final DefaultStyledDocument doc = new DefaultStyledDocument(sc);
+                                        sentenceEditPane = new JTextPane(doc);
                                         sentencePane.setViewportView(sentenceEditPane);
+                                        //makes font size 24
+                                        Style defaultStyle = sc.getStyle(StyleContext.DEFAULT_STYLE);
+                                        Style editBoxStyle = sc.addStyle("EditBoxStyle", defaultStyle);
+                                        StyleConstants.setFontSize(editBoxStyle, 14);
                                         sentenceEditPane.setText("This is where the sentence you are currently editing will go.");
                                         sentenceEditPane.setPreferredSize(new java.awt.Dimension(740, 82));
+                                        doc.setLogicalStyle(0, editBoxStyle);
                                     }
                                 }
                             }

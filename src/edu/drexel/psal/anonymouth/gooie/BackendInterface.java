@@ -294,7 +294,7 @@ public class BackendInterface {
 				}
 				catch(Exception e){
 					e.printStackTrace();
-					somethingTerrible();
+					ErrorHandler.fatalError();
 				}
 				
 				List<Map<String,Double>> wekaResults = magician.getWekaResultList();
@@ -332,7 +332,7 @@ public class BackendInterface {
 						cpb.setText("Classifying Documents... Done");
 					} catch (Exception e) {
 						e.printStackTrace();
-						somethingTerrible();
+						ErrorHandler.fatalError();
 					}
 					cpb.setText("Setting Results...");
 					List<Map<String,Double>> wekaResults = magician.getWekaResultList();

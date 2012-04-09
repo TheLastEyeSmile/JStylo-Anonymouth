@@ -9,6 +9,8 @@ public class ConsolidationStation {
 	
 	Attribute[] attribs;
 	HashMap<String,ArrayList<TreeData>> parsed;
+	ArrayList<String> toAdd;
+	ArrayList<String> toRemove;
 	
 	/**
 	 * constructor for ConsolidationStation. Depends on target values, and should not be called until they have been selected.
@@ -18,6 +20,8 @@ public class ConsolidationStation {
 	public ConsolidationStation(Attribute[] attribs, HashMap<String,ArrayList<TreeData>> parsed){
 		this.attribs = attribs;
 		this.parsed = parsed;
+		toAdd = new ArrayList<String>(400);
+		toRemove = new ArrayList<String>(400);
 	}
 	
 	/**

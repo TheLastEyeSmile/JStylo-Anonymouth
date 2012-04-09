@@ -65,6 +65,8 @@ public class Attribute {
 	
 	private double targetClusterMax;
 	
+	private double percentChangeNeeded;
+	
 	/**
 	 * Constructor for Attribute class.
 	 * @param indexNumber the attributes index number (this may not be used anymore, though it is still being set)
@@ -166,11 +168,18 @@ public class Attribute {
 	}
 	
 	/**
-	 * Sets this attributes (features) target value
+	 * Sets this attributes (features) target value, and sets the percentChangeNeeded for each feature (with sign)
 	 * @param targetValue
 	 */
 	public void setTargetValue(double targetValue){
 		this.targetValue = targetValue;
+		double temp;
+		if(toModifyValue != 0){
+			temp = (toModifyValue - this.targetValue)/toModifyValue;// signedness matters, don't take abs. value
+		}
+		else
+			temp = Math.ceil(this.targetValue); // if value doesnt exist in document, set percent change needed to the ceil value of the  target value (e.g. add 5 occurrences of 'if': 500%)
+		percentChangeNeeded = temp*100;
 	}
 	
 	/**
@@ -392,8 +401,8 @@ public class Attribute {
 			return -1;
 	}
 	
-	public int getPercentChangeNeeded(){
-		return 0;
+	public double getPercentChangeNeeded(){
+		return percentChangeNeeded;
 	}
 	
 	

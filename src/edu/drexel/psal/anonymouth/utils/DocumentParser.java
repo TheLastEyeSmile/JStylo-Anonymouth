@@ -105,12 +105,10 @@ public class DocumentParser {
 			}
 			if(processAuthor == true){
 				d.load();
-				fullDoc += d.stringify();
+				fullDoc += d.stringify().replaceAll("\\p{C}"," ");// get rid of unicode control chars (causes parse errors).
 			}
 		}
 		return outMap;
-		
-			
 	}
 
 	public HashMap<String,ArrayList<TreeData>> parseAllDocs() throws IOException{ 

@@ -51,6 +51,7 @@ public class SentenceTools {
 	public ArrayList<String> makeSentenceTokens(String text){
 		ArrayList<String> sents = new ArrayList<String>(MAX_SENTENCES);
 		int currentStart = 1;
+		int storedStart = 0;
 		int currentStop = 0;
 		int lenText = text.length();
 		String temp;
@@ -78,6 +79,7 @@ public class SentenceTools {
 		int lastQuoteAt = 0;
 		boolean foundQuote = false;
 		boolean isSentence;
+		boolean isCorrectingForQuote = false;
 		while (foundEOS == true){
 			currentStop = sent.end();
 			//System.out.println("Start: "+currentStart+" and Stop: "+currentStop);
@@ -103,12 +105,20 @@ public class SentenceTools {
 				if((currentStop = text.indexOf("\"",currentStart +lastQuoteAt+1)) == -1){
 					currentStop = text.length();
 				}
-				else
-					currentStop += currentStart+1;
+				else{
+					currentStop ++;
+					if(isCorrectingForQuote == false){
+						storedStart = currentStart;
+					}
+					currentStart = currentStop;
+					foundEOS = sent.find(currentStart);
+					isCorrectingForQuote = true;
+					continue;
+				}
 			}
-			else
-				currentStop += currentStart;
-			
+			if(isCorrectingForQuote == true)
+				currentStart = storedStart;
+			isCorrectingForQuote = false;
 			if(currentStop > text.length()) 
 				currentStop = text.length();
 			
@@ -122,6 +132,7 @@ public class SentenceTools {
 				currentStop = text.indexOf("\"",sentEnd.start()+currentStart)+1;
 				safeString = text.substring(currentStart-1,currentStop);
 			}
+			
 			
 			safeString = safeString.replaceAll(PERIOD_REPLACEMENT,".");
 			//System.out.println(safeString);

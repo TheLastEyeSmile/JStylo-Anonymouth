@@ -342,6 +342,7 @@ public class DocumentMagician {
 		//System.out.println("AUTHOR TO REMOVE: "+authorToRemove);
 		//System.out.println("AUTHOR SAMPLES SET: "+authorSamplesSet.toString());
 		noAuthorTrainSet = pSetCopy.getAllTrainDocs();
+		/*
 		Logger.logln("Attempting to load and parse documents...");
 		try {
 			DocumentParser.setDocs(noAuthorTrainSet,authorSamplesSet,toModifySet);
@@ -351,6 +352,7 @@ public class DocumentMagician {
 			e.printStackTrace();
 		}
 		Logger.logln("Documents successfully loaded and/or parsed...");
+		*/
 		int i = 0;
 		int lenTSet = noAuthorTrainSet.size();
 		trainTitlesList = new ArrayList<String>(lenTSet);

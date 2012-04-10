@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import edu.drexel.psal.anonymouth.suggestors.POSmap.TheTags;
+import edu.drexel.psal.anonymouth.suggestors.POS.TheTags;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
 /**
@@ -89,12 +89,12 @@ public class POS_BIGRAMS extends TheOracle{
 			String tagOneDef;
 			String tagTwoDef;
 			try{
-				tagOneDef= POSmap.tagToDescription(TheTags.valueOf(tagOne));
+				tagOneDef= POS.tagToDescription(TheTags.valueOf(tagOne));
 			} catch(IllegalArgumentException iae){
 				tagOneDef = "punctuation/symbol";
 			}
 			try{
-				tagTwoDef= POSmap.tagToDescription(TheTags.valueOf(tagTwo));
+				tagTwoDef= POS.tagToDescription(TheTags.valueOf(tagTwo));
 			} catch(IllegalArgumentException iae){
 				tagTwoDef = "punctuation/symbol";
 			}

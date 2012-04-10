@@ -58,6 +58,7 @@ public class SentenceTools {
 		int closingQuoteIndex = 0;
 		text = text.replaceAll("\u201C","\"");
 		text = text.replaceAll("\u201D","\"");
+		text = text.replaceAll("\\p{C}"," ");
 		int notEOSNumber = 0;
 		int numNotEOS = notEndsOfSentence.length;
 		String replacementString = "";

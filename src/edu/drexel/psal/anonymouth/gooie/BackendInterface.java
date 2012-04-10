@@ -201,25 +201,27 @@ public class BackendInterface {
 		}
 	}
 	
-	protected static void parseDocs(GUIMain main){
-		(new Thread(bei.new ParseDocs(main))).start();
+	protected static void tagDocs(GUIMain main){
+		(new Thread(bei.new TagDocs(main))).start();
 	}
 	
-	public class ParseDocs extends GUIThread{
+	public class TagDocs extends GUIThread{
 		
-		ParseDocs(GUIMain main){
+		TagDocs(GUIMain main){
 			super(main);
 		}
 		
 		public void run(){
 			HashMap<String,ArrayList<TreeData>> parsed = null;
+			/*
 			try {
-				parsed = EditorTabDriver.docParser.parseAllDocs();
+				//parsed = EditorTabDriver.docParser.parseAllDocs();
 			} catch (IOException e) {
 				Logger.logln("Fatal Error: Failed to parse documents",LogOut.STDERR);
 				e.printStackTrace();
 				ErrorHandler.fatalError();
 			}
+			*/
 			if(parsed != null){
 				EditorTabDriver.consolidator = new ConsolidationStation(EditorTabDriver.attribs,parsed);
 				EditorTabDriver.consolidator.beginConsolidation();

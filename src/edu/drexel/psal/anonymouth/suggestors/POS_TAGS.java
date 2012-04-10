@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-import edu.drexel.psal.anonymouth.suggestors.POSmap.TheTags;
+import edu.drexel.psal.anonymouth.suggestors.POS.TheTags;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
 /**
@@ -70,7 +70,7 @@ public class POS_TAGS extends TheOracle {
 			
 			String tagDef;
 			try{
-				tagDef= POSmap.tagToDescription(TheTags.valueOf(theTag));
+				tagDef= POS.tagToDescription(TheTags.valueOf(theTag));
 			} catch(IllegalArgumentException iae){
 				tagDef = "punctuation/symbol";
 			}

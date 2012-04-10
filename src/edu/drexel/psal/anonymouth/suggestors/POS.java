@@ -5,7 +5,7 @@ package edu.drexel.psal.anonymouth.suggestors;
  * @author Andrew W.E. McDonald
  *
  */
-public class POSmap {
+public class POS {
 	
 	/**
 	 * Enumeration of the POS tags used by the Standford MaxentTagger /Penn Treebank. These are used as input to the method

@@ -1,5 +1,5 @@
 package edu.drexel.psal.anonymouth.utils;
-/* TODO: In order to use this class, the Standford Parser (NOT POS Tagger) must be added.
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -31,21 +31,21 @@ import com.jgaap.generics.Document;
 import edu.drexel.psal.anonymouth.gooie.DocsTabDriver.ExtFilter;
 import edu.drexel.psal.jstylo.generics.Logger;
 import edu.stanford.nlp.ling.HasWord;
+import edu.stanford.nlp.ling.TaggedWord;
 import edu.stanford.nlp.ling.Word;
 import edu.stanford.nlp.ling.Sentence;
 import edu.stanford.nlp.process.DocumentPreprocessor;
 import edu.stanford.nlp.process.Tokenizer;
+import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import edu.stanford.nlp.trees.*;
-import edu.stanford.nlp.parser.lexparser.LexicalizedParser;
-import edu.stanford.nlp.parser.ui.TreeJPanel;
-*/
+
 /**
  * Parses documents.....
  * @author Andrew W.E. McDonald
  *
  */
-public class DocumentParser {
-/*	
+public class DocumentTagger{
+	
 	
 	int numSentences;
 	private static SentenceTools st = new SentenceTools();
@@ -57,6 +57,29 @@ public class DocumentParser {
 	private static HashMap<String,ArrayList<String>> toModifyStrings;
 	private static TreeProcessor[] allTreeProcessors = new TreeProcessor[3];
 	private static HashMap<String,ArrayList<TreeData>> allParsedAndOrdered = new HashMap<String,ArrayList<TreeData>>(3);
+	private MaxentTagger mt = null;
+	
+	public DocumentTagger(){
+		
+		try {
+			mt = new MaxentTagger("./external/MaxentTagger/left3words-wsj-0-18.tagger");
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+	/*	
+		String beenTagged = mt.tagString(theDoc);
+		//System.out.println(beenTagged);
+		String theTag = super.stringInBraces.replaceAll("\\p{C}", " ");;
+		String safeTag = "";
+		if(theTag.contains("$"))
+			safeTag = theTag.replace("$", "\\$");
+		else
+			safeTag= theTag;
+			*/
+	}
 	
 	
 	public static void setDocs(List<Document> otherSample, List<Document> authorSample, List<Document> toModify) throws Exception{
@@ -69,6 +92,7 @@ public class DocumentParser {
 		dummy_doc.setAuthor("Dummy author. This author should absolutley never be seen. If it is seen, and it is the last author in one of the lists, those documents won't process, and bad things will follow.");
 		Logger.logln("Starting toModify in DocumentParser... size: "+toModify.size());
 		toModifyStrings = getDocs(toModify, true);
+		System.out.println(toModifyStrings.toString());
 	}
 		
 	public static HashMap<String,ArrayList<String>> getDocs(List<Document> docs, boolean isToModify) throws Exception{
@@ -111,10 +135,10 @@ public class DocumentParser {
 		return outMap;
 	}
 
-	public HashMap<String,ArrayList<TreeData>> parseAllDocs() throws IOException{ 
-		String grammar =  "./jsan_resources/englishPCFG.ser.gz";
-		String[] options = { "-maxLength", "120", "-retainTmpSubcategories" };
-		LexicalizedParser lp = new LexicalizedParser(grammar, options);
+	public HashMap<String,ArrayList<TreeData>> tagAllDocs() throws IOException{ 
+		//String grammar =  "./jsan_resources/englishPCFG.ser.gz";
+		//String[] options = { "-maxLength", "120", "-retainTmpSubcategories" };
+		//LexicalizedParser lp = new LexicalizedParser(grammar, options);
 		TreebankLanguagePack tlp = new PennTreebankLanguagePack();
 		GrammaticalStructureFactory gsf = tlp.grammaticalStructureFactory();
 		Iterable<List<? extends HasWord>> sentences;
@@ -156,20 +180,25 @@ public class DocumentParser {
 					List<? extends HasWord> sentenceTokenized = toke.tokenize();
 					tmp.add(sentenceTokenized);
 				}
-				
+				/*
+				 * TODO: 
+				 * - fix this function
+				 * - condense features (notes in vim) 
+				 */
 				sentences = tmp;
 				//int numDone = 0;
 				TreeProcessor.singleDocMap.clear();
 				boolean willSaveResults = true;
 				for (List<? extends HasWord> sentence : sentences) {
-					Tree parse = lp.apply(sentence);
+					ArrayList<TaggedWord> taggedWords = mt.tagSentence(sentence);
+					//Tree parse = lp.apply(sentence);
 					//parse.pennPrint();
 					//System.out.println(parse.treeSkeletonCopy().toString());
 					//System.out.println(parse.taggedYield());
 					//System.out.println();
 					//printSubTrees(parse);
 					//TreeContainer.recurseTree(parse,"breadth");
-					allTreeProcessors[docTypeNumber].processTree(parse, 0, willSaveResults); 
+					//allTreeProcessors[docTypeNumber].processTree(parse, 0, willSaveResults); 
 					//System.out.println(tc.processedTrees.toString().replaceAll("\\]\\], \\(","\\]\\]\n\\("));
 					//numDone++;
 					//System.out.println("sent "+numDone+" of "+numSentences+" done ");
@@ -282,6 +311,5 @@ public class DocumentParser {
 
 
 	}
-*/
 
 }

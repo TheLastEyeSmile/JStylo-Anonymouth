@@ -83,7 +83,7 @@ public class SentenceTools {
 			currentStop = sent.end();
 			//System.out.println("Start: "+currentStart+" and Stop: "+currentStop);
 			temp = text.substring(currentStart-1,currentStop);
-			System.out.println(temp);
+			//System.out.println(temp);
 			lenString = temp.length();
 			lastQuoteAt = 0;
 			foundQuote = false;
@@ -171,31 +171,32 @@ public class SentenceTools {
 	 * @return
 	 */
 	public String getNext(){
-		if(sentNumber <totalSentences){
+		if(sentNumber <totalSentences-1){
 			sentNumber++;
 			mustAddToIndex = false;
-			return sentsToEdit.get(sentNumber-1);
+			return sentsToEdit.get(sentNumber);
 		}
-		else
+		else{
+			System.out.print("RETURN NULL getNext");
 			return null;
+		}
 	}
 	
 	public String getLast(){
-		if(sentNumber >=0){
+		if(sentNumber >0){
 			sentNumber--;
 			mustAddToIndex = true;
-			return sentsToEdit.get(sentNumber +1);
+			return sentsToEdit.get(sentNumber);
 		}
-		else
+		else{
+			System.out.print("RETURN NULL getLast");
 			return null;
+		}
 	}
 	
 	public void replaceCurrentSentence(String s){
 		int index;
-		if(mustAddToIndex == true)
-			index = sentNumber +1;
-		else
-			index = sentNumber -1;
+		index = sentNumber;
 		sentsToEdit.remove(index);
 		sentsToEdit.add(index,s);
 	}	

@@ -229,9 +229,15 @@ public class EditorTabDriver {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0){
-				Logger.logln("next sentence button pressed.");
-				sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
-				eits.getSentenceEditPane().setText(sentenceTools.getNext());
+					Logger.logln("next sentence button pressed.");
+					sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
+					String tempSent=sentenceTools.getNext();
+					if(tempSent!=null)
+						eits.getSentenceEditPane().setText(tempSent);
+					else {
+						ArrayList<String> Stok=sentenceTools.getSentenceTokens();
+						eits.getSentenceEditPane().setText(Stok.get(Stok.size()-1));
+					}
 			}
 			
 		});
@@ -241,13 +247,19 @@ public class EditorTabDriver {
 			@Override
 			public void actionPerformed(ActionEvent arg0){
 				Logger.logln("last sentence button pressed.");
-				if(sentenceTools.moreToCheck() == true){
-					sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
-					eits.getSentenceEditPane().setText(sentenceTools.getLast());
+				//if(sentenceTools.moreToCheck() == true){
+				sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
+				String tempSent=sentenceTools.getLast();
+				if(tempSent!=null)
+					eits.getSentenceEditPane().setText(tempSent);
+				else {
+					ArrayList<String> Stok=sentenceTools.getSentenceTokens();
+					eits.getSentenceEditPane().setText(Stok.get(0));
 				}
-				else{
-					eits.getSentenceEditPane().setText("END OF DOCUMENT");
-				}
+			//}
+				//else{
+					//eits.getSentenceEditPane().setText("END OF DOCUMENT");
+			//	}
 				
 			}
 			

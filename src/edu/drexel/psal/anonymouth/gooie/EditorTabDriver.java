@@ -139,12 +139,44 @@ public class EditorTabDriver {
 	public static HashMap<Integer,Integer> suggestionToAttributeMap;
 	protected static DocumentParser docParser;
 	protected static ConsolidationStation consolidator;
+
+	protected static Highlighter editTracker;
+	protected static Highlighter.HighlightPainter painter;
+	private static final Color HILIT_COLOR = Color.yellow;
 	
 	protected static void signalTargetsSelected(GUIMain main, boolean goodToGo){
 		if(goodToGo == true)
 			BackendInterface.postTargetSelectionProcessing(main, wizard, magician, cpb);
 	}
 	
+	/*
+	 * Highlights the sentence that is currently in the editor box in the main document
+	 * no return
+	 */
+	protected static void trackEditSentence(){
+		editTracker = new DefaultHighlighter();
+		painter = new DefaultHighlighter.DefaultHighlightPainter(HILIT_COLOR);
+		int startHighlight=0, endHighlight=0;
+		int sentNum=SentenceTools.getSentNumb();
+		ArrayList<String> sentences=SentenceTools.getSents();
+		eits.editorBox.setHighlighter(editTracker);
+		for (int i=0;i<sentNum+1;i++){
+			if(i<sentNum){
+				startHighlight+=sentences.get(i).length();
+			}
+			else if(i==sentNum){
+				endHighlight=startHighlight+sentences.get(i).length();
+			}
+		}
+		editTracker.removeAllHighlights();
+		try {
+			editTracker.addHighlight(startHighlight,endHighlight, painter);
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Logger.logln("Error highlighting the block");
+		}
+	}
 	
 	protected static void initListeners(final GUIMain main){
 		
@@ -238,6 +270,7 @@ public class EditorTabDriver {
 						ArrayList<String> Stok=sentenceTools.getSentenceTokens();
 						eits.getSentenceEditPane().setText(Stok.get(Stok.size()-1));
 					}
+					trackEditSentence();
 			}
 			
 		});
@@ -256,6 +289,7 @@ public class EditorTabDriver {
 					ArrayList<String> Stok=sentenceTools.getSentenceTokens();
 					eits.getSentenceEditPane().setText(Stok.get(0));
 				}
+				trackEditSentence();
 			//}
 				//else{
 					//eits.getSentenceEditPane().setText("END OF DOCUMENT");
@@ -273,6 +307,7 @@ public class EditorTabDriver {
 					String tempSent=sentenceTools.addNextSent();
 					if(tempSent!=null)
 						eits.getSentenceEditPane().setText(tempSent);
+					trackEditSentence();
 					//else {
 						//ArrayList<String> Stok=sentenceTools.getSentenceTokens();
 						//eits.getSentenceEditPane().setText(Stok.get(Stok.size()-1));
@@ -322,7 +357,7 @@ public class EditorTabDriver {
 			 
 			
 		});
-		/*
+		/*//uncommented from here and it broke everything so I am not touching this code.
 		main.getHighlightSelectionBox().addActionListener(new ActionListener(){
 			
 			public void actionPerformed(ActionEvent act){
@@ -371,7 +406,7 @@ public class EditorTabDriver {
 		
 		
 			
-			*/
+			
 			
 		/*
 		main.searchInputBox.addActionListener(new ActionListener(){
@@ -891,7 +926,7 @@ public class EditorTabDriver {
 	}
 	
 	
-}
+} 
 
 	class TheHighlighter extends DefaultHighlighter.DefaultHighlightPainter{
 		public TheHighlighter(Color color){

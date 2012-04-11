@@ -1479,10 +1479,10 @@ public class GUIMain extends javax.swing.JFrame {
 			
 
 
-				{
+				
 					// bottom toolbar buttons
 					// ======================
-				}
+				
 		
 
 			// initialize listeners - except for EditorTabDriver!

@@ -1,5 +1,6 @@
 package edu.drexel.psal.anonymouth.utils;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,6 +11,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
 
 import edu.drexel.psal.jstylo.generics.Logger;
 
@@ -28,14 +31,15 @@ public class SentenceTools {
 	private static int MAX_SENTENCES = 500;
 	private int numSentences;
 	private boolean shouldInitialize = true;
-	private ArrayList<String> sentsToEdit = new ArrayList<String>(MAX_SENTENCES);
+	private static ArrayList<String> sentsToEdit = new ArrayList<String>(MAX_SENTENCES);
 	private ArrayList<String> editedSents = new ArrayList<String>(MAX_SENTENCES);
 	private int currentSentence =0;
 	private int nextSentence = 0;
 	private Iterator<Sentence> sentenceIterator;
 	private String editedText = "" ;
-	private int sentNumber = 0;
+	private static int sentNumber = 0;
 	private int totalSentences = 0;
+	
 	private boolean mustAddToIndex = false;
 	private String[] notEndsOfSentence = {"Dr.","Mr.","Mrs.","Ms.","St.","vs.","U.S.","Sr.","Sgt.","R.N.","pt.","mt.","mts.","M.D.","Ltd.","Jr.","Lt.","Hon.","i.e.","e.x.","inc.",
 			"et al.","est.","ed.","D.C.","B.C.","B.S.","Ph.D.","B.A.","A.B.","A.D.","A.M.","P.M.","Ln.","fig.","p.","pp.","ref.","r.b.i.","V.P.","yr.","yrs.","etc.","..."};
@@ -152,6 +156,12 @@ public class SentenceTools {
 		return sents;
 	}
 	
+	public static int getSentNumb(){
+		return sentNumber;
+	}
+	public static ArrayList<String> getSents(){
+		return sentsToEdit;
+	}
 	
 	/**
 	 * Checks whether or not there are more unchecked sentences from the intial input text or not. True if there are,
@@ -181,6 +191,10 @@ public class SentenceTools {
 			return null;
 		}
 	}
+	/*
+	 * gets the previous sentence.
+	 * @return the string of the previous sentence 
+	 */
 	
 	public String getLast(){
 		if(sentNumber >0){
@@ -193,6 +207,11 @@ public class SentenceTools {
 			return null;
 		}
 	}
+	
+	/*
+	 * adds the next sentence to the current one.
+	 * @retrun the concatenation of the current sentence and the next sentence.
+	 */
 	public String addNextSent() {
 		if(sentNumber <totalSentences-1){
 			totalSentences--;
@@ -204,6 +223,7 @@ public class SentenceTools {
 		return sentsToEdit.get(sentNumber);
 		
 	}
+	
 	
 	public void replaceCurrentSentence(String s){
 		int index;

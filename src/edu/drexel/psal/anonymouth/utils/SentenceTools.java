@@ -193,6 +193,17 @@ public class SentenceTools {
 			return null;
 		}
 	}
+	public String addNextSent() {
+		if(sentNumber <totalSentences-1){
+			totalSentences--;
+			String tempSent=sentsToEdit.remove(sentNumber+1);
+			String newSent=sentsToEdit.get(sentNumber)+tempSent;
+			replaceCurrentSentence(newSent);
+			return newSent;
+		}
+		return sentsToEdit.get(sentNumber);
+		
+	}
 	
 	public void replaceCurrentSentence(String s){
 		int index;

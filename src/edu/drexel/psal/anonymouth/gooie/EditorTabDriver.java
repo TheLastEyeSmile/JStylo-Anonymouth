@@ -264,6 +264,22 @@ public class EditorTabDriver {
 			}
 			
 		});
+		
+		main.addSentence.addActionListener(new ActionListener(){
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0){
+					Logger.logln("Add sentence button pressed.");
+					String tempSent=sentenceTools.addNextSent();
+					if(tempSent!=null)
+						eits.getSentenceEditPane().setText(tempSent);
+					//else {
+						//ArrayList<String> Stok=sentenceTools.getSentenceTokens();
+						//eits.getSentenceEditPane().setText(Stok.get(Stok.size()-1));
+				//	}
+			}
+			
+		});
 	
 		main.exitButton.addActionListener(new ActionListener(){
 

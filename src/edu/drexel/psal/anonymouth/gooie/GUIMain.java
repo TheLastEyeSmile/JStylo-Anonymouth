@@ -196,6 +196,7 @@ public class GUIMain extends javax.swing.JFrame {
 	protected JTable resultsTable;
 	protected JLabel classificationLabel;
 	protected JLabel suggestionLabel;
+	protected JButton addSentence;
 	protected JTextPane elementsToAddPane;
 	protected JPanel editorRowTwoButtonBufferPanel;
 	protected JPanel buttonBufferJPanel;
@@ -1311,14 +1312,14 @@ public class GUIMain extends javax.swing.JFrame {
 									editorInteractionJPanel.add(editorInteractionWestPanel, BorderLayout.WEST);
 									editorInteractionWestPanel.setPreferredSize(new java.awt.Dimension(352, 87));
 									{
-										editorProgressBar = new JProgressBar();
-										editorInteractionWestPanel.add(editorProgressBar, BorderLayout.SOUTH);
-										editorProgressBar.setPreferredSize(new java.awt.Dimension(352, 20));
-									}
-									{
 										editingProgressBarLabel = new JLabel();
 										editorInteractionWestPanel.add(editingProgressBarLabel, BorderLayout.CENTER);
 										editingProgressBarLabel.setText("Progress...");
+									}
+									{
+										editorProgressBar = new JProgressBar();
+										editorInteractionWestPanel.add(editorProgressBar, BorderLayout.SOUTH);
+										editorProgressBar.setPreferredSize(new java.awt.Dimension(352, 20));
 									}
 								}
 								{
@@ -1327,32 +1328,6 @@ public class GUIMain extends javax.swing.JFrame {
 									editorButtonJPanel.setLayout(editorButtonJPanelLayout);
 									editorInteractionJPanel.add(editorButtonJPanel, BorderLayout.CENTER);
 									editorButtonJPanel.setPreferredSize(new java.awt.Dimension(640, 57));
-									{
-										editorTopRowButtonsPanel = new JPanel();
-										editorButtonJPanel.add(editorTopRowButtonsPanel, BorderLayout.NORTH);
-										editorTopRowButtonsPanel.setPreferredSize(new java.awt.Dimension(643, 36));
-										{
-											nextSentenceButton = new JButton();
-											editorTopRowButtonsPanel.add(nextSentenceButton);
-											nextSentenceButton.setText("Next Sentence");
-										}
-										{
-											lastSentenceButton = new JButton();
-											editorTopRowButtonsPanel.add(lastSentenceButton);
-											lastSentenceButton.setText("Last Sentence");
-										}
-										{
-											buttonBufferJPanel = new JPanel();
-											editorTopRowButtonsPanel.add(buttonBufferJPanel);
-											buttonBufferJPanel.setPreferredSize(new java.awt.Dimension(230, 5));
-										}
-										{
-											processButton = new JButton();
-											editorTopRowButtonsPanel.add(processButton);
-											processButton.setText("Process");
-											processButton.setPreferredSize(new java.awt.Dimension(118, 29));
-										}
-									}
 									{
 										editorBottomRowButtonPanel = new JPanel();
 										editorButtonJPanel.add(editorBottomRowButtonPanel, BorderLayout.SOUTH);
@@ -1377,6 +1352,38 @@ public class GUIMain extends javax.swing.JFrame {
 											editorBottomRowButtonPanel.add(exitButton);
 											exitButton.setText("Close");
 											exitButton.setPreferredSize(new java.awt.Dimension(81, 27));
+										}
+									}
+									{
+										editorTopRowButtonsPanel = new JPanel();
+										editorButtonJPanel.add(editorTopRowButtonsPanel, BorderLayout.NORTH);
+										editorTopRowButtonsPanel.setPreferredSize(new java.awt.Dimension(647, 36));
+										{
+											lastSentenceButton = new JButton();
+											editorTopRowButtonsPanel.add(lastSentenceButton);
+											lastSentenceButton.setText("Last Sentence");
+										}
+										{
+											nextSentenceButton = new JButton();
+											editorTopRowButtonsPanel.add(nextSentenceButton);
+											nextSentenceButton.setText("Next Sentence");
+										}
+										{
+											buttonBufferJPanel = new JPanel();
+											editorTopRowButtonsPanel.add(buttonBufferJPanel);
+											buttonBufferJPanel.setPreferredSize(new java.awt.Dimension(230, 5));
+										}
+										{
+											processButton = new JButton();
+											editorTopRowButtonsPanel.add(processButton);
+											processButton.setText("Process");
+											processButton.setPreferredSize(new java.awt.Dimension(118, 29));
+										}
+										{
+											addSentence = new JButton();
+											editorTopRowButtonsPanel.add(addSentence);
+											addSentence.setText("Add Next Sentence");
+											addSentence.setPreferredSize(new java.awt.Dimension(118, 23));
 										}
 									}
 								}

@@ -158,17 +158,19 @@ public class EditorTabDriver {
 		painter = new DefaultHighlighter.DefaultHighlightPainter(HILIT_COLOR);
 		int startHighlight=0, endHighlight=0;
 		int sentNum=SentenceTools.getSentNumb();
-		ArrayList<String> sentences=SentenceTools.getSents();
+		ArrayList<String> sentences=sentenceTools.getSentenceTokens();
 		eits.editorBox.setHighlighter(editTracker);
 		for (int i=0;i<sentNum+1;i++){
 			if(i<sentNum){
 				startHighlight+=sentences.get(i).length();
 			}
 			else if(i==sentNum){
-				endHighlight=startHighlight+sentences.get(i).length();
+				endHighlight=startHighlight+sentences.get(i).length()-1;
 			}
 		}
+		
 		editTracker.removeAllHighlights();
+		eits.editorBox.repaint();
 		try {
 			editTracker.addHighlight(startHighlight,endHighlight, painter);
 		} catch (BadLocationException e) {
@@ -262,13 +264,15 @@ public class EditorTabDriver {
 			@Override
 			public void actionPerformed(ActionEvent arg0){
 					Logger.logln("next sentence button pressed.");
-					sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
+					sentenceTools.checkNumSent(eits.getSentenceEditPane().getText());
+					//sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
 					String tempSent=sentenceTools.getNext();
 					if(tempSent!=null)
 						eits.getSentenceEditPane().setText(tempSent);
 					else {
 						ArrayList<String> Stok=sentenceTools.getSentenceTokens();
-						eits.getSentenceEditPane().setText(Stok.get(Stok.size()-1));
+						tempSent=Stok.get(Stok.size()-1);
+						eits.getSentenceEditPane().setText(tempSent);
 					}
 					trackEditSentence();
 			}
@@ -280,20 +284,17 @@ public class EditorTabDriver {
 			@Override
 			public void actionPerformed(ActionEvent arg0){
 				Logger.logln("last sentence button pressed.");
-				//if(sentenceTools.moreToCheck() == true){
-				sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
+				sentenceTools.checkNumSent(eits.getSentenceEditPane().getText());
+				//sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
 				String tempSent=sentenceTools.getLast();
 				if(tempSent!=null)
 					eits.getSentenceEditPane().setText(tempSent);
 				else {
 					ArrayList<String> Stok=sentenceTools.getSentenceTokens();
-					eits.getSentenceEditPane().setText(Stok.get(0));
+					tempSent=Stok.get(0);
+					eits.getSentenceEditPane().setText(tempSent);
 				}
 				trackEditSentence();
-			//}
-				//else{
-					//eits.getSentenceEditPane().setText("END OF DOCUMENT");
-			//	}
 				
 			}
 			
@@ -303,15 +304,16 @@ public class EditorTabDriver {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0){
+					//Logger.logln(eits.getSentenceEditPane().getText());
 					Logger.logln("Add sentence button pressed.");
+					//sentenceTools.checkNumSent(eits.getSentenceEditPane().getText());
 					String tempSent=sentenceTools.addNextSent();
 					if(tempSent!=null)
 						eits.getSentenceEditPane().setText(tempSent);
+					else
+						tempSent="";
 					trackEditSentence();
-					//else {
-						//ArrayList<String> Stok=sentenceTools.getSentenceTokens();
-						//eits.getSentenceEditPane().setText(Stok.get(Stok.size()-1));
-				//	}
+					
 			}
 			
 		});

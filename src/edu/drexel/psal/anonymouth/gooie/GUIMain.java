@@ -1369,21 +1369,21 @@ public class GUIMain extends javax.swing.JFrame {
 											nextSentenceButton.setText("Next Sentence");
 										}
 										{
+											addSentence = new JButton();
+											editorTopRowButtonsPanel.add(addSentence);
+											addSentence.setText("Append Next Sentence");
+											addSentence.setPreferredSize(new java.awt.Dimension(150, 23));
+										}
+										{
 											buttonBufferJPanel = new JPanel();
 											editorTopRowButtonsPanel.add(buttonBufferJPanel);
-											buttonBufferJPanel.setPreferredSize(new java.awt.Dimension(230, 5));
+											buttonBufferJPanel.setPreferredSize(new java.awt.Dimension(64, 5));
 										}
 										{
 											processButton = new JButton();
 											editorTopRowButtonsPanel.add(processButton);
 											processButton.setText("Process");
 											processButton.setPreferredSize(new java.awt.Dimension(118, 29));
-										}
-										{
-											addSentence = new JButton();
-											editorTopRowButtonsPanel.add(addSentence);
-											addSentence.setText("Add Next Sentence");
-											addSentence.setPreferredSize(new java.awt.Dimension(118, 23));
 										}
 									}
 								}

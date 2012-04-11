@@ -31,13 +31,13 @@ public class SentenceTools {
 	private static int MAX_SENTENCES = 500;
 	private int numSentences;
 	private boolean shouldInitialize = true;
-	private static ArrayList<String> sentsToEdit = new ArrayList<String>(MAX_SENTENCES);
+	private ArrayList<String> sentsToEdit = new ArrayList<String>(MAX_SENTENCES);
 	private ArrayList<String> editedSents = new ArrayList<String>(MAX_SENTENCES);
 	private int currentSentence =0;
 	private int nextSentence = 0;
 	private Iterator<Sentence> sentenceIterator;
 	private String editedText = "" ;
-	private static int sentNumber = 0;
+	private static int sentNumber = -1;
 	private int totalSentences = 0;
 	
 	private boolean mustAddToIndex = false;
@@ -149,20 +149,16 @@ public class SentenceTools {
 			}
 			foundEOS = sent.find(currentStart);
 		}
-		totalSentences = sents.size();
-		sentNumber = 0;
+		//totalSentences = sents.size();
+		//sentNumber = 0;
 		//sentenceIterator = sentsToEdit.iterator();
-		sentsToEdit = sents;
+		//sentsToEdit = sents;
 		return sents;
 	}
 	
 	public static int getSentNumb(){
 		return sentNumber;
 	}
-	public static ArrayList<String> getSents(){
-		return sentsToEdit;
-	}
-	
 	/**
 	 * Checks whether or not there are more unchecked sentences from the intial input text or not. True if there are,
 	 * false if not.
@@ -223,6 +219,25 @@ public class SentenceTools {
 		return sentsToEdit.get(sentNumber);
 		
 	}
+	/*
+	 * makes sure the text in the edit sentence box is just one sentence.
+	 * In the case of multiple sentences, it updates the list so that each sentence has its own index.
+	 * @return a list of the sentences in the box 
+	 */
+	public ArrayList<String> checkNumSent(String editText){
+		
+		ArrayList<String> sentences= makeSentenceTokens(editText);
+		int i=0;
+		replaceCurrentSentence(sentences.get(i));
+		Logger.logln(sentences.get(i));
+		for (i=1; i<sentences.size();i++){
+			sentNumber++;
+			totalSentences++;
+			sentsToEdit.add(sentNumber,sentences.get(i));
+			Logger.logln(sentences.get(i));
+		}
+		return sentences;
+	}
 	
 	
 	public void replaceCurrentSentence(String s){
@@ -267,6 +282,16 @@ public class SentenceTools {
 		}
 		System.out.println("End");
 		
+	}
+
+	public void setSentsToEdit(ArrayList<String> tokens) {
+		// used in backend interface.
+		sentsToEdit=tokens;
+	}
+
+	public void setNumberSentences(int size) {
+		// used in backend interface
+		totalSentences=size;
 	}
 	
 }

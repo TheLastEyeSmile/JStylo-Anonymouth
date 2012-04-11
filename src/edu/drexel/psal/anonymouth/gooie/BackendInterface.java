@@ -457,7 +457,9 @@ public class BackendInterface {
 			eits.resultsTablePane.setEnabled(true);
 			eits.resultsTablePane.setOpaque(true);
 			EditorTabDriver.okayToSelectSuggestion = true;
-			EditorTabDriver.sentenceTools.makeSentenceTokens(eits.editorBox.getText());
+			 ArrayList<String> sentences=EditorTabDriver.sentenceTools.makeSentenceTokens(eits.editorBox.getText());
+			EditorTabDriver.sentenceTools.setSentsToEdit(sentences);
+			EditorTabDriver.sentenceTools.setNumberSentences(sentences.size());
 			eits.getSentenceEditPane().setText(EditorTabDriver.sentenceTools.getNext());
 			main.nextSentenceButton.setEnabled(true);
 			main.lastSentenceButton.setEnabled(true);

@@ -114,6 +114,9 @@ public class SentenceTools {
 				}
 			}
 			safeString = text.substring(currentStart-1,currentStop);
+			//if(text.substring(currentStop, currentStop+1)=="\n"||text.substring(currentStop, currentStop+2)==" \n"){
+				//safeString+="\n";
+			//}
 			sentEnd = sentence_quote.matcher(safeString);	
 			isSentence = sentEnd.find();
 			//System.out.println("RESULT OF sentence_quote matching: "+isSentence);
@@ -131,7 +134,7 @@ public class SentenceTools {
 				String prev=sents.remove(sents.size()-1);
 				safeString=prev+safeString;
 			}
-			if (merge1){
+			if (merge1){//makes so that the merge happens on the next pass through
 				merge1=false;
 				mergeFinal=true;
 			}
@@ -149,10 +152,7 @@ public class SentenceTools {
 			}
 			foundEOS = sent.find(currentStart);
 		}
-		//totalSentences = sents.size();
-		//sentNumber = 0;
-		//sentenceIterator = sentsToEdit.iterator();
-		//sentsToEdit = sents;
+		
 		return sents;
 	}
 	
@@ -234,7 +234,6 @@ public class SentenceTools {
 			sentNumber++;
 			totalSentences++;
 			sentsToEdit.add(sentNumber,sentences.get(i));
-			Logger.logln(sentences.get(i));
 		}
 		
 		return sentences;
@@ -249,10 +248,10 @@ public class SentenceTools {
 	}	
 	
 	public String getFullDoc(){
-		Iterator<String> sentIter = sentsToEdit.iterator();
+		
 		String fullDoc = "";
-		while(sentIter.hasNext()){
-			fullDoc += sentIter.next();//+" ";
+		for(int i=0;i<totalSentences;i++){
+			fullDoc += sentsToEdit.get(i);
 		}
 		return fullDoc;
 	}

@@ -162,19 +162,24 @@ public class EditorTabDriver {
 		eits.editorBox.setHighlighter(editTracker);
 		String newText=sentenceTools.getFullDoc();
 		eits.editorBox.setText(newText);
+		
 		for (int i=0;i<sentNum+1;i++){
 			if(i<sentNum){
 				startHighlight+=sentences.get(i).length();
 			}
-			else if(i==sentNum){
+			if(sentences.get(i).startsWith("\t")){
+				startHighlight--;
+			}
+			if(i==sentNum){
 				endHighlight=startHighlight+sentences.get(i).length()-1;
 			}
 		}
 		
 		editTracker.removeAllHighlights();
 		eits.editorBox.repaint();
+		
 		try {
-			editTracker.addHighlight(startHighlight,endHighlight, painter);
+			editTracker.addHighlight(startHighlight+1,endHighlight, painter);
 		} catch (BadLocationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -254,7 +259,6 @@ public class EditorTabDriver {
 				}
 				else
 					main.processButton.setEnabled(true);
-				
 
 				}	
 				
@@ -702,7 +706,7 @@ public class EditorTabDriver {
 		return 0;
 	}
 	
-	public static void spawnNew(GUIMain main){
+	public static void spawnNew(GUIMain main){//spawns xtra tabs
 		if(isFirstRun == false){
 			int answer = JOptionPane.showConfirmDialog(main, "Create new tab to edit document?\n\n" +
 					"Note: Once a version of your document has been processed,\n" +

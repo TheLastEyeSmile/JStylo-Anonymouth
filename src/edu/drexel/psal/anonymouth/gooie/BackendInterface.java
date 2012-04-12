@@ -156,6 +156,7 @@ public class BackendInterface {
 					WekaInstancesBuilder wib = new WekaInstancesBuilder(false);
 					Document currDoc = new Document();
 					currDoc.setText(eits.editorBox.getText().toCharArray());
+					
 					List<Canonicizer> canonList = theOneToUpdate.getCanonicizers();
 					try{
 					Iterator<Canonicizer> canonIter = canonList.iterator();

@@ -160,6 +160,8 @@ public class EditorTabDriver {
 		int sentNum=SentenceTools.getSentNumb();
 		ArrayList<String> sentences=sentenceTools.getSentenceTokens();
 		eits.editorBox.setHighlighter(editTracker);
+		String newText=sentenceTools.getFullDoc();
+		eits.editorBox.setText(newText);
 		for (int i=0;i<sentNum+1;i++){
 			if(i<sentNum){
 				startHighlight+=sentences.get(i).length();

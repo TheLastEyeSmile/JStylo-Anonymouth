@@ -236,6 +236,7 @@ public class SentenceTools {
 			sentsToEdit.add(sentNumber,sentences.get(i));
 			Logger.logln(sentences.get(i));
 		}
+		
 		return sentences;
 	}
 	
@@ -251,7 +252,7 @@ public class SentenceTools {
 		Iterator<String> sentIter = sentsToEdit.iterator();
 		String fullDoc = "";
 		while(sentIter.hasNext()){
-			fullDoc += sentIter.next()+" ";
+			fullDoc += sentIter.next();//+" ";
 		}
 		return fullDoc;
 	}

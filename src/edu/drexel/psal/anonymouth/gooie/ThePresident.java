@@ -101,7 +101,8 @@ public class ThePresident {
 			
 		tempName = tempName.replaceAll("['.?!()<>#\\\\/|\\[\\]{}*\":;`~&^%$@+=,]", "");
 		tempName = tempName.replaceAll(" ", "_");
-		sessionName = tempName;
+		if(tempName != null)
+			sessionName = tempName;
 		//System.out.println(tempName+" "+sessionName);
 		Logger.setFilePrefix("Anonymouth_"+sessionName);
 		Logger.logFile = true;	

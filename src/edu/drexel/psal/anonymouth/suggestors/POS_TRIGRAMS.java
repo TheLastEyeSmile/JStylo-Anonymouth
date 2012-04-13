@@ -5,7 +5,8 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import edu.drexel.psal.anonymouth.suggestors.POS.TheTags;
+import edu.drexel.psal.anonymouth.utils.POS;
+import edu.drexel.psal.anonymouth.utils.POS.TheTags;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
 /**

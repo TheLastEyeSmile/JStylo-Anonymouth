@@ -24,8 +24,9 @@ import edu.drexel.psal.anonymouth.projectDev.FeatureList;
 import edu.drexel.psal.jstylo.eventDrivers.SentenceCounterEventDriver;
 import edu.drexel.psal.jstylo.eventDrivers.WordCounterEventDriver;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
-import edu.drexel.psal.anonymouth.suggestors.POS.TheTags;
 import edu.drexel.psal.anonymouth.suggestors.UNIQUE_WORDS_COUNT;
+import edu.drexel.psal.anonymouth.utils.POS;
+import edu.drexel.psal.anonymouth.utils.POS.TheTags;
 
 /**
  * makes highlighting maps

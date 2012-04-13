@@ -43,7 +43,7 @@ public class SentenceTools {
 	private boolean mustAddToIndex = false;
 	private String[] notEndsOfSentence = {"Dr.","Mr.","Mrs.","Ms.","St.","vs.","U.S.","Sr.","Sgt.","R.N.","pt.","mt.","mts.","M.D.","Ltd.","Jr.","Lt.","Hon.","i.e.","e.x.","inc.",
 			"et al.","est.","ed.","D.C.","B.C.","B.S.","Ph.D.","B.A.","A.B.","A.D.","A.M.","P.M.","Ln.","fig.","p.","pp.","ref.","r.b.i.","V.P.","yr.","yrs.","etc.","..."};
-	
+	//what if a name like F. Scott Fitzgerald
 	
 	/**
 	 * Takes a text (one String representing an entire document), and breaks it up into sentences. Tries to find true ends of sentences: shouldn't break up sentences containing quoted sentences, 
@@ -63,11 +63,22 @@ public class SentenceTools {
 		int closingQuoteIndex = 0;
 		text = text.replaceAll("\u201C","\"");
 		text = text.replaceAll("\u201D","\"");
-		text = text.replaceAll("\\p{C}"," ");
+		text = text.replaceAll("\\p{C}&&[^\\t\\n\\r]"," ");
 		int notEOSNumber = 0;
 		int numNotEOS = notEndsOfSentence.length;
 		String replacementString = "";
 		String safeString = "";
+
+		if(text.contains("\r")){
+			Logger.logln("Found a r");				
+		}
+		if(text.contains("\n")){
+			Logger.logln("Found a n");				
+		}
+		if(text.contains("\t")){
+			Logger.logln("Found a t");				
+		}
+		
 		for(notEOSNumber = 0;notEOSNumber<numNotEOS; notEOSNumber++){
 			replacementString = notEndsOfSentence[notEOSNumber].replaceAll("\\.",PERIOD_REPLACEMENT);
 			//System.out.println("REPLACEMENT: "+replacementString);
@@ -114,6 +125,8 @@ public class SentenceTools {
 				}
 			}
 			safeString = text.substring(currentStart-1,currentStop);
+			
+
 			sentEnd = sentence_quote.matcher(safeString);	
 			isSentence = sentEnd.find();
 			//System.out.println("RESULT OF sentence_quote matching: "+isSentence);
@@ -131,10 +144,11 @@ public class SentenceTools {
 				String prev=sents.remove(sents.size()-1);
 				safeString=prev+safeString;
 			}
-			if (merge1){
+			if (merge1){//makes so that the merge happens on the next pass through
 				merge1=false;
 				mergeFinal=true;
 			}
+			Logger.logln("SAFESTRING: "+safeString);
 			sents.add(safeString);
 			//System.out.println("start minus one: "+(currentStart-1)+" stop: "+currentStop);
 			if(currentStart < 0 || currentStop < 0){
@@ -149,10 +163,7 @@ public class SentenceTools {
 			}
 			foundEOS = sent.find(currentStart);
 		}
-		//totalSentences = sents.size();
-		//sentNumber = 0;
-		//sentenceIterator = sentsToEdit.iterator();
-		//sentsToEdit = sents;
+		
 		return sents;
 	}
 	
@@ -183,7 +194,7 @@ public class SentenceTools {
 			return sentsToEdit.get(sentNumber);
 		}
 		else{
-			System.out.print("RETURN NULL getNext");
+			Logger.logln("RETURN NULL getNext");
 			return null;
 		}
 	}
@@ -199,7 +210,7 @@ public class SentenceTools {
 			return sentsToEdit.get(sentNumber);
 		}
 		else{
-			System.out.print("RETURN NULL getLast");
+			Logger.logln("RETURN NULL getLast");
 			return null;
 		}
 	}
@@ -229,13 +240,12 @@ public class SentenceTools {
 		ArrayList<String> sentences= makeSentenceTokens(editText);
 		int i=0;
 		replaceCurrentSentence(sentences.get(i));
-		Logger.logln(sentences.get(i));
 		for (i=1; i<sentences.size();i++){
 			sentNumber++;
 			totalSentences++;
 			sentsToEdit.add(sentNumber,sentences.get(i));
-			Logger.logln(sentences.get(i));
 		}
+		
 		return sentences;
 	}
 	
@@ -248,10 +258,10 @@ public class SentenceTools {
 	}	
 	
 	public String getFullDoc(){
-		Iterator<String> sentIter = sentsToEdit.iterator();
+		
 		String fullDoc = "";
-		while(sentIter.hasNext()){
-			fullDoc += sentIter.next()+" ";
+		for(int i=0;i<totalSentences;i++){
+			fullDoc += sentsToEdit.get(i);
 		}
 		return fullDoc;
 	}
@@ -273,11 +283,12 @@ public class SentenceTools {
 	*/
 	public static void main(String[] args){
 		SentenceTools ss = new SentenceTools();
-		String testText = "There are many issues with the concept of intelligence and the way it is tested in people. As stated by David Myers, intelligence is the “mental quality consisting of the ability. to learn from experience”, solve problems, and use knowledge “to adapt. to new situations” (2010). Is there really just one intelligence? According to many psychologists, there exists numerous intelligences. One such psychologist, Sternberg, believes there are three: Analytical Intelligence, Creative Intelligence, and Practical Intelligence. Analytical Intelligence is the intelligence assessed by intelligence tests which presents well-defined problems with set answers and predicts school grades reasonably well and to a lesser extent, job success. Creative Intelligence is demonstrated by the way one reacts to certain unforeseen situations in “new” ways. The last of the three is Practical intelligence which is the type of intelligence required for everyday tasks. This is what is used by business managers and the like to manage and motivate people, promote themselves, and delegate tasks efficiently. In contrast to this idea of 3 separate intelligences is the idea of just one intelligence started by Charles Spearman. He thought we had just one intelligence that he called “General Intelligence” which is many times shortened to just: “G”. This G factor was an underlying factor in all areas of our intelligence. Spearman was the one who also developed factor analysis which is a statistics method which allowed him to track different clusters of topics being tested in an intelligence test which showed that those who score higher in one area are more likely to score higher in another. This is the reason why he believed in this concept of G.";
-		//testText = "Hello, Dr., this is my \"test\"ing tex\"t\".\nI need to see if it \"correctly (i.e. nothing goes wrong) ... and finds the first, and every other sentence, etc.. These quotes are silly, and it is 1 A.m. a.m. just for testing purposes.\" No, that isn't a \"real\" \"quote\".";
+		//String testText = "There are many issues with the\n concept of intelligence and the way it is tested in people. As stated by David Myers, intelligence is the “mental quality consisting of the ability. to learn from experience”, solve problems, and use knowledge “to adapt. to new situations” (2010). Is there really just one intelligence? According to many psychologists, there exists numerous intelligences. One such psychologist, Sternberg, believes there are three: Analytical Intelligence, Creative Intelligence, and Practical Intelligence. Analytical Intelligence is the intelligence assessed by intelligence tests which presents well-defined problems with set answers and predicts school grades reasonably well and to a lesser extent, job success.\n \tCreative Intelligence is demonstrated by the way one reacts to certain unforeseen situations in “new” ways. The last of the three is Practical intelligence which is the type of intelligence required for everyday tasks. This is what is used by business managers and the like to manage and motivate people, promote themselves, and delegate tasks efficiently. In contrast to this idea of 3 separate intelligences is the idea of just one intelligence started by Charles Spearman. He thought we had just one intelligence that he called “General Intelligence” which is many times shortened to just: “G”. This G factor was an underlying factor in all areas of our intelligence. Spearman was the one who also developed factor analysis which is a statistics method which allowed him to track different clusters of topics being tested in an intelligence test which showed that those who score higher in one area are more likely to score higher in another. This is the reason why he believed in this concept of G.";
+		String testText = "Hello, Dr., this is my \"test\"ing tex\"t\".\nI need to. See if it \"correctly (i.e. nothing goes wrong) ... and finds the first, and every other sentence, etc.. These quotes are silly, and it is 1 A.m. a.m. just for testing purposes.\" No, that isn't a \"real\" \"quote\".";
 		ArrayList<String> Stok=ss.makeSentenceTokens(testText);
 		Object[] arr = Stok.toArray();
 		for (int i = 0; i<arr.length; i++){
+			System.out.println(arr[i].toString().length());
 			System.out.println(arr[i]);
 		}
 		System.out.println("End");

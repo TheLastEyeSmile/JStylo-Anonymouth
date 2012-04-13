@@ -11,6 +11,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
 
@@ -320,6 +321,7 @@ public class GUIMain extends javax.swing.JFrame {
 			setSize(1024, 768);
 			this.setTitle("Anonymouth");
 			this.setIconImage(new ImageIcon(getClass().getResource(JSANConstants.JSAN_GRAPHICS_PREFIX+"Anonymouth_LOGO.png")).getImage());
+			
 			
 			{
 				mainJTabbedPane = new JTabbedPane();
@@ -1134,6 +1136,8 @@ public class GUIMain extends javax.swing.JFrame {
 					
 					
 				}
+				
+				//editor
 				{
 					theEditorScrollPane = new JScrollPane();
 					mainJTabbedPane.addTab("Editor", null, theEditorScrollPane, null);

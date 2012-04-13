@@ -17,6 +17,9 @@ public class TaggedDocument {
 	public TaggedDocument(){
 		taggedSentences = new ArrayList<TaggedSentence>(PROBABLE_NUM_SENTENCES);
 	}
+	public ArrayList<TaggedSentence> getTaggedSentences(){
+		return taggedSentences;
+	}
 	
 }
 
@@ -42,8 +45,22 @@ class TaggedSentence{
 	public TaggedSentence(String untagged, ArrayList<TaggedWord> tagged){
 		this.untagged = untagged;
 		this.tagged = tagged;
+		update();
+	}
+	public void update(){
 		
 	}
+	
+	public ArrayList<TENSE> getTense(){
+		return tense;
+	}
+	public ArrayList<POV> getPov(){
+		return pointOfView;
+	}
+	public ArrayList<CONJ> getConj(){
+		return conj;
+	}
+	
 	
 	public ArrayList<String> getWordsWithTag(POS tag){
 		wordsToReturn = new ArrayList<String>(tagged.size());// Can't return more words than were tagged
@@ -58,7 +75,7 @@ class TaggedSentence{
 	
 }
 
-class Phrase{
+class IndependentClause{
 	
 	
 	

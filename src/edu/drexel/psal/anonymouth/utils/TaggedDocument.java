@@ -3,19 +3,29 @@ package edu.drexel.psal.anonymouth.utils;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import edu.drexel.psal.anonymouth.suggestors.POS;
 import edu.stanford.nlp.ling.TaggedWord;
 
 public class TaggedDocument {
 	
 	protected ArrayList<TaggedSentence> taggedSentences;
 	protected final int PROBABLE_NUM_SENTENCES = 50;
+	protected ArrayList<ArrayList<TENSE>> tenses;
+	protected ArrayList<ArrayList<POV>> pointsOfView;
+	protected ArrayList<ArrayList<CONJ>> conjugations;
+	
 	
 	public TaggedDocument(){
 		taggedSentences = new ArrayList<TaggedSentence>(PROBABLE_NUM_SENTENCES);
 	}
 	
 }
+
+enum TENSE {PAST,PRESENT,FUTURE};
+
+enum POV {FIRST_PERSON,SECOND_PERSON,THIRD_PERSON};
+
+enum CONJ {SIMPLE,PROGRESSIVE,PERFECT,PERFECT_PROGRESSIVE};
+	
 
 class TaggedSentence{
 	
@@ -24,6 +34,10 @@ class TaggedSentence{
 	protected Iterator<TaggedWord> tagIter;
 	protected TaggedWord taggedWord;
 	protected ArrayList<String> wordsToReturn;
+	protected ArrayList<TENSE> tense;
+	protected ArrayList<POV> pointOfView;
+	protected ArrayList<CONJ> conj;
+	
 	
 	public TaggedSentence(String untagged, ArrayList<TaggedWord> tagged){
 		this.untagged = untagged;
@@ -41,5 +55,12 @@ class TaggedSentence{
 		}
 		return wordsToReturn;
 	}
+	
+}
+
+class Phrase{
+	
+	
+	
 	
 }

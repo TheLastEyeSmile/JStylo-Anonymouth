@@ -162,16 +162,22 @@ public class EditorTabDriver {
 		eits.editorBox.setHighlighter(editTracker);
 		String newText=sentenceTools.getFullDoc();
 		eits.editorBox.setText(newText);
-		
+		boolean fixTabs=false;
 		for (int i=0;i<sentNum+1;i++){
 			if(i<sentNum){
 				startHighlight+=sentences.get(i).length();
 			}
-			if(sentences.get(i).startsWith("\t")){
-				startHighlight--;
-			}
-			if(i==sentNum){
+			else if(i==sentNum){
 				endHighlight=startHighlight+sentences.get(i).length()-1;
+			}
+			if (fixTabs){
+				fixTabs=false;
+				startHighlight-=1;
+			}
+			if(sentences.get(i).startsWith("\n")||sentences.get(i).startsWith("\n")||sentences.get(i).startsWith("\r")){
+				fixTabs=true;
+				Logger.logln("FOUND CHARACTER");
+				//startHighlight++;
 			}
 		}
 		

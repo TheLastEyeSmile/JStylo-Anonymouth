@@ -607,13 +607,13 @@ public class DataAnalyzer{
 			tempCluster = topAttributes[i].getOrderedClusters()[clusterNumber];
 			target = tempCluster.getCentroid();
 			targetSaver += "Attribute: "+topAttributes[i].getFullName()+"  ==> targetValue: "+target+"\n";
-			System.out.println(targetSaver);
 			topAttributes[i].setTargetCentroid(target);
 			topAttributes[i].setTargetValue(target);
 			topAttributes[i].setRangeForTarget(tempCluster.getMinValue(),tempCluster.getMaxValue()); // maybe this should be changed to avg. avs. dev.
 			if((mapMakerSentenceTargetSet && mapMakerCharTargetSet) == false)
 				mapMakerTargetSetter(topAttributes[i].getGenericName(),target);
 		}
+		System.out.println(targetSaver);
 		
 		boolean mustSaveTargets = false;
 		if(mustSaveTargets == true){

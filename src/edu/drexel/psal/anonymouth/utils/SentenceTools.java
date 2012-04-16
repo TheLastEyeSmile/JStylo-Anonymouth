@@ -282,17 +282,20 @@ public class SentenceTools {
 		return sentsToEdit;
 	}
 	
-	public void setSententenceCounter(int sentNumber){
+	public void setSentenceCounter(int sentNumber){
 		this.sentNumber = sentNumber;
 	}
 	
 	public static Document removeUnicodeControlChars(Document dirtyDoc){
 		String newFile =  "./temp/"+dirtyDoc.getTitle();
-		
+		String cleanString;
+		File fileToWrite = new File(newFile);
+		if(fileToWrite.exists() ==true)
+			return new Document(fileToWrite.getAbsolutePath(),dirtyDoc.getAuthor(),dirtyDoc.getTitle());
 		Document cleanDoc = new Document();
 		try {
 			dirtyDoc.load();
-			cleanDoc.setText((dirtyDoc.stringify()).replaceAll("\\p{C}&&[^\\t\\n\\r]"," ").toCharArray());
+			cleanString = dirtyDoc.stringify().replaceAll("\\p{C}&&[^\\t\\n\\r]"," ");
 			cleanDoc.setAuthor(dirtyDoc.getAuthor());
 			cleanDoc.setTitle(dirtyDoc.getTitle());
 			FileWriter fw = new FileWriter(new File("./temp/"+dirtyDoc.getTitle()));

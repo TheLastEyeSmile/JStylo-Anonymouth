@@ -463,7 +463,9 @@ public class BackendInterface {
 			 ArrayList<String> sentences=EditorTabDriver.sentenceTools.makeSentenceTokens(eits.editorBox.getText());
 			EditorTabDriver.sentenceTools.setSentsToEdit(sentences);
 			EditorTabDriver.sentenceTools.setNumberSentences(sentences.size());
-			eits.getSentenceEditPane().setText(EditorTabDriver.sentenceTools.getNext());
+			eits.getSentenceEditPane().setText(EditorTabDriver.getHelpMessege()+" ");//the space is to differentiate this from the messege in a new inner tab.
+			eits.sentenceEditPane.setEnabled(true);
+			eits.sentenceEditPane.setEditable(false);
 			main.nextSentenceButton.setEnabled(true);
 			main.lastSentenceButton.setEnabled(true);
 			Logger.logln("Finished in BackendInterface - postTargetSelection");

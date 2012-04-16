@@ -144,6 +144,11 @@ public class EditorTabDriver {
 	protected static Highlighter.HighlightPainter painter;
 	private static final Color HILIT_COLOR = Color.yellow;
 	
+	private final static String helpMessege="Edit the sentence in this box.\n" +
+			"Go to the next/previous sentences by clicking the corresponding buttons.\n" +
+			"To edit multiple sentences at once, you can append the next sentence using the respective button.\n" +
+			"Clicking the features to the right will give you suggestions to help anonymize your paper.";
+	
 	protected static void signalTargetsSelected(GUIMain main, boolean goodToGo){
 		if(goodToGo == true)
 			BackendInterface.postTargetSelectionProcessing(main, wizard, magician, cpb);
@@ -191,6 +196,10 @@ public class EditorTabDriver {
 			e.printStackTrace();
 			Logger.logln("Error highlighting the block");
 		}
+	}
+	
+	public static String getHelpMessege(){
+		return helpMessege;
 	}
 	
 	protected static void initListeners(final GUIMain main){
@@ -276,7 +285,14 @@ public class EditorTabDriver {
 			@Override
 			public void actionPerformed(ActionEvent arg0){
 				if(!eits.sentenceEditPane.isEditable()){
-					spawnNew(main);
+					if(!eits.sentenceEditPane.getText().equals(helpMessege)){
+						spawnNew(main);
+					}
+					else{
+						eits.sentenceEditPane.setEditable(true);
+						eits.sentenceEditPane.setText(sentenceTools.getNext());
+						trackEditSentence();
+					}
 				}
 				else{
 					Logger.logln("next sentence button pressed.");
@@ -301,7 +317,14 @@ public class EditorTabDriver {
 			@Override
 			public void actionPerformed(ActionEvent arg0){
 				if(!eits.sentenceEditPane.isEditable()){
-					spawnNew(main);
+					if(!eits.sentenceEditPane.getText().equals(helpMessege)){
+						spawnNew(main);
+					}
+					else{
+						eits.sentenceEditPane.setEditable(true);
+						eits.sentenceEditPane.setText(sentenceTools.getNext());
+						trackEditSentence();
+					}
 				}
 				else{
 					Logger.logln("last sentence button pressed.");
@@ -310,7 +333,7 @@ public class EditorTabDriver {
 					String tempSent=sentenceTools.getLast();
 					if(tempSent!=null)
 						eits.getSentenceEditPane().setText(tempSent);
-					else {
+					else {//should no longer get here
 						ArrayList<String> Stok=sentenceTools.getSentenceTokens();
 						tempSent=Stok.get(0);
 						eits.getSentenceEditPane().setText(tempSent);
@@ -327,7 +350,14 @@ public class EditorTabDriver {
 			@Override
 			public void actionPerformed(ActionEvent arg0){
 				if(!eits.sentenceEditPane.isEditable()){
-					spawnNew(main);
+					if(!eits.sentenceEditPane.getText().equals(helpMessege)){
+						spawnNew(main);
+					}
+					else{
+						eits.sentenceEditPane.setEditable(true);
+						eits.sentenceEditPane.setText(sentenceTools.getNext());
+						trackEditSentence();
+					}
 				}
 				else{
 					//Logger.logln(eits.getSentenceEditPane().getText());
@@ -745,9 +775,9 @@ public class EditorTabDriver {
 				initEditorInnerTabListeners(main);
 				main.processButton.setEnabled(true);
 				eits.editorBox.setEnabled(false);
-				//sentenceTools.setSentenceCounter(-1);
+				sentenceTools.setSentenceCounter(-1);
 				eits.sentenceEditPane.setEnabled(true);
-				eits.sentenceEditPane.setText(sentenceTools.getLast());
+				eits.sentenceEditPane.setText(helpMessege);
 				eits.editorBox.setText(sentenceTools.getFullDoc());
 				nextTabIndex++;
 			}

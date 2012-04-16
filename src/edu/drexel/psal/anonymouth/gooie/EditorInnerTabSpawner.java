@@ -157,7 +157,8 @@ public class EditorInnerTabSpawner {
                                         Style defaultStyle = sc.getStyle(StyleContext.DEFAULT_STYLE);
                                         Style editBoxStyle = sc.addStyle("EditBoxStyle", defaultStyle);
                                         StyleConstants.setFontSize(editBoxStyle, 14);
-                                        sentenceEditPane.setText("This is where the sentence you are currently editing will go.");
+                                        sentenceEditPane.setText("Please press the Process button now.");
+                                        sentenceEditPane.setEditable(false);
                                         sentenceEditPane.setPreferredSize(new java.awt.Dimension(740, 82));
                                         doc.setLogicalStyle(0, editBoxStyle);
                                     }
@@ -193,6 +194,7 @@ public class EditorInnerTabSpawner {
                                         editorBox = new JTextPane();
                                         editBox.setViewportView(editorBox);
                                         editorBox.setText("This is where the latest version of your document will be.");
+                                        editorBox.setEditable(false);
                                     }
                                 }
                             }

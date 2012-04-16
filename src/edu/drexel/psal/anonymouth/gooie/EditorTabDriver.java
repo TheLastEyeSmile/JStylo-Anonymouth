@@ -144,6 +144,11 @@ public class EditorTabDriver {
 	protected static Highlighter.HighlightPainter painter;
 	private static final Color HILIT_COLOR = Color.yellow;
 	
+	private final static String helpMessege="Edit the sentence in this box.\n" +
+			"Go to the next/previous sentences by clicking the corresponding buttons.\n" +
+			"To edit multiple sentences at once, you can append the next sentence using the respective button.\n" +
+			"Clicking the features to the right will give you suggestions to help anonymize your paper.";
+	
 	protected static void signalTargetsSelected(GUIMain main, boolean goodToGo){
 		if(goodToGo == true)
 			BackendInterface.postTargetSelectionProcessing(main, wizard, magician, cpb);
@@ -191,6 +196,10 @@ public class EditorTabDriver {
 			e.printStackTrace();
 			Logger.logln("Error highlighting the block");
 		}
+	}
+	
+	public static String getHelpMessege(){
+		return helpMessege;
 	}
 	
 	protected static void initListeners(final GUIMain main){
@@ -275,6 +284,17 @@ public class EditorTabDriver {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0){
+				if(!eits.sentenceEditPane.isEditable()){
+					if(!eits.sentenceEditPane.getText().equals(helpMessege)){
+						spawnNew(main);
+					}
+					else{
+						eits.sentenceEditPane.setEditable(true);
+						eits.sentenceEditPane.setText(sentenceTools.getNext());
+						trackEditSentence();
+					}
+				}
+				else{
 					Logger.logln("next sentence button pressed.");
 					sentenceTools.checkNumSent(eits.getSentenceEditPane().getText());
 					//sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
@@ -287,6 +307,7 @@ public class EditorTabDriver {
 						eits.getSentenceEditPane().setText(tempSent);
 					}
 					trackEditSentence();
+				}
 			}
 			
 		});
@@ -295,18 +316,30 @@ public class EditorTabDriver {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0){
-				Logger.logln("last sentence button pressed.");
-				sentenceTools.checkNumSent(eits.getSentenceEditPane().getText());
-				//sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
-				String tempSent=sentenceTools.getLast();
-				if(tempSent!=null)
-					eits.getSentenceEditPane().setText(tempSent);
-				else {
-					ArrayList<String> Stok=sentenceTools.getSentenceTokens();
-					tempSent=Stok.get(0);
-					eits.getSentenceEditPane().setText(tempSent);
+				if(!eits.sentenceEditPane.isEditable()){
+					if(!eits.sentenceEditPane.getText().equals(helpMessege)){
+						spawnNew(main);
+					}
+					else{
+						eits.sentenceEditPane.setEditable(true);
+						eits.sentenceEditPane.setText(sentenceTools.getNext());
+						trackEditSentence();
+					}
 				}
-				trackEditSentence();
+				else{
+					Logger.logln("last sentence button pressed.");
+					sentenceTools.checkNumSent(eits.getSentenceEditPane().getText());
+					//sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
+					String tempSent=sentenceTools.getLast();
+					if(tempSent!=null)
+						eits.getSentenceEditPane().setText(tempSent);
+					else {//should no longer get here
+						ArrayList<String> Stok=sentenceTools.getSentenceTokens();
+						tempSent=Stok.get(0);
+						eits.getSentenceEditPane().setText(tempSent);
+					}
+					trackEditSentence();
+				}
 				
 			}
 			
@@ -316,6 +349,17 @@ public class EditorTabDriver {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0){
+				if(!eits.sentenceEditPane.isEditable()){
+					if(!eits.sentenceEditPane.getText().equals(helpMessege)){
+						spawnNew(main);
+					}
+					else{
+						eits.sentenceEditPane.setEditable(true);
+						eits.sentenceEditPane.setText(sentenceTools.getNext());
+						trackEditSentence();
+					}
+				}
+				else{
 					//Logger.logln(eits.getSentenceEditPane().getText());
 					Logger.logln("Add sentence button pressed.");
 					//sentenceTools.checkNumSent(eits.getSentenceEditPane().getText());
@@ -325,7 +369,7 @@ public class EditorTabDriver {
 					else
 						tempSent="";
 					trackEditSentence();
-					
+				}
 			}
 			
 		});
@@ -482,7 +526,7 @@ public class EditorTabDriver {
 					//System.out.println("about to call suggestor.");
 					if(!main.suggestionTable.getSelectionModel().getValueIsAdjusting()){
 						okayToSelectSuggestion =false;
-						if(eits.editorBox.isEditable() == false){
+						if(eits.sentenceEditPane.isEditable() == false){
 							spawnNew(main);
 						}
 						//System.out.println("Table clicked");
@@ -713,7 +757,7 @@ public class EditorTabDriver {
 	}
 	
 	public static void spawnNew(GUIMain main){//spawns xtra tabs
-		if(isFirstRun == false){
+		if(!isFirstRun){
 			int answer = JOptionPane.showConfirmDialog(main, "Create new tab to edit document?\n\n" +
 					"Note: Once a version of your document has been processed,\n" +
 					"it may no longer be edited. However, by clicking on the text you wish\n" +
@@ -721,7 +765,7 @@ public class EditorTabDriver {
 			if( answer == 0){
 				Logger.logln("Creating new editor inner tab");
 				//System.out.println("EDIT TABBED PANE SELECTED INDEX at spawn: "+EditorTabDriver.selectedIndexTP);
-	
+			
 				String nameFirstHalf = main.editTP.getTitleAt(selectedIndexTP);
 				if(!nameFirstHalf.equals("Original"))
 					nameFirstHalf = nameFirstHalf.substring(nameFirstHalf.indexOf("->")+2);
@@ -730,10 +774,16 @@ public class EditorTabDriver {
 				main.editTP.setSelectedIndex(nextTabIndex);
 				initEditorInnerTabListeners(main);
 				main.processButton.setEnabled(true);
+				eits.editorBox.setEnabled(false);
+				sentenceTools.setSentenceCounter(-1);
+				eits.sentenceEditPane.setEnabled(true);
+				eits.sentenceEditPane.setText(helpMessege);
+				eits.editorBox.setText(sentenceTools.getFullDoc());
 				nextTabIndex++;
 			}
 			else
 				Logger.logln("User Chose not to create a new tab when prompted.");
+			
 		}
 	}
 	
@@ -784,7 +834,7 @@ public class EditorTabDriver {
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				if(!eits.editorBox.isEditable()){
+				if(!eits.sentenceEditPane.isEditable()){
 					spawnNew(main);
 				}
 				

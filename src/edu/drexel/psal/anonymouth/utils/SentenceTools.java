@@ -158,6 +158,7 @@ public class SentenceTools {
 				merge1=false;
 				mergeFinal=true;
 			}
+			
 			sents.add(safeString);
 			//System.out.println("start minus one: "+(currentStart-1)+" stop: "+currentStop);
 			if(currentStart < 0 || currentStop < 0){
@@ -203,7 +204,7 @@ public class SentenceTools {
 			return sentsToEdit.get(sentNumber);
 		}
 		else{
-			Logger.logln("RETURN NULL getNext");
+			Logger.logln("ERROR: SentNumber cannot exceed the total sentences.");
 			return null;
 		}
 	}
@@ -220,22 +221,26 @@ public class SentenceTools {
 			return sentsToEdit.get(sentNumber);
 		}
 		else{
-			Logger.logln("RETURN NULL getLast");
-			return null;
+			Logger.logln("Returned first sentence");
+			sentNumber=0;
+			return sentsToEdit.get(0);
 		}
 	}
 	
 	/**
 	 * adds the next sentence to the current one.
-	 * @retrun the concatenation of the current sentence and the next sentence.
+	 * @return the concatenation of the current sentence and the next sentence.
 	 */
 	public String addNextSent() {
-		if(sentNumber <totalSentences-1){
+		if(sentNumber <totalSentences-1||sentNumber>=0){
 			totalSentences--;
 			String tempSent=sentsToEdit.remove(sentNumber+1);
 			String newSent=sentsToEdit.get(sentNumber)+tempSent;
 			replaceCurrentSentence(newSent);
 			return newSent;
+		}
+		if(sentNumber<0){
+			sentNumber=0;
 		}
 		return sentsToEdit.get(sentNumber);
 		

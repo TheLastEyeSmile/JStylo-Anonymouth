@@ -275,6 +275,10 @@ public class EditorTabDriver {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0){
+				if(!eits.sentenceEditPane.isEditable()){
+					spawnNew(main);
+				}
+				else{
 					Logger.logln("next sentence button pressed.");
 					sentenceTools.checkNumSent(eits.getSentenceEditPane().getText());
 					//sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
@@ -287,6 +291,7 @@ public class EditorTabDriver {
 						eits.getSentenceEditPane().setText(tempSent);
 					}
 					trackEditSentence();
+				}
 			}
 			
 		});
@@ -295,18 +300,23 @@ public class EditorTabDriver {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0){
-				Logger.logln("last sentence button pressed.");
-				sentenceTools.checkNumSent(eits.getSentenceEditPane().getText());
-				//sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
-				String tempSent=sentenceTools.getLast();
-				if(tempSent!=null)
-					eits.getSentenceEditPane().setText(tempSent);
-				else {
-					ArrayList<String> Stok=sentenceTools.getSentenceTokens();
-					tempSent=Stok.get(0);
-					eits.getSentenceEditPane().setText(tempSent);
+				if(!eits.sentenceEditPane.isEditable()){
+					spawnNew(main);
 				}
-				trackEditSentence();
+				else{
+					Logger.logln("last sentence button pressed.");
+					sentenceTools.checkNumSent(eits.getSentenceEditPane().getText());
+					//sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
+					String tempSent=sentenceTools.getLast();
+					if(tempSent!=null)
+						eits.getSentenceEditPane().setText(tempSent);
+					else {
+						ArrayList<String> Stok=sentenceTools.getSentenceTokens();
+						tempSent=Stok.get(0);
+						eits.getSentenceEditPane().setText(tempSent);
+					}
+					trackEditSentence();
+				}
 				
 			}
 			
@@ -316,6 +326,10 @@ public class EditorTabDriver {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0){
+				if(!eits.sentenceEditPane.isEditable()){
+					spawnNew(main);
+				}
+				else{
 					//Logger.logln(eits.getSentenceEditPane().getText());
 					Logger.logln("Add sentence button pressed.");
 					//sentenceTools.checkNumSent(eits.getSentenceEditPane().getText());
@@ -325,7 +339,7 @@ public class EditorTabDriver {
 					else
 						tempSent="";
 					trackEditSentence();
-					
+				}
 			}
 			
 		});
@@ -482,7 +496,7 @@ public class EditorTabDriver {
 					//System.out.println("about to call suggestor.");
 					if(!main.suggestionTable.getSelectionModel().getValueIsAdjusting()){
 						okayToSelectSuggestion =false;
-						if(eits.editorBox.isEditable() == false){
+						if(eits.sentenceEditPane.isEditable() == false){
 							spawnNew(main);
 						}
 						//System.out.println("Table clicked");
@@ -713,7 +727,7 @@ public class EditorTabDriver {
 	}
 	
 	public static void spawnNew(GUIMain main){//spawns xtra tabs
-		if(isFirstRun == false){
+		if(!isFirstRun){
 			int answer = JOptionPane.showConfirmDialog(main, "Create new tab to edit document?\n\n" +
 					"Note: Once a version of your document has been processed,\n" +
 					"it may no longer be edited. However, by clicking on the text you wish\n" +
@@ -721,7 +735,7 @@ public class EditorTabDriver {
 			if( answer == 0){
 				Logger.logln("Creating new editor inner tab");
 				//System.out.println("EDIT TABBED PANE SELECTED INDEX at spawn: "+EditorTabDriver.selectedIndexTP);
-	
+			
 				String nameFirstHalf = main.editTP.getTitleAt(selectedIndexTP);
 				if(!nameFirstHalf.equals("Original"))
 					nameFirstHalf = nameFirstHalf.substring(nameFirstHalf.indexOf("->")+2);
@@ -730,10 +744,16 @@ public class EditorTabDriver {
 				main.editTP.setSelectedIndex(nextTabIndex);
 				initEditorInnerTabListeners(main);
 				main.processButton.setEnabled(true);
+				eits.editorBox.setEnabled(false);
+				//sentenceTools.setSentenceCounter(-1);
+				eits.sentenceEditPane.setEnabled(true);
+				eits.sentenceEditPane.setText(sentenceTools.getLast());
+				eits.editorBox.setText(sentenceTools.getFullDoc());
 				nextTabIndex++;
 			}
 			else
 				Logger.logln("User Chose not to create a new tab when prompted.");
+			
 		}
 	}
 	
@@ -784,7 +804,7 @@ public class EditorTabDriver {
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				if(!eits.editorBox.isEditable()){
+				if(!eits.sentenceEditPane.isEditable()){
 					spawnNew(main);
 				}
 				

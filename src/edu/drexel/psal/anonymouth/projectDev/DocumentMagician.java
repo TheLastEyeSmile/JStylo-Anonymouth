@@ -155,7 +155,7 @@ public class DocumentMagician {
 	
 	public static String authorToRemove;
 	
-	private String dummyName = "~* you *~";
+	public static final String dummyName = "~* you *~";
 	
 	private Classifier theClassifier;
 	

@@ -1,6 +1,12 @@
 package edu.drexel.psal.anonymouth.utils;
 
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,6 +19,8 @@ import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
+
+import com.jgaap.generics.Document;
 
 import edu.drexel.psal.jstylo.generics.Logger;
 
@@ -197,11 +205,12 @@ public class SentenceTools {
 			return null;
 		}
 	}
-	/*
+	
+	
+	/**
 	 * gets the previous sentence.
 	 * @return the string of the previous sentence 
 	 */
-	
 	public String getLast(){
 		if(sentNumber >0){
 			sentNumber--;
@@ -214,7 +223,7 @@ public class SentenceTools {
 		}
 	}
 	
-	/*
+	/**
 	 * adds the next sentence to the current one.
 	 * @retrun the concatenation of the current sentence and the next sentence.
 	 */
@@ -229,7 +238,11 @@ public class SentenceTools {
 		return sentsToEdit.get(sentNumber);
 		
 	}
-	/*
+	
+	
+	
+	
+	/**
 	 * makes sure the text in the edit sentence box is just one sentence.
 	 * In the case of multiple sentences, it updates the list so that each sentence has its own index.
 	 * @return a list of the sentences in the box 
@@ -268,6 +281,31 @@ public class SentenceTools {
 	public ArrayList<String> getSentenceTokens(){
 		return sentsToEdit;
 	}
+	
+	public void setSententenceCounter(int sentNumber){
+		this.sentNumber = sentNumber;
+	}
+	
+	public static Document removeUnicodeControlChars(Document dirtyDoc){
+		String newFile =  "./temp/"+dirtyDoc.getTitle();
+		
+		Document cleanDoc = new Document();
+		try {
+			dirtyDoc.load();
+			cleanDoc.setText((dirtyDoc.stringify()).replaceAll("\\p{C}&&[^\\t\\n\\r]"," ").toCharArray());
+			cleanDoc.setAuthor(dirtyDoc.getAuthor());
+			cleanDoc.setTitle(dirtyDoc.getTitle());
+			FileWriter fw = new FileWriter(new File("./temp/"+dirtyDoc.getTitle()));
+			return cleanDoc;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Logger.logln("ERROR! Could not load document: "+dirtyDoc.getTitle()+" (SentenceTools.removeUnicodeControlChars)");
+			return dirtyDoc;
+		}
+	}
+		
+	
 //}	
 	
 	/*
@@ -282,7 +320,7 @@ public class SentenceTools {
 	*/
 	public static void main(String[] args){
 		SentenceTools ss = new SentenceTools();
-		//String testText = "There are many issues with the\n concept of intelligence and the way it is tested in people. As stated by David Myers, intelligence is the “mental quality consisting of the ability. to learn from experience”, solve problems, and use knowledge “to adapt. to new situations” (2010). Is there really just one intelligence? According to many psychologists, there exists numerous intelligences. One such psychologist, Sternberg, believes there are three: Analytical Intelligence, Creative Intelligence, and Practical Intelligence. Analytical Intelligence is the intelligence assessed by intelligence tests which presents well-defined problems with set answers and predicts school grades reasonably well and to a lesser extent, job success.\n \tCreative Intelligence is demonstrated by the way one reacts to certain unforeseen situations in “new” ways. The last of the three is Practical intelligence which is the type of intelligence required for everyday tasks. This is what is used by business managers and the like to manage and motivate people, promote themselves, and delegate tasks efficiently. In contrast to this idea of 3 separate intelligences is the idea of just one intelligence started by Charles Spearman. He thought we had just one intelligence that he called “General Intelligence” which is many times shortened to just: “G”. This G factor was an underlying factor in all areas of our intelligence. Spearman was the one who also developed factor analysis which is a statistics method which allowed him to track different clusters of topics being tested in an intelligence test which showed that those who score higher in one area are more likely to score higher in another. This is the reason why he believed in this concept of G.";
+		//String testText = "There are many issues with the\n concept of intelligence and the way it is tested in people. As stated by David Myers, intelligence is the ï¿½mental quality consisting of the ability. to learn from experienceï¿½, solve problems, and use knowledge ï¿½to adapt. to new situationsï¿½ (2010). Is there really just one intelligence? According to many psychologists, there exists numerous intelligences. One such psychologist, Sternberg, believes there are three: Analytical Intelligence, Creative Intelligence, and Practical Intelligence. Analytical Intelligence is the intelligence assessed by intelligence tests which presents well-defined problems with set answers and predicts school grades reasonably well and to a lesser extent, job success.\n \tCreative Intelligence is demonstrated by the way one reacts to certain unforeseen situations in ï¿½newï¿½ ways. The last of the three is Practical intelligence which is the type of intelligence required for everyday tasks. This is what is used by business managers and the like to manage and motivate people, promote themselves, and delegate tasks efficiently. In contrast to this idea of 3 separate intelligences is the idea of just one intelligence started by Charles Spearman. He thought we had just one intelligence that he called ï¿½General Intelligenceï¿½ which is many times shortened to just: ï¿½Gï¿½. This G factor was an underlying factor in all areas of our intelligence. Spearman was the one who also developed factor analysis which is a statistics method which allowed him to track different clusters of topics being tested in an intelligence test which showed that those who score higher in one area are more likely to score higher in another. This is the reason why he believed in this concept of G.";
 		String testText = "Hello, Dr., this is my \"test\"ing tex\"t\".\nI need to. See if it \"correctly (i.e. nothing goes wrong) ... and finds the first, and every other sentence, etc.. These quotes are silly, and it is 1 A.m. a.m. just for testing purposes.\" No, that isn't a \"real\" \"quote\".";
 		ArrayList<String> Stok=ss.makeSentenceTokens(testText);
 		Object[] arr = Stok.toArray();

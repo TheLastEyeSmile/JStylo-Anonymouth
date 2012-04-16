@@ -148,7 +148,6 @@ public class SentenceTools {
 				merge1=false;
 				mergeFinal=true;
 			}
-			Logger.logln("SAFESTRING: "+safeString);
 			sents.add(safeString);
 			//System.out.println("start minus one: "+(currentStart-1)+" stop: "+currentStop);
 			if(currentStart < 0 || currentStop < 0){

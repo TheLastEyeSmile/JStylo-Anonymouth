@@ -5,6 +5,13 @@ import java.util.Iterator;
 
 import edu.stanford.nlp.ling.TaggedWord;
 
+
+enum TENSE {PAST,PRESENT,FUTURE};
+
+enum POV {FIRST_PERSON,SECOND_PERSON,THIRD_PERSON};
+
+enum CONJ {SIMPLE,PROGRESSIVE,PERFECT,PERFECT_PROGRESSIVE};
+
 public class TaggedDocument {
 	
 	protected ArrayList<TaggedSentence> taggedSentences;
@@ -22,12 +29,6 @@ public class TaggedDocument {
 	}
 	
 }
-
-enum TENSE {PAST,PRESENT,FUTURE};
-
-enum POV {FIRST_PERSON,SECOND_PERSON,THIRD_PERSON};
-
-enum CONJ {SIMPLE,PROGRESSIVE,PERFECT,PERFECT_PROGRESSIVE};
 	
 
 class TaggedSentence{

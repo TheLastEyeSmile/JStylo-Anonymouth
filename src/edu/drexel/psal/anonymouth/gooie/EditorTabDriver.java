@@ -784,8 +784,7 @@ public class EditorTabDriver {
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				if(eits.editorBox.isEditable() == false){
-					
+				if(!eits.editorBox.isEditable()){
 					spawnNew(main);
 				}
 				

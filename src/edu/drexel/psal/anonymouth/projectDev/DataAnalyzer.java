@@ -537,15 +537,17 @@ public class DataAnalyzer{
 		Logger.logln("called runIntitial in DataAnalyzer");
 		//String authorToRemove = magician.loadExampleSet();
 		List<Document> tempTrainDocs = pSet.getAllTrainDocs();
+		/*
 		for (Document d:tempTrainDocs){
 			pSet.removeTrainDocAt(d.getAuthor(),d);
 			pSet.addTrainDoc(d.getAuthor(), SentenceTools.removeUnicodeControlChars(d));
 		}
+		*/
 		List<Document> tempTestDocs = pSet.getTestDocs();
 		for (Document d:tempTestDocs){
 			d.setAuthor(DocumentMagician.dummyName);
-			pSet.removeTestDoc(d);
-			pSet.addTestDoc(SentenceTools.removeUnicodeControlChars(d));
+			//pSet.removeTestDoc(d);
+			//pSet.addTestDoc(SentenceTools.removeUnicodeControlChars(d));
 		}
 		magician.initialDocToData(pSet,cfd, classifier);
 		runGeneric(magician);

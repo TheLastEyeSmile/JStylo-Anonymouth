@@ -2,6 +2,7 @@ package edu.drexel.psal.anonymouth.utils;
 
 import java.awt.Color;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -22,6 +23,7 @@ import javax.swing.text.Highlighter;
 
 import com.jgaap.generics.Document;
 
+import edu.drexel.psal.anonymouth.gooie.ThePresident;
 import edu.drexel.psal.jstylo.generics.Logger;
 
 /**
@@ -287,18 +289,27 @@ public class SentenceTools {
 	}
 	
 	public static Document removeUnicodeControlChars(Document dirtyDoc){
-		String newFile =  "./temp/"+dirtyDoc.getTitle();
+		String newLocation = ThePresident.TEMP_DIR+dirtyDoc.getTitle();
 		String cleanString;
-		File fileToWrite = new File(newFile);
-		if(fileToWrite.exists() ==true)
-			return new Document(fileToWrite.getAbsolutePath(),dirtyDoc.getAuthor(),dirtyDoc.getTitle());
-		Document cleanDoc = new Document();
+		File fileToWrite = new File(newLocation);
+		if(ThePresident.shouldKeepTempCleanDocs == false)
+			fileToWrite.deleteOnExit();
 		try {
+			if(fileToWrite.exists() ==true){
+				Document cleanDoc  = new Document(fileToWrite.getAbsolutePath(),dirtyDoc.getAuthor(),dirtyDoc.getTitle());
+				cleanDoc.load();
+				return cleanDoc;
+			}
 			dirtyDoc.load();
-			cleanString = dirtyDoc.stringify().replaceAll("\\p{C}&&[^\\t\\n\\r]"," ");
-			cleanDoc.setAuthor(dirtyDoc.getAuthor());
-			cleanDoc.setTitle(dirtyDoc.getTitle());
-			FileWriter fw = new FileWriter(new File("./temp/"+dirtyDoc.getTitle()));
+			cleanString = dirtyDoc.stringify().replaceAll("\\p{C}"/*&&[^\\t\\n\\r]"&&[\u202d]"*/," ");
+			FileWriter fw = new FileWriter(fileToWrite);
+			BufferedWriter buff = new BufferedWriter(fw);
+			buff.write(cleanString);
+			buff.close();
+			Document cleanDoc = new Document(fileToWrite.getAbsolutePath(),dirtyDoc.getAuthor(),dirtyDoc.getTitle());
+			cleanDoc.load();
+			System.out.println("Clean doc: "+cleanDoc.getAuthor()+" => "+cleanDoc.getFilePath()+" => "+cleanDoc.getTitle());
+			System.out.println("Dirty doc: "+dirtyDoc.getAuthor()+" => "+dirtyDoc.getFilePath()+" => "+dirtyDoc.getTitle());
 			return cleanDoc;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -320,7 +331,7 @@ public class SentenceTools {
 		editedText = editedText.substring(0,editedText.length()-1);
 		return editedText;
 	}
-	*/
+	
 	public static void main(String[] args){
 		SentenceTools ss = new SentenceTools();
 		//String testText = "There are many issues with the\n concept of intelligence and the way it is tested in people. As stated by David Myers, intelligence is the �mental quality consisting of the ability. to learn from experience�, solve problems, and use knowledge �to adapt. to new situations� (2010). Is there really just one intelligence? According to many psychologists, there exists numerous intelligences. One such psychologist, Sternberg, believes there are three: Analytical Intelligence, Creative Intelligence, and Practical Intelligence. Analytical Intelligence is the intelligence assessed by intelligence tests which presents well-defined problems with set answers and predicts school grades reasonably well and to a lesser extent, job success.\n \tCreative Intelligence is demonstrated by the way one reacts to certain unforeseen situations in �new� ways. The last of the three is Practical intelligence which is the type of intelligence required for everyday tasks. This is what is used by business managers and the like to manage and motivate people, promote themselves, and delegate tasks efficiently. In contrast to this idea of 3 separate intelligences is the idea of just one intelligence started by Charles Spearman. He thought we had just one intelligence that he called �General Intelligence� which is many times shortened to just: �G�. This G factor was an underlying factor in all areas of our intelligence. Spearman was the one who also developed factor analysis which is a statistics method which allowed him to track different clusters of topics being tested in an intelligence test which showed that those who score higher in one area are more likely to score higher in another. This is the reason why he believed in this concept of G.";
@@ -334,7 +345,7 @@ public class SentenceTools {
 		System.out.println("End");
 		
 	}
-
+*/
 	public void setSentsToEdit(ArrayList<String> tokens) {
 		// used in backend interface.
 		sentsToEdit=tokens;

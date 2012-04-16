@@ -12,7 +12,10 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.util.*;
 
 import edu.drexel.psal.JSANConstants;
@@ -291,6 +294,7 @@ public class GUIMain extends javax.swing.JFrame {
 				}
 				inst = new GUIMain();
 				inst.setDefaultCloseOperation(EXIT_ON_CLOSE);
+			
 				inst.setLocationRelativeTo(null);
 				inst.setVisible(true);
 			}
@@ -301,6 +305,7 @@ public class GUIMain extends javax.swing.JFrame {
 		super();
 		initData();
 		initGUI();
+		
 	}
 
 	private void initData() {
@@ -1480,9 +1485,6 @@ public class GUIMain extends javax.swing.JFrame {
 					}
 				}
 			
-			
-
-
 				
 					// bottom toolbar buttons
 					// ======================

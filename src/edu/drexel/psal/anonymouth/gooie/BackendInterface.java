@@ -223,10 +223,8 @@ public class BackendInterface {
 				ErrorHandler.fatalError();
 			}
 			*/
-			if(parsed != null){
-				EditorTabDriver.consolidator = new ConsolidationStation(EditorTabDriver.attribs,parsed);
-				EditorTabDriver.consolidator.beginConsolidation();
-			}
+			EditorTabDriver.consolidator = new ConsolidationStation(EditorTabDriver.attribs);
+			EditorTabDriver.consolidator.beginConsolidation();
 			
 		}
 	}

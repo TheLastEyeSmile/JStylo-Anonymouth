@@ -5,6 +5,11 @@ import java.util.HashMap;
 
 import edu.drexel.psal.anonymouth.projectDev.Attribute;
 
+/**
+ * 
+ * @author Andrew W.E. McDonald
+ *
+ */
 public class ConsolidationStation {
 	
 	Attribute[] attribs;
@@ -17,7 +22,7 @@ public class ConsolidationStation {
 	 * @param attribs
 	 * @param parsed
 	 */
-	public ConsolidationStation(Attribute[] attribs, HashMap<String,ArrayList<TreeData>> parsed){
+	public ConsolidationStation(Attribute[] attribs){
 		this.attribs = attribs;
 		this.parsed = parsed;
 		toAdd = new ArrayList<Triple>(400);

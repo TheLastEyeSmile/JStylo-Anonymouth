@@ -64,7 +64,7 @@ public class TaggedDocument{
 	 */
 	public TaggedDocument(String untaggedDocument){
 		tagger_ok = initMaxentTagger();
-		Logger.logln("MaxentTagger initialization in TaggedDocument status: "+tagger_ok);
+		 Logger.logln("MaxentTagger initialization in TaggedDocument status: "+tagger_ok);
 		jigsaw = new SentenceTools();
 		taggedSentences = new ArrayList<TaggedSentence>(PROBABLE_NUM_SENTENCES);
 		if(tagger_ok == true)
@@ -115,7 +115,7 @@ public class TaggedDocument{
 		ArrayList<String> untaggedSentences = jigsaw.makeSentenceTokens(untagged);
 		totalSentences=untaggedSentences.size();
 		ArrayList<TaggedSentence> taggedSentences = new ArrayList<TaggedSentence>(untaggedSentences.size());
-		sentencesPreTagging = new ArrayList<List<? extends HasWord>>();
+		//sentencesPreTagging = new ArrayList<List<? extends HasWord>>();
 		strIter = untaggedSentences.iterator();
 		String tempSent;
 		while(strIter.hasNext()){
@@ -123,7 +123,9 @@ public class TaggedDocument{
 			TaggedSentence taggedSentence = new TaggedSentence(tempSent);
 			toke = tlp.getTokenizerFactory().getTokenizer(new StringReader(tempSent));
 			sentenceTokenized = toke.tokenize();
+			
 			taggedSentence.setTaggedSentence(mt.tagSentence(sentenceTokenized));
+			taggedSentence.setGrammarStats();
 			taggedSentences.add(taggedSentence); 
 		}
 		if(appendTaggedSentencesToGlobalArrayList == true){
@@ -143,10 +145,10 @@ public class TaggedDocument{
 	 * gets the next sentence
 	 * @return
 	 */
-	/*public String getNextSentence(){
+	public String getNextSentence(){
 		if(sentNumber <totalSentences-1){
 			sentNumber++;
-			return sentsToEdit.get(sentNumber);
+			return taggedSentences.get(sentNumber).getUntagged();
 		}
 		else{
 			Logger.logln("ERROR: SentNumber cannot exceed the total sentences.");
@@ -159,15 +161,15 @@ public class TaggedDocument{
 	 * gets the previous sentence.
 	 * @return the string of the previous sentence 
 	 */
-/*	public String getLastSentence(){
+	public String getLastSentence(){
 		if(sentNumber >0){
 			sentNumber--;
-			return sentsToEdit.get(sentNumber);
+			return taggedSentences.get(sentNumber).getUntagged();
 		}
 		else{
 			Logger.logln("Returned first sentence");
 			sentNumber=0;
-			return sentsToEdit.get(0);
+			return taggedSentences.get(0).getUntagged();
 		}
 	}
 	
@@ -175,21 +177,27 @@ public class TaggedDocument{
 	 * adds the next sentence to the current one.
 	 * @return the concatenation of the current sentence and the next sentence.
 	 */
-/*	public String addNextSentence() {
+	public String addNextSentence() {
 		if(sentNumber <totalSentences-1||sentNumber>=0){
 			totalSentences--;
-			String tempSent=sentsToEdit.remove(sentNumber+1);
-			String newSent=sentsToEdit.get(sentNumber)+tempSent;
+			String tempSent=taggedSentences.remove(sentNumber+1).getUntagged();
+			String newSent=taggedSentences.get(sentNumber).getUntagged()+tempSent;
 			replaceCurrentSentence(newSent);
 			return newSent;
 		}
 		if(sentNumber<0){
 			sentNumber=0;
 		}
-		return sentsToEdit.get(sentNumber);
+		return taggedSentences.get(sentNumber).getUntagged();
 		
-	}*/
+	}
 	
+	private void replaceCurrentSentence(String newSent) {
+		// TODO Auto-generated method stub
+		taggedSentences.remove(sentNumber).getUntagged();
+		taggedSentences.get(sentNumber).getUntagged();
+	}
+
 	public static int getSentNumber(){
 		return sentNumber;
 	}
@@ -223,6 +231,14 @@ public class TaggedDocument{
 	public ArrayList<TaggedSentence> getTaggedSentences(){
 		return taggedSentences;
 	}
+	public String getUntaggedDocument(){
+		String str = "";
+		for (int i=0;i<totalSentences;i++){
+			str+=taggedSentences.get(i).getUntagged();
+		}
+		return str;
+	}
+	
 	
 	public String toString(){
 		String toReturn = "Document Title: "+documentTitle+" Author: "+documentAuthor+"\n";
@@ -234,72 +250,12 @@ public class TaggedDocument{
 		return toReturn;
 	}
 	
-	public static void main(String[] args){
-		String text1 = "I enjoy coffee, especially in the mornings, because it helps to wake me up. My dog is fairly small, but she seems not to realize it when she is around bigger dogs. This is my third testing sentence. I hope this works well.";
-		TaggedDocument testDoc = new TaggedDocument(text1);
-		System.out.println(testDoc.toString());
-		
-	}
-	
-}
-	
-
-class TaggedSentence{
-	
-	protected String untagged;
-	protected ArrayList<TaggedWord> tagged;
-	protected Iterator<TaggedWord> tagIter;
-	protected TaggedWord taggedWord;
-	protected ArrayList<String> wordsToReturn;
-	private int PROBABLE_MAX = 3;
-	protected ArrayList<TENSE> tense = new ArrayList<TENSE>(PROBABLE_MAX);
-	protected ArrayList<POV> pointOfView = new ArrayList<POV>(PROBABLE_MAX);
-	protected ArrayList<CONJ> conj = new ArrayList<CONJ>(PROBABLE_MAX);
-	
-	public TaggedSentence(String untagged){
-		this.untagged = untagged;
-		
-	}
-	
-	public TaggedSentence(String untagged, ArrayList<TaggedWord> tagged){
-		this.untagged = untagged;
-		this.tagged = tagged;
-		setGrammarStats(this.tagged);
-	}
-	
-	public boolean setTaggedSentence(ArrayList<TaggedWord> tagged){
-		this.tagged = tagged;
-		setGrammarStats(this.tagged);
-		return true;
-	}
-	
-	public void setGrammarStats(ArrayList<TaggedWord> tagged){
-		
-	}
-	
-	public ArrayList<TENSE> getTense(){
-		return tense;
-	}
-	public ArrayList<POV> getPov(){
-		return pointOfView;
-	}
-	public ArrayList<CONJ> getConj(){
-		return conj;
-	}
-	
-	public String toString(){
-		return "[ untagged: "+untagged+"] [ | tagged: "+tagged.toString()+" | tense: "+tense.toString()+" | point of view: "+pointOfView.toString()+" | conjugation(s): "+conj.toString()+ "]";
-	}
-	
-	public ArrayList<String> getWordsWithTag(POS tag){
-		wordsToReturn = new ArrayList<String>(tagged.size());// Can't return more words than were tagged
-		tagIter = tagged.iterator();
-		while (tagIter.hasNext()){
-			taggedWord = tagIter.next();
-			System.out.println(taggedWord.value());
-			System.out.println(taggedWord.tag());
+		public static void main(String[] args){
+			String text1 = "I enjoy coffee, especially in the mornings, because it helps to wake me up. My dog is fairly small, but she seems not to realize it when she is around bigger dogs. This is my third testing sentence. I hope this works well.";
+			TaggedDocument testDoc = new TaggedDocument(text1);
+			System.out.println(testDoc.toString());
+			
 		}
-		return wordsToReturn;
-	}
 	
 }
+	

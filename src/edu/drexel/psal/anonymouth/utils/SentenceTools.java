@@ -7,6 +7,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -92,7 +95,7 @@ public class SentenceTools {
 			//System.out.println("REPLACEMENT: "+replacementString);
 			safeString = notEndsOfSentence[notEOSNumber].replaceAll("\\.","\\\\.");
 			//System.out.println(safeString);
-			text = text.replaceAll("(?i)"+safeString,replacementString);
+			text = text.replaceAll("\\b(?i)"+safeString,replacementString);
 		}
 		Matcher sent = EOS_chars.matcher(text);
 		boolean foundEOS = sent.find(currentStart);
@@ -323,16 +326,31 @@ public class SentenceTools {
 		return editedText;
 	}
 	*/
-	public static void main(String[] args){
+	public static void main(String[] args) throws IOException{
 		SentenceTools ss = new SentenceTools();
 		//String testText = "There are many issues with the\n concept of intelligence and the way it is tested in people. As stated by David Myers, intelligence is the ï¿½mental quality consisting of the ability. to learn from experienceï¿½, solve problems, and use knowledge ï¿½to adapt. to new situationsï¿½ (2010). Is there really just one intelligence? According to many psychologists, there exists numerous intelligences. One such psychologist, Sternberg, believes there are three: Analytical Intelligence, Creative Intelligence, and Practical Intelligence. Analytical Intelligence is the intelligence assessed by intelligence tests which presents well-defined problems with set answers and predicts school grades reasonably well and to a lesser extent, job success.\n \tCreative Intelligence is demonstrated by the way one reacts to certain unforeseen situations in ï¿½newï¿½ ways. The last of the three is Practical intelligence which is the type of intelligence required for everyday tasks. This is what is used by business managers and the like to manage and motivate people, promote themselves, and delegate tasks efficiently. In contrast to this idea of 3 separate intelligences is the idea of just one intelligence started by Charles Spearman. He thought we had just one intelligence that he called ï¿½General Intelligenceï¿½ which is many times shortened to just: ï¿½Gï¿½. This G factor was an underlying factor in all areas of our intelligence. Spearman was the one who also developed factor analysis which is a statistics method which allowed him to track different clusters of topics being tested in an intelligence test which showed that those who score higher in one area are more likely to score higher in another. This is the reason why he believed in this concept of G.";
 		String testText = "Hello, Dr., this is my \"test\"ing tex\"t\".\nI need to. See if it \"correctly (i.e. nothing goes wrong) ... and finds the first, and every other sentence, etc.. These quotes are silly, and it is 1 A.m. a.m. just for testing purposes.\" No, that isn't a \"real\" \"quote\".";
+		//testText = " Or maybe, he did understand, but had more to share with humanity before his inevitable death. Maybe still, he was forecasting his own suicide twenty-eight years before it happened. No matter what Hemingway might have felt at the time, the deep nothingness that he shows in 'A Clean Well-Lighted Place,' is a nothingness that pervades the story and becomes more apparent to the characters as they age as humans do not last forever. Ernest Hemingway wrote much about the struggle to cope with the nothingness in the world, but eventually succumbed to the nothingness that he wrote about.";
+		testText=" After living so long, the old man lacks some of the gifts that people are born with that the young man takes for granted. The old man’s long life shows that as humans age, the length of time they have been around not only ages their body, but it ages their soul.";
 		ArrayList<String> Stok=ss.makeSentenceTokens(testText);
 		Object[] arr = Stok.toArray();
-		for (int i = 0; i<arr.length; i++){
-			System.out.println(arr[i].toString().length());
-			System.out.println(arr[i]);
+		try {
+			OutputStreamWriter outStream=new OutputStreamWriter(System.out,"UTF8");
+			Writer out=outStream;
+			for (int i = 0; i<arr.length; i++){
+				for(int j=0;j<arr[i].toString().length();j++){
+					System.out.println(arr[i].toString().charAt(j));
+					 out.write("Character Coding of the output Stream is " + outStream.getEncoding()+"\n");
+					 out.flush();
+				}
+			}
+			
+			 out.close();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 		System.out.println("End");
 		
 	}

@@ -225,7 +225,7 @@ public class EditorInnerTabSpawner {
                             {
                                 resultsTablePane = new JScrollPane();
                                 resultsBoxPanel.add(resultsTablePane, BorderLayout.NORTH);
-                                resultsTablePane.setPreferredSize(new java.awt.Dimension(744, 52));
+                                resultsTablePane.setPreferredSize(new java.awt.Dimension(744, 60));
                                 {
                                     TableModel resultsTableModel = 
 									new DefaultTableModel(
@@ -234,6 +234,7 @@ public class EditorInnerTabSpawner {
                                     resultsTable = new JTable();
                                     resultsTablePane.setViewportView(resultsTable);
                                     resultsTable.setModel(resultsTableModel);
+                                    resultsTable.setPreferredSize(new java.awt.Dimension(741, 32));
                                 }
                             }
                             {

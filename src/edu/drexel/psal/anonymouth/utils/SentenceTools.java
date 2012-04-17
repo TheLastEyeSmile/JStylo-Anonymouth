@@ -79,16 +79,6 @@ public class SentenceTools {
 		int numNotEOS = notEndsOfSentence.length;
 		String replacementString = "";
 		String safeString = "";
-
-		if(text.contains("\r")){
-			Logger.logln("Found a r");				
-		}
-		if(text.contains("\n")){
-			Logger.logln("Found a n");				
-		}
-		if(text.contains("\t")){
-			Logger.logln("Found a t");				
-		}
 		
 		for(notEOSNumber = 0;notEOSNumber<numNotEOS; notEOSNumber++){
 			replacementString = notEndsOfSentence[notEOSNumber].replaceAll("\\.",PERIOD_REPLACEMENT);

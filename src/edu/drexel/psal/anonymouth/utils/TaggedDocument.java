@@ -46,6 +46,7 @@ public class TaggedDocument{
 	protected Iterator<String> strIter;
 	private boolean tagger_ok;
 	private static int sentNumber = -1;
+	private int totalSentences=0;
 	
 	/**
 	 * Constructor for TaggedDocument
@@ -112,6 +113,7 @@ public class TaggedDocument{
 	 */
 	public ArrayList<TaggedSentence> makeAndTagSentences(String untagged, boolean appendTaggedSentencesToGlobalArrayList){
 		ArrayList<String> untaggedSentences = jigsaw.makeSentenceTokens(untagged);
+		totalSentences=untaggedSentences.size();
 		ArrayList<TaggedSentence> taggedSentences = new ArrayList<TaggedSentence>(untaggedSentences.size());
 		sentencesPreTagging = new ArrayList<List<? extends HasWord>>();
 		strIter = untaggedSentences.iterator();
@@ -136,15 +138,58 @@ public class TaggedDocument{
 	public ArrayList<TaggedSentence> getTaggedDocument(){
 		return taggedSentences;
 	}
-	/*	
-	public TaggedSentence getNextSentence(){
 		
+	/**
+	 * gets the next sentence
+	 * @return
+	 */
+	/*public String getNextSentence(){
+		if(sentNumber <totalSentences-1){
+			sentNumber++;
+			return sentsToEdit.get(sentNumber);
+		}
+		else{
+			Logger.logln("ERROR: SentNumber cannot exceed the total sentences.");
+			return null;
+		}
 	}
 	
-	public TaggedSentence getLastSentence(){
-		
+	
+	/**
+	 * gets the previous sentence.
+	 * @return the string of the previous sentence 
+	 */
+/*	public String getLastSentence(){
+		if(sentNumber >0){
+			sentNumber--;
+			return sentsToEdit.get(sentNumber);
+		}
+		else{
+			Logger.logln("Returned first sentence");
+			sentNumber=0;
+			return sentsToEdit.get(0);
+		}
 	}
-	 */	
+	
+	/**
+	 * adds the next sentence to the current one.
+	 * @return the concatenation of the current sentence and the next sentence.
+	 */
+/*	public String addNextSentence() {
+		if(sentNumber <totalSentences-1||sentNumber>=0){
+			totalSentences--;
+			String tempSent=sentsToEdit.remove(sentNumber+1);
+			String newSent=sentsToEdit.get(sentNumber)+tempSent;
+			replaceCurrentSentence(newSent);
+			return newSent;
+		}
+		if(sentNumber<0){
+			sentNumber=0;
+		}
+		return sentsToEdit.get(sentNumber);
+		
+	}*/
+	
 	public static int getSentNumber(){
 		return sentNumber;
 	}
@@ -243,7 +288,7 @@ class TaggedSentence{
 	}
 	
 	public String toString(){
-		return "[ untagged: "+untagged+" || tagged: "+tagged.toString()+" || tense: "+tense.toString()+" || point of view: "+pointOfView.toString()+" conjugation(s): "+conj.toString();
+		return "[ untagged: "+untagged+"] [ | tagged: "+tagged.toString()+" | tense: "+tense.toString()+" | point of view: "+pointOfView.toString()+" | conjugation(s): "+conj.toString()+ "]";
 	}
 	
 	public ArrayList<String> getWordsWithTag(POS tag){

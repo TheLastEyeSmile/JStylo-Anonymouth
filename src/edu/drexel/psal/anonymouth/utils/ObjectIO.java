@@ -87,6 +87,33 @@ public class ObjectIO {
 		
 	}
 	
+	public TaggedDocument taggedDocumentReader(String id, String dir, boolean printData){
+		ObjectInput inputObject;
+		TaggedDocument td = null;
+		try {
+			inputObject = new ObjectInputStream(new BufferedInputStream(new FileInputStream(dir+id+".ser")));
+			try{
+				td = (TaggedDocument) inputObject.readObject();
+			} catch (ClassNotFoundException e) {
+				td = null;
+				Logger.logln("Couldn't load TaggedDocument: "+id+", from: "+dir);
+				e.printStackTrace();
+			}
+			finally{
+				inputObject.close();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if(printData == true && td != null){
+			System.out.println(td.toString());
+		}
+		return td;
+		
+	}
+	
 	public static boolean objectExists(String id, String dir){
 		File f = new File(dir+id+".ser");
 		if (f.exists())

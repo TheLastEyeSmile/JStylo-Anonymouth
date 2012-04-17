@@ -46,6 +46,7 @@ public class TaggedDocument{
 	protected Iterator<String> strIter;
 	private boolean tagger_ok;
 	private static int sentNumber = -1;
+	private String ID = documentTitle+"_"+documentAuthor;
 	
 	/**
 	 * Constructor for TaggedDocument
@@ -70,6 +71,27 @@ public class TaggedDocument{
 			makeAndTagSentences(untaggedDocument, true);
 	}
 	 
+	/**
+	 * 
+	 * @param untaggedDocument
+	 * @param docTitle
+	 * @param author
+	 */
+	public TaggedDocument(String untaggedDocument, String docTitle, String author){
+		tagger_ok = initMaxentTagger();
+		this.documentTitle = docTitle;
+		this.documentAuthor = author;
+		Logger.logln("MaxentTagger initialization in TaggedDocument status: "+tagger_ok);
+		jigsaw = new SentenceTools();
+		taggedSentences = new ArrayList<TaggedSentence>(PROBABLE_NUM_SENTENCES);
+		if(tagger_ok == true)
+			makeAndTagSentences(untaggedDocument, true);
+	}
+	
+	public boolean writeSerializedSelf(String directory){
+		return ObjectIO.writeObject(this, ID, directory);
+	}
+	
 	public void setTitle(String title){
 		documentTitle = title;
 	}

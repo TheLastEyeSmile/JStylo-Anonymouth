@@ -1,5 +1,15 @@
 package edu.drexel.psal.anonymouth.utils;
 
+import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,6 +20,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
+
+import com.jgaap.generics.Document;
 
 import edu.drexel.psal.jstylo.generics.Logger;
 
@@ -34,12 +48,13 @@ public class SentenceTools {
 	private int nextSentence = 0;
 	private Iterator<Sentence> sentenceIterator;
 	private String editedText = "" ;
-	private int sentNumber = 0;
+	private static int sentNumber = -1;
 	private int totalSentences = 0;
+	
 	private boolean mustAddToIndex = false;
 	private String[] notEndsOfSentence = {"Dr.","Mr.","Mrs.","Ms.","St.","vs.","U.S.","Sr.","Sgt.","R.N.","pt.","mt.","mts.","M.D.","Ltd.","Jr.","Lt.","Hon.","i.e.","e.x.","inc.",
 			"et al.","est.","ed.","D.C.","B.C.","B.S.","Ph.D.","B.A.","A.B.","A.D.","A.M.","P.M.","Ln.","fig.","p.","pp.","ref.","r.b.i.","V.P.","yr.","yrs.","etc.","..."};
-	
+	//what if a name like F. Scott Fitzgerald
 	
 	/**
 	 * Takes a text (one String representing an entire document), and breaks it up into sentences. Tries to find true ends of sentences: shouldn't break up sentences containing quoted sentences, 
@@ -59,17 +74,18 @@ public class SentenceTools {
 		int closingQuoteIndex = 0;
 		text = text.replaceAll("\u201C","\"");
 		text = text.replaceAll("\u201D","\"");
-		text = text.replaceAll("\\p{C}"," ");
+		text = text.replaceAll("\\p{C}&&[^\\t\\n\\r]"," ");
 		int notEOSNumber = 0;
 		int numNotEOS = notEndsOfSentence.length;
 		String replacementString = "";
 		String safeString = "";
+		
 		for(notEOSNumber = 0;notEOSNumber<numNotEOS; notEOSNumber++){
 			replacementString = notEndsOfSentence[notEOSNumber].replaceAll("\\.",PERIOD_REPLACEMENT);
 			//System.out.println("REPLACEMENT: "+replacementString);
 			safeString = notEndsOfSentence[notEOSNumber].replaceAll("\\.","\\\\.");
 			//System.out.println(safeString);
-			text = text.replaceAll("(?i)"+safeString,replacementString);
+			text = text.replaceAll("\\b(?i)"+safeString,replacementString);
 		}
 		Matcher sent = EOS_chars.matcher(text);
 		boolean foundEOS = sent.find(currentStart);
@@ -110,6 +126,8 @@ public class SentenceTools {
 				}
 			}
 			safeString = text.substring(currentStart-1,currentStop);
+			
+
 			sentEnd = sentence_quote.matcher(safeString);	
 			isSentence = sentEnd.find();
 			//System.out.println("RESULT OF sentence_quote matching: "+isSentence);
@@ -127,10 +145,11 @@ public class SentenceTools {
 				String prev=sents.remove(sents.size()-1);
 				safeString=prev+safeString;
 			}
-			if (merge1){
+			if (merge1){//makes so that the merge happens on the next pass through
 				merge1=false;
 				mergeFinal=true;
 			}
+			
 			sents.add(safeString);
 			//System.out.println("start minus one: "+(currentStart-1)+" stop: "+currentStop);
 			if(currentStart < 0 || currentStop < 0){
@@ -145,14 +164,13 @@ public class SentenceTools {
 			}
 			foundEOS = sent.find(currentStart);
 		}
-		totalSentences = sents.size();
-		sentNumber = 0;
-		//sentenceIterator = sentsToEdit.iterator();
-		sentsToEdit = sents;
+		
 		return sents;
 	}
 	
-	
+	public static int getSentNumb(){
+		return sentNumber;
+	}
 	/**
 	 * Checks whether or not there are more unchecked sentences from the intial input text or not. True if there are,
 	 * false if not.
@@ -177,11 +195,16 @@ public class SentenceTools {
 			return sentsToEdit.get(sentNumber);
 		}
 		else{
-			System.out.print("RETURN NULL getNext");
+			Logger.logln("ERROR: SentNumber cannot exceed the total sentences.");
 			return null;
 		}
 	}
 	
+	
+	/**
+	 * gets the previous sentence.
+	 * @return the string of the previous sentence 
+	 */
 	public String getLast(){
 		if(sentNumber >0){
 			sentNumber--;
@@ -189,21 +212,53 @@ public class SentenceTools {
 			return sentsToEdit.get(sentNumber);
 		}
 		else{
-			System.out.print("RETURN NULL getLast");
-			return null;
+			Logger.logln("Returned first sentence");
+			sentNumber=0;
+			return sentsToEdit.get(0);
 		}
 	}
+	
+	/**
+	 * adds the next sentence to the current one.
+	 * @return the concatenation of the current sentence and the next sentence.
+	 */
 	public String addNextSent() {
-		if(sentNumber <totalSentences-1){
+		if(sentNumber <totalSentences-1||sentNumber>=0){
 			totalSentences--;
 			String tempSent=sentsToEdit.remove(sentNumber+1);
 			String newSent=sentsToEdit.get(sentNumber)+tempSent;
 			replaceCurrentSentence(newSent);
 			return newSent;
 		}
+		if(sentNumber<0){
+			sentNumber=0;
+		}
 		return sentsToEdit.get(sentNumber);
 		
 	}
+	
+	
+	
+	
+	/**
+	 * makes sure the text in the edit sentence box is just one sentence.
+	 * In the case of multiple sentences, it updates the list so that each sentence has its own index.
+	 * @return a list of the sentences in the box 
+	 */
+	public ArrayList<String> checkNumSent(String editText){
+		
+		ArrayList<String> sentences= makeSentenceTokens(editText);
+		int i=0;
+		replaceCurrentSentence(sentences.get(i));
+		for (i=1; i<sentences.size();i++){
+			sentNumber++;
+			totalSentences++;
+			sentsToEdit.add(sentNumber,sentences.get(i));
+		}
+		
+		return sentences;
+	}
+	
 	
 	public void replaceCurrentSentence(String s){
 		int index;
@@ -213,10 +268,10 @@ public class SentenceTools {
 	}	
 	
 	public String getFullDoc(){
-		Iterator<String> sentIter = sentsToEdit.iterator();
+		
 		String fullDoc = "";
-		while(sentIter.hasNext()){
-			fullDoc += sentIter.next()+" ";
+		for(int i=0;i<totalSentences;i++){
+			fullDoc += sentsToEdit.get(i);
 		}
 		return fullDoc;
 	}
@@ -224,6 +279,31 @@ public class SentenceTools {
 	public ArrayList<String> getSentenceTokens(){
 		return sentsToEdit;
 	}
+	
+	public void setSentenceCounter(int sentNumber){
+		this.sentNumber = sentNumber;
+	}
+	
+	public static Document removeUnicodeControlChars(Document dirtyDoc){
+		String newFile =  "./temp/"+dirtyDoc.getTitle();
+		
+		Document cleanDoc = new Document();
+		try {
+			dirtyDoc.load();
+			cleanDoc.setText((dirtyDoc.stringify()).replaceAll("\\p{C}&&[^\\t\\n\\r]"," ").toCharArray());
+			cleanDoc.setAuthor(dirtyDoc.getAuthor());
+			cleanDoc.setTitle(dirtyDoc.getTitle());
+			FileWriter fw = new FileWriter(new File("./temp/"+dirtyDoc.getTitle()));
+			return cleanDoc;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Logger.logln("ERROR! Could not load document: "+dirtyDoc.getTitle()+" (SentenceTools.removeUnicodeControlChars)");
+			return dirtyDoc;
+		}
+	}
+		
+	
 //}	
 	
 	/*
@@ -236,17 +316,43 @@ public class SentenceTools {
 		return editedText;
 	}
 	*/
-	public static void main(String[] args){
+	public static void main(String[] args) throws IOException{
 		SentenceTools ss = new SentenceTools();
-		String testText = "There are many issues with the concept of intelligence and the way it is tested in people. As stated by David Myers, intelligence is the “mental quality consisting of the ability. to learn from experience”, solve problems, and use knowledge “to adapt. to new situations” (2010). Is there really just one intelligence? According to many psychologists, there exists numerous intelligences. One such psychologist, Sternberg, believes there are three: Analytical Intelligence, Creative Intelligence, and Practical Intelligence. Analytical Intelligence is the intelligence assessed by intelligence tests which presents well-defined problems with set answers and predicts school grades reasonably well and to a lesser extent, job success. Creative Intelligence is demonstrated by the way one reacts to certain unforeseen situations in “new” ways. The last of the three is Practical intelligence which is the type of intelligence required for everyday tasks. This is what is used by business managers and the like to manage and motivate people, promote themselves, and delegate tasks efficiently. In contrast to this idea of 3 separate intelligences is the idea of just one intelligence started by Charles Spearman. He thought we had just one intelligence that he called “General Intelligence” which is many times shortened to just: “G”. This G factor was an underlying factor in all areas of our intelligence. Spearman was the one who also developed factor analysis which is a statistics method which allowed him to track different clusters of topics being tested in an intelligence test which showed that those who score higher in one area are more likely to score higher in another. This is the reason why he believed in this concept of G.";
-		//testText = "Hello, Dr., this is my \"test\"ing tex\"t\".\nI need to see if it \"correctly (i.e. nothing goes wrong) ... and finds the first, and every other sentence, etc.. These quotes are silly, and it is 1 A.m. a.m. just for testing purposes.\" No, that isn't a \"real\" \"quote\".";
+		//String testText = "There are many issues with the\n concept of intelligence and the way it is tested in people. As stated by David Myers, intelligence is the ï¿½mental quality consisting of the ability. to learn from experienceï¿½, solve problems, and use knowledge ï¿½to adapt. to new situationsï¿½ (2010). Is there really just one intelligence? According to many psychologists, there exists numerous intelligences. One such psychologist, Sternberg, believes there are three: Analytical Intelligence, Creative Intelligence, and Practical Intelligence. Analytical Intelligence is the intelligence assessed by intelligence tests which presents well-defined problems with set answers and predicts school grades reasonably well and to a lesser extent, job success.\n \tCreative Intelligence is demonstrated by the way one reacts to certain unforeseen situations in ï¿½newï¿½ ways. The last of the three is Practical intelligence which is the type of intelligence required for everyday tasks. This is what is used by business managers and the like to manage and motivate people, promote themselves, and delegate tasks efficiently. In contrast to this idea of 3 separate intelligences is the idea of just one intelligence started by Charles Spearman. He thought we had just one intelligence that he called ï¿½General Intelligenceï¿½ which is many times shortened to just: ï¿½Gï¿½. This G factor was an underlying factor in all areas of our intelligence. Spearman was the one who also developed factor analysis which is a statistics method which allowed him to track different clusters of topics being tested in an intelligence test which showed that those who score higher in one area are more likely to score higher in another. This is the reason why he believed in this concept of G.";
+		String testText = "Hello, Dr., this is my \"test\"ing tex\"t\".\nI need to. See if it \"correctly (i.e. nothing goes wrong) ... and finds the first, and every other sentence, etc.. These quotes are silly, and it is 1 A.m. a.m. just for testing purposes.\" No, that isn't a \"real\" \"quote\".";
+		//testText = " Or maybe, he did understand, but had more to share with humanity before his inevitable death. Maybe still, he was forecasting his own suicide twenty-eight years before it happened. No matter what Hemingway might have felt at the time, the deep nothingness that he shows in 'A Clean Well-Lighted Place,' is a nothingness that pervades the story and becomes more apparent to the characters as they age as humans do not last forever. Ernest Hemingway wrote much about the struggle to cope with the nothingness in the world, but eventually succumbed to the nothingness that he wrote about.";
+		testText=" After living so long, the old man lacks some of the gifts that people are born with that the young man takes for granted. The old manï¿½s long life shows that as humans age, the length of time they have been around not only ages their body, but it ages their soul.";
 		ArrayList<String> Stok=ss.makeSentenceTokens(testText);
 		Object[] arr = Stok.toArray();
-		for (int i = 0; i<arr.length; i++){
-			System.out.println(arr[i]);
+		try {
+			OutputStreamWriter outStream=new OutputStreamWriter(System.out,"UTF8");
+			Writer out=outStream;
+			for (int i = 0; i<arr.length; i++){
+				for(int j=0;j<arr[i].toString().length();j++){
+					System.out.println(arr[i].toString().charAt(j));
+					 out.write("Character Coding of the output Stream is " + outStream.getEncoding()+"\n");
+					 out.flush();
+				}
+			}
+			
+			 out.close();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 		System.out.println("End");
 		
+	}
+
+	public void setSentsToEdit(ArrayList<String> tokens) {
+		// used in backend interface.
+		sentsToEdit=tokens;
+	}
+
+	public void setNumberSentences(int size) {
+		// used in backend interface
+		totalSentences=size;
 	}
 	
 }
@@ -272,4 +378,39 @@ class Sentence {
 	}
 	
 }
+*/
+/*
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+			text = text.replaceAll("\\b(?i)"+safeString,replacementString);
+
+	public static void main(String[] args) throws IOException{
+		//testText = " Or maybe, he did understand, but had more to share with humanity before his inevitable death. Maybe still, he was forecasting his own suicide twenty-eight years before it happened. No matter what Hemingway might have felt at the time, the deep nothingness that he shows in 'A Clean Well-Lighted Place,' is a nothingness that pervades the story and becomes more apparent to the characters as they age as humans do not last forever. Ernest Hemingway wrote much about the struggle to cope with the nothingness in the world, but eventually succumbed to the nothingness that he wrote about.";
+		testText=" After living so long, the old man lacks some of the gifts that people are born with that the young man takes for granted. The old manï¿½s long life shows that as humans age, the length of time they have been around not only ages their body, but it ages their soul.";
+		try {
+			OutputStreamWriter outStream=new OutputStreamWriter(System.out,"UTF8");
+			Writer out=outStream;
+			for (int i = 0; i<arr.length; i++){
+				for(int j=0;j<arr[i].toString().length();j++){
+					System.out.println(arr[i].toString().charAt(j));
+					 out.write("Character Coding of the output Stream is " + outStream.getEncoding()+"\n");
+					 out.flush();
+				}
+			}
+			
+			 out.close();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		
+			cleanDoc.setText((dirtyDoc.stringify()).replaceAll("\\p{C}&&[^\\t\\n\\r]"," ").toCharArray());
+			cleanDoc.setAuthor(dirtyDoc.getAuthor());
+			cleanDoc.setTitle(dirtyDoc.getTitle());
+			FileWriter fw = new FileWriter(new File("./temp/"+dirtyDoc.getTitle()));
+	
+
+		String newFile =  "./temp/"+dirtyDoc.getTitle();
+		
+		Document cleanDoc = new Document();
 */

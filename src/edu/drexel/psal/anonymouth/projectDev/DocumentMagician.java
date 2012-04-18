@@ -155,7 +155,7 @@ public class DocumentMagician {
 	
 	public static String authorToRemove;
 	
-	private String dummyName = "_dummy_";
+	public static final String dummyName = "~* you *~";
 	
 	private Classifier theClassifier;
 	
@@ -197,7 +197,10 @@ public class DocumentMagician {
 		String pathToTempModdedDoc = writeDirectory+ThePresident.sessionName+"_"+numProcessRequests+".txt";
 		Logger.logln("Saving temporary file: "+pathToTempModdedDoc);
 		try {
-			FileWriter writer = new FileWriter(new File(pathToTempModdedDoc));
+			File tempModdedDoc = new File(pathToTempModdedDoc);
+			if(ThePresident.shouldKeepAutoSavedAnonymizedDocs == false)
+				tempModdedDoc.deleteOnExit();
+			FileWriter writer = new FileWriter(tempModdedDoc);
 			writer.write(modifiedDocument);
 			writer.close();
 		} catch (IOException e) {
@@ -325,6 +328,7 @@ public class DocumentMagician {
 	public void initialDocToData(ProblemSet pSet,CumulativeFeatureDriver cfd, Classifier classifier ){//,List<Map<String,Document>> forTraining, List<Document> forTesting){
 		Logger.logln("Entered initialDocToData in DocumentMagician");
 		theClassifier = classifier;
+		System.out.println(pSet.toString());
 		ProblemSet pSetCopy = new ProblemSet(pSet);
 		trainSet = pSetCopy.getAllTrainDocs();
 		

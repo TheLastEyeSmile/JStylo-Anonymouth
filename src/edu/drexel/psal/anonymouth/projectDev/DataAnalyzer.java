@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
 import java.util.NavigableMap;
 import java.util.Scanner;
 
@@ -16,6 +18,7 @@ import edu.drexel.psal.anonymouth.gooie.EditorTabDriver;
 import edu.drexel.psal.anonymouth.gooie.ThePresident;
 import edu.drexel.psal.anonymouth.gooie.DocsTabDriver.ExtFilter;
 import edu.drexel.psal.anonymouth.suggestors.HighlightMapMaker;
+import edu.drexel.psal.anonymouth.utils.SentenceTools;
 import edu.drexel.psal.jstylo.generics.*;
 import edu.drexel.psal.jstylo.generics.Logger.LogOut;
 
@@ -26,6 +29,8 @@ import java.util.regex.Pattern;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+
+import com.jgaap.generics.Document;
 
 
 import weka.attributeSelection.InfoGainAttributeEval;
@@ -531,6 +536,19 @@ public class DataAnalyzer{
 	public void runInitial(DocumentMagician magician, CumulativeFeatureDriver cfd, Classifier classifier) throws Exception{
 		Logger.logln("called runIntitial in DataAnalyzer");
 		//String authorToRemove = magician.loadExampleSet();
+		List<Document> tempTrainDocs = pSet.getAllTrainDocs();
+		/*
+		for (Document d:tempTrainDocs){
+			pSet.removeTrainDocAt(d.getAuthor(),d);
+			pSet.addTrainDoc(d.getAuthor(), SentenceTools.removeUnicodeControlChars(d));
+		}
+		*/
+		List<Document> tempTestDocs = pSet.getTestDocs();
+		for (Document d:tempTestDocs){
+			d.setAuthor(DocumentMagician.dummyName);
+			//pSet.removeTestDoc(d);
+			//pSet.addTestDoc(SentenceTools.removeUnicodeControlChars(d));
+		}
 		magician.initialDocToData(pSet,cfd, classifier);
 		runGeneric(magician);
 		int maxClusters =runAllTopFeatures();
@@ -607,13 +625,13 @@ public class DataAnalyzer{
 			tempCluster = topAttributes[i].getOrderedClusters()[clusterNumber];
 			target = tempCluster.getCentroid();
 			targetSaver += "Attribute: "+topAttributes[i].getFullName()+"  ==> targetValue: "+target+"\n";
-			System.out.println(targetSaver);
 			topAttributes[i].setTargetCentroid(target);
 			topAttributes[i].setTargetValue(target);
 			topAttributes[i].setRangeForTarget(tempCluster.getMinValue(),tempCluster.getMaxValue()); // maybe this should be changed to avg. avs. dev.
 			if((mapMakerSentenceTargetSet && mapMakerCharTargetSet) == false)
 				mapMakerTargetSetter(topAttributes[i].getGenericName(),target);
 		}
+		System.out.println(targetSaver);
 		
 		boolean mustSaveTargets = false;
 		if(mustSaveTargets == true){

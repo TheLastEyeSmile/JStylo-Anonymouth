@@ -28,6 +28,9 @@ public class ThePresident {
 	//protected static ImageIcon buffImg;
 	public static ImageIcon LOGO;
 	public static String sessionName;
+	public static String TEMP_DIR =  "temp/"; // TODO: put in "options"
+	public static boolean shouldKeepTempCleanDocs = false; // TODO : put in "options"
+	public static boolean shouldKeepAutoSavedAnonymizedDocs = false; // TODO: put in "options"
 
 	/*
 	public void getDockImage(String name){
@@ -101,7 +104,8 @@ public class ThePresident {
 			
 		tempName = tempName.replaceAll("['.?!()<>#\\\\/|\\[\\]{}*\":;`~&^%$@+=,]", "");
 		tempName = tempName.replaceAll(" ", "_");
-		sessionName = tempName;
+		if(tempName != null)
+			sessionName = tempName;
 		//System.out.println(tempName+" "+sessionName);
 		Logger.setFilePrefix("Anonymouth_"+sessionName);
 		Logger.logFile = true;	

@@ -156,6 +156,7 @@ public class BackendInterface {
 					WekaInstancesBuilder wib = new WekaInstancesBuilder(false);
 					Document currDoc = new Document();
 					currDoc.setText(eits.editorBox.getText().toCharArray());
+					
 					List<Canonicizer> canonList = theOneToUpdate.getCanonicizers();
 					try{
 					Iterator<Canonicizer> canonIter = canonList.iterator();
@@ -222,10 +223,8 @@ public class BackendInterface {
 				ErrorHandler.fatalError();
 			}
 			*/
-			if(parsed != null){
-				EditorTabDriver.consolidator = new ConsolidationStation(EditorTabDriver.attribs,parsed);
-				EditorTabDriver.consolidator.beginConsolidation();
-			}
+			EditorTabDriver.consolidator = new ConsolidationStation(EditorTabDriver.attribs);
+			EditorTabDriver.consolidator.beginConsolidation();
 			
 		}
 	}
@@ -272,6 +271,8 @@ public class BackendInterface {
 			//main.resultsTablePane.setEnabled(false);
 			String tempDoc = "";
 			if(EditorTabDriver.isFirstRun == true){
+				eits.sentenceEditPane.setEditable(false);
+				eits.sentenceEditPane.setEnabled(false);
 				tempDoc = getDocFromCurrentTab();
 				//eits.editorBox.setText("ThisWorked!");
 				//Scanner in = new Scanner(System.in);
@@ -457,8 +458,12 @@ public class BackendInterface {
 			eits.resultsTablePane.setEnabled(true);
 			eits.resultsTablePane.setOpaque(true);
 			EditorTabDriver.okayToSelectSuggestion = true;
-			EditorTabDriver.sentenceTools.makeSentenceTokens(eits.editorBox.getText());
-			eits.getSentenceEditPane().setText(EditorTabDriver.sentenceTools.getNext());
+			 ArrayList<String> sentences=EditorTabDriver.sentenceTools.makeSentenceTokens(eits.editorBox.getText());
+			EditorTabDriver.sentenceTools.setSentsToEdit(sentences);
+			EditorTabDriver.sentenceTools.setNumberSentences(sentences.size());
+			eits.getSentenceEditPane().setText(EditorTabDriver.getHelpMessege()+" ");//the space is to differentiate this from the messege in a new inner tab.
+			eits.sentenceEditPane.setEnabled(true);
+			eits.sentenceEditPane.setEditable(false);
 			main.nextSentenceButton.setEnabled(true);
 			main.lastSentenceButton.setEnabled(true);
 			Logger.logln("Finished in BackendInterface - postTargetSelection");

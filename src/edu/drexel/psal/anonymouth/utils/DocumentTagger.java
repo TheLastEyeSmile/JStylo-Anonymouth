@@ -311,5 +311,11 @@ public class DocumentTagger{
 
 
 	}
+	
+	public static void main(String[] args){
+		DocumentTagger tagger=new DocumentTagger();
+		String test="This is a test string that I want to see tagged. Actually, it will be two sentences.";
+		
+	}
 
 }

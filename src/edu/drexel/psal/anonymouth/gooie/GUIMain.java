@@ -11,7 +11,11 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.util.*;
 
 import edu.drexel.psal.JSANConstants;
@@ -290,6 +294,7 @@ public class GUIMain extends javax.swing.JFrame {
 				}
 				inst = new GUIMain();
 				inst.setDefaultCloseOperation(EXIT_ON_CLOSE);
+			
 				inst.setLocationRelativeTo(null);
 				inst.setVisible(true);
 			}
@@ -300,6 +305,7 @@ public class GUIMain extends javax.swing.JFrame {
 		super();
 		initData();
 		initGUI();
+		
 	}
 
 	private void initData() {
@@ -320,6 +326,7 @@ public class GUIMain extends javax.swing.JFrame {
 			setSize(1024, 768);
 			this.setTitle("Anonymouth");
 			this.setIconImage(new ImageIcon(getClass().getResource(JSANConstants.JSAN_GRAPHICS_PREFIX+"Anonymouth_LOGO.png")).getImage());
+			
 			
 			{
 				mainJTabbedPane = new JTabbedPane();
@@ -1134,6 +1141,8 @@ public class GUIMain extends javax.swing.JFrame {
 					
 					
 				}
+				
+				//editor
 				{
 					theEditorScrollPane = new JScrollPane();
 					mainJTabbedPane.addTab("Editor", null, theEditorScrollPane, null);
@@ -1369,21 +1378,21 @@ public class GUIMain extends javax.swing.JFrame {
 											nextSentenceButton.setText("Next Sentence");
 										}
 										{
+											addSentence = new JButton();
+											editorTopRowButtonsPanel.add(addSentence);
+											addSentence.setText("Append Next Sentence");
+											addSentence.setPreferredSize(new java.awt.Dimension(150, 23));
+										}
+										{
 											buttonBufferJPanel = new JPanel();
 											editorTopRowButtonsPanel.add(buttonBufferJPanel);
-											buttonBufferJPanel.setPreferredSize(new java.awt.Dimension(230, 5));
+											buttonBufferJPanel.setPreferredSize(new java.awt.Dimension(64, 5));
 										}
 										{
 											processButton = new JButton();
 											editorTopRowButtonsPanel.add(processButton);
 											processButton.setText("Process");
 											processButton.setPreferredSize(new java.awt.Dimension(118, 29));
-										}
-										{
-											addSentence = new JButton();
-											editorTopRowButtonsPanel.add(addSentence);
-											addSentence.setText("Add Next Sentence");
-											addSentence.setPreferredSize(new java.awt.Dimension(118, 23));
 										}
 									}
 								}
@@ -1476,13 +1485,10 @@ public class GUIMain extends javax.swing.JFrame {
 					}
 				}
 			
-			
-
-
-				{
+				
 					// bottom toolbar buttons
 					// ======================
-				}
+				
 		
 
 			// initialize listeners - except for EditorTabDriver!

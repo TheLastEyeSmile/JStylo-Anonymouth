@@ -113,7 +113,7 @@ public class IndexFinder {
 	public static ArrayList<int[]> findIndices(String stringToTest, String theRegEx){	
 		ArrayList<int[]> toHighlight = new ArrayList<int[]>();
 		//int lengthRegEx = theRegEx.length();
-		stringToTest = stringToTest.replaceAll("\\p{C}", " ");
+		stringToTest = stringToTest.replaceAll("\\p{C}", " ");// replaces all unicode control / invisible  characters and unused code points
 		Pattern p = Pattern.compile(theRegEx);
 		Matcher m = p.matcher(stringToTest);
 		int startIndex=-1;

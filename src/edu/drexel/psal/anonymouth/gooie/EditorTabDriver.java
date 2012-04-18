@@ -11,6 +11,8 @@ import edu.drexel.psal.anonymouth.suggestors.HighlightMapList;
 import edu.drexel.psal.anonymouth.suggestors.HighlightMapMaker;
 import edu.drexel.psal.anonymouth.suggestors.Prophecy;
 import edu.drexel.psal.anonymouth.suggestors.TheOracle;
+import edu.drexel.psal.anonymouth.utils.ConsolidationStation;
+import edu.drexel.psal.anonymouth.utils.DocumentParser;
 import edu.drexel.psal.anonymouth.utils.SentenceTools;
 import edu.drexel.psal.jstylo.generics.FeatureDriver;
 import edu.drexel.psal.jstylo.generics.Logger;
@@ -135,6 +137,8 @@ public class EditorTabDriver {
 	public static Attribute[] attribs;
 	public static HashMap<FeatureList,Integer> attributesMappedByName;
 	public static HashMap<Integer,Integer> suggestionToAttributeMap;
+	protected static DocumentParser docParser;
+	protected static ConsolidationStation consolidator;
 	
 	protected static void signalTargetsSelected(GUIMain main, boolean goodToGo){
 		if(goodToGo == true)
@@ -177,6 +181,7 @@ public class EditorTabDriver {
 					wizard = new DataAnalyzer(main.ps,ThePresident.sessionName);
 					magician = new DocumentMagician(false);
 					theMirror = new TheMirror();
+					docParser = new DocumentParser();
 					main.mainJTabbedPane.getComponentAt(4).setEnabled(false);
 					
 				}
@@ -209,12 +214,14 @@ public class EditorTabDriver {
 					cpb.setText("Initializing... Done");
 					Logger.logln("calling backendInterface for preTargetSelectionProcessing");
 					BackendInterface.preTargetSelectionProcessing(main,wizard,magician,cpb);
+					//TODO: Create thread in BackendInterface that parses documents, and calls some class like ConsolidationStation to run the features down the "ramp"
 				}
 				else
 					main.processButton.setEnabled(true);
 				
 
 				}	
+				
 			
 		});
 		
@@ -222,9 +229,15 @@ public class EditorTabDriver {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0){
-				Logger.logln("next sentence button pressed.");
-				sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
-				eits.getSentenceEditPane().setText(sentenceTools.getNext());
+					Logger.logln("next sentence button pressed.");
+					sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
+					String tempSent=sentenceTools.getNext();
+					if(tempSent!=null)
+						eits.getSentenceEditPane().setText(tempSent);
+					else {
+						ArrayList<String> Stok=sentenceTools.getSentenceTokens();
+						eits.getSentenceEditPane().setText(Stok.get(Stok.size()-1));
+					}
 			}
 			
 		});
@@ -234,9 +247,36 @@ public class EditorTabDriver {
 			@Override
 			public void actionPerformed(ActionEvent arg0){
 				Logger.logln("last sentence button pressed.");
+				//if(sentenceTools.moreToCheck() == true){
 				sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
-				eits.getSentenceEditPane().setText(sentenceTools.getLast());
+				String tempSent=sentenceTools.getLast();
+				if(tempSent!=null)
+					eits.getSentenceEditPane().setText(tempSent);
+				else {
+					ArrayList<String> Stok=sentenceTools.getSentenceTokens();
+					eits.getSentenceEditPane().setText(Stok.get(0));
+				}
+			//}
+				//else{
+					//eits.getSentenceEditPane().setText("END OF DOCUMENT");
+			//	}
 				
+			}
+			
+		});
+		
+		main.addSentence.addActionListener(new ActionListener(){
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0){
+					Logger.logln("Add sentence button pressed.");
+					String tempSent=sentenceTools.addNextSent();
+					if(tempSent!=null)
+						eits.getSentenceEditPane().setText(tempSent);
+					//else {
+						//ArrayList<String> Stok=sentenceTools.getSentenceTokens();
+						//eits.getSentenceEditPane().setText(Stok.get(Stok.size()-1));
+				//	}
 			}
 			
 		});
@@ -251,7 +291,7 @@ public class EditorTabDriver {
 			}
 			
 		});	
-		
+		/*
 		main.clearHighlightingButton.addActionListener(new ActionListener(){
 
 			@Override
@@ -267,7 +307,7 @@ public class EditorTabDriver {
 			}
 			
 		});
-		
+		*/
 		main.editTP.addChangeListener(new ChangeListener(){
 
 			@Override
@@ -282,7 +322,7 @@ public class EditorTabDriver {
 			 
 			
 		});
-		
+		/*
 		main.getHighlightSelectionBox().addActionListener(new ActionListener(){
 			
 			public void actionPerformed(ActionEvent act){
@@ -331,9 +371,9 @@ public class EditorTabDriver {
 		
 		
 			
+			*/
 			
-			
-		
+		/*
 		main.searchInputBox.addActionListener(new ActionListener(){
 			
 			public void actionPerformed(ActionEvent act){
@@ -380,7 +420,7 @@ public class EditorTabDriver {
 			}
 			
 		});
-	
+	*/
 		
 		main.suggestionTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 			
@@ -413,7 +453,7 @@ public class EditorTabDriver {
 			}
 			
 		});
-		
+		/*
 		main.verboseButton.addActionListener(new ActionListener(){
 
 			@Override
@@ -428,7 +468,7 @@ public class EditorTabDriver {
 			
 			
 		});
-		
+		*/
 		main.dictButton.addActionListener(new ActionListener(){
 
 			@Override

@@ -618,21 +618,26 @@ public class TargetExtractor {
 	public Cluster[] getPreferredOrdering(){
 		Logger.logln("Getting preferred ordering for clusters");
 		int i=0;
-		int sum =0;
+		int sizeSum =0;
+		double sizeAvg = 0;
 		double	tempClustCent;
 		double tempClustDev;
 		double clustMin;
 		double clustMax;
 		int numClusters = thisFeaturesClusters.size();
 		int[] sizes = new int[numClusters];
+		double[] dists = new double[numClusters];
 		Double[][] preferences = new Double[numClusters][2]; // highest number => most ideal cluster 
-		double dist;
+		double distSum = 0 ;
+		double distAvg = 0;
 		
 		// collect sizes of all clusters
 		for(i=0;i<numClusters;i++){
 			sizes[i] = thisFeaturesClusters.get(i).getElements().length;
-			sum += sizes[i]; 
+			sizeSum += sizes[i]; 
 		}
+		
+		sizeAvg = (double)sizeSum/numClusters;
 		
 		for(i=0; i<numClusters;i++){
 
@@ -640,14 +645,20 @@ public class TargetExtractor {
 			
 			tempClustCent = tempCluster.getCentroid();
 			if(tempClustCent< authorAvg)
-				dist = authorAvg - tempClustCent;
+				dists[i] = authorAvg - tempClustCent;
 			else if (tempClustCent > authorMax)
-				dist = tempClustCent - authorAvg;
+				dists[i] = tempClustCent - authorAvg;
 			else
-				dist = 0;
+				dists[i] = 0;
 			
+			distSum += dists[i];
+		}
+		
+		distAvg = distSum/numClusters;
+		
+		for(i = 0; i < numClusters; i++){
 			preferences[i][0] =(Double)(double) i;
-			preferences[i][1] = dist*sizes[i]; // 
+			preferences[i][1] = (dists[i])*(sizes[i]/sizeAvg); //  (average distance * distance)*(cluster size/ average cluster size)
 			
 		}
 		

@@ -24,7 +24,7 @@ import edu.drexel.psal.anonymouth.projectDev.FeatureList;
 import edu.drexel.psal.jstylo.eventDrivers.SentenceCounterEventDriver;
 import edu.drexel.psal.jstylo.eventDrivers.WordCounterEventDriver;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
-import edu.drexel.psal.anonymouth.suggestors.POSmap.TheTags;
+import edu.drexel.psal.anonymouth.suggestors.POS.TheTags;
 import edu.drexel.psal.anonymouth.suggestors.UNIQUE_WORDS_COUNT;
 
 /**
@@ -429,12 +429,12 @@ public class HighlightMapMaker {
 		String tagOneDef;
 		String tagTwoDef;
 		try{
-			tagOneDef= POSmap.tagToDescription(TheTags.valueOf(tagOne));
+			tagOneDef= POS.tagToDescription(TheTags.valueOf(tagOne));
 		} catch(IllegalArgumentException iae){
 			tagOneDef = "punctuation/symbol";
 		}
 		try{
-			tagTwoDef= POSmap.tagToDescription(TheTags.valueOf(tagTwo));
+			tagTwoDef= POS.tagToDescription(TheTags.valueOf(tagTwo));
 		} catch(IllegalArgumentException iae){
 			tagTwoDef = "punctuation/symbol";
 		}
@@ -489,7 +489,7 @@ public class HighlightMapMaker {
 		
 		String tagDef;
 		try{
-			tagDef= POSmap.tagToDescription(TheTags.valueOf(theTag));
+			tagDef= POS.tagToDescription(TheTags.valueOf(theTag));
 		} catch(IllegalArgumentException iae){
 			tagDef = "punctuation/symbol";
 		}
@@ -578,17 +578,17 @@ public class HighlightMapMaker {
 		String tagTwoDef;
 		String tagThreeDef;
 		try{
-			tagOneDef= POSmap.tagToDescription(TheTags.valueOf(tagOne));
+			tagOneDef= POS.tagToDescription(TheTags.valueOf(tagOne));
 		} catch(IllegalArgumentException iae){
 			tagOneDef = "punctuation/symbol";
 		}
 		try{
-			tagTwoDef= POSmap.tagToDescription(TheTags.valueOf(tagTwo));
+			tagTwoDef= POS.tagToDescription(TheTags.valueOf(tagTwo));
 		} catch(IllegalArgumentException iae){
 			tagTwoDef = "punctuation/symbol";
 		}
 		try{
-			tagThreeDef= POSmap.tagToDescription(TheTags.valueOf(tagThree));
+			tagThreeDef= POS.tagToDescription(TheTags.valueOf(tagThree));
 		} catch(IllegalArgumentException iae){
 			tagThreeDef = "punctuation/symbol";
 		}

@@ -573,9 +573,9 @@ public class DataAnalyzer{
 	public void reRunModified(DocumentMagician magician) throws Exception{
 		
 		magician.reRunModified();
-		runGeneric(magician);
-		int maxClusters = runAllTopFeatures();
-		runClusterAnalysis(maxClusters);
+		//runGeneric(magician);
+		//int maxClusters = runAllTopFeatures();
+		//runClusterAnalysis(maxClusters);
 		Logger.logln("Calling makeViewer in ClusterViewer after re-running modified.");
 		ClusterViewer.makeViewer(topAttributes);
 		Logger.logln("viewer made");
@@ -607,13 +607,15 @@ public class DataAnalyzer{
 			tempCluster = topAttributes[i].getOrderedClusters()[clusterNumber];
 			target = tempCluster.getCentroid();
 			targetSaver += "Attribute: "+topAttributes[i].getFullName()+"  ==> targetValue: "+target+"\n";
+			System.out.println(targetSaver);
 			topAttributes[i].setTargetCentroid(target);
 			topAttributes[i].setTargetValue(target);
 			topAttributes[i].setRangeForTarget(tempCluster.getMinValue(),tempCluster.getMaxValue()); // maybe this should be changed to avg. avs. dev.
 			if((mapMakerSentenceTargetSet && mapMakerCharTargetSet) == false)
 				mapMakerTargetSetter(topAttributes[i].getGenericName(),target);
 		}
-		boolean mustSaveTargets = true;
+		
+		boolean mustSaveTargets = false;
 		if(mustSaveTargets == true){
 			while(targetsSaved != 1){
 				targetsSaved = saveTargets(targetSaver);

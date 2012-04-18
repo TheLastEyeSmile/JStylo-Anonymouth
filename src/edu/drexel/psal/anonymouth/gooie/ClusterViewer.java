@@ -94,7 +94,7 @@ public class ClusterViewer extends JPanel {
 			double minValue = transform(current.getMinValue(),false);
 			double centroid = transform(current.getCentroid(),false);
 			
-			
+			/*
 			g2.setPaint(transBlue);
 			int j=0;
 			Pair[] pRay = current.getElements();
@@ -103,31 +103,34 @@ public class ClusterViewer extends JPanel {
 				double position = transform(pRay[j].value,false);
 				g2.fill(new Ellipse2D.Double(position-Math.sqrt(dim), yoffset-Math.sqrt(dim),dim,dim));
 			}
+			
 			g2.setColor(Color.black);
-			dim = 8;
-			g2.draw(new Ellipse2D.Double(centroid-Math.sqrt(dim), yoffset-Math.sqrt(dim),dim,dim));
+			dim = 4;
+			g2.fill(new Ellipse2D.Double(centroid-Math.sqrt(dim), yoffset-Math.sqrt(dim),dim,dim));
+			*/
 			
 			int selectedCluster = selectedClustersByFeature[featureNumber];
 			if(i == selectedCluster-1){ // this needs to be offset by 1, because a '1' was added to the cluster numbers to avoid
 				// a cluster being number '0'. 
 				g2.setColor(highlightColor);
-				g2.fill(new Ellipse2D.Double(minValue,yoffset*.75,maxValue - minValue,yoffset*.5));
-				g2.draw(new Ellipse2D.Double(minValue,yoffset*.75,maxValue - minValue,yoffset*.5));
+				g2.fill(new Ellipse2D.Double(minValue,yoffset*.68,maxValue - minValue,yoffset*.75));
 
 			}
+			/*
 			else{
 				g2.setColor(Color.green);
 				g2.draw(new Ellipse2D.Double(minValue,yoffset*.75,maxValue - minValue,yoffset*.5));
 			}
+			*/
 			thisClustersMinsAndMaxes[i][0] = minValue;
 			thisClustersMinsAndMaxes[i][1] = maxValue;
 			
 		}
-		g2.setColor(transPurple);
-		g2.fill(new Ellipse2D.Double(transAuthorMin,yoffset*.75,transAuthorMax-transAuthorMin,yoffset*.5));
-		
 		g2.setColor(transRed);
-		dim = 10;
+		g2.fill(new Ellipse2D.Double(transAuthorMin,yoffset*.78,transAuthorMax-transAuthorMin,yoffset*.5));
+		
+		g2.setColor(Color.black);
+		dim = 7;
 		g2.fill(new Ellipse2D.Double(transPresentValue-Math.sqrt(dim), yoffset-Math.sqrt(dim),dim,dim));
 		
 	}

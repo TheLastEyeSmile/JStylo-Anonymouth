@@ -79,10 +79,9 @@ public class InstanceConstructor {
 	 * Constructor for InstanceConstructor, accepts boolean variable that tells WekaInstancesBuilder whether to expect sparse data or not. (if unsure, set false) 
 	 * @param isSparse - boolean, true if expecting sparse data, false otherwise or if unsure.
 	 * @param cfd - cumulative feature driver. Contains all features that will be extracted from the documents
-	 * @param useDummyAuthor true to have WekaInstancesBuilder inject a dummy author into the training/test sets. false otherwise.
 	 */
-	public InstanceConstructor(boolean isSparse, CumulativeFeatureDriver cfd, boolean useDummyAuthor, boolean printStuff){
-		wid = new WekaInstancesBuilder(isSparse, useDummyAuthor);
+	public InstanceConstructor(boolean isSparse, CumulativeFeatureDriver cfd, boolean printStuff){
+		wid = new WekaInstancesBuilder(isSparse);
 		theseFeaturesCfd = cfd;
 		this.printStuff =printStuff;
 		Logger.logln("InstanceConstuctor constructed");

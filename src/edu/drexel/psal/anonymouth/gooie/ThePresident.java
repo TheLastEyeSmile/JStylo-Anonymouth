@@ -83,7 +83,7 @@ public class ThePresident {
 			app.setAboutHandler(new AboutHandler(){
 				public void handleAbout(AboutEvent e){
 					JOptionPane.showMessageDialog(null, 
-							"Anonymouth\nVersion 0.0.2\nAuthor: Andrew W.E. McDonald\nDrexel University, PSAL, Dr. Rachel Greenstadt - P.I.",
+							"Anonymouth\nVersion 0.0.3\nAuthor: Andrew W.E. McDonald\nDrexel University, PSAL, Dr. Rachel Greenstadt - P.I.",
 							"About Anonymouth",
 							JOptionPane.INFORMATION_MESSAGE,
 							LOGO);
@@ -95,19 +95,13 @@ public class ThePresident {
 		}
 		sessionName = "anonymous"; 
 		String tempName = null;
-		boolean acceptableName = false;
 		tempName = JOptionPane.showInputDialog("Please name your session:", sessionName);
-		if((tempName == null || tempName.trim().equals("")))
-			acceptableName = false;
-		else
-			acceptableName = true;
-
-		if(tempName != null){
-			tempName = tempName.replaceAll("['.?!()<>#\\\\/|\\[\\]{}*\":;`~&^%$@+=,]", "");
-			tempName = tempName.replaceAll(" ", "_");
-		}
-		if(acceptableName == true)
-			sessionName = tempName;
+		if(tempName == null)
+			System.exit(665);
+			
+		tempName = tempName.replaceAll("['.?!()<>#\\\\/|\\[\\]{}*\":;`~&^%$@+=,]", "");
+		tempName = tempName.replaceAll(" ", "_");
+		sessionName = tempName;
 		//System.out.println(tempName+" "+sessionName);
 		Logger.setFilePrefix("Anonymouth_"+sessionName);
 		Logger.logFile = true;	

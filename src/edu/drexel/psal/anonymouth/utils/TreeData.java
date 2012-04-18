@@ -2,6 +2,7 @@ package edu.drexel.psal.anonymouth.utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 
 
 /**
@@ -65,6 +66,28 @@ public class TreeData{
 		numberOfOccurrences++;
 		return true;
 	}
+
+	
+	/**
+	 * if the sentences in 'als' are already in this TreeData object, their counts will be increased by the count of each respective sentence in 
+	 * als. Any sentence that isn't already in the TreeData object will be added to the object's sentences along with their respective counts.
+	 * @param als
+	 * @return true
+	 */
+	public boolean addSentences(ArrayList<Sentence> als){
+		Iterator<Sentence> sIter = als.iterator();
+		int index;
+		while(sIter.hasNext()){
+			Sentence tempS = sIter.next();
+			if((index = sentences.indexOf(tempS)) != -1)
+				sentences.get(index).addToCount(tempS.count);
+			else{
+				sentences.add(tempS);
+				numUnique++;
+			}
+		}
+		return true;
+	}
 	
 	/**
 	 * @return returns the number of times the tree structure was seen / occurred
@@ -104,7 +127,7 @@ public class TreeData{
 	}
 	
 	/**
-	 * returns a single string of the sentence text, ordered by number of occurances of each string. 
+	 * returns a single string of the sentence text, ordered by number of occurrences of each string. 
 	 * @param escapeChars if 'true', commas will be escaped and newlines will be changed 
 	 * @return
 	 */

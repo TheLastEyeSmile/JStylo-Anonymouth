@@ -2,6 +2,7 @@ package edu.drexel.psal.anonymouth.gooie;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,11 +48,14 @@ import edu.drexel.psal.anonymouth.projectDev.TheMirror;
 import edu.drexel.psal.anonymouth.suggestors.HighlightMapList;
 import edu.drexel.psal.anonymouth.suggestors.StringFormulator;
 import edu.drexel.psal.anonymouth.suggestors.TheOracle;
+import edu.drexel.psal.anonymouth.utils.ConsolidationStation;
+import edu.drexel.psal.anonymouth.utils.TreeData;
 
 import weka.core.Attribute;
 import edu.drexel.psal.jstylo.generics.CumulativeFeatureDriver;
 import edu.drexel.psal.jstylo.generics.FeatureDriver;
 import edu.drexel.psal.jstylo.generics.Logger;
+import edu.drexel.psal.jstylo.generics.Logger.LogOut;
 import edu.drexel.psal.jstylo.generics.ProblemSet;
 import edu.drexel.psal.jstylo.generics.WekaInstancesBuilder;
 
@@ -197,6 +201,35 @@ public class BackendInterface {
 		}
 	}
 	
+	protected static void tagDocs(GUIMain main){
+		(new Thread(bei.new TagDocs(main))).start();
+	}
+	
+	public class TagDocs extends GUIThread{
+		
+		TagDocs(GUIMain main){
+			super(main);
+		}
+		
+		public void run(){
+			HashMap<String,ArrayList<TreeData>> parsed = null;
+			/*
+			try {
+				//parsed = EditorTabDriver.docParser.parseAllDocs();
+			} catch (IOException e) {
+				Logger.logln("Fatal Error: Failed to parse documents",LogOut.STDERR);
+				e.printStackTrace();
+				ErrorHandler.fatalError();
+			}
+			*/
+			if(parsed != null){
+				EditorTabDriver.consolidator = new ConsolidationStation(EditorTabDriver.attribs,parsed);
+				EditorTabDriver.consolidator.beginConsolidation();
+			}
+			
+		}
+	}
+	
 	protected static void preTargetSelectionProcessing(GUIMain main,DataAnalyzer wizard, DocumentMagician magician,ClassifyingProgressBar cpb){
 		//Logger
 		(new Thread(bei.new PreTargetSelectionProcessing(main,wizard,magician,cpb))).start();
@@ -263,7 +296,7 @@ public class BackendInterface {
 				}
 				catch(Exception e){
 					e.printStackTrace();
-					somethingTerrible();
+					ErrorHandler.fatalError();
 				}
 				
 				List<Map<String,Double>> wekaResults = magician.getWekaResultList();
@@ -301,7 +334,7 @@ public class BackendInterface {
 						cpb.setText("Classifying Documents... Done");
 					} catch (Exception e) {
 						e.printStackTrace();
-						somethingTerrible();
+						ErrorHandler.fatalError();
 					}
 					cpb.setText("Setting Results...");
 					List<Map<String,Double>> wekaResults = magician.getWekaResultList();
@@ -406,7 +439,7 @@ public class BackendInterface {
 			tCol.setMinWidth(30);
 			tCol.setPreferredWidth(30);
 			// make highlight bar
-			main.highlightSelectionBox.setModel(makeHighlightBarModel());
+			//main.highlightSelectionBox.setModel(makeHighlightBarModel());
 			TheOracle.setTheDocument(eits.editorBox.getText());
 			main.processButton.setText("Re-process");
 			main.processButton.setToolTipText("Click this button once you have made all changes in order to see how they have affected the classification of your document.");
@@ -416,7 +449,7 @@ public class BackendInterface {
 			
 			// XXX for AFTER everything is done
 				
-			main.highlightSelectionBox.setEnabled(true);
+			//main.highlightSelectionBox.setEnabled(true);
 			main.processButton.setSelected(false);
 			cpb.setText("User Editing... Waiting to\"Re-process\"");
 			cpb.stop();

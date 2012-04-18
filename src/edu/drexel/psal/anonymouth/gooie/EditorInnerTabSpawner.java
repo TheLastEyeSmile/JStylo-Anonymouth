@@ -5,6 +5,7 @@ import edu.drexel.psal.jstylo.generics.Logger;
 import edu.drexel.psal.jstylo.generics.ProblemSet;
 import edu.drexel.psal.jstylo.generics.WekaInstancesBuilder;
 
+import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -34,6 +35,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
 
 import weka.classifiers.Classifier;
 import edu.drexel.psal.jstylo.analyzers.WekaAnalyzer;
@@ -60,19 +65,32 @@ import edu.drexel.psal.jstylo.analyzers.WekaAnalyzer;
 public class EditorInnerTabSpawner {
 	
 			protected JPanel editBoxPanel;
-			protected JScrollPane editBox;
-			protected JTextPane editorBox;
-			protected JScrollPane resultsTablePane;
-			protected JTable resultsTable;
+			protected JPanel sentenceAndDocumentPanel;
+			protected JPanel sentenceLabelPanel;
+			protected JScrollPane sentencePane;
 			protected JLabel classificationLabel;
+			protected JPanel resultsBoxPanel_InnerBottomPanel;
+			protected JTable resultsTable;
+			protected JScrollPane resultsTablePane;
+			protected JPanel resultsBoxPanel;
 			protected JLabel resultsTableLabel;
+			protected JPanel resultsTableLabelPanel;
+			protected JPanel resultsBoxAndResultsLabelPanel;
+			protected JTextPane editorBox;
+			protected JScrollPane editBox;
+			protected JPanel editorBoxPanel;
+			protected JLabel editBoxLabel;
+			protected JPanel editBoxLabelPanel;
+			protected JPanel editBoxAndEditLabelPanel;
+			protected JTextPane sentenceEditPane;
+			protected JLabel sentenceBoxLabel;
+			protected JPanel sentencePanel;
+			protected JPanel sentenceAndSentenceLabelPanel;
 			private boolean tabMade = false;
 			protected int resultsMaxIndex;
 			protected String chosenAuthor;
 	
 			private String oldEditorBoxDoc = " ";
-			private JScrollPane sentencePane;
-			private JTextPane sentenceEditPane;
 			private TableModel oldResultsTableModel = null;
 			//private String oldResultsTableLabelString = " ";
 			private String oldClassificationLabel = " ";
@@ -93,91 +111,143 @@ public class EditorInnerTabSpawner {
 			public EditorInnerTabSpawner spawnTab(){
 				Logger.logln("EditorInnerTabSpawner spawning tab");
 				if(tabMade == false){
-				editBoxPanel = new JPanel();
-				GroupLayout editBoxPanelLayout = new GroupLayout((JComponent)editBoxPanel);
-				editBoxPanel.setLayout(editBoxPanelLayout);
-				editBoxPanel.setPreferredSize(new java.awt.Dimension(785, 563));
-				{
-					editBox = new JScrollPane();
-					{
-						editorBox = new JTextPane();
-						editBox.setViewportView(editorBox);
-						if(oldEditorBoxDoc.equals(" ")){
-							editorBox.setText("Your document will be here.");
-							editorBox.setPreferredSize(new java.awt.Dimension(758, 388));
-							editorBox.setEditable(false);
-						}
-						else 
-							editorBox.setText(oldEditorBoxDoc);
-					}
-				}
-				{
-					resultsTablePane = new JScrollPane();
-					{
-						TableModel resultsTableModel;
-						if(oldResultsTableModel == null){
-							resultsTableModel = 
+					editBoxPanel = new JPanel();
+                    BorderLayout thisLayout = new BorderLayout();
+                    editBoxPanel.setLayout(thisLayout);
+                    editBoxPanel.setPreferredSize(new java.awt.Dimension(744, 563));
+                    editBoxPanel.setMaximumSize(new java.awt.Dimension(1000,563));
+                    {
+                        sentenceAndDocumentPanel = new JPanel();
+                        BorderLayout sentenceAndDocumentPanelLayout = new BorderLayout();
+                        sentenceAndDocumentPanel.setLayout(sentenceAndDocumentPanelLayout);
+                        editBoxPanel.add(sentenceAndDocumentPanel, BorderLayout.NORTH);
+                        sentenceAndDocumentPanel.setPreferredSize(new java.awt.Dimension(744, 435));
+                        {
+                            sentenceAndSentenceLabelPanel = new JPanel();
+                            BorderLayout sentenceAndSentenceLabelPanelLayout = new BorderLayout();
+                            sentenceAndSentenceLabelPanel.setLayout(sentenceAndSentenceLabelPanelLayout);
+                            sentenceAndDocumentPanel.add(sentenceAndSentenceLabelPanel, BorderLayout.NORTH);
+                            sentenceAndSentenceLabelPanel.setPreferredSize(new java.awt.Dimension(744, 115));
+                            {
+                                sentenceLabelPanel = new JPanel();
+                                sentenceAndSentenceLabelPanel.add(sentenceLabelPanel, BorderLayout.NORTH);
+                                sentenceLabelPanel.setPreferredSize(new java.awt.Dimension(744, 24));
+                                {
+                                    sentenceBoxLabel = new JLabel();
+                                    sentenceLabelPanel.add(sentenceBoxLabel);
+                                    sentenceBoxLabel.setText("Sentence You are Currently Editing:");
+                                    sentenceBoxLabel.setPreferredSize(new java.awt.Dimension(236, 15));
+                                }
+                            }
+                            {
+                                sentencePanel = new JPanel();
+                                BorderLayout sentencePanelLayout = new BorderLayout();
+                                sentencePanel.setLayout(sentencePanelLayout);
+                                sentenceAndSentenceLabelPanel.add(sentencePanel, BorderLayout.SOUTH);
+                                sentencePanel.setPreferredSize(new java.awt.Dimension(744, 86));
+                                {
+                                    sentencePane = new JScrollPane();
+                                    sentencePanel.add(sentencePane, BorderLayout.CENTER);
+                                    {
+                                    	StyleContext sc = new StyleContext();
+                                        final DefaultStyledDocument doc = new DefaultStyledDocument(sc);
+                                        sentenceEditPane = new JTextPane(doc);
+                                        sentencePane.setViewportView(sentenceEditPane);
+                                        //makes font size 24
+                                        Style defaultStyle = sc.getStyle(StyleContext.DEFAULT_STYLE);
+                                        Style editBoxStyle = sc.addStyle("EditBoxStyle", defaultStyle);
+                                        StyleConstants.setFontSize(editBoxStyle, 14);
+                                        sentenceEditPane.setText("This is where the sentence you are currently editing will go.");
+                                        sentenceEditPane.setPreferredSize(new java.awt.Dimension(740, 82));
+                                        doc.setLogicalStyle(0, editBoxStyle);
+                                    }
+                                }
+                            }
+                        }
+                        {
+                            editBoxAndEditLabelPanel = new JPanel();
+                            BorderLayout editBoxAndEditLabelPanelLayout = new BorderLayout();
+                            editBoxAndEditLabelPanel.setLayout(editBoxAndEditLabelPanelLayout);
+                            sentenceAndDocumentPanel.add(editBoxAndEditLabelPanel, BorderLayout.SOUTH);
+                            editBoxAndEditLabelPanel.setPreferredSize(new java.awt.Dimension(744, 316));
+                            {
+                                editBoxLabelPanel = new JPanel();
+                                editBoxAndEditLabelPanel.add(editBoxLabelPanel, BorderLayout.NORTH);
+                                editBoxLabelPanel.setPreferredSize(new java.awt.Dimension(744, 29));
+                                {
+                                    editBoxLabel = new JLabel();
+                                    editBoxLabelPanel.add(editBoxLabel);
+                                    editBoxLabel.setText("The Latest Version of Your \"Document to Anonymize\":");
+                                }
+                            }
+                            {
+                                editorBoxPanel = new JPanel();
+                                BorderLayout editorBoxPanelLayout = new BorderLayout();
+                                editorBoxPanel.setLayout(editorBoxPanelLayout);
+                                editBoxAndEditLabelPanel.add(editorBoxPanel, BorderLayout.SOUTH);
+                                editorBoxPanel.setPreferredSize(new java.awt.Dimension(744, 289));
+                                {
+                                    editBox = new JScrollPane();
+                                    editorBoxPanel.add(editBox, BorderLayout.CENTER);
+                                    {
+                                        editorBox = new JTextPane();
+                                        editBox.setViewportView(editorBox);
+                                        editorBox.setText("This is where the latest version of your document will be.");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    {
+                        resultsBoxAndResultsLabelPanel = new JPanel();
+                        BorderLayout resultsBoxAndResultsLabelPanelLayout = new BorderLayout();
+                        resultsBoxAndResultsLabelPanel.setLayout(resultsBoxAndResultsLabelPanelLayout);
+                        editBoxPanel.add(resultsBoxAndResultsLabelPanel, BorderLayout.SOUTH);
+                        resultsBoxAndResultsLabelPanel.setPreferredSize(new java.awt.Dimension(744, 121));
+                        {
+                            resultsTableLabelPanel = new JPanel();
+                            resultsBoxAndResultsLabelPanel.add(resultsTableLabelPanel, BorderLayout.NORTH);
+                            resultsTableLabelPanel.setPreferredSize(new java.awt.Dimension(744, 27));
+                            {
+                                resultsTableLabel = new JLabel();
+                                resultsTableLabelPanel.add(resultsTableLabel);
+                                resultsTableLabel.setText("Below are the results of your document's classification");
+                            }
+                        }
+                        {
+                            resultsBoxPanel = new JPanel();
+                            BorderLayout resultsBoxPanelLayout = new BorderLayout();
+                            resultsBoxPanel.setLayout(resultsBoxPanelLayout);
+                            resultsBoxAndResultsLabelPanel.add(resultsBoxPanel, BorderLayout.SOUTH);
+                            resultsBoxPanel.setPreferredSize(new java.awt.Dimension(744, 91));
+                            {
+                                resultsTablePane = new JScrollPane();
+                                resultsBoxPanel.add(resultsTablePane, BorderLayout.NORTH);
+                                resultsTablePane.setPreferredSize(new java.awt.Dimension(744, 52));
+                                {
+                                    TableModel resultsTableModel = 
 									new DefaultTableModel(
-											new String[][] { { "" }, { "" } },
-											new String[] { "", "" });
-						}
-						else
-							resultsTableModel =oldResultsTableModel;
-						resultsTable = new JTable();
-						resultsTablePane.setViewportView(resultsTable);
-						resultsTable.setModel(resultsTableModel);
-						if(tcr != null)
-							resultsTable.setDefaultRenderer(Object.class, tcr);
-					}
+                                                          new String[][] { { "One", "Two" }, { "Three", "Four" } },
+                                                          new String[] { "Column 1", "Column 2" });
+                                    resultsTable = new JTable();
+                                    resultsTablePane.setViewportView(resultsTable);
+                                    resultsTable.setModel(resultsTableModel);
+                                }
+                            }
+                            {
+                                resultsBoxPanel_InnerBottomPanel = new JPanel();
+                                resultsBoxPanel.add(resultsBoxPanel_InnerBottomPanel, BorderLayout.SOUTH);
+                                resultsBoxPanel_InnerBottomPanel.setPreferredSize(new java.awt.Dimension(744, 35));
+                                {
+                                    classificationLabel = new JLabel();
+                                    resultsBoxPanel_InnerBottomPanel.add(classificationLabel);
+                                    classificationLabel.setText("Your document's classification will be shown here");
+                                }
+                            }
+                        }
+                    }	
+                    tabMade = true;
 				}
-				{
-					classificationLabel = new JLabel();
-					String chosenOne = EditorTabDriver.chosenAuthor;
-					if(chosenOne.equals(ProblemSet.getDummyAuthor()))
-						classificationLabel.setText("Unfortunately, your document seems to have been written by: "+EditorTabDriver.chosenAuthor);
-					else if (chosenOne.equals("n/a"))
-						classificationLabel.setText("Please process your document in order to recieve a classification result.");
-					else
-						classificationLabel.setText("Your document appears as if '"+EditorTabDriver.chosenAuthor+"' wrote it!");
-				}
-				{
-					resultsTableLabel = new JLabel();
-					if(oldResultsTableModel == null)
-						resultsTableLabel.setText("Results of this Document's Classification (% probability of authorship per author)");
-					else
-						resultsTableLabel.setText("Results of **Last** Document's Classification (% probability of authorship per author)");
-				}
-			editBoxPanelLayout.setHorizontalGroup(editBoxPanelLayout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(editBoxPanelLayout.createParallelGroup()
-					    .addComponent(editBox, GroupLayout.Alignment.LEADING, 0, 761, Short.MAX_VALUE)
-					    .addComponent(resultsTablePane, GroupLayout.Alignment.LEADING, 0, 761, Short.MAX_VALUE)
-					    .addComponent(getSentencePane(), GroupLayout.Alignment.LEADING, 0, 761, Short.MAX_VALUE)
-					    .addGroup(editBoxPanelLayout.createSequentialGroup()
-					        .addGap(92)
-					        .addGroup(editBoxPanelLayout.createParallelGroup()
-					            .addGroup(editBoxPanelLayout.createSequentialGroup()
-					                .addComponent(resultsTableLabel, GroupLayout.PREFERRED_SIZE, 628, GroupLayout.PREFERRED_SIZE)
-					                .addGap(0, 0, Short.MAX_VALUE))
-					            .addGroup(GroupLayout.Alignment.LEADING, editBoxPanelLayout.createSequentialGroup()
-					                .addGap(35)
-					                .addComponent(classificationLabel, 0, 570, Short.MAX_VALUE)
-					                .addGap(23)))
-					        .addGap(41)))
-					.addContainerGap());
-			editBoxPanelLayout.setVerticalGroup(editBoxPanelLayout.createSequentialGroup()
-					.addContainerGap(33, 33)
-					.addComponent(getSentencePane(), 0, 60, Short.MAX_VALUE)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-					.addComponent(editBox, GroupLayout.PREFERRED_SIZE, 324, GroupLayout.PREFERRED_SIZE)
-					.addGap(16)
-					.addComponent(resultsTableLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-					.addComponent(resultsTablePane, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-					.addComponent(classificationLabel, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE));
-				}
-				tabMade = true;
 				return this;
 			}
 			

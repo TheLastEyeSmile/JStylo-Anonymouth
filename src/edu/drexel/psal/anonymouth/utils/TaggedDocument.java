@@ -5,9 +5,12 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.jgaap.JGAAPConstants;
 
+import edu.drexel.psal.anonymouth.gooie.ErrorHandler;
 import edu.drexel.psal.jstylo.generics.Logger;
 import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.TaggedWord;
@@ -30,6 +33,9 @@ enum CONJ {SIMPLE,PROGRESSIVE,PERFECT,PERFECT_PROGRESSIVE};
 public class TaggedDocument{
 	
 	protected ArrayList<TaggedSentence> taggedSentences;
+	//protected ArrayList<String> untaggedSentences;
+	private static final Pattern EOS_chars = Pattern.compile("([?!]+)|([.]){1}");
+	
 	protected String documentTitle = "None";
 	protected String documentAuthor = "None";
 	protected ArrayList<ArrayList<TENSE>> tenses;
@@ -79,6 +85,14 @@ public class TaggedDocument{
 		documentAuthor = author;
 	}
 	
+	/*public void setTaggedSentences(ArrayList<TaggedSentence> taggedSentences){
+		int i = 0;
+		int len = taggedSentences.size();
+		for(i=0;i<len;i++)
+			totalSentences++;
+			this.taggedSentences.add(taggedSentences.get(i)); 
+	}*/
+	
 	/**
 	 * Returns the status of the MaxentTagger
 	 * @return true if tagger is okay (has been properly initialized), false otherwise
@@ -112,11 +126,10 @@ public class TaggedDocument{
 	 * @return the TaggedSentences
 	 */
 	public ArrayList<TaggedSentence> makeAndTagSentences(String untagged, boolean appendTaggedSentencesToGlobalArrayList){
-		ArrayList<String> untaggedSentences = jigsaw.makeSentenceTokens(untagged);
-		totalSentences=untaggedSentences.size();
-		ArrayList<TaggedSentence> taggedSentences = new ArrayList<TaggedSentence>(untaggedSentences.size());
+		ArrayList<String> untaggedSent = jigsaw.makeSentenceTokens(untagged);
+		ArrayList<TaggedSentence> taggedSentences = new ArrayList<TaggedSentence>(untaggedSent.size());
 		//sentencesPreTagging = new ArrayList<List<? extends HasWord>>();
-		strIter = untaggedSentences.iterator();
+		strIter = untaggedSent.iterator();
 		String tempSent;
 		while(strIter.hasNext()){
 			tempSent = strIter.next();
@@ -127,13 +140,17 @@ public class TaggedDocument{
 			taggedSentence.setTaggedSentence(mt.tagSentence(sentenceTokenized));
 			taggedSentence.setGrammarStats();
 			taggedSentences.add(taggedSentence); 
+			
 		}
 		if(appendTaggedSentencesToGlobalArrayList == true){
 			int i = 0;
 			int len = taggedSentences.size();
-			for(i=0;i<len;i++)
+			for(i=0;i<len;i++){
+				totalSentences++;
 				this.taggedSentences.add(taggedSentences.get(i)); 
+			}
 		}
+		
 		return taggedSentences;
 	}
 	
@@ -141,6 +158,17 @@ public class TaggedDocument{
 		return taggedSentences;
 	}
 		
+
+	public ArrayList<String> getUntaggedSentences(){
+		ArrayList<String> sentences = new ArrayList<String>();
+		for (int i=0;i<taggedSentences.size();i++){
+			sentences.add(taggedSentences.get(i).getUntagged());
+		}
+		return sentences;
+		
+	}
+	
+	
 	/**
 	 * gets the next sentence
 	 * @return
@@ -151,8 +179,8 @@ public class TaggedDocument{
 			return taggedSentences.get(sentNumber).getUntagged();
 		}
 		else{
-			Logger.logln("ERROR: SentNumber cannot exceed the total sentences.");
-			return null;
+			sentNumber=totalSentences-1;
+			return taggedSentences.get(sentNumber).getUntagged();
 		}
 	}
 	
@@ -178,12 +206,13 @@ public class TaggedDocument{
 	 * @return the concatenation of the current sentence and the next sentence.
 	 */
 	public String addNextSentence() {
-		if(sentNumber <totalSentences-1||sentNumber>=0){
+		if(sentNumber <totalSentences-1 && sentNumber>=0){
 			totalSentences--;
-			String tempSent=taggedSentences.remove(sentNumber+1).getUntagged();
-			String newSent=taggedSentences.get(sentNumber).getUntagged()+tempSent;
-			replaceCurrentSentence(newSent);
-			return newSent;
+			TaggedSentence nextSent=taggedSentences.remove(sentNumber+1);
+			TaggedSentence newSent=taggedSentences.remove(sentNumber);
+			newSent=concatSentences(newSent,nextSent);
+			taggedSentences.add(sentNumber, newSent);
+			return newSent.getUntagged();
 		}
 		if(sentNumber<0){
 			sentNumber=0;
@@ -192,13 +221,17 @@ public class TaggedDocument{
 		
 	}
 	
-	private void replaceCurrentSentence(String newSent) {
-		// TODO Auto-generated method stub
-		taggedSentences.remove(sentNumber).getUntagged();
-		taggedSentences.get(sentNumber).getUntagged();
+	private TaggedSentence concatSentences(TaggedSentence tagSent1,TaggedSentence tagSent2){
+		TaggedSentence newSent= new TaggedSentence(tagSent1.getUntagged()+tagSent2.getUntagged());
+		/*for(int i = 0; i<tagSent2.tagged.size();i++){
+			tagSent1.tagged.add(tagSent2.tagged.get(i));
+		}*/
+		//newSent.setTaggedSentence(tagSent1.tagged);
+		
+		return newSent;
 	}
-
-	public static int getSentNumber(){
+	
+	public int getSentNumber(){
 		return sentNumber;
 	}
 	
@@ -214,17 +247,39 @@ public class TaggedDocument{
 	public TaggedSentence removeTaggedSentence(int indexToRemove){
 		return taggedSentences.remove(indexToRemove);
 	}
-	
-	public void removeAndReplace(int indexToRemove, int placeToAdd, String sentsToAdd){
-		removeTaggedSentence(indexToRemove);
-		ArrayList<TaggedSentence> taggedSentsToAdd = makeAndTagSentences(sentsToAdd,false);
-		int i = 0;
-		int currentAddingIndex = placeToAdd;
-		int len = taggedSentsToAdd.size();
-		for(i=0;i<len;i++){
-			addTaggedSentence(taggedSentsToAdd.get(i),currentAddingIndex);
-			currentAddingIndex++;
+	/**
+	 * 
+	 * @param sentsToAdd a String representing the sentence(s) from the editBox
+	 * @return 1 for everything worked as expected. 0 for user deleted a sentence. -1 for user submitted an incomplete sentence
+	 */
+	public int removeAndReplace(String sentsToAdd){//, int indexToRemove, int placeToAdd){
+		if(sentsToAdd.matches("\\s*")){//checks to see if the user deleted the current sentence
+			removeTaggedSentence(sentNumber);
+			Logger.logln("User deleted a sentence.");
+			totalSentences--;
+			sentNumber--;
+			return 0;
 		}
+		Matcher sent = EOS_chars.matcher(sentsToAdd);
+		if(!sent.find(0)){//checks to see if there is a lack of an end of sentence character.
+			Logger.logln("User tried submitting an incomplete sentence.");
+			TaggedSentence newSent= new TaggedSentence(sentsToAdd);
+			removeTaggedSentence(sentNumber);
+			addTaggedSentence(newSent,sentNumber);
+			ErrorHandler.incompleteSentence();
+			return -1;
+		}
+		ArrayList<TaggedSentence> taggedSentsToAdd = makeAndTagSentences(sentsToAdd,false);
+		removeTaggedSentence(sentNumber);
+		addTaggedSentence(taggedSentsToAdd.get(0),sentNumber);
+		int i ;
+		int len = taggedSentsToAdd.size();
+		for(i=1;i<len;i++){
+			sentNumber++;
+			addTaggedSentence(taggedSentsToAdd.get(i),sentNumber);
+			totalSentences++;
+		}
+		return 1;
 		
 	}
 	

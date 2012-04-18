@@ -14,6 +14,7 @@ import edu.drexel.psal.anonymouth.suggestors.TheOracle;
 import edu.drexel.psal.anonymouth.utils.ConsolidationStation;
 import edu.drexel.psal.anonymouth.utils.DocumentParser;
 import edu.drexel.psal.anonymouth.utils.SentenceTools;
+import edu.drexel.psal.anonymouth.utils.TaggedDocument;
 import edu.drexel.psal.jstylo.generics.FeatureDriver;
 import edu.drexel.psal.jstylo.generics.Logger;
 import edu.drexel.psal.jstylo.generics.WekaInstancesBuilder;
@@ -91,6 +92,7 @@ public class EditorTabDriver {
 	
 	
 	protected static SentenceTools sentenceTools;
+	protected static TaggedDocument taggedDocument;
 	private static int highlightSelectionBoxSelectionNumber;
 	public static boolean isUsingNineFeatures = false;
 	protected static boolean hasBeenInitialized = false;
@@ -139,6 +141,7 @@ public class EditorTabDriver {
 	public static HashMap<Integer,Integer> suggestionToAttributeMap;
 	protected static DocumentParser docParser;
 	protected static ConsolidationStation consolidator;
+	
 
 	protected static Highlighter editTracker;
 	protected static Highlighter.HighlightPainter painter;
@@ -162,10 +165,10 @@ public class EditorTabDriver {
 		editTracker = new DefaultHighlighter();
 		painter = new DefaultHighlighter.DefaultHighlightPainter(HILIT_COLOR);
 		int startHighlight=0, endHighlight=0;
-		int sentNum=SentenceTools.getSentNumb();
-		ArrayList<String> sentences=sentenceTools.getSentenceTokens();
+		int sentNum=taggedDocument.getSentNumber();
+		ArrayList<String> sentences=taggedDocument.getUntaggedSentences();
 		eits.editorBox.setHighlighter(editTracker);
-		String newText=sentenceTools.getFullDoc();
+		String newText=taggedDocument.getUntaggedDocument();
 		eits.editorBox.setText(newText);
 		boolean fixTabs=false;
 		for (int i=0;i<sentNum+1;i++){
@@ -212,7 +215,8 @@ public class EditorTabDriver {
 			public synchronized void actionPerformed(ActionEvent event) {
 				main.processButton.setEnabled(false);
 				if(isFirstRun==true){
-					sentenceTools = new SentenceTools();
+					//sentenceTools = new SentenceTools();
+					taggedDocument = new TaggedDocument();//eits.editorBox.getText());
 					Logger.logln("Intial processing starting...");
 					int i =0;
 					sizeOfCfd = main.cfd.numOfFeatureDrivers();
@@ -290,23 +294,20 @@ public class EditorTabDriver {
 					}
 					else{
 						eits.sentenceEditPane.setEditable(true);
-						eits.sentenceEditPane.setText(sentenceTools.getNext());
+						eits.sentenceEditPane.setText(taggedDocument.getNextSentence());
 						trackEditSentence();
 					}
 				}
 				else{
 					Logger.logln("next sentence button pressed.");
-					sentenceTools.checkNumSent(eits.getSentenceEditPane().getText());
-					//sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
-					String tempSent=sentenceTools.getNext();
-					if(tempSent!=null)
-						eits.getSentenceEditPane().setText(tempSent);
-					else {
-						ArrayList<String> Stok=sentenceTools.getSentenceTokens();
-						tempSent=Stok.get(Stok.size()-1);
-						eits.getSentenceEditPane().setText(tempSent);
+					//taggedDocument.makeAndTagSentences(eits.getSentenceEditPane().getText(), false);
+					if(taggedDocument.removeAndReplace(eits.getSentenceEditPane().getText())!=-1){
+						//sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
+						String tempSent=taggedDocument.getNextSentence();
+						if(tempSent!=null)
+							eits.getSentenceEditPane().setText(tempSent);
+						trackEditSentence();
 					}
-					trackEditSentence();
 				}
 			}
 			
@@ -322,23 +323,19 @@ public class EditorTabDriver {
 					}
 					else{
 						eits.sentenceEditPane.setEditable(true);
-						eits.sentenceEditPane.setText(sentenceTools.getNext());
+						eits.sentenceEditPane.setText(taggedDocument.getNextSentence());
 						trackEditSentence();
 					}
 				}
 				else{
 					Logger.logln("last sentence button pressed.");
-					sentenceTools.checkNumSent(eits.getSentenceEditPane().getText());
-					//sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
-					String tempSent=sentenceTools.getLast();
-					if(tempSent!=null)
-						eits.getSentenceEditPane().setText(tempSent);
-					else {//should no longer get here
-						ArrayList<String> Stok=sentenceTools.getSentenceTokens();
-						tempSent=Stok.get(0);
-						eits.getSentenceEditPane().setText(tempSent);
+					if(taggedDocument.removeAndReplace(eits.getSentenceEditPane().getText())!=-1){
+						
+						String tempSent=taggedDocument.getLastSentence();
+						if(tempSent!=null)
+							eits.getSentenceEditPane().setText(tempSent);
+						trackEditSentence();
 					}
-					trackEditSentence();
 				}
 				
 			}
@@ -355,20 +352,21 @@ public class EditorTabDriver {
 					}
 					else{
 						eits.sentenceEditPane.setEditable(true);
-						eits.sentenceEditPane.setText(sentenceTools.getNext());
+						eits.sentenceEditPane.setText(taggedDocument.getNextSentence());
 						trackEditSentence();
 					}
 				}
 				else{
-					//Logger.logln(eits.getSentenceEditPane().getText());
 					Logger.logln("Add sentence button pressed.");
-					//sentenceTools.checkNumSent(eits.getSentenceEditPane().getText());
-					String tempSent=sentenceTools.addNextSent();
+					taggedDocument.removeAndReplace(eits.getSentenceEditPane().getText());
+					//else{
+					String tempSent=taggedDocument.addNextSentence();
 					if(tempSent!=null)
 						eits.getSentenceEditPane().setText(tempSent);
 					else
 						tempSent="";
 					trackEditSentence();
+					
 				}
 			}
 			
@@ -775,10 +773,10 @@ public class EditorTabDriver {
 				initEditorInnerTabListeners(main);
 				main.processButton.setEnabled(true);
 				eits.editorBox.setEnabled(false);
-				sentenceTools.setSentenceCounter(-1);
+				TaggedDocument.setSentenceCounter(-1);
 				eits.sentenceEditPane.setEnabled(true);
 				eits.sentenceEditPane.setText(helpMessege);
-				eits.editorBox.setText(sentenceTools.getFullDoc());
+				eits.editorBox.setText(taggedDocument.getUntaggedDocument());
 				nextTabIndex++;
 			}
 			else

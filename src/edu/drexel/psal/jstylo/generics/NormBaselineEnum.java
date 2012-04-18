@@ -41,7 +41,11 @@ public enum NormBaselineEnum {
 	
 	// number of characters in the document
 	CHARS_IN_DOC("Number of characters in the document",
-			"Normalize over the total number of characters in the current document.");
+			"Normalize over the total number of characters in the current document."),
+	
+	// number of letters in the document
+	LETTERS_IN_DOC("Number of (English) letters in the document",
+			"Normalize over the total number of (English) letters in the current document.");
 	
 	private String title;
 	private String description;
@@ -66,39 +70,25 @@ public enum NormBaselineEnum {
 	}
 	
 	public static String[] getAllTitles() {
-		return new String[]{
-				NONE.title,
-				FEATURE_CLASS_IN_DOC.title,
-				FEATURE_CLASS_ALL_DOCS.title,
-				FEATURE_ALL_DOCUMENTS.title,
-				SENTENCES_IN_DOC.title,
-				WORDS_IN_DOC.title,
-				CHARS_IN_DOC.title
-		};
+		NormBaselineEnum[] values = NormBaselineEnum.values();
+		String[] res = new String[values.length];
+		for (int i=0; i<res.length; i++) {
+			res[i] = values[i].title;
+		}
+		return res;
 	}
 	
 	public static String[] getAllDescriptions() {
-		return new String[]{
-				NONE.description,
-				FEATURE_CLASS_IN_DOC.description,
-				FEATURE_CLASS_ALL_DOCS.description,
-				FEATURE_ALL_DOCUMENTS.description,
-				SENTENCES_IN_DOC.description,
-				WORDS_IN_DOC.description,
-				CHARS_IN_DOC.description
-		};
+		NormBaselineEnum[] values = NormBaselineEnum.values();
+		String[] res = new String[values.length];
+		for (int i=0; i<res.length; i++) {
+			res[i] = values[i].description;
+		}
+		return res;
 	}
 	
 	public static NormBaselineEnum[] getAllNormBaselines() {
-		return new NormBaselineEnum[] {
-				NONE,
-				FEATURE_CLASS_IN_DOC,
-				FEATURE_CLASS_ALL_DOCS,
-				FEATURE_ALL_DOCUMENTS,
-				SENTENCES_IN_DOC,
-				WORDS_IN_DOC,
-				CHARS_IN_DOC
-		};
+		return NormBaselineEnum.values();
 	}
 	
 	/**

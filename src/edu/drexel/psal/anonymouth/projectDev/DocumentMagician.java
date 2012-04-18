@@ -198,7 +198,7 @@ public class DocumentMagician {
 		Logger.logln("Saving temporary file: "+pathToTempModdedDoc);
 		try {
 			File tempModdedDoc = new File(pathToTempModdedDoc);
-			if(ThePresident.shouldKeepAutoSavedAnonymizedDocs == false)
+			if(ThePresident.SHOULD_KEEP_AUTO_SAVED_ANONYMIZED_DOCS == false)
 				tempModdedDoc.deleteOnExit();
 			FileWriter writer = new FileWriter(tempModdedDoc);
 			writer.write(modifiedDocument);

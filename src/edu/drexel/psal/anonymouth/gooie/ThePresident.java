@@ -29,8 +29,10 @@ public class ThePresident {
 	public static ImageIcon LOGO;
 	public static String sessionName;
 	public static String TEMP_DIR =  "temp/"; // TODO: put in "options"
-	public static boolean shouldKeepTempCleanDocs = false; // TODO : put in "options"
-	public static boolean shouldKeepAutoSavedAnonymizedDocs = false; // TODO: put in "options"
+	public static String GRAMMAR_DIR = "./grammar_data/";//TODO: put in "options"
+	//public static boolean SHOULD_KEEP_TEMP_CLEAN_DOCS = false; // TODO : put in "options" XXX not used!!
+	public static boolean SHOULD_KEEP_AUTO_SAVED_ANONYMIZED_DOCS = false; // TODO: put in "options"
+	public static boolean SAVE_TAGGED_DOCUMENTS = true; // TODO: put in "options
 
 	/*
 	public void getDockImage(String name){

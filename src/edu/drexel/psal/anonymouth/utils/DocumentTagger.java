@@ -29,6 +29,7 @@ import javax.swing.SpringLayout;
 import com.jgaap.generics.Document;
 
 import edu.drexel.psal.anonymouth.gooie.DocsTabDriver.ExtFilter;
+import edu.drexel.psal.anonymouth.gooie.ThePresident;
 import edu.drexel.psal.jstylo.generics.Logger;
 import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.TaggedWord;
@@ -49,7 +50,6 @@ public class DocumentTagger implements Runnable{
 	
 	int numSentences;
 	private static SentenceTools st = new SentenceTools();
-	private static String GRAMMAR_DIR = "./grammar_data/";
 	static String[] authorNames;// = new String[]{"aa","cc","p","q","r","x","y","z"};
 	private static Document dummy_doc = new Document();
 	private static ArrayList<TaggedDocument> taggedOtherSampleDocs;
@@ -76,9 +76,11 @@ public class DocumentTagger implements Runnable{
 		taggedToModifyDoc = getDocs(toModify, true);
 		System.out.println(taggedToModifyDoc.get(0).toString());
 	}
+	
+	public void run() {
+	}
 		
 	public static ArrayList<TaggedDocument> getDocs(List<Document> docs, boolean isToModify) throws Exception{
-		boolean processAuthor;
 		String currentAuthor;
 		String docTitle;
 		String fullDoc = "";
@@ -87,20 +89,23 @@ public class DocumentTagger implements Runnable{
 		currentAuthor = docs.get(0).getAuthor();
 		docTitle = docs.get(0).getTitle();
 		for(Document d:docs){
-			if(ObjectIO.objectExists(currentAuthor+"_"+docTitle,GRAMMAR_DIR) == true && !isToModify){
-				TaggedDocument td = ObjectIO.readTaggedDocument(docTitle+"_"+currentAuthor, GRAMMAR_DIR, false);
+			TaggedDocument td = null;
+			if(ObjectIO.objectExists(currentAuthor+"_"+docTitle,ThePresident.GRAMMAR_DIR) == true && !isToModify){
+				td = ObjectIO.readTaggedDocument(docTitle+"_"+currentAuthor, ThePresident.GRAMMAR_DIR, false);
 			}
 			else{
 				d.load();
-				fullDoc += d.stringify();//.replaceAll("\\p{C}"," ");// get rid of unicode control chars (causes parse errors).
-				TaggedDocument td = new TaggedDocument(fullDoc,docTitle,currentAuthor);
-				td.writeSerializedSelf(GRAMMAR_DIR);
+				fullDoc = d.stringify();//.replaceAll("\\p{C}"," ");// get rid of unicode control chars (causes parse errors).
+				td = new TaggedDocument(fullDoc,docTitle,currentAuthor);
+				if (ThePresident.SAVE_TAGGED_DOCUMENTS == true)
+					td.writeSerializedSelf(ThePresident.GRAMMAR_DIR);
 			}
+			outMap.add(td);
 			
 		}
 		return outMap;
 	}
-
+/*
 	public HashMap<String,ArrayList<TreeData>> tagAllDocs() throws IOException{ 
 		ArrayList<HashMap<String,ArrayList<String>>> everything = new ArrayList<HashMap<String,ArrayList<String>>>(3); 
 		everything.add(0,otherSampleStrings);
@@ -172,7 +177,7 @@ public class DocumentTagger implements Runnable{
 		
 		return allParsedAndOrdered;
 	}
-
+*/
 /*
 	public static HashMap<String,ArrayList<String>> docPathFinder() throws IOException{
 		HashMap<String,ArrayList<String>> everything = new HashMap<String,ArrayList<String>>();

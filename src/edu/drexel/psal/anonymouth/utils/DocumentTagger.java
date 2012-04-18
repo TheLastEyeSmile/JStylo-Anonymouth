@@ -83,38 +83,22 @@ public class DocumentTagger implements Runnable{
 		String docTitle;
 		String fullDoc = "";
 		docs.add(dummy_doc);
-		HashMap<String,ArrayList<String>> outMap = new HashMap<String,ArrayList<String>>();
+		ArrayList<TaggedDocument> outMap = new ArrayList<TaggedDocument>();
 		currentAuthor = docs.get(0).getAuthor();
 		docTitle = docs.get(0).getTitle();
-		if(ObjectIO.objectExists(currentAuthor+"_"+docTitle,GRAMMAR_DIR) == false || isToModify){
-			processAuthor = true;
-		}
-		else
-			processAuthor = false;
 		for(Document d:docs){
-			if( currentAuthor.equals(d.getAuthor()) == false){
-				if (processAuthor == true)
-					outMap.put(currentAuthor+"_"+docTitle,st.makeSentenceTokens(fullDoc));
-				else
-					outMap.put(currentAuthor+"_"+docTitle,null);
-				fullDoc = "";
-				currentAuthor = d.getAuthor();
-				if(currentAuthor.equals(dummy_doc.getAuthor())){
-					docs.remove(docs.size()-1);
-					break;
-				}
-				docTitle = d.getTitle();
 				if(ObjectIO.objectExists(currentAuthor+"_"+docTitle,GRAMMAR_DIR) == true || isToModify)
 					processAuthor = false;
 				else
 					processAuthor = true;
-			}
+			
 			if(processAuthor == true){
 				d.load();
 				fullDoc += d.stringify();//.replaceAll("\\p{C}"," ");// get rid of unicode control chars (causes parse errors).
 				TaggedDocument td = new TaggedDocument(fullDoc,docTitle,currentAuthor);
 				td.writeSerializedSelf(GRAMMAR_DIR);
 			}
+			
 		}
 		return outMap;
 	}

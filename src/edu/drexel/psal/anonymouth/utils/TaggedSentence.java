@@ -85,7 +85,7 @@ public class TaggedSentence {
 			//System.out.println(temp.tag());
 			if(temp.tag().startsWith("VB")){
 				//it is a verb 
-				switch(temp.tag()){
+				switch(TheTags.valueOf((temp.tag()))){
 				case "VB": conj.add(CONJ.SIMPLE);//"Verb, base form";
 				case "VBD": tense.add(TENSE.PAST);
 							conj.add(CONJ.SIMPLE); // "Verb, past tense";
@@ -137,7 +137,7 @@ public class TaggedSentence {
 		return "[ untagged: "+untagged+" ||| tagged: "+tagged.toString()+" ||| tense: "+tense.toString()+" ||| point of view: "+pointOfView.toString()+" conjugation(s): "+conj.toString()+" ]";
 	}
 	
-	public ArrayList<String> getWordsWithTag(POS.TheTags tag){
+	public ArrayList<String> getWordsWithTag(TheTags tag){
 		wordsToReturn = new ArrayList<String>(tagged.size());// Can't return more words than were tagged
 		tagIter = tagged.iterator();
 		while (tagIter.hasNext()){

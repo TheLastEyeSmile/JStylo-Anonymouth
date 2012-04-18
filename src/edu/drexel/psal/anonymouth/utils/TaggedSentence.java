@@ -86,13 +86,13 @@ public class TaggedSentence {
 			if(temp.tag().startsWith("VB")){
 				//it is a verb 
 				switch(TheTags.valueOf((temp.tag()))){
-				case "VB": conj.add(CONJ.SIMPLE);//"Verb, base form";
-				case "VBD": tense.add(TENSE.PAST);
+				case VB: conj.add(CONJ.SIMPLE);//"Verb, base form";
+				case VBD: tense.add(TENSE.PAST);
 							conj.add(CONJ.SIMPLE); // "Verb, past tense";
 				//case "VBG": // "Verb, gerund or present participle";
 				//case "VBN": // "Verb, past participle";
-				case "VBP": tense.add(TENSE.PRESENT);// "Verb, non-3rd person singular present";
-				case "VBZ": tense.add(TENSE.PRESENT);// "Verb, 3rd person singular present";
+				case VBP: tense.add(TENSE.PRESENT);// "Verb, non-3rd person singular present";
+				case VBZ: tense.add(TENSE.PRESENT);// "Verb, 3rd person singular present";
 				}
 			}
 			else if (temp.tag().startsWith("PR")){//this is a pronoun

@@ -34,7 +34,7 @@ public class TaggedDocument{
 	
 	protected ArrayList<TaggedSentence> taggedSentences;
 	//protected ArrayList<String> untaggedSentences;
-	private static final Pattern EOS_chars = Pattern.compile("([?!]+)|([.]){1}");
+	private static final Pattern EOS_chars = Pattern.compile("([?!]+)|([.]){1}\\s*");
 	
 	protected String documentTitle = "None";
 	protected String documentAuthor = "None";
@@ -260,14 +260,18 @@ public class TaggedDocument{
 			sentNumber--;
 			return 0;
 		}
-		Matcher sent = EOS_chars.matcher(sentsToAdd);
-		if(!sent.find(0)){//checks to see if there is a lack of an end of sentence character.
-			Logger.logln("User tried submitting an incomplete sentence.");
-			TaggedSentence newSent= new TaggedSentence(sentsToAdd);
-			removeTaggedSentence(sentNumber);
-			addTaggedSentence(newSent,sentNumber);
-			ErrorHandler.incompleteSentence();
-			return -1;
+		int position=0;
+		while(position<sentsToAdd.length()){
+			Matcher sent = EOS_chars.matcher(sentsToAdd);
+			if(!sent.find(position)){//checks to see if there is a lack of an end of sentence character.
+				Logger.logln("User tried submitting an incomplete sentence.");
+				TaggedSentence newSent= new TaggedSentence(sentsToAdd);
+				removeTaggedSentence(sentNumber);
+				addTaggedSentence(newSent,sentNumber);
+				ErrorHandler.incompleteSentence();
+				return -1;
+			}
+			position=sent.end();
 		}
 		ArrayList<TaggedSentence> taggedSentsToAdd = makeAndTagSentences(sentsToAdd,false);
 		removeTaggedSentence(sentNumber);

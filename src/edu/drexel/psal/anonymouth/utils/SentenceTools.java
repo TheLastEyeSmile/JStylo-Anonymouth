@@ -379,38 +379,4 @@ class Sentence {
 	
 }
 */
-/*
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-			text = text.replaceAll("\\b(?i)"+safeString,replacementString);
 
-	public static void main(String[] args) throws IOException{
-		//testText = " Or maybe, he did understand, but had more to share with humanity before his inevitable death. Maybe still, he was forecasting his own suicide twenty-eight years before it happened. No matter what Hemingway might have felt at the time, the deep nothingness that he shows in 'A Clean Well-Lighted Place,' is a nothingness that pervades the story and becomes more apparent to the characters as they age as humans do not last forever. Ernest Hemingway wrote much about the struggle to cope with the nothingness in the world, but eventually succumbed to the nothingness that he wrote about.";
-		testText=" After living so long, the old man lacks some of the gifts that people are born with that the young man takes for granted. The old man�s long life shows that as humans age, the length of time they have been around not only ages their body, but it ages their soul.";
-		try {
-			OutputStreamWriter outStream=new OutputStreamWriter(System.out,"UTF8");
-			Writer out=outStream;
-			for (int i = 0; i<arr.length; i++){
-				for(int j=0;j<arr[i].toString().length();j++){
-					System.out.println(arr[i].toString().charAt(j));
-					 out.write("Character Coding of the output Stream is " + outStream.getEncoding()+"\n");
-					 out.flush();
-				}
-			}
-			
-			 out.close();
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		
-			cleanDoc.setText((dirtyDoc.stringify()).replaceAll("\\p{C}&&[^\\t\\n\\r]"," ").toCharArray());
-			cleanDoc.setAuthor(dirtyDoc.getAuthor());
-			cleanDoc.setTitle(dirtyDoc.getTitle());
-			FileWriter fw = new FileWriter(new File("./temp/"+dirtyDoc.getTitle()));
-	
-
-		String newFile =  "./temp/"+dirtyDoc.getTitle();
-		
-		Document cleanDoc = new Document();
-*/

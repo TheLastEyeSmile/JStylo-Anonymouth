@@ -87,7 +87,7 @@ public class ObjectIO {
 		
 	}
 	
-	public TaggedDocument taggedDocumentReader(String id, String dir, boolean printData){
+	public static TaggedDocument readTaggedDocument(String id, String dir, boolean printData){
 		ObjectInput inputObject;
 		TaggedDocument td = null;
 		try {

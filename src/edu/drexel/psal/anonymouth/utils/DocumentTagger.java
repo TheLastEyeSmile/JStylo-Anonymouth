@@ -87,12 +87,10 @@ public class DocumentTagger implements Runnable{
 		currentAuthor = docs.get(0).getAuthor();
 		docTitle = docs.get(0).getTitle();
 		for(Document d:docs){
-				if(ObjectIO.objectExists(currentAuthor+"_"+docTitle,GRAMMAR_DIR) == true || isToModify)
-					processAuthor = false;
-				else
-					processAuthor = true;
-			
-			if(processAuthor == true){
+			if(ObjectIO.objectExists(currentAuthor+"_"+docTitle,GRAMMAR_DIR) == true && !isToModify){
+				TaggedDocument td = ObjectIO.readTaggedDocument(docTitle+"_"+currentAuthor, GRAMMAR_DIR, false);
+			}
+			else{
 				d.load();
 				fullDoc += d.stringify();//.replaceAll("\\p{C}"," ");// get rid of unicode control chars (causes parse errors).
 				TaggedDocument td = new TaggedDocument(fullDoc,docTitle,currentAuthor);

@@ -49,6 +49,7 @@ import edu.drexel.psal.anonymouth.suggestors.HighlightMapList;
 import edu.drexel.psal.anonymouth.suggestors.StringFormulator;
 import edu.drexel.psal.anonymouth.suggestors.TheOracle;
 import edu.drexel.psal.anonymouth.utils.ConsolidationStation;
+import edu.drexel.psal.anonymouth.utils.TaggedSentence;
 import edu.drexel.psal.anonymouth.utils.TreeData;
 
 import weka.core.Attribute;
@@ -458,9 +459,9 @@ public class BackendInterface {
 			eits.resultsTablePane.setEnabled(true);
 			eits.resultsTablePane.setOpaque(true);
 			EditorTabDriver.okayToSelectSuggestion = true;
-			 ArrayList<String> sentences=EditorTabDriver.sentenceTools.makeSentenceTokens(eits.editorBox.getText());
-			EditorTabDriver.sentenceTools.setSentsToEdit(sentences);
-			EditorTabDriver.sentenceTools.setNumberSentences(sentences.size());
+			ArrayList<TaggedSentence> sentences=EditorTabDriver.taggedDocument.makeAndTagSentences(eits.editorBox.getText(), true);
+			//EditorTabDriver.taggedDocument.setTaggedSentences(sentences);
+			//EditorTabDriver.sentenceTools.setNumberSentences(sentences.size());
 			eits.getSentenceEditPane().setText(EditorTabDriver.getHelpMessege()+" ");//the space is to differentiate this from the messege in a new inner tab.
 			eits.sentenceEditPane.setEnabled(true);
 			eits.sentenceEditPane.setEditable(false);

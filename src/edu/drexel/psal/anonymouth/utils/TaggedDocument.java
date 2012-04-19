@@ -224,14 +224,18 @@ public class TaggedDocument{
 	
 	/**
 	 * adds the next sentence to the current one.
+	 * @param The sentenceEditBox text
 	 * @return the concatenation of the current sentence and the next sentence.
 	 */
-	public String addNextSentence() {
+	public String addNextSentence(String boxText) {
 		if(sentNumber <totalSentences-1 && sentNumber>=0){
 			totalSentences--;
+			TaggedSentence newSent= new TaggedSentence(boxText);
+			ArrayList<TaggedSentence> taggedSents=makeAndTagSentences(boxText,false);
 			TaggedSentence nextSent=taggedSentences.remove(sentNumber+1);
-			TaggedSentence newSent=taggedSentences.remove(sentNumber);
-			newSent=concatSentences(newSent,nextSent);
+			taggedSents.add(nextSent);
+			taggedSentences.remove(sentNumber);
+			newSent=concatSentences(taggedSents);
 			taggedSentences.add(sentNumber, newSent);
 			return newSent.getUntagged();
 		}
@@ -241,13 +245,20 @@ public class TaggedDocument{
 		return taggedSentences.get(sentNumber).getUntagged();
 		
 	}
-	
-	private TaggedSentence concatSentences(TaggedSentence tagSent1,TaggedSentence tagSent2){
-		TaggedSentence newSent= new TaggedSentence(tagSent1.getUntagged()+tagSent2.getUntagged());
-		/*for(int i = 0; i<tagSent2.tagged.size();i++){
-			tagSent1.tagged.add(tagSent2.tagged.get(i));
-		}*/
-		//newSent.setTaggedSentence(tagSent1.tagged);
+	/**
+	 * 
+	 * @param taggedList takes a list of tagged sentences.
+	 * @return returns a single tagged sentences with the properties of all the sentences in the list.
+	 */
+	private TaggedSentence concatSentences(ArrayList<TaggedSentence> taggedList){
+		TaggedSentence newSent=new TaggedSentence(taggedList.get(0).getUntagged());//+taggedList.get(1).getUntagged());
+		newSent.setTaggedSentence(taggedList.get(0).tagged);
+		for (int i=1;i<taggedList.size();i++){
+			newSent.untagged=newSent.getUntagged()+taggedList.get(i).getUntagged();
+			for(int j = 0; j<taggedList.get(i).tagged.size();j++){
+				newSent.tagged.add(taggedList.get(i).tagged.get(j));
+			}
+		}
 		
 		return newSent;
 	}

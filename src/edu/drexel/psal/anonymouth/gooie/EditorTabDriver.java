@@ -141,7 +141,6 @@ public class EditorTabDriver {
 	public static HashMap<Integer,Integer> suggestionToAttributeMap;
 	protected static DocumentParser docParser;
 	protected static ConsolidationStation consolidator;
-	
 
 	protected static Highlighter editTracker;
 	protected static Highlighter.HighlightPainter painter;
@@ -150,7 +149,8 @@ public class EditorTabDriver {
 	private final static String helpMessege="Edit the sentence in this box.\n" +
 			"Go to the next/previous sentences by clicking the corresponding buttons.\n" +
 			"To edit multiple sentences at once, you can append the next sentence using the respective button.\n" +
-			"Clicking the features to the right will give you suggestions to help anonymize your paper.";
+			"Clicking the features to the right will give you suggestions to help anonymize your paper.\n" +
+			"Click any of the sentence buttons to continue.";
 	
 	protected static void signalTargetsSelected(GUIMain main, boolean goodToGo){
 		if(goodToGo == true)
@@ -288,6 +288,7 @@ public class EditorTabDriver {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0){
+				
 				if(!eits.sentenceEditPane.isEditable()){
 					if(!eits.sentenceEditPane.getText().equals(helpMessege)){
 						spawnNew(main);
@@ -317,6 +318,7 @@ public class EditorTabDriver {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0){
+				
 				if(!eits.sentenceEditPane.isEditable()){
 					if(!eits.sentenceEditPane.getText().equals(helpMessege)){
 						spawnNew(main);
@@ -345,7 +347,7 @@ public class EditorTabDriver {
 		main.addSentence.addActionListener(new ActionListener(){
 			
 			@Override
-			public void actionPerformed(ActionEvent arg0){
+			public void actionPerformed(ActionEvent arg0){//FIX THIS
 				if(!eits.sentenceEditPane.isEditable()){
 					if(!eits.sentenceEditPane.getText().equals(helpMessege)){
 						spawnNew(main);
@@ -358,13 +360,9 @@ public class EditorTabDriver {
 				}
 				else{
 					Logger.logln("Add sentence button pressed.");
-					taggedDocument.removeAndReplace(eits.getSentenceEditPane().getText());
-					//else{
-					String tempSent=taggedDocument.addNextSentence();
-					if(tempSent!=null)
-						eits.getSentenceEditPane().setText(tempSent);
-					else
-						tempSent="";
+					String tempSent=taggedDocument.addNextSentence(eits.getSentenceEditPane().getText());
+					//taggedDocument.removeAndReplace(eits.getSentenceEditPane().getText());
+					eits.getSentenceEditPane().setText(tempSent);
 					trackEditSentence();
 					
 				}

@@ -13,6 +13,7 @@ import edu.drexel.psal.anonymouth.suggestors.Prophecy;
 import edu.drexel.psal.anonymouth.suggestors.TheOracle;
 import edu.drexel.psal.anonymouth.utils.ConsolidationStation;
 import edu.drexel.psal.anonymouth.utils.DocumentParser;
+import edu.drexel.psal.anonymouth.utils.DocumentTagger;
 import edu.drexel.psal.anonymouth.utils.SentenceTools;
 import edu.drexel.psal.anonymouth.utils.TaggedDocument;
 import edu.drexel.psal.jstylo.generics.FeatureDriver;
@@ -92,6 +93,9 @@ public class EditorTabDriver {
 	
 	
 	protected static SentenceTools sentenceTools;
+	public static DocumentTagger otherSampleTagger = new DocumentTagger();
+	public static DocumentTagger authorSampleTagger = new DocumentTagger();
+	public static DocumentTagger toModifyTagger = new DocumentTagger();
 	protected static TaggedDocument taggedDocument;
 	private static int highlightSelectionBoxSelectionNumber;
 	public static boolean isUsingNineFeatures = false;

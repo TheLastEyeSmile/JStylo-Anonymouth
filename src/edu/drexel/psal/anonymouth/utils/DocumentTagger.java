@@ -29,6 +29,7 @@ import javax.swing.SpringLayout;
 import com.jgaap.generics.Document;
 
 import edu.drexel.psal.anonymouth.gooie.DocsTabDriver.ExtFilter;
+import edu.drexel.psal.anonymouth.gooie.ErrorHandler;
 import edu.drexel.psal.anonymouth.gooie.ThePresident;
 import edu.drexel.psal.jstylo.generics.Logger;
 import edu.stanford.nlp.ling.HasWord;
@@ -48,22 +49,31 @@ import edu.stanford.nlp.trees.*;
 public class DocumentTagger implements Runnable{
 	
 	
-	int numSentences;
-	private static SentenceTools st = new SentenceTools();
-	static String[] authorNames;// = new String[]{"aa","cc","p","q","r","x","y","z"};
-	private static Document dummy_doc = new Document();
-	private static ArrayList<TaggedDocument> taggedOtherSampleDocs;
-	private static ArrayList<TaggedDocument> taggedAuthorSampleDocs;
-	private static ArrayList<TaggedDocument> taggedToModifyDoc;
-	private static TreeProcessor[] allTreeProcessors = new TreeProcessor[3];
-	private static HashMap<String,ArrayList<TreeData>> allParsedAndOrdered = new HashMap<String,ArrayList<TreeData>>(3);
-	private MaxentTagger mt = null;
+	//static String[] authorNames;// = new String[]{"aa","cc","p","q","r","x","y","z"};
+	//private static Document dummy_doc = new Document();
+	//private static ArrayList<TaggedDocument> taggedOtherSampleDocs;
+	//private static ArrayList<TaggedDocument> taggedAuthorSampleDocs;
+	//private static ArrayList<TaggedDocument> taggedToModifyDoc;
+	//private static TreeProcessor[] allTreeProcessors = new TreeProcessor[3];
+	//private static HashMap<String,ArrayList<TreeData>> allParsedAndOrdered = new HashMap<String,ArrayList<TreeData>>(3);
+	//private MaxentTagger mt = null;
+	private List<Document> toTag;
+	private boolean loadIfExists;
+	private ArrayList<TaggedDocument> tagged;
+	private boolean finishedTagging = false;
 	
 	public DocumentTagger(){
-		
+
+	}
+
+	public void setDocList(List<Document> toTag, boolean loadIfExists){
+		this.toTag = toTag;
+		this.loadIfExists = loadIfExists;
+		Logger.logln("Set document to tag.");
 	}
 	
 	
+	/*
 	public static void setDocs(List<Document> otherSample, List<Document> authorSample, List<Document> toModify) throws Exception{
 		dummy_doc.setAuthor("Dummy author. This author should absolutley never be seen. If it is seen, and it is the last author in one of the lists, those documents won't process, and bad things will follow.");
 		Logger.logln("Starting otherSample in DocumentParser... size: "+otherSample.size());
@@ -76,19 +86,27 @@ public class DocumentTagger implements Runnable{
 		taggedToModifyDoc = getDocs(toModify, true);
 		System.out.println(taggedToModifyDoc.get(0).toString());
 	}
+	*/
 	
 	public void run() {
+		try {
+			tagged = tagDocs(toTag,loadIfExists);
+			finishedTagging = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			Logger.logln("ERROR! Tagging documets failed!");
+			ErrorHandler.fatalError();
+		}
 	}
 		
-	public static ArrayList<TaggedDocument> getDocs(List<Document> docs, boolean isToModify) throws Exception{
+	public ArrayList<TaggedDocument>tagDocs(List<Document> docs, boolean isToModify) throws Exception{
 		String currentAuthor;
 		String docTitle;
 		String fullDoc = "";
-		docs.add(dummy_doc);
 		ArrayList<TaggedDocument> outMap = new ArrayList<TaggedDocument>();
-		currentAuthor = docs.get(0).getAuthor();
-		docTitle = docs.get(0).getTitle();
 		for(Document d:docs){
+			currentAuthor = docs.get(0).getAuthor();
+			docTitle = docs.get(0).getTitle();
 			TaggedDocument td = null;
 			if(ObjectIO.objectExists(currentAuthor+"_"+docTitle,ThePresident.GRAMMAR_DIR) == true && !isToModify){
 				td = ObjectIO.readTaggedDocument(docTitle+"_"+currentAuthor, ThePresident.GRAMMAR_DIR, false);

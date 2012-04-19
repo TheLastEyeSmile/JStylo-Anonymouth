@@ -14,12 +14,14 @@ import java.util.Scanner;
 
 import weka.classifiers.Classifier;
 import weka.core.Instances;
+import edu.drexel.psal.anonymouth.gooie.EditorTabDriver;
 import edu.drexel.psal.anonymouth.gooie.ThePresident;
 import edu.drexel.psal.jstylo.generics.*;
 import edu.drexel.psal.jstylo.generics.Logger.LogOut;
 
 import edu.drexel.psal.jstylo.analyzers.WekaAnalyzer;
 import edu.drexel.psal.anonymouth.utils.DocumentParser;
+import edu.drexel.psal.anonymouth.utils.DocumentTagger;
 
 import com.jgaap.generics.Document;
 
@@ -346,6 +348,14 @@ public class DocumentMagician {
 		//System.out.println("AUTHOR TO REMOVE: "+authorToRemove);
 		//System.out.println("AUTHOR SAMPLES SET: "+authorSamplesSet.toString());
 		noAuthorTrainSet = pSetCopy.getAllTrainDocs();
+		
+		boolean loadIfExists = true;
+		EditorTabDriver.otherSampleTagger.setDocList(noAuthorTrainSet,loadIfExists);
+		EditorTabDriver.authorSampleTagger.setDocList(authorSamplesSet,loadIfExists);
+		EditorTabDriver.toModifyTagger.setDocList(toModifySet, loadIfExists);
+		EditorTabDriver.otherSampleTagger.run();
+		EditorTabDriver.authorSampleTagger.run();
+		EditorTabDriver.toModifyTagger.run();
 		/*
 		Logger.logln("Attempting to load and parse documents...");
 		try {

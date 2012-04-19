@@ -350,7 +350,7 @@ public class DocumentMagician {
 		noAuthorTrainSet = pSetCopy.getAllTrainDocs();
 		
 		boolean loadIfExists = true;
-		EditorTabDriver.otherSampleTagger.setDocList(noAuthorTrainSet,loadIfExists);
+		/*EditorTabDriver.otherSampleTagger.setDocList(noAuthorTrainSet,loadIfExists);
 		EditorTabDriver.authorSampleTagger.setDocList(authorSamplesSet,loadIfExists);
 		EditorTabDriver.toModifyTagger.setDocList(toModifySet, loadIfExists);
 		EditorTabDriver.otherSampleTagger.run();

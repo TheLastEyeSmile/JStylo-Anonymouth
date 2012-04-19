@@ -1,5 +1,8 @@
 package edu.drexel.psal.anonymouth.utils;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -231,6 +234,21 @@ public class TaggedDocument{
 		if(sentNumber <totalSentences-1 && sentNumber>=0){
 			totalSentences--;
 			TaggedSentence newSent= new TaggedSentence(boxText);
+			int position=0;
+			while(position<boxText.length()){
+				Matcher sent = EOS_chars.matcher(boxText);
+				if(!sent.find(position)){//checks to see if there is a lack of an end of sentence character.
+					Logger.logln("User tried submitting an incomplete sentence.");//THIS DOES NOT KEEP TAGS. 
+					//--------------------This is because you cannot pass in incomplete sent to parser
+					TaggedSentence tagSentNext=removeTaggedSentence(sentNumber+1);
+					removeTaggedSentence(sentNumber);
+					newSent.untagged=newSent.getUntagged()+tagSentNext.getUntagged();
+					addTaggedSentence(newSent,sentNumber);//--------possible improvement needed to parser?-----
+					//ErrorHandler.incompleteSentence();
+					return newSent.getUntagged();
+				}
+				position=sent.end();
+			}
 			ArrayList<TaggedSentence> taggedSents=makeAndTagSentences(boxText,false);
 			TaggedSentence nextSent=taggedSentences.remove(sentNumber+1);
 			taggedSents.add(nextSent);
@@ -341,10 +359,41 @@ public class TaggedDocument{
 		return toReturn;
 	}
 	
+	public static ArrayList<String> readFunctionWords(){
+		ArrayList<String> functionWords=new ArrayList<String>();
+		
+		 try {//current dir: /trunk/src/edu/drexel/psal/anonymouth/utils/TaggedDocument.java
+			BufferedReader readIn  = new BufferedReader(new FileReader("src/edu/drexel/psal/resources/koppel_function_words.txt"));
+			String newLine;
+			try {
+				while((newLine=readIn.readLine())!=null){
+					if(newLine.length()>1){
+						functionWords.add(newLine);
+					}
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.print("Error opening reader: "+e);
+		}
+		
+		
+		return functionWords;
+	}
+	
 		public static void main(String[] args){
-			String text1 = "I enjoy coffee, especially in the mornings, because it helps to wake me up. My dog is fairly small, but she seems not to realize it when she is around bigger dogs. This is my third testing sentence. I hope this works well.";
-			TaggedDocument testDoc = new TaggedDocument(text1);
-			System.out.println(testDoc.toString());
+			//String text1 = "I enjoy coffee, especially in the mornings, because it helps to wake me up. My dog is fairly small, but she seems not to realize it when she is around bigger dogs. This is my third testing sentence. I hope this works well.";
+			////TaggedDocument testDoc = new TaggedDocument(text1);
+			//System.out.println(testDoc.toString());
+			ArrayList<String> strings=readFunctionWords();
+			TaggedDocument doc=new TaggedDocument(strings.toString());
+			doc.makeAndTagSentences(strings.toString()+".",true);
+			System.out.print(doc.toString());
+			
+			
 			
 		}
 	

@@ -93,9 +93,9 @@ public class EditorTabDriver {
 	
 	
 	protected static SentenceTools sentenceTools;
-	public static DocumentTagger otherSampleTagger = new DocumentTagger();
-	public static DocumentTagger authorSampleTagger = new DocumentTagger();
-	public static DocumentTagger toModifyTagger = new DocumentTagger();
+	//public static DocumentTagger otherSampleTagger = new DocumentTagger();
+	//public static DocumentTagger authorSampleTagger = new DocumentTagger();
+	//public static DocumentTagger toModifyTagger = new DocumentTagger();
 	protected static TaggedDocument taggedDocument;
 	private static int highlightSelectionBoxSelectionNumber;
 	public static boolean isUsingNineFeatures = false;

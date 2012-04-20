@@ -1,6 +1,7 @@
 package edu.drexel.psal.anonymouth.utils;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,7 +31,7 @@ enum CONJ {SIMPLE,PROGRESSIVE,PERFECT,PERFECT_PROGRESSIVE};
  * @author Andrew W.E. McDonald
  *
  */
-public class TaggedDocument{
+public class TaggedDocument {
 	
 	protected ArrayList<TaggedSentence> taggedSentences;
 	//protected ArrayList<String> untaggedSentences;
@@ -47,13 +48,14 @@ public class TaggedDocument{
 	protected List<? extends HasWord> sentenceTokenized;
 	protected Tokenizer<? extends HasWord> toke;
 	protected final int PROBABLE_NUM_SENTENCES = 50;
-	MaxentTagger mt = null;	
+	private MaxentTagger mt = null;	
 	protected SentenceTools jigsaw;
 	protected Iterator<String> strIter;
 	private boolean tagger_ok;
 	private static int sentNumber = -1;
-	private String ID = documentTitle+"_"+documentAuthor;
+	private String ID; 
 	private int totalSentences=0;
+	
 	/**
 	 * Constructor for TaggedDocument
 	 */
@@ -87,16 +89,19 @@ public class TaggedDocument{
 		tagger_ok = initMaxentTagger();
 		this.documentTitle = docTitle;
 		this.documentAuthor = author;
+		this.ID = documentTitle+"_"+documentAuthor;
+		Logger.logln("TaggedDocument ID: "+ID);
 		Logger.logln("MaxentTagger initialization in TaggedDocument status: "+tagger_ok);
 		jigsaw = new SentenceTools();
 		taggedSentences = new ArrayList<TaggedSentence>(PROBABLE_NUM_SENTENCES);
 		if(tagger_ok == true)
 			makeAndTagSentences(untaggedDocument, true);
 	}
-	
+	/*
 	public boolean writeSerializedSelf(String directory){
 		return ObjectIO.writeObject(this, ID, directory);
 	}
+	*/
 	
 	public void setTitle(String title){
 		documentTitle = title;

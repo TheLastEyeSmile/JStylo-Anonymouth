@@ -49,6 +49,7 @@ import edu.drexel.psal.anonymouth.suggestors.HighlightMapList;
 import edu.drexel.psal.anonymouth.suggestors.StringFormulator;
 import edu.drexel.psal.anonymouth.suggestors.TheOracle;
 import edu.drexel.psal.anonymouth.utils.ConsolidationStation;
+import edu.drexel.psal.anonymouth.utils.DocumentTagger;
 import edu.drexel.psal.anonymouth.utils.TaggedSentence;
 import edu.drexel.psal.anonymouth.utils.TreeData;
 
@@ -203,29 +204,34 @@ public class BackendInterface {
 		}
 	}
 	
-	protected static void tagDocs(GUIMain main){
-		(new Thread(bei.new TagDocs(main))).start();
+	protected static void tagDocs(GUIMain main, DocumentMagician magician){
+		(new Thread(bei.new TagDocs(main, magician))).start();
 	}
 	
 	public class TagDocs extends GUIThread{
 		
-		TagDocs(GUIMain main){
+		public DocumentTagger otherSampleTagger = new DocumentTagger();
+		public DocumentTagger authorSampleTagger = new DocumentTagger();
+		public DocumentTagger toModifyTagger = new DocumentTagger();
+		private DocumentMagician magician;
+		
+		TagDocs(GUIMain main, DocumentMagician magician){
 			super(main);
+			this.magician = magician;
 		}
 		
 		public void run(){
-			HashMap<String,ArrayList<TreeData>> parsed = null;
-			/*
-			try {
-				//parsed = EditorTabDriver.docParser.parseAllDocs();
-			} catch (IOException e) {
-				Logger.logln("Fatal Error: Failed to parse documents",LogOut.STDERR);
-				e.printStackTrace();
-				ErrorHandler.fatalError();
-			}
-			*/
-			EditorTabDriver.consolidator = new ConsolidationStation(EditorTabDriver.attribs);
-			EditorTabDriver.consolidator.beginConsolidation();
+			ArrayList<List<Document>> allDocs = magician.getDocumentSets();
+			boolean loadIfExists = false;
+			otherSampleTagger.setDocList(allDocs.get(0),loadIfExists); // no author train set 
+			authorSampleTagger.setDocList(allDocs.get(1),loadIfExists); // author sample set 
+			toModifyTagger.setDocList(allDocs.get(2), loadIfExists); // to modify set 
+			otherSampleTagger.run();
+			authorSampleTagger.run();
+			toModifyTagger.run();
+			
+			//EditorTabDriver.consolidator = new ConsolidationStation(EditorTabDriver.attribs);
+			//EditorTabDriver.consolidator.beginConsolidation();
 			
 		}
 	}
@@ -288,6 +294,7 @@ public class BackendInterface {
 				cpb.setText("Extracting and Clustering Features...");
 				try{
 					wizard.runInitial(magician,main.cfd, main.classifiers.get(0));
+					//tagDocs(main,magician);
 					cpb.setText("Extracting and Clustering Features... Done");
 					cpb.setText("Initialize Cluster Viewer...");
 					ClusterViewerDriver.initializeClusterViewer(main,true);

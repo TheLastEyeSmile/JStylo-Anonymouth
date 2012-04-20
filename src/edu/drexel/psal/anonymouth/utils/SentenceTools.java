@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ import edu.drexel.psal.jstylo.generics.Logger;
  * @author Andrew W.E. McDonald
  *
  */
-public class SentenceTools {
+public class SentenceTools  {
 	
 	private int currentStart = 0;
 	private int currentStop = 0;
@@ -46,7 +47,6 @@ public class SentenceTools {
 	private ArrayList<String> editedSents = new ArrayList<String>(MAX_SENTENCES);
 	private int currentSentence =0;
 	private int nextSentence = 0;
-	private Iterator<Sentence> sentenceIterator;
 	private String editedText = "" ;
 	private static int sentNumber = -1;
 	private int totalSentences = 0;

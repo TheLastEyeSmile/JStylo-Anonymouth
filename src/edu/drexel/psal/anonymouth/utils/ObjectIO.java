@@ -31,7 +31,8 @@ public class ObjectIO {
 	 * @return true if no errors, false otherwise
 	 */
 	public static boolean writeObject(Object o, String id, String dir){
-		ObjectOutputStream outObject;
+		ObjectOutputStream outObject = null;
+		System.out.println("Place to write: "+dir+id+".ser");
 		try {
 			outObject = new ObjectOutputStream(new BufferedOutputStream( new FileOutputStream(dir+id+".ser")));
 			try{

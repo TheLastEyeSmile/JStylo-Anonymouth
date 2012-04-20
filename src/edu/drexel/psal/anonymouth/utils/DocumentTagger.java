@@ -1,45 +1,13 @@
 package edu.drexel.psal.anonymouth.utils;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.LayoutManager;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.util.*;
 
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SpringLayout;
 
 import com.jgaap.generics.Document;
 
-import edu.drexel.psal.anonymouth.gooie.DocsTabDriver.ExtFilter;
 import edu.drexel.psal.anonymouth.gooie.ErrorHandler;
 import edu.drexel.psal.anonymouth.gooie.ThePresident;
 import edu.drexel.psal.jstylo.generics.Logger;
-import edu.stanford.nlp.ling.HasWord;
-import edu.stanford.nlp.ling.TaggedWord;
-import edu.stanford.nlp.ling.Word;
-import edu.stanford.nlp.ling.Sentence;
-import edu.stanford.nlp.process.DocumentPreprocessor;
-import edu.stanford.nlp.process.Tokenizer;
-import edu.stanford.nlp.tagger.maxent.MaxentTagger;
-import edu.stanford.nlp.trees.*;
 
 /**
  * Parses documents.....
@@ -99,25 +67,31 @@ public class DocumentTagger implements Runnable{
 		}
 	}
 		
-	public ArrayList<TaggedDocument>tagDocs(List<Document> docs, boolean isToModify) throws Exception{
+	public ArrayList<TaggedDocument>tagDocs(List<Document> docs, boolean loadIfExists) throws Exception{
 		String currentAuthor;
 		String docTitle;
 		String fullDoc = "";
 		ArrayList<TaggedDocument> outMap = new ArrayList<TaggedDocument>();
 		for(Document d:docs){
-			currentAuthor = docs.get(0).getAuthor();
-			docTitle = docs.get(0).getTitle();
+			currentAuthor = d.getAuthor();
+			docTitle = d.getTitle();
+			System.out.println("Author: "+currentAuthor+" Title: docTitle");
 			TaggedDocument td = null;
-			if(ObjectIO.objectExists(currentAuthor+"_"+docTitle,ThePresident.GRAMMAR_DIR) == true && !isToModify){
+			/*
+			if(ObjectIO.objectExists(currentAuthor+"_"+docTitle,ThePresident.GRAMMAR_DIR) == true && loadIfExists){
 				td = ObjectIO.readTaggedDocument(docTitle+"_"+currentAuthor, ThePresident.GRAMMAR_DIR, false);
 			}
 			else{
+			*/
 				d.load();
 				fullDoc = d.stringify();//.replaceAll("\\p{C}"," ");// get rid of unicode control chars (causes parse errors).
 				td = new TaggedDocument(fullDoc,docTitle,currentAuthor);
+				/*
 				if (ThePresident.SAVE_TAGGED_DOCUMENTS == true)
 					td.writeSerializedSelf(ThePresident.GRAMMAR_DIR);
-			}
+					
+		}
+		*/
 			outMap.add(td);
 			
 		}

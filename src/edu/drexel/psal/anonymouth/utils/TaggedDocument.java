@@ -31,7 +31,8 @@ enum CONJ {SIMPLE,PROGRESSIVE,PERFECT,PERFECT_PROGRESSIVE};
 /**
  * 
  * @author Andrew W.E. McDonald
- *
+ * @author Joe Muoio
+ * 
  */
 public class TaggedDocument{
 	
@@ -57,6 +58,7 @@ public class TaggedDocument{
 	private static int sentNumber = -1;
 	private String ID = documentTitle+"_"+documentAuthor;
 	private int totalSentences=0;
+	
 	/**
 	 * Constructor for TaggedDocument
 	 */
@@ -76,6 +78,7 @@ public class TaggedDocument{
 		 Logger.logln("MaxentTagger initialization in TaggedDocument status: "+tagger_ok);
 		jigsaw = new SentenceTools();
 		taggedSentences = new ArrayList<TaggedSentence>(PROBABLE_NUM_SENTENCES);
+		
 		if(tagger_ok == true)
 			makeAndTagSentences(untaggedDocument, true);
 	}
@@ -189,7 +192,6 @@ public class TaggedDocument{
 			sentences.add(taggedSentences.get(i).getUntagged());
 		}
 		return sentences;
-		
 	}
 	
 	
@@ -359,40 +361,11 @@ public class TaggedDocument{
 		return toReturn;
 	}
 	
-	public static ArrayList<String> readFunctionWords(){
-		ArrayList<String> functionWords=new ArrayList<String>();
-		
-		 try {//current dir: /trunk/src/edu/drexel/psal/anonymouth/utils/TaggedDocument.java
-			BufferedReader readIn  = new BufferedReader(new FileReader("src/edu/drexel/psal/resources/koppel_function_words.txt"));
-			String newLine;
-			try {
-				while((newLine=readIn.readLine())!=null){
-					if(newLine.length()>1){
-						functionWords.add(newLine);
-					}
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			System.out.print("Error opening reader: "+e);
-		}
-		
-		
-		return functionWords;
-	}
 	
 		public static void main(String[] args){
 			//String text1 = "I enjoy coffee, especially in the mornings, because it helps to wake me up. My dog is fairly small, but she seems not to realize it when she is around bigger dogs. This is my third testing sentence. I hope this works well.";
 			////TaggedDocument testDoc = new TaggedDocument(text1);
-			//System.out.println(testDoc.toString());
-			ArrayList<String> strings=readFunctionWords();
-			TaggedDocument doc=new TaggedDocument(strings.toString());
-			doc.makeAndTagSentences(strings.toString()+".",true);
-			System.out.print(doc.toString());
-			
+			//System.out.println(testDoc.toString());			
 			
 			
 		}

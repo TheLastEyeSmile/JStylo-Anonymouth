@@ -21,6 +21,12 @@ import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import edu.stanford.nlp.trees.PennTreebankLanguagePack;
 import edu.stanford.nlp.trees.TreebankLanguagePack;
 
+/**
+ * 
+ * @author Joe Muoio
+ * @author Andrew W.E. McDonald
+ */
+
 public class TaggedSentence {
 
 	protected String untagged;
@@ -80,6 +86,12 @@ public class TaggedSentence {
 	 * @param tagged
 	 */
 	public void setGrammarStats(){
+		FunctionWord fWord=new FunctionWord();
+		for(int i=0;i<tagged.size();i++){
+			if(fWord.searchListFor(tagged.get(i).word())){
+				functionWords.add(tagged.get(i).word());
+			}
+		}
 		for (int i=0;i<tagged.size();i++){
 			TaggedWord temp=tagged.get(i);
 			//System.out.println(temp.tag());
@@ -134,7 +146,8 @@ public class TaggedSentence {
 	}
 	
 	public String toString(){
-		return "[ untagged: "+untagged+" ||| tagged: "+tagged.toString()+" ||| tense: "+tense.toString()+" ||| point of view: "+pointOfView.toString()+" conjugation(s): "+conj.toString()+" ]";
+		return "[ untagged: "+untagged+" ||| tagged: "+tagged.toString()+" ||| tense: "+tense.toString()+" ||| point of view: "+pointOfView.toString()+" conjugation(s): "+conj.toString()+" " +
+				"||| functionWords : "+functionWords.toString()+" ]";
 	}
 	
 	public ArrayList<String> getWordsWithTag(TheTags tag){

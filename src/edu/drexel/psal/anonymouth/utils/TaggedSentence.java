@@ -88,14 +88,12 @@ public class TaggedSentence {
 	 */
 	public void setGrammarStats(){
 		FunctionWord fWord=new FunctionWord();
-		for(int i=0;i<tagged.size();i++){
-			if(fWord.searchListFor(tagged.get(i).word())){
-				functionWords.add(tagged.get(i).word());
-			}
-		}
 		for (int i=0;i<tagged.size();i++){
 			TaggedWord temp=tagged.get(i);
 			//System.out.println(temp.tag());
+			/*if(fWord.searchListFor(tagged.get(i).word())){
+				functionWords.add(tagged.get(i).word());
+			}*///This somehow overwrite the taggedDocument.
 			if(temp.tag().startsWith("VB")){
 				//it is a verb 
 				switch(TheTags.valueOf((temp.tag()))){

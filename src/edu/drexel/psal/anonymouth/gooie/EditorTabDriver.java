@@ -94,6 +94,7 @@ public class EditorTabDriver {
 	
 	
 	protected static SentenceTools sentenceTools;
+	
 	//public static DocumentTagger otherSampleTagger = new DocumentTagger();
 	//public static DocumentTagger authorSampleTagger = new DocumentTagger();
 	//public static DocumentTagger toModifyTagger = new DocumentTagger();

@@ -349,6 +349,7 @@ public class DocumentMagician {
 		//System.out.println("AUTHOR SAMPLES SET: "+authorSamplesSet.toString());
 		noAuthorTrainSet = pSetCopy.getAllTrainDocs();
 		
+
 		boolean loadIfExists = true;
 		/*EditorTabDriver.otherSampleTagger.setDocList(noAuthorTrainSet,loadIfExists);
 		EditorTabDriver.authorSampleTagger.setDocList(authorSamplesSet,loadIfExists);
@@ -413,6 +414,18 @@ public class DocumentMagician {
 		//System.out.println(authorAttributeSet.toString());
 		return InstancesForAnalysis;
 		
+	}
+	
+	/**
+	 * Returns all three sets of documents used. 
+	 * @return
+	 */
+	public ArrayList<List<Document>> getDocumentSets(){
+		ArrayList<List<Document>> theDocs = new ArrayList<List<Document>>(3);
+		theDocs.add(noAuthorTrainSet); // index 0
+		theDocs.add(authorSamplesSet); // 1
+		theDocs.add(toModifySet); // 2
+		return theDocs;
 	}
 	
 	/**

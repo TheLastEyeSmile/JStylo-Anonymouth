@@ -20,22 +20,27 @@ import edu.drexel.psal.anonymouth.utils.Trie;
 
 public class FunctionWord {
 	
-	protected ArrayList<String> functionWordList;
+	protected String[] functionWordArray=new String[486];//make this larger if more words are added
+	private ArrayList<String> functionWordList;
 	private static String filePath="src/edu/drexel/psal/resources/koppel_function_words.txt";
-	//private Trie node;
+	private Trie node;
 
 	public FunctionWord() {
-		//node = new Trie();
 		functionWordList=readFunctionWords();
+		for(int i=0;i<functionWordArray.length;i++){
+			functionWordArray[i]=functionWordList.get(i);
+		}
+		node = new Trie();
+		node.addWords(functionWordArray);
 	}
 	
 	
 	public boolean searchListFor(String str){
-		return functionWordList.contains(str);
+		return node.find(str);
 	}
 	
 	public String getWordAt(int index){
-		return functionWordList.get(index);
+		return functionWordArray[index];
 	}
 	
 	
@@ -64,31 +69,26 @@ public class FunctionWord {
 	}
 	
 	public static void main(String[] args){//times the execution of the search on the list of function words.
-		//ArrayList<String> strings=;
-		//TaggedDocument doc=new TaggedDocument(strings.toString());
+		
 		FunctionWord fWord=new FunctionWord();
 		
-		//System.out.print(doc.toString());
-		ArrayList<String> strList=fWord.functionWordList;
 		String findStr;
 		Random randomGen = new Random(); 
 		int num;
-		long startTime = System.currentTimeMillis();
-		for(int i=0;i<strList.size();i++){
-			num=Math.abs(randomGen.nextInt()%strList.size());
-			findStr=strList.get(num);
-			fWord.searchListFor(findStr);
-			
-		}
-		long endTime = System.currentTimeMillis();
-		System.out.println("Total execution time ArrList: " + (endTime-startTime));//strList.size());		
+		long startTime;
+		long endTime;	
 		startTime = System.currentTimeMillis();
-		for(int i=0;i<strList.size();i++){
-			num=Math.abs(randomGen.nextInt()%strList.size());
-			findStr=strList.get(num);			
+		for(int i=0;i<fWord.functionWordList.size();i++){
+			num=Math.abs(randomGen.nextInt()%fWord.functionWordList.size());
+			findStr=fWord.functionWordList.get(num);			
+			//System.out.println(tt.find(findStr));
+			fWord.searchListFor(findStr);
 		}
 		endTime = System.currentTimeMillis();
-		System.out.println("OverHead Time: " + (endTime-startTime));//strList.size());		
+		System.out.println("Trie Test Time: " + (endTime-startTime));//strList.size());		
+		
+		findStr="ain't";
+		System.out.println(fWord.searchListFor(findStr));
 		
 	}
 }

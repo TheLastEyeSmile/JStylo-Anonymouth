@@ -349,6 +349,14 @@ public class DocumentMagician {
 		//System.out.println("AUTHOR SAMPLES SET: "+authorSamplesSet.toString());
 		noAuthorTrainSet = pSetCopy.getAllTrainDocs();
 		
+
+		boolean loadIfExists = true;
+		/*EditorTabDriver.otherSampleTagger.setDocList(noAuthorTrainSet,loadIfExists);
+		EditorTabDriver.authorSampleTagger.setDocList(authorSamplesSet,loadIfExists);
+		EditorTabDriver.toModifyTagger.setDocList(toModifySet, loadIfExists);
+		EditorTabDriver.otherSampleTagger.run();
+		EditorTabDriver.authorSampleTagger.run();
+		EditorTabDriver.toModifyTagger.run();
 		/*
 		Logger.logln("Attempting to load and parse documents...");
 		try {

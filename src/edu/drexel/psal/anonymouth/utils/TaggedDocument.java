@@ -1,5 +1,8 @@
 package edu.drexel.psal.anonymouth.utils;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
 import java.io.StringReader;
@@ -229,14 +232,33 @@ public class TaggedDocument {
 	
 	/**
 	 * adds the next sentence to the current one.
+	 * @param The sentenceEditBox text
 	 * @return the concatenation of the current sentence and the next sentence.
 	 */
-	public String addNextSentence() {
+	public String addNextSentence(String boxText) {
 		if(sentNumber <totalSentences-1 && sentNumber>=0){
 			totalSentences--;
+			TaggedSentence newSent= new TaggedSentence(boxText);
+			int position=0;
+			while(position<boxText.length()){
+				Matcher sent = EOS_chars.matcher(boxText);
+				if(!sent.find(position)){//checks to see if there is a lack of an end of sentence character.
+					Logger.logln("User tried submitting an incomplete sentence.");//THIS DOES NOT KEEP TAGS. 
+					//--------------------This is because you cannot pass in incomplete sent to parser
+					TaggedSentence tagSentNext=removeTaggedSentence(sentNumber+1);
+					removeTaggedSentence(sentNumber);
+					newSent.untagged=newSent.getUntagged()+tagSentNext.getUntagged();
+					addTaggedSentence(newSent,sentNumber);//--------possible improvement needed to parser?-----
+					//ErrorHandler.incompleteSentence();
+					return newSent.getUntagged();
+				}
+				position=sent.end();
+			}
+			ArrayList<TaggedSentence> taggedSents=makeAndTagSentences(boxText,false);
 			TaggedSentence nextSent=taggedSentences.remove(sentNumber+1);
-			TaggedSentence newSent=taggedSentences.remove(sentNumber);
-			newSent=concatSentences(newSent,nextSent);
+			taggedSents.add(nextSent);
+			taggedSentences.remove(sentNumber);
+			newSent=concatSentences(taggedSents);
 			taggedSentences.add(sentNumber, newSent);
 			return newSent.getUntagged();
 		}
@@ -246,13 +268,20 @@ public class TaggedDocument {
 		return taggedSentences.get(sentNumber).getUntagged();
 		
 	}
-	
-	private TaggedSentence concatSentences(TaggedSentence tagSent1,TaggedSentence tagSent2){
-		TaggedSentence newSent= new TaggedSentence(tagSent1.getUntagged()+tagSent2.getUntagged());
-		/*for(int i = 0; i<tagSent2.tagged.size();i++){
-			tagSent1.tagged.add(tagSent2.tagged.get(i));
-		}*/
-		//newSent.setTaggedSentence(tagSent1.tagged);
+	/**
+	 * 
+	 * @param taggedList takes a list of tagged sentences.
+	 * @return returns a single tagged sentences with the properties of all the sentences in the list.
+	 */
+	private TaggedSentence concatSentences(ArrayList<TaggedSentence> taggedList){
+		TaggedSentence newSent=new TaggedSentence(taggedList.get(0).getUntagged());//+taggedList.get(1).getUntagged());
+		newSent.setTaggedSentence(taggedList.get(0).tagged);
+		for (int i=1;i<taggedList.size();i++){
+			newSent.untagged=newSent.getUntagged()+taggedList.get(i).getUntagged();
+			for(int j = 0; j<taggedList.get(i).tagged.size();j++){
+				newSent.tagged.add(taggedList.get(i).tagged.get(j));
+			}
+		}
 		
 		return newSent;
 	}
@@ -335,10 +364,41 @@ public class TaggedDocument {
 		return toReturn;
 	}
 	
+	public static ArrayList<String> readFunctionWords(){
+		ArrayList<String> functionWords=new ArrayList<String>();
+		
+		 try {//current dir: /trunk/src/edu/drexel/psal/anonymouth/utils/TaggedDocument.java
+			BufferedReader readIn  = new BufferedReader(new FileReader("src/edu/drexel/psal/resources/koppel_function_words.txt"));
+			String newLine;
+			try {
+				while((newLine=readIn.readLine())!=null){
+					if(newLine.length()>1){
+						functionWords.add(newLine);
+					}
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.print("Error opening reader: "+e);
+		}
+		
+		
+		return functionWords;
+	}
+	
 		public static void main(String[] args){
-			String text1 = "I enjoy coffee, especially in the mornings, because it helps to wake me up. My dog is fairly small, but she seems not to realize it when she is around bigger dogs. This is my third testing sentence. I hope this works well.";
-			TaggedDocument testDoc = new TaggedDocument(text1);
-			System.out.println(testDoc.toString());
+			//String text1 = "I enjoy coffee, especially in the mornings, because it helps to wake me up. My dog is fairly small, but she seems not to realize it when she is around bigger dogs. This is my third testing sentence. I hope this works well.";
+			////TaggedDocument testDoc = new TaggedDocument(text1);
+			//System.out.println(testDoc.toString());
+			ArrayList<String> strings=readFunctionWords();
+			TaggedDocument doc=new TaggedDocument(strings.toString());
+			doc.makeAndTagSentences(strings.toString()+".",true);
+			System.out.print(doc.toString());
+			
+			
 			
 		}
 	

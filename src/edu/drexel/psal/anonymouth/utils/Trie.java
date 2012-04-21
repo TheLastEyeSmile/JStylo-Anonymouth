@@ -1,11 +1,25 @@
 package edu.drexel.psal.anonymouth.utils;
 
+/**
+ * Implements a Trie. Currenly only supports lowercase letters (upper case gets converted to lowercase), and apostrophes.
+ * Appends a '{' onto the end of each word. Functionalty can be extended to all ASCII characters easily by decreasing the offset,
+ * and increasing the size of the TrieNode array. Trie doesn't save actual characters/strings, only the characters' positions:
+ * 
+ * a TrieNode only contains an array of TrieNodes. When adding a word, if the first letter is 'a', the char value of 'a' is 97, and the offset
+ * is 96, so 97 minus 96 = 1 => create a new TrieNode at index 1 in the root's TrieNode child array, and so on. 
+ * @author Andrew W.E. McDonald
+ *
+ */
 public class Trie{
 	
 	TrieNode trie=new TrieNode();
 	private final char lastChar='{';
 	private final int OFFSET = 96;
 	
+	/**
+	 * Adds a word to the trie.
+	 * @param word word to add
+	 */
 	public void addWord(String word){
 		char[] theWord = word.toLowerCase().toCharArray();
 		TrieNode t = this.trie;
@@ -15,6 +29,13 @@ public class Trie{
 		addLetter(t,lastChar);
 	}
 	
+	/**
+	 * Adds a letter to the Trie
+	 * @param t TrieNode
+	 * @param c letter to add
+	 * @return
+	 * The newly created child TrieNode of the input TrieNode in the index of the input character's value minus the offset.
+	 */
 	public TrieNode addLetter(TrieNode t,char c){
 		if(c=='\'')
 			c='`';
@@ -24,6 +45,12 @@ public class Trie{
 	}
 	
 		
+	/**
+	 * finds a word in the Trie
+	 * @param word word to find
+	 * @return
+	 * true if found, false otherwise
+	 */
 	public boolean find(String word){
 		char[] chars = word.toLowerCase().toCharArray();
 		TrieNode t = this.trie;
@@ -39,6 +66,10 @@ public class Trie{
 		return true;
 	}
 	
+	/**
+	 * Adds all words in the input String array
+	 * @param words words to add
+	 */
 	public void addWords(String[] words){
 		for(String word:words){
 			addWord(word);
@@ -54,6 +85,12 @@ public class Trie{
 	}
 }
 
+/**
+ * The TrieNode. Uses an empty constructor, and only contains an array of TrieNodes. No node ever has a 'value'. Each 
+ * child node (each node in the index), is either equal to 'null', or contains a new TrieNode. 
+ * @author Andrew W.E. McDonald
+ *
+ */
 class TrieNode {
 	protected TrieNode[] children = new TrieNode[28];
 

@@ -2,7 +2,6 @@ package edu.drexel.psal.jstylo.analyzers;
 
 import edu.drexel.psal.jstylo.generics.Analyzer;
 import java.util.*;
-import com.jgaap.generics.*;
 import weka.classifiers.*;
 import weka.core.*;
 import weka.filters.Filter;

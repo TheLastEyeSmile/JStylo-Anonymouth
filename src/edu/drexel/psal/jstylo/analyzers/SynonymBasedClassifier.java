@@ -5,17 +5,19 @@ import java.util.*;
 import weka.classifiers.Evaluation;
 import weka.core.Instances;
 import edu.drexel.psal.jstylo.generics.Analyzer;
+import edu.drexel.psal.jstylo.generics.CumulativeFeatureDriver;
+import edu.drexel.psal.jstylo.generics.ProblemSet;
 
 public class SynonymBasedClassifier extends Analyzer {
 	
 	@Override
-	public void preExtraction(Object... args) {
+	public void preExtraction(ProblemSet ps, CumulativeFeatureDriver cfd) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void postExtraction(Object... args) {
+	public void postExtraction(ProblemSet ps, CumulativeFeatureDriver cfd) {
 		// TODO Auto-generated method stub
 		
 	}

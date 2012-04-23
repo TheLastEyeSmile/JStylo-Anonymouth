@@ -540,6 +540,12 @@ public class AnalysisTabDriver {
 			// feature extraction
 			// ==================
 			
+			// pre-processing
+			Logger.logln("Applying analyzer feature-extraction pre-processing procedures...");
+			content += getTimestamp() + "Applying analyzer feature-extraction pre-processing procedures...\n";
+			main.wad.preExtraction(main.ps, main.cfd);
+			content += getTimestamp() + "done!\n\n";
+			
 			// training set
 			Logger.logln("Extracting features from training corpus...");
 			
@@ -604,6 +610,12 @@ public class AnalysisTabDriver {
 					updateResultsView();
 				}
 			}
+
+			// post processing
+			Logger.logln("Applying analyzer feature-extraction post-processing procedures...");
+			content += getTimestamp() + "Applying analyzer feature-extraction post-processing procedures...\n";
+			main.wad.postExtraction(main.ps, main.cfd);
+			content += getTimestamp() + "done!\n\n";
 			
 			
 			// running InfoGain

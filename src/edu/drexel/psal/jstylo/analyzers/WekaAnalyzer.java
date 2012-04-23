@@ -1,6 +1,9 @@
 package edu.drexel.psal.jstylo.analyzers;
 
 import edu.drexel.psal.jstylo.generics.Analyzer;
+import edu.drexel.psal.jstylo.generics.CumulativeFeatureDriver;
+import edu.drexel.psal.jstylo.generics.ProblemSet;
+
 import java.util.*;
 import weka.classifiers.*;
 import weka.core.*;
@@ -46,12 +49,12 @@ public class WekaAnalyzer extends Analyzer {
 	 */
 	
 	@Override
-	public void preExtraction(Object... args) {
+	public void preExtraction(ProblemSet ps, CumulativeFeatureDriver cfd) {
 		// none
 	}
 
 	@Override
-	public void postExtraction(Object... args) {
+	public void postExtraction(ProblemSet ps, CumulativeFeatureDriver cfd) {
 		// none
 	}
 	

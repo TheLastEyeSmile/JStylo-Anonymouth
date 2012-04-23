@@ -54,6 +54,20 @@ public abstract class Analyzer {
 	 */
 	
 	/**
+	 * This procedure runs prior to the feature extraction phase.
+	 * @param args
+	 * 		Any arguments necessary for pre-processing.
+	 */
+	public abstract void preExtraction(Object... args);
+	
+	/**
+	 * This procedure runs immediately after the feature extraction phase.
+	 * @param args
+	 * 		Any arguments necessary for post-processing.
+	 */
+	public abstract void postExtraction(Object... args);
+	
+	/**
 	 * Classifies the given test set based on the given training set. Should update the following fields along the classification:
 	 * trainingSet, testSet, results and authors.
 	 * Returns list of distributions of classification probabilities per instance.

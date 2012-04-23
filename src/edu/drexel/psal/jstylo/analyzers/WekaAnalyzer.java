@@ -45,6 +45,16 @@ public class WekaAnalyzer extends Analyzer {
 	 * ==========
 	 */
 	
+	@Override
+	public void preExtraction(Object... args) {
+		// none
+	}
+
+	@Override
+	public void postExtraction(Object... args) {
+		// none
+	}
+	
 	/**
 	 * Trains the Weka classifier using the given training set, and then classifies all instances in the given test set.
 	 * Returns list of distributions of classification probabilities per instance.

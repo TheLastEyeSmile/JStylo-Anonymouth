@@ -1,10 +1,11 @@
 package edu.drexel.psal.jstylo.analyzers.writeprints;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import weka.classifiers.Evaluation;
+import weka.core.Attribute;
 import weka.core.Instances;
+import weka.filters.unsupervised.attribute.NominalToString;
 import edu.drexel.psal.jstylo.generics.Analyzer;
 
 /**
@@ -17,20 +18,43 @@ import edu.drexel.psal.jstylo.generics.Analyzer;
  *
  */
 public class WriteprintsAnalyzer extends Analyzer {
-
-	/**
-	 * Main for testing.
-	 * @param args
+	
+	/* ======
+	 * fields
+	 * ======
 	 */
-	public static void main(String[] args) {
+	
+	List<AuthorWPData> trainAuthorData = new ArrayList<AuthorWPData>();
+	
+	
+	/* ==========
+	 * operations
+	 * ==========
+	 */
+	
+	@Override
+	public void preExtraction(Object... args) {
+		// TODO Auto-generated method stub
 		
 	}
-	
+
+	@Override
+	public void postExtraction(Object... args) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	@Override
 	public List<Map<String, Double>> classify(Instances trainingSet,
 			Instances testSet) {
-		// TODO Auto-generated method stub
+		
+		// initialize training data features, basis and writeprint matrices
+		Attribute classAttribute = trainingSet.classAttribute();
+		int numAuthors = classAttribute.numValues();
+		for (int i = 0; i < numAuthors; i++) {
+			trainAuthorData.add(new AuthorWPData(classAttribute.value(i)));
+		}
+		
 		return null;
 	}
 
@@ -43,10 +67,20 @@ public class WriteprintsAnalyzer extends Analyzer {
 	
 	
 	/* ===============
-	 * Utility methods
+	 * utility methods
 	 * ===============
 	 */
 	
+	
+	
+	
+	/*
+	 * Main for testing.
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		
+	}
 }
 
 

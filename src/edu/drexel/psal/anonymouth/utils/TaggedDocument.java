@@ -169,7 +169,7 @@ public class TaggedDocument {
 			sentenceTokenized = toke.tokenize();
 			
 			taggedSentence.setTaggedSentence(mt.tagSentence(sentenceTokenized));
-			taggedSentence.setGrammarStats();
+			//taggedSentence.setGrammarStats();
 			taggedSentences.add(taggedSentence); 
 			
 		}
@@ -367,9 +367,10 @@ public class TaggedDocument {
 	
 	
 		public static void main(String[] args){
-			//String text1 = "I enjoy coffee, especially in the mornings, because it helps to wake me up. My dog is fairly small, but she seems not to realize it when she is around bigger dogs. This is my third testing sentence. I hope this works well.";
-			////TaggedDocument testDoc = new TaggedDocument(text1);
-			//System.out.println(testDoc.toString());			
+			String text1 = "people's enjoy coffee, especially in the mornings, because it helps to wake me up. My dog is fairly small, but she seems not to realize it when she is around bigger dogs. This is my third testing sentence. I hope this works well.";
+			TaggedDocument testDoc = new TaggedDocument(text1);
+			
+			System.out.println(testDoc.toString());			
 			
 			
 		}

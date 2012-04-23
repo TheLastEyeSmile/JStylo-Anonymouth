@@ -91,9 +91,12 @@ public class TaggedSentence {
 		for (int i=0;i<tagged.size();i++){
 			TaggedWord temp=tagged.get(i);
 			//System.out.println(temp.tag());
-			/*if(fWord.searchListFor(tagged.get(i).word())){
-				functionWords.add(tagged.get(i).word());
-			}*///This somehow overwrite the taggedDocument.
+			if(tagged.get(i).word().matches("\\w+")){
+				System.out.println(tagged.get(i).word());
+				if(fWord.searchListFor(tagged.get(i).word())){
+					functionWords.add(tagged.get(i).word());
+				}
+			}/**///This somehow overwrite the taggedDocument.
 			if(temp.tag().startsWith("VB")){
 				//it is a verb 
 				switch(TheTags.valueOf((temp.tag()))){
@@ -145,8 +148,7 @@ public class TaggedSentence {
 	}
 	
 	public String toString(){
-		return "[ untagged: "+untagged+" ||| tagged: "+tagged.toString()+" ||| tense: "+tense.toString()+" ||| point of view: "+pointOfView.toString()+" conjugation(s): "+conj.toString()+" " +
-				"||| functionWords : "+functionWords.toString()+" ]";
+		return "[ untagged: "+untagged+" ||| tagged: "+tagged.toString()+" ||| tense: "+tense.toString()+" ||| point of view: "+pointOfView.toString()+" conjugation(s): "+conj.toString()+" ||| functionWords : "+functionWords.toString()+" ]";
 	}
 	
 	public ArrayList<String> getWordsWithTag(TheTags tag){
@@ -164,7 +166,8 @@ public class TaggedSentence {
 	/*public static void main(String[] args){
 		String text1 = "I enjoy coffee, especially in the mornings, because it helps to wake me up.";
 		TaggedSentence testDoc = new TaggedSentence(text1);
-		System.out.println(testDoc.toString());
+		testDoc.setGrammarStats();
+		System.out.println(testDoc.getUntagged());
 		//testDoc.getWordsWithTag(POS.TheTags.VB);
 		
 	}*/

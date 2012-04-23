@@ -91,8 +91,7 @@ public class TaggedSentence {
 		for (int i=0;i<tagged.size();i++){
 			TaggedWord temp=tagged.get(i);
 			//System.out.println(temp.tag());
-			if(tagged.get(i).word().matches("\\w+")){
-				System.out.println(tagged.get(i).word());
+			if(tagged.get(i).word().matches("[\\w&&\\D]+")){
 				if(fWord.searchListFor(tagged.get(i).word())){
 					functionWords.add(tagged.get(i).word());
 				}

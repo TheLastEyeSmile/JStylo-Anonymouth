@@ -52,10 +52,8 @@ public class TaggedDocument {
 	protected List<? extends HasWord> sentenceTokenized;
 	protected Tokenizer<? extends HasWord> toke;
 	protected final int PROBABLE_NUM_SENTENCES = 50;
-	private MaxentTagger mt = null;	
 	protected SentenceTools jigsaw;
 	protected Iterator<String> strIter;
-	private boolean tagger_ok;
 	private static int sentNumber = -1;
 	private String ID; 
 	private int totalSentences=0;
@@ -64,8 +62,6 @@ public class TaggedDocument {
 	 * Constructor for TaggedDocument
 	 */
 	public TaggedDocument(){
-		tagger_ok = initMaxentTagger();
-		Logger.logln("MaxentTagger initialization in TaggedDocument status: "+tagger_ok);
 		jigsaw = new SentenceTools();
 		taggedSentences = new ArrayList<TaggedSentence>(PROBABLE_NUM_SENTENCES);
 	}
@@ -75,13 +71,9 @@ public class TaggedDocument {
 	 * @param untaggedDocument
 	 */
 	public TaggedDocument(String untaggedDocument){
-		tagger_ok = initMaxentTagger();
-		 Logger.logln("MaxentTagger initialization in TaggedDocument status: "+tagger_ok);
 		jigsaw = new SentenceTools();
 		taggedSentences = new ArrayList<TaggedSentence>(PROBABLE_NUM_SENTENCES);
-		
-		if(tagger_ok == true)
-			makeAndTagSentences(untaggedDocument, true);
+		makeAndTagSentences(untaggedDocument, true);
 	}
 	 
 	/**
@@ -91,16 +83,13 @@ public class TaggedDocument {
 	 * @param author
 	 */
 	public TaggedDocument(String untaggedDocument, String docTitle, String author){
-		tagger_ok = initMaxentTagger();
 		this.documentTitle = docTitle;
 		this.documentAuthor = author;
 		this.ID = documentTitle+"_"+documentAuthor;
 		Logger.logln("TaggedDocument ID: "+ID);
-		Logger.logln("MaxentTagger initialization in TaggedDocument status: "+tagger_ok);
 		jigsaw = new SentenceTools();
 		taggedSentences = new ArrayList<TaggedSentence>(PROBABLE_NUM_SENTENCES);
-		if(tagger_ok == true)
-			makeAndTagSentences(untaggedDocument, true);
+		makeAndTagSentences(untaggedDocument, true);
 	}
 	/*
 	public boolean writeSerializedSelf(String directory){
@@ -125,18 +114,10 @@ public class TaggedDocument {
 	}*/
 	
 	/**
-	 * Returns the status of the MaxentTagger
-	 * @return true if tagger is okay (has been properly initialized), false otherwise
-	 */
-	public boolean getTaggerStatus(){
-		return tagger_ok;
-	}
-	
-	
-	/**
 	 * Initializes MaxentTagger
 	 * @return true if successful, false otherwise
 	 */
+	/*
 	public boolean initMaxentTagger(){
 		try {
 			mt = new MaxentTagger("."+JGAAPConstants.JGAAP_RESOURCE_PACKAGE+"models/postagger/english-left3words-distsim.tagger");
@@ -148,6 +129,7 @@ public class TaggedDocument {
 		}
 		return false;
 	}
+*/	
 	
 	/**
 	 * Takes a String of sentences (can be an entire document), breaks it up into individual sentences (sentence tokens), breaks those up into tokens, and then tags them (via MaxentTagger).
@@ -167,8 +149,7 @@ public class TaggedDocument {
 			TaggedSentence taggedSentence = new TaggedSentence(tempSent);
 			toke = tlp.getTokenizerFactory().getTokenizer(new StringReader(tempSent));
 			sentenceTokenized = toke.tokenize();
-			
-			taggedSentence.setTaggedSentence(mt.tagSentence(sentenceTokenized));
+			taggedSentence.setTaggedSentence(Tagger.mt.tagSentence(sentenceTokenized));
 			taggedSentence.setGrammarStats();
 			taggedSentences.add(taggedSentence); 
 			

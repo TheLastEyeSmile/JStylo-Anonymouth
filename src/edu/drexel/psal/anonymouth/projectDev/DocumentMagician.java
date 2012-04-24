@@ -348,9 +348,15 @@ public class DocumentMagician {
 		//System.out.println("AUTHOR TO REMOVE: "+authorToRemove);
 		//System.out.println("AUTHOR SAMPLES SET: "+authorSamplesSet.toString());
 		noAuthorTrainSet = pSetCopy.getAllTrainDocs();
-		
-
-		boolean loadIfExists = true;
+		/*
+		boolean loadIfExists = false;
+		DocumentTagger otherSampleTagger = new DocumentTagger(noAuthorTrainSet,loadIfExists);
+		DocumentTagger authorSampleTagger = new DocumentTagger(authorSamplesSet,loadIfExists);
+		DocumentTagger toModifyTagger = new DocumentTagger(toModifySet,loadIfExists);	
+		otherSampleTagger.run();
+		authorSampleTagger.run();
+		toModifyTagger.run();
+		*/
 		/*EditorTabDriver.otherSampleTagger.setDocList(noAuthorTrainSet,loadIfExists);
 		EditorTabDriver.authorSampleTagger.setDocList(authorSamplesSet,loadIfExists);
 		EditorTabDriver.toModifyTagger.setDocList(toModifySet, loadIfExists);

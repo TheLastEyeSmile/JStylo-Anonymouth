@@ -1038,6 +1038,7 @@ public class EditorTabDriver {
 		
 		public ClassifyingProgressBar(GUIMain main){
 			this.main = main;
+			new Thread(this,"ClassifyingProgressBar").start();
 		}
 
 		@Override

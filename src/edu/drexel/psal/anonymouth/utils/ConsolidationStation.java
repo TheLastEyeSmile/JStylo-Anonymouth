@@ -60,11 +60,9 @@ public class ConsolidationStation {
 				Triple trip = new Triple(tempID,tempPercentChange,tempInfoGain);
 				toRemove.add(trip);
 			}
-		}
-					
-			
+		}			
 	}
-		
+	
 	
 
 }

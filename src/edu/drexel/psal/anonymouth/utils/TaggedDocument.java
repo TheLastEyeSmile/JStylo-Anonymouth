@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -59,6 +60,8 @@ public class TaggedDocument {
 	private static int sentNumber = -1;
 	private String ID; 
 	private int totalSentences=0;
+	
+	private HashMap<String,Integer> functionWords= new HashMap<String,Integer>();
 	
 	/**
 	 * Constructor for TaggedDocument
@@ -286,9 +289,28 @@ public class TaggedDocument {
 		
 		return newSent;
 	}
+	public void setFunctionWords(){
+		String key;
+		for (int i=0;i<taggedSentences.size();i++){
+			for(int j=0;j<taggedSentences.get(i).functionWords.size();j++){
+				boolean addWord=true;
+				key = taggedSentences.get(i).functionWords.get(j).toLowerCase();
+				if(functionWords.containsKey(key)){
+					functionWords.put(key,(functionWords.get(key).intValue()+1));
+				}
+				else{
+					functionWords.put(key, 1);
+				}
+			}
+		}
+	}
 	
 	public int getSentNumber(){
 		return sentNumber;
+	}
+	
+	public HashMap<String,Integer> getFunctionWords(){
+		return functionWords;
 	}
 	
 	public static void setSentenceCounter(int sentNumber){
@@ -369,9 +391,9 @@ public class TaggedDocument {
 		public static void main(String[] args){
 			String text1 = "people's enjoy coffee, especially in the mornings, because it helps to wake me up. My dog is fairly small, but she seems not to realize it when she is around bigger dogs. This is my third testing sentence. I hope this works well.";
 			TaggedDocument testDoc = new TaggedDocument(text1);
-			
+			testDoc.setFunctionWords();
 			System.out.println(testDoc.toString());			
-			
+			System.out.println(testDoc.getFunctionWords());
 			
 		}
 	

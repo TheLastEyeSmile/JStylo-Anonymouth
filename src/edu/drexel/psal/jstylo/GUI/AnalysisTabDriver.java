@@ -298,6 +298,7 @@ public class AnalysisTabDriver {
 				lockUnlock(main, true);
 				
 				// start analysis thread
+				//main.at = AnalyzerTypeEnum.WRITEPRINTS_ANALYZER;
 				main.analysisThread = new Thread(new RunAnalysisThread(main));
 				main.analysisThread.start();
 			}

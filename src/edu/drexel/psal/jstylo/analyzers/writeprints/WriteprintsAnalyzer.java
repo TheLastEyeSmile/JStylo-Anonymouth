@@ -2,11 +2,14 @@ package edu.drexel.psal.jstylo.analyzers.writeprints;
 
 import java.util.*;
 
+import com.jgaap.JGAAPConstants;
 import com.jgaap.generics.*;
 
 import weka.classifiers.*;
 import weka.core.*;
 import edu.drexel.psal.jstylo.generics.*;
+import edu.smu.tspell.wordnet.Synset;
+import edu.smu.tspell.wordnet.WordNetDatabase;
 
 /**
  * Implementation of the Writeprints method (supervised).
@@ -144,6 +147,27 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 * ===============
 	 */
 	
+	private static WordNetDatabase wndb = null;
+	
+	/**
+	 * Initializes the Wordnet database.
+	 */
+	private static void initWordnetDB() {
+		System.setProperty("wordnet.database.dir", JGAAPConstants.JGAAP_RESOURCE_PACKAGE + "wordnet");
+		wndb = WordNetDatabase.getFileInstance();
+	}
+
+	/**
+	 * Used to identify word-based features.
+	 */
+	private static String[] wordFeatures = {
+		"Function-Words",
+		"Words",
+		"Word-Bigrams",
+		"Word-Trigrams",
+		"Misspelled-Words"
+	};
+	
 	/**
 	 * Counts the number of synonyms per feature that is word-based, and constructs
 	 * a map from feature indices to their synonym count. Features that are not word
@@ -156,10 +180,44 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 * 		A mapping from the features of the given training set to the synonym count.
 	 */
 	private static Map<Integer,Integer> calcSynonymCount(Instances trainingSet, int numFeatures) {
-		Map<Integer,Integer> synCountMap = new HashMap<Integer,Integer>(numFeatures);
 		
+		// initialize
+		Map<Integer,Integer> synCountMap = new HashMap<Integer,Integer>(numFeatures);
+		if (wndb == null)
+			initWordnetDB();
+		
+		boolean isWordFeature;
+		Attribute feature;
+		String featureName;
+		String word;
+		Synset[] synsets;
+		int synCount;
 		for (int j = 0; j < numFeatures; j ++) {
+			feature = trainingSet.attribute(j);
+			featureName = feature.name();
 			
+			// make sure to handle only word features
+			isWordFeature = false;
+			for (String wordFeature: wordFeatures)
+				if (featureName.startsWith(wordFeature)) {
+					isWordFeature = true;
+					break;
+				}
+			if (!isWordFeature) {
+				synCountMap.put(j,0);
+				continue;
+			}
+			
+			// extract word
+			word = featureName.replaceAll(".*\\{", "").replace("}", "");
+			
+			// calculate number of synonyms
+			synsets = wndb.getSynsets(word);
+			synCount = 0;
+			for (Synset synset: synsets) {
+				synCount += synset.getWordForms().length;
+			}
+			synCountMap.put(j, synCount);
 		}
 		
 		return synCountMap;

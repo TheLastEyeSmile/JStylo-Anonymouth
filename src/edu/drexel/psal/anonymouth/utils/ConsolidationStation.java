@@ -71,6 +71,19 @@ public class ConsolidationStation {
 		}			
 	}
 	
+	public void findWordsToAdd(){
+		// TODO I think this should take a global (to this function) hashmap of String -> Word objects, and run through all features in the 'toAdd' list, checking them 
+		// against each TaggedWord words in otherSampleTaggedWords. When it finds that one of the TaggedWord words contains the feature its checking, it should
+		// find out how many times that feature appears in the TaggedWord word, and then:
+			// If the hashmap contains the Word, read the value from the map, adjustVals, and replace it
+			// else, create new entry in hashmap
+	}
 	
+	public void findWordsToRemove(){
+		//TODO Should do the same as above, but ONLY with the toModifyTaggedDocs -- obviously in a separate hashmap.
+	}
+	
+	
+	// TODO something to do with finding function words, or playing with tenses or something.. I'm not sure.. give it some thought.
 
 }

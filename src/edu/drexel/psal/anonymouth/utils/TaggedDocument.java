@@ -108,32 +108,6 @@ public class TaggedDocument {
 		documentAuthor = author;
 	}
 	
-	/*public void setTaggedSentences(ArrayList<TaggedSentence> taggedSentences){
-		int i = 0;
-		int len = taggedSentences.size();
-		for(i=0;i<len;i++)
-			totalSentences++;
-			this.taggedSentences.add(taggedSentences.get(i)); 
-	}*/
-	
-	/**
-	 * Initializes MaxentTagger
-	 * @return true if successful, false otherwise
-	 */
-	/*
-	public boolean initMaxentTagger(){
-		try {
-			mt = new MaxentTagger("."+JGAAPConstants.JGAAP_RESOURCE_PACKAGE+"models/postagger/english-left3words-distsim.tagger");
-			return true;
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
-*/	
-	
 	/**
 	 * Takes a String of sentences (can be an entire document), breaks it up into individual sentences (sentence tokens), breaks those up into tokens, and then tags them (via MaxentTagger).
 	 * Each tagged sentence is saved into a TaggedSentence object, along with its untagged counterpart.

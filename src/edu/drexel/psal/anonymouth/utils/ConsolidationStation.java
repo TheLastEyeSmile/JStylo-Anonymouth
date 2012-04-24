@@ -16,9 +16,10 @@ public class ConsolidationStation {
 	HashMap<String,ArrayList<TreeData>> parsed;
 	ArrayList<Triple> toAdd;
 	ArrayList<Triple> toRemove;
-	public static DocumentTagger otherSampleTagger;
-	public static DocumentTagger authorSampleTagger;
-	public static DocumentTagger toModifyTagger;
+	public static ArrayList<TaggedDocument> otherSampleTaggedDocs;
+	public static ArrayList<TaggedDocument> authorSampleTaggedDocs;
+	public static ArrayList<TaggedDocument> toModifyTaggedDocs;
+	private static boolean allDocsTagged = false;
 	
 	/**
 	 * constructor for ConsolidationStation. Depends on target values, and should not be called until they have been selected.
@@ -38,6 +39,10 @@ public class ConsolidationStation {
 	public void beginConsolidation(){
 		
 		
+	}
+	
+	public static void setAllDocsTagged(boolean allDocsTagged){
+		ConsolidationStation.allDocsTagged = allDocsTagged;
 	}
 	
 	/**

@@ -2,18 +2,11 @@ package edu.drexel.psal.jstylo.analyzers.writeprints;
 
 import java.util.*;
 
-import sun.rmi.runtime.Log;
+import com.jgaap.generics.*;
 
-import com.jgaap.generics.Document;
-
-import weka.classifiers.Evaluation;
-import weka.core.Attribute;
-import weka.core.Instances;
-import edu.drexel.psal.jstylo.analyzers.WekaAnalyzer;
-import edu.drexel.psal.jstylo.generics.Analyzer;
-import edu.drexel.psal.jstylo.generics.CumulativeFeatureDriver;
-import edu.drexel.psal.jstylo.generics.ProblemSet;
-import edu.drexel.psal.jstylo.generics.WekaInstancesBuilder;
+import weka.classifiers.*;
+import weka.core.*;
+import edu.drexel.psal.jstylo.generics.*;
 
 /**
  * Implementation of the Writeprints method (supervised).
@@ -47,7 +40,7 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 */
 	private List<AuthorWPData> trainAuthorData = new ArrayList<AuthorWPData>();
 	private List<AuthorWPData> testAuthorData = new ArrayList<AuthorWPData>();
-	private boolean testDocsPreProcessed = false;
+	private static boolean testDocsPreProcessed = false;
 	
 	/* ==========
 	 * operations
@@ -61,8 +54,7 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 * Necessary for the test document feature extraction to be independent of the
 	 * training set features, as applied in {@link WekaInstancesBuilder}.
 	 */
-	@Override
-	public void preExtraction(ProblemSet ps, CumulativeFeatureDriver cfd) {
+	public static void preExtraction(ProblemSet ps) {
 		if (ps.hasTestDocs()) {
 			testDocsPreProcessed = true;
 			List<Document> testDocs = ps.getTestDocs();
@@ -74,9 +66,8 @@ public class WriteprintsAnalyzer extends Analyzer {
 			}
 		}
 	}
-
-	@Override
-	public void postExtraction(ProblemSet ps, CumulativeFeatureDriver cfd) {
+	
+	public static void postExtraction(ProblemSet ps) {
 		// skip if no test documents were pre-processed
 		if (!testDocsPreProcessed)
 			return;
@@ -88,22 +79,56 @@ public class WriteprintsAnalyzer extends Analyzer {
 	public List<Map<String, Double>> classify(Instances trainingSet,
 			Instances testSet) {
 		
+		/* ========
+		 * TRAINING
+		 * ========
+		 */
+		
 		// initialize features, basis and writeprint matrices
+		// and feature probabilities per author p(j|c)
 		Attribute classAttribute = trainingSet.classAttribute();
 		int numAuthors = classAttribute.numValues();
+		int numFeatures = trainingSet.numAttributes() - 1; // exclude class attribute
 		String authorName;
 		AuthorWPData authorData;
 		for (int i = 0; i < numAuthors; i++) {
 			authorName = classAttribute.value(i);
 			authorData = new AuthorWPData(authorName);
 			authorData.initFeatureMatrix(trainingSet, averageFeatureVectors);
+			authorData.initFeatureProbabilities();
 			if (authorName.startsWith(TEST_AUTHOR_NAME_PREFIX))
 				testAuthorData.add(authorData);
 			else
 				trainAuthorData.add(authorData);
 		}
 		
-		return null;
+		// initialize the posterior probability p(c|j)
+		// for the training authors only
+		double[] totalProbability = new double[numFeatures];
+		for (int j = 0; j < numFeatures; j++)
+			for (AuthorWPData ad: trainAuthorData)
+				totalProbability[j] += ad.featureProbabilities[j];
+		for (AuthorWPData ad: trainAuthorData)
+			ad.initPosteriorProbabilities(totalProbability);
+		
+		// calculate information-gain
+		double[] IG = calcInfoGain(numFeatures, trainAuthorData);
+		
+		// initialize result set
+		List<Map<String, Double>> res =
+				new ArrayList<Map<String,Double>>(trainAuthorData.size());
+		
+		// initialize synonym count mapping
+		Map<Integer,Integer> calcSynonymCount = calcSynonymCount(trainingSet,numFeatures);
+		
+		/* =======
+		 * TESTING
+		 * =======
+		 */
+		
+		
+		
+		return res;
 	}
 
 	@Override
@@ -119,8 +144,74 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 * ===============
 	 */
 	
+	/**
+	 * Counts the number of synonyms per feature that is word-based, and constructs
+	 * a map from feature indices to their synonym count. Features that are not word
+	 * based are mapped to 0.
+	 * @param trainingSet
+	 * 		The training set from which to extract the features.
+	 * @param numFeatures
+	 * 		The number of features.
+	 * @return
+	 * 		A mapping from the features of the given training set to the synonym count.
+	 */
+	private static Map<Integer,Integer> calcSynonymCount(Instances trainingSet, int numFeatures) {
+		Map<Integer,Integer> synCountMap = new HashMap<Integer,Integer>(numFeatures);
+		
+		for (int j = 0; j < numFeatures; j ++) {
+			
+		}
+		
+		return synCountMap;
+	}
 	
+	/**
+	 * Calculates the Information-Gain for each feature, defined as
+	 * <code>IG(c,j) = H(c) - H(c|j)</code> where
+	 * <code>H(c)</code> and <code>H(c|j)</code> are the overall entropy across
+	 * author classes and the conditional entropy for feature <code>j</code>,
+	 * respectively.
+	 * @param numFeatures
+	 * 		The total number of features <code>j</code>.
+	 * @param trainAuthorData
+	 * 		The training author data.
+	 * @return
+	 * 		The vector of Information-Gain per feature.
+	 */
+	private static double[] calcInfoGain(int numFeatures, List<AuthorWPData> trainAuthorData) {
+		double[] infoGain = new double[numFeatures];
+		int numAuthors = trainAuthorData.size();
+
+		// total entropy
+		double p = 1 / numAuthors;
+		double totalEntropy = - (numAuthors * p * log2(p));
+
+		double conditionalEntropy, f;
+		for (int j = 0; j < numFeatures; j++) {
+			// conditional entropy
+			conditionalEntropy = 0;
+			for (AuthorWPData ad: trainAuthorData) {
+				f = ad.posteriorProbabilities[j];
+				conditionalEntropy -= f * log2(f);
+			}
+			
+			// information gain
+			infoGain[j] = totalEntropy - conditionalEntropy;
+		}
+		
+		return infoGain;
+	}
 	
+	/**
+	 * Calculates the logarithm base 2 of the given number.
+	 * @param x
+	 * 		The input number.
+	 * @return
+	 * 		The logarithm base 2 of the given number.
+	 */
+	private static double log2(double x) {
+		return Math.log10(x)/Math.log10(2);
+	}
 	
 	/*
 	 * Main for testing.

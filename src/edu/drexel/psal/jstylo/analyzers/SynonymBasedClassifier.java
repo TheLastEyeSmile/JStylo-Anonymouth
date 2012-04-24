@@ -11,18 +11,6 @@ import edu.drexel.psal.jstylo.generics.ProblemSet;
 public class SynonymBasedClassifier extends Analyzer {
 	
 	@Override
-	public void preExtraction(ProblemSet ps, CumulativeFeatureDriver cfd) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void postExtraction(ProblemSet ps, CumulativeFeatureDriver cfd) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
 	public List<Map<String, Double>> classify(Instances trainingSet,
 			Instances testSet) {
 		// TODO Auto-generated method stub

@@ -2,6 +2,8 @@ package edu.drexel.psal.jstylo.GUI;
 
 import edu.drexel.psal.jstylo.GUI.DocsTabDriver.ExtFilter;
 import edu.drexel.psal.jstylo.analyzers.WekaAnalyzer;
+import edu.drexel.psal.jstylo.analyzers.writeprints.WriteprintsAnalyzer;
+import edu.drexel.psal.jstylo.generics.AnalyzerTypeEnum;
 import edu.drexel.psal.jstylo.generics.Logger;
 import edu.drexel.psal.jstylo.generics.WekaInstancesBuilder;
 import edu.drexel.psal.jstylo.generics.Logger.LogOut;
@@ -543,7 +545,8 @@ public class AnalysisTabDriver {
 			// pre-processing
 			Logger.logln("Applying analyzer feature-extraction pre-processing procedures...");
 			content += getTimestamp() + "Applying analyzer feature-extraction pre-processing procedures...\n";
-			main.wad.preExtraction(main.ps, main.cfd);
+			if (main.at == AnalyzerTypeEnum.WRITEPRINTS_ANALYZER)
+				WriteprintsAnalyzer.preExtraction(main.ps);
 			content += getTimestamp() + "done!\n\n";
 			
 			// training set
@@ -614,7 +617,8 @@ public class AnalysisTabDriver {
 			// post processing
 			Logger.logln("Applying analyzer feature-extraction post-processing procedures...");
 			content += getTimestamp() + "Applying analyzer feature-extraction post-processing procedures...\n";
-			main.wad.postExtraction(main.ps, main.cfd);
+			if (main.at == AnalyzerTypeEnum.WRITEPRINTS_ANALYZER)
+				WriteprintsAnalyzer.postExtraction(main.ps);
 			content += getTimestamp() + "done!\n\n";
 			
 			
@@ -708,7 +712,7 @@ public class AnalysisTabDriver {
 					updateResultsView();
 					
 					// run
-					Evaluation eval = main.wad.runCrossValidation(main.wib.getTrainingSet(),10);
+					Evaluation eval = main.wad.runCrossValidation(main.wib.getTrainingSet(),10,0);
 					content += getTimestamp()+" done!\n\n";
 					Logger.logln("Done!");
 					updateResultsView();

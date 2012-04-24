@@ -53,6 +53,7 @@ public abstract class Analyzer {
 	 * ==========
 	 */
 	
+	/*
 	/**
 	 * This procedure runs prior to the feature extraction phase.
 	 * @param ps
@@ -60,6 +61,7 @@ public abstract class Analyzer {
 	 * @param cfd
 	 * 		The cumulative feature driver to be used for feature extraction.
 	 */
+	/*
 	public abstract void preExtraction(ProblemSet ps, CumulativeFeatureDriver cfd);
 	
 	/**
@@ -69,7 +71,9 @@ public abstract class Analyzer {
 	 * @param cfd
 	 * 		The cumulative feature driver that was used for feature extraction.
 	 */
+	/*
 	public abstract void postExtraction(ProblemSet ps, CumulativeFeatureDriver cfd);
+	*/
 	
 	/**
 	 * Classifies the given test set based on the given training set. Should update the following fields along the classification:

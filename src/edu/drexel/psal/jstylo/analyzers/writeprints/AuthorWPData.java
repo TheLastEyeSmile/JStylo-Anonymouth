@@ -17,10 +17,14 @@ public class AuthorWPData {
 
 	// fields
 	protected String authorName;
+	protected int numFeatures;
 	protected Matrix featureMatrix;
+	protected double[] featureAverages;
 	protected List<Integer> zeroFeatures;
 	protected Matrix basisMatrix;
 	protected Matrix writeprint;
+	protected double[] featureProbabilities;
+	protected double[] posteriorProbabilities;
 	
 	// constructor
 	
@@ -61,7 +65,7 @@ public class AuthorWPData {
 			if (trainingData.instance(i).stringValue(classIndex).equals(authorName))
 				data.add(trainingData.instance(i));
 		numInstances = data.numInstances();
-		int numFeatures = data.numAttributes() - 1; // exclude class attribute
+		numFeatures = data.numAttributes() - 1; // exclude class attribute
 		
 		/*
 		 * initialize a matrix of features (each row represents an instance, each
@@ -75,21 +79,19 @@ public class AuthorWPData {
 				matrix[i][j] = inst.value(j);
 		}
 		
+		// calculate feature averages (for later use)
+		featureAverages = new double[numFeatures];
+		for (int j = 0; j < numFeatures; j++) {
+			for (int i = 0; i < numInstances; i++)
+				featureAverages[j] += matrix[i][j];
+			featureAverages[j] /= numInstances;
+		}
+		
 		// save feature matrix
-		if (average) {
-			// calculate average
-			double[][] avg = new double[1][numFeatures];
-			for (int j = 0; j < numFeatures; j++) {
-				for (int i = 0; i < numInstances; i++)
-					avg[0][j] += matrix[i][j];
-				avg[0][j] /= numInstances;
-			}
-			featureMatrix = new Matrix(avg);
-		}
-		else {
-			// just save feature matrix
+		if (average)
+			featureMatrix = new Matrix(new double[][] {featureAverages});
+		else
 			featureMatrix = new Matrix(matrix);
-		}
 		
 		// record zero-frequency features for author
 		zeroFeatures = new ArrayList<Integer>();
@@ -114,7 +116,7 @@ public class AuthorWPData {
 	 */
 	public void initBasisAndWriteprintMatrices() {
 		int numInstances = featureMatrix.getRowDimension();
-		int numFeatures = featureMatrix.getColumnDimension();
+		//int numFeatures = featureMatrix.getColumnDimension();
 		
 		/* (1) calculate the covariance matrix */
 		
@@ -122,17 +124,10 @@ public class AuthorWPData {
 		Matrix X = featureMatrix.transpose();
 		// calculate MU, the (#features)x(#instances) matrix of feature means
 		// where each cell i,j equals mean(feature_i)
-		double[] MU_values = new double[numFeatures];
-		for (int j = 0; j < numFeatures; j++) {
-			MU_values[j] = 0;
-			for (int i = 0; i < numInstances; i++)
-				MU_values[j] += featureMatrix.get(i,j);
-			MU_values[j] /= numInstances;
-		}
 		double[][] MU_matrix_values = new double[numFeatures][numInstances];
 		for (int i = 0; i < numFeatures; i++)
 			for (int j = 0; j < numInstances; j++)
-				MU_matrix_values[i][j] = MU_values[i];
+				MU_matrix_values[i][j] = featureAverages[i];
 		Matrix MU = new Matrix(MU_matrix_values);
 		// calculate X - MU
 		Matrix X_minus_MU = X.minus(MU);
@@ -146,14 +141,56 @@ public class AuthorWPData {
 		writeprint = basisMatrix.transpose().times(X_minus_MU);
 	}
 	
+	/**
+	 * Initializes the feature probabilities vector for this given author.
+	 * For this class (author) <code>c</code> and feature <code>j</code>, the
+	 * probability calculated is <code>p(j|c)</code>.<br>
+	 * For increased performance, probabilities are calculated on the average feature
+	 * values vector. 
+	 */
+	public void initFeatureProbabilities() {
+		double sum = 0;
+		for (int i = 0; i < numFeatures; i++)
+			sum += featureAverages[i];
+		featureProbabilities = new double[numFeatures];
+		for (int i = 0; i < numFeatures; i++)
+			featureProbabilities[i] = featureAverages[i] / sum;
+	}
+	
+	/**
+	 * Initializes the posterior probability vector for this given author.
+	 * For this class (author) <code>c</code> and feature <code>j</code>, the
+	 * posterior probability calculated is <code>p(c|j)</code>.
+	 * @param totalProbability
+	 * 		The vector <code>v</code> of the sum of probabilities such that
+	 * 		<code>v(j) = SUM{p(j|c)} over all training authors c</code>
+	 */
+	public void initPosteriorProbabilities(double[] totalProbability) {
+		posteriorProbabilities = new double[numFeatures];
+		for (int i = 0; i < numFeatures; i++)
+			if (totalProbability[i] != 0)
+				posteriorProbabilities[i] =
+				featureProbabilities[i] / totalProbability[i];
+	}
+	
+	
+	// ============================================================================================
+	// ============================================================================================
+	
+	/**
+	 * Main for testing
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		AuthorWPData a = new AuthorWPData("a");
 		double[][] d = new double[][]{
 				{1,2,3},
 				{4,5,6}
 		};
+		a.featureAverages = new double[] {2.5,3.5,4.5};
 		a.featureMatrix = new Matrix(d);
 		a.initBasisAndWriteprintMatrices();
+		a.writeprint.print(4,4);
 	}
 }
 

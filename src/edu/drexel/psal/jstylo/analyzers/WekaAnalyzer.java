@@ -47,17 +47,7 @@ public class WekaAnalyzer extends Analyzer {
 	 * operations
 	 * ==========
 	 */
-	
-	@Override
-	public void preExtraction(ProblemSet ps, CumulativeFeatureDriver cfd) {
-		// none
-	}
-
-	@Override
-	public void postExtraction(ProblemSet ps, CumulativeFeatureDriver cfd) {
-		// none
-	}
-	
+		
 	/**
 	 * Trains the Weka classifier using the given training set, and then classifies all instances in the given test set.
 	 * Returns list of distributions of classification probabilities per instance.

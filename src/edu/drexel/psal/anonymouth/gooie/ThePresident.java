@@ -32,7 +32,7 @@ public class ThePresident {
 	public static String GRAMMAR_DIR = "grammar_data/";//TODO: put in "options"
 	//public static boolean SHOULD_KEEP_TEMP_CLEAN_DOCS = false; // TODO : put in "options" XXX not used!!
 	public static boolean SHOULD_KEEP_AUTO_SAVED_ANONYMIZED_DOCS = false; // TODO: put in "options"
-	//public static boolean SAVE_TAGGED_DOCUMENTS = true; // TODO: put in "options
+	public static boolean SAVE_TAGGED_DOCUMENTS = true; // TODO: put in "options
 
 	/*
 	public void getDockImage(String name){

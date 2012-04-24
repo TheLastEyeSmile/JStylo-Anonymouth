@@ -16,6 +16,9 @@ public class ConsolidationStation {
 	HashMap<String,ArrayList<TreeData>> parsed;
 	ArrayList<Triple> toAdd;
 	ArrayList<Triple> toRemove;
+	public static DocumentTagger otherSampleTagger;
+	public static DocumentTagger authorSampleTagger;
+	public static DocumentTagger toModifyTagger;
 	
 	/**
 	 * constructor for ConsolidationStation. Depends on target values, and should not be called until they have been selected.

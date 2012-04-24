@@ -254,6 +254,7 @@ public class DataAnalyzer{
 		String strippedAttrib;
 		FeatureList genName;
 		EditorTabDriver.attributesMappedByName = new HashMap<FeatureList,Integer>(numFeatures);
+		
 		for(i=0; i<numFeatures;i++){
 			String attrib = (theArffFile.attribute((int) allInfoGain[i][1]).toString());
 			//System.out.println("ATTRIBUTE: "+attrib);
@@ -264,14 +265,16 @@ public class DataAnalyzer{
 					numFeatures++;
 					continue;
 			}
+			/*
 			if (toModifyIndex != -1){
 				if((toModifyInstancesArray[0][toModifyIndex] == 0.0)){//&& EditorTabDriver.userRequestedNoZeros == true){
-					Logger.logln("CONTINUING attribute: "+attrib+" toModifyValue: "+toModifyInstancesArray[0][toModifyIndex]);
+					Logger.logln("CONTINUING attribute: "+attrib+" toModifyValue: "+toModifyInstancesArray[0][toModifyIndex]+" info gain: "+allInfoGain[j][0]);
 					numFeatures++;
 					continue;
 				}
 			}
-			else{
+			*/
+			if(toModifyIndex == -1){
 				//System.out.println("CONTINUING attribute: "+attrib+" does not appear in toModifyDocument.");
 				numFeatures++;
 				continue;

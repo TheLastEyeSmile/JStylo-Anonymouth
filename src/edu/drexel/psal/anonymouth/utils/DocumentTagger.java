@@ -1,20 +1,23 @@
 package edu.drexel.psal.anonymouth.utils;
 
+import java.io.IOException;
 import java.util.*;
 
 
+import com.jgaap.JGAAPConstants;
 import com.jgaap.generics.Document;
 
 import edu.drexel.psal.anonymouth.gooie.ErrorHandler;
 import edu.drexel.psal.anonymouth.gooie.ThePresident;
 import edu.drexel.psal.jstylo.generics.Logger;
+import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
 /**
  * Parses documents.....
  * @author Andrew W.E. McDonald
  *
  */
-public class DocumentTagger implements Runnable{
+public class DocumentTagger {//implements Runnable{
 	
 	
 	//static String[] authorNames;// = new String[]{"aa","cc","p","q","r","x","y","z"};
@@ -24,23 +27,37 @@ public class DocumentTagger implements Runnable{
 	//private static ArrayList<TaggedDocument> taggedToModifyDoc;
 	//private static TreeProcessor[] allTreeProcessors = new TreeProcessor[3];
 	//private static HashMap<String,ArrayList<TreeData>> allParsedAndOrdered = new HashMap<String,ArrayList<TreeData>>(3);
-	//private MaxentTagger mt = null;
+	public  static MaxentTagger mt = null;
 	private List<Document> toTag;
 	private boolean loadIfExists;
 	private ArrayList<TaggedDocument> tagged;
 	private boolean finishedTagging = false;
 	
-	public DocumentTagger(){
-
-	}
-
-	public void setDocList(List<Document> toTag, boolean loadIfExists){
+	public DocumentTagger(List<Document> toTag, boolean loadIfExists){
 		this.toTag = toTag;
 		this.loadIfExists = loadIfExists;
+		if(mt == null)
+			initMaxentTagger();
 		Logger.logln("Set document to tag.");
+		//new Thread(this,"DocumentTagger").start();
+
 	}
 	
-	
+	/**
+	 * Initializes MaxentTagger
+	 * @return true if successful, false otherwise
+	 */
+	public boolean initMaxentTagger(){
+		try {
+			mt = new MaxentTagger("."+JGAAPConstants.JGAAP_RESOURCE_PACKAGE+"models/postagger/english-left3words-distsim.tagger");
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}	
 	/*
 	public static void setDocs(List<Document> otherSample, List<Document> authorSample, List<Document> toModify) throws Exception{
 		dummy_doc.setAuthor("Dummy author. This author should absolutley never be seen. If it is seen, and it is the last author in one of the lists, those documents won't process, and bad things will follow.");
@@ -56,7 +73,8 @@ public class DocumentTagger implements Runnable{
 	}
 	*/
 	
-	public void run() {
+	public void tag() {//run(){
+		
 		try {
 			tagged = tagDocs(toTag,loadIfExists);
 			finishedTagging = true;

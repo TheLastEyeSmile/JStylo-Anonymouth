@@ -51,6 +51,7 @@ import edu.drexel.psal.anonymouth.suggestors.TheOracle;
 import edu.drexel.psal.anonymouth.utils.ConsolidationStation;
 import edu.drexel.psal.anonymouth.utils.DocumentTagger;
 import edu.drexel.psal.anonymouth.utils.TaggedSentence;
+import edu.drexel.psal.anonymouth.utils.Tagger;
 import edu.drexel.psal.anonymouth.utils.TreeData;
 
 import weka.core.Attribute;
@@ -204,15 +205,16 @@ public class BackendInterface {
 		}
 	}
 	
+	/*
 	protected static void tagDocs(GUIMain main, DocumentMagician magician){
 		(new Thread(bei.new TagDocs(main, magician))).start();
 	}
 	
 	public class TagDocs extends GUIThread{
 		
-		public DocumentTagger otherSampleTagger = new DocumentTagger();
-		public DocumentTagger authorSampleTagger = new DocumentTagger();
-		public DocumentTagger toModifyTagger = new DocumentTagger();
+		public DocumentTagger otherSampleTagger;
+		public DocumentTagger authorSampleTagger;
+		public DocumentTagger toModifyTagger;
 		private DocumentMagician magician;
 		
 		TagDocs(GUIMain main, DocumentMagician magician){
@@ -221,21 +223,14 @@ public class BackendInterface {
 		}
 		
 		public void run(){
-			ArrayList<List<Document>> allDocs = magician.getDocumentSets();
-			boolean loadIfExists = false;
-			otherSampleTagger.setDocList(allDocs.get(0),loadIfExists); // no author train set 
-			authorSampleTagger.setDocList(allDocs.get(1),loadIfExists); // author sample set 
-			toModifyTagger.setDocList(allDocs.get(2), loadIfExists); // to modify set 
-			otherSampleTagger.run();
-			authorSampleTagger.run();
-			toModifyTagger.run();
+			
 			
 			//EditorTabDriver.consolidator = new ConsolidationStation(EditorTabDriver.attribs);
 			//EditorTabDriver.consolidator.beginConsolidation();
 			
 		}
 	}
-	
+*/	
 	protected static void preTargetSelectionProcessing(GUIMain main,DataAnalyzer wizard, DocumentMagician magician,ClassifyingProgressBar cpb){
 		//Logger
 		(new Thread(bei.new PreTargetSelectionProcessing(main,wizard,magician,cpb))).start();
@@ -294,7 +289,15 @@ public class BackendInterface {
 				cpb.setText("Extracting and Clustering Features...");
 				try{
 					wizard.runInitial(magician,main.cfd, main.classifiers.get(0));
-					//tagDocs(main,magician);
+					boolean loadIfExists = false;
+					Tagger.initTagger();
+					ArrayList<List<Document>> allDocs = magician.getDocumentSets();
+					ConsolidationStation.otherSampleTagger = new DocumentTagger(allDocs.get(0),loadIfExists);
+					ConsolidationStation.authorSampleTagger = new DocumentTagger(allDocs.get(1),loadIfExists);
+					ConsolidationStation.toModifyTagger = new DocumentTagger(allDocs.get(2),loadIfExists);
+					ConsolidationStation.otherSampleTagger.tag();
+					ConsolidationStation.authorSampleTagger.tag();
+					ConsolidationStation.toModifyTagger.tag();
 					cpb.setText("Extracting and Clustering Features... Done");
 					cpb.setText("Initialize Cluster Viewer...");
 					ClusterViewerDriver.initializeClusterViewer(main,true);

@@ -23,7 +23,7 @@
 	<classpathentry kind="lib" path="lib/external/xmlbeans-2.3.0.jar"/>
 	<classpathentry kind="lib" path="lib/external/pdfbox-1.6.0.jar"/>
 	<classpathentry kind="lib" path="lib/external/jscience-4.3.1.jar"/>
-	<classpathentry kind="lib" path="lib/external/edu.mit.jwi_2.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/external/edu.mit.jwi_2.2.1.jar" sourcepath="lib/external/edu.mit.jwi_2.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/external/stanford-postagger-2012-01-06.jar"/>
 	<classpathentry kind="lib" path="lib/external/jaws-bin.jar"/>
 	<classpathentry kind="lib" path="lib/external/ui.jar"/>

@@ -1,14 +1,20 @@
 package edu.drexel.psal.jstylo.analyzers.writeprints;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URL;
 import java.util.*;
 
 import com.jgaap.JGAAPConstants;
 import com.jgaap.generics.*;
 
+import weka.attributeSelection.InfoGainAttributeEval;
 import weka.classifiers.*;
 import weka.core.*;
 import edu.drexel.psal.jstylo.generics.*;
 import edu.smu.tspell.wordnet.Synset;
+import edu.smu.tspell.wordnet.SynsetType;
 import edu.smu.tspell.wordnet.WordNetDatabase;
 
 /**
@@ -38,11 +44,21 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 */
 	private boolean averageFeatureVectors = true;
 	
+	private static final double FEATURE_INFO_GAIN_THRESHOLD = 0;
+	
 	/**
 	 * The list of training author data, including feature, basis and writeprint matrices.
 	 */
 	private List<AuthorWPData> trainAuthorData = new ArrayList<AuthorWPData>();
+	
+	/**
+	 * The list of training author data, including feature, basis and writeprint matrices.
+	 */
 	private List<AuthorWPData> testAuthorData = new ArrayList<AuthorWPData>();
+	
+	/**
+	 * TODO
+	 */
 	private static boolean testDocsPreProcessed = false;
 	
 	/* ==========
@@ -82,6 +98,39 @@ public class WriteprintsAnalyzer extends Analyzer {
 	public List<Map<String, Double>> classify(Instances trainingSet,
 			Instances testSet) {
 		
+		/* =========================
+		 * INFO-GAIN SPACE REDUCTION
+		 * =========================
+		 * deletes any features with information gain <= FEATURE_INFO_GAIN_THRESHOLD
+		 */
+		
+		// calculate information-gain over only the training authors set
+		double[] IG = null;
+		int numFeatures = trainingSet.numAttributes() - 1; // exclude class attribute
+		try {
+			IG = calcInfoGain(trainingSet, numFeatures);
+		} catch (Exception e) {
+			System.err.println("Error evaluating information gain.");
+			e.printStackTrace();
+			return null;
+		}
+		// remove all information gain features below the threshold
+		for (int j = numFeatures - 1; j >= 0; j--) {
+			if (IG[j] <= FEATURE_INFO_GAIN_THRESHOLD)
+				trainingSet.deleteAttributeAt(j);
+		}
+		// update number of features and information gain
+		if (numFeatures > trainingSet.numAttributes() - 1) {
+			numFeatures = trainingSet.numAttributes() - 1; // update
+			try {
+				IG = calcInfoGain(trainingSet, numFeatures);
+			} catch (Exception e) {
+				System.err.println("Error evaluating information gain.");
+				e.printStackTrace();
+				return null;
+			}
+		}
+		
 		/* ========
 		 * TRAINING
 		 * ========
@@ -91,14 +140,13 @@ public class WriteprintsAnalyzer extends Analyzer {
 		// and feature probabilities per author p(j|c)
 		Attribute classAttribute = trainingSet.classAttribute();
 		int numAuthors = classAttribute.numValues();
-		int numFeatures = trainingSet.numAttributes() - 1; // exclude class attribute
 		String authorName;
 		AuthorWPData authorData;
 		for (int i = 0; i < numAuthors; i++) {
 			authorName = classAttribute.value(i);
 			authorData = new AuthorWPData(authorName);
 			authorData.initFeatureMatrix(trainingSet, averageFeatureVectors);
-			authorData.initFeatureProbabilities();
+			//authorData.initFeatureProbabilities();
 			if (authorName.startsWith(TEST_AUTHOR_NAME_PREFIX))
 				testAuthorData.add(authorData);
 			else
@@ -107,6 +155,7 @@ public class WriteprintsAnalyzer extends Analyzer {
 		
 		// initialize the posterior probability p(c|j)
 		// for the training authors only
+		/*
 		double[] totalProbability = new double[numFeatures];
 		for (int j = 0; j < numFeatures; j++)
 			for (AuthorWPData ad: trainAuthorData)
@@ -116,20 +165,21 @@ public class WriteprintsAnalyzer extends Analyzer {
 		
 		// calculate information-gain
 		double[] IG = calcInfoGain(numFeatures, trainAuthorData);
+		*/
 		
 		// initialize result set
 		List<Map<String, Double>> res =
 				new ArrayList<Map<String,Double>>(trainAuthorData.size());
 		
 		// initialize synonym count mapping
-		Map<Integer,Integer> calcSynonymCount = calcSynonymCount(trainingSet,numFeatures);
+		Map<String,Integer> wordsSynCount = calcSynonymCount(trainingSet,numFeatures);
 		
 		/* =======
 		 * TESTING
 		 * =======
 		 */
 		
-		
+		//TODO
 		
 		return res;
 	}
@@ -151,9 +201,12 @@ public class WriteprintsAnalyzer extends Analyzer {
 	
 	/**
 	 * Initializes the Wordnet database.
+	 * @throws IOException 
 	 */
 	private static void initWordnetDB() {
-		System.setProperty("wordnet.database.dir", JGAAPConstants.JGAAP_RESOURCE_PACKAGE + "wordnet");
+		URL url = Thread.currentThread().getClass().getResource(
+				JGAAPConstants.JGAAP_RESOURCE_PACKAGE+"wordnet");
+		System.setProperty("wordnet.database.dir", url.getPath());
 		wndb = WordNetDatabase.getFileInstance();
 	}
 
@@ -170,19 +223,18 @@ public class WriteprintsAnalyzer extends Analyzer {
 	
 	/**
 	 * Counts the number of synonyms per feature that is word-based, and constructs
-	 * a map from feature indices to their synonym count. Features that are not word
-	 * based are mapped to 0.
+	 * a map from feature indices to their synonym count.
 	 * @param trainingSet
 	 * 		The training set from which to extract the features.
 	 * @param numFeatures
 	 * 		The number of features.
 	 * @return
-	 * 		A mapping from the features of the given training set to the synonym count.
+	 * 		A mapping from the word features of the given training set to the synonym count.
 	 */
-	private static Map<Integer,Integer> calcSynonymCount(Instances trainingSet, int numFeatures) {
+	private static Map<String,Integer> calcSynonymCount(Instances trainingSet, int numFeatures) {
 		
 		// initialize
-		Map<Integer,Integer> synCountMap = new HashMap<Integer,Integer>(numFeatures);
+		Map<String,Integer> synCountMap = new HashMap<String,Integer>(numFeatures);
 		if (wndb == null)
 			initWordnetDB();
 		
@@ -190,39 +242,52 @@ public class WriteprintsAnalyzer extends Analyzer {
 		Attribute feature;
 		String featureName;
 		String word;
-		Synset[] synsets;
-		int synCount;
+		List<String> words = new ArrayList<String>();
 		for (int j = 0; j < numFeatures; j ++) {
 			feature = trainingSet.attribute(j);
 			featureName = feature.name();
 			
-			// make sure to handle only word features
+			// check whether it is a word feature, else continue
 			isWordFeature = false;
 			for (String wordFeature: wordFeatures)
 				if (featureName.startsWith(wordFeature)) {
 					isWordFeature = true;
 					break;
 				}
-			if (!isWordFeature) {
-				synCountMap.put(j,0);
+			if (!isWordFeature)
 				continue;
-			}
 			
 			// extract word
 			word = featureName.replaceAll(".*\\{", "").replace("}", "");
-			
-			// calculate number of synonyms
-			synsets = wndb.getSynsets(word);
-			synCount = 0;
-			for (Synset synset: synsets) {
-				synCount += synset.getWordForms().length;
-			}
-			synCountMap.put(j, synCount);
+			words.add(word);
 		}
 		
+		// find synonym count for all words
+		int numWords = words.size();
+		Synset[] synsets, tmpSynsets;
+		SynsetType[] allTypes = SynsetType.ALL_TYPES;
+		Set<String> synonyms;
+		for (int i = 0; i < numWords; i++) {
+			word = words.get(i);
+			
+			// find the SynsetType with the maximum number of synsets
+			synsets = wndb.getSynsets(word, allTypes[0]);
+			for (int j = 1; j < allTypes.length; j++) {
+				tmpSynsets = wndb.getSynsets(word, allTypes[j]);
+				if (tmpSynsets.length > synsets.length)
+					synsets = tmpSynsets;
+			}
+			
+			// count synonyms
+			synonyms = new HashSet<String>();
+			for (Synset synset: synsets)
+				synonyms.addAll(Arrays.asList(synset.getWordForms()));
+			synCountMap.put(word, synonyms.size());
+		}
+				
 		return synCountMap;
 	}
-	
+		
 	/**
 	 * Calculates the Information-Gain for each feature, defined as
 	 * <code>IG(c,j) = H(c) - H(c|j)</code> where
@@ -236,6 +301,7 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 * @return
 	 * 		The vector of Information-Gain per feature.
 	 */
+	/*
 	private static double[] calcInfoGain(int numFeatures, List<AuthorWPData> trainAuthorData) {
 		double[] infoGain = new double[numFeatures];
 		int numAuthors = trainAuthorData.size();
@@ -259,6 +325,84 @@ public class WriteprintsAnalyzer extends Analyzer {
 		
 		return infoGain;
 	}
+	*/
+	
+	/**
+	 * Calculates and returns the information gain vector for all features
+	 * based only on the training authors data in the given training set
+	 * (i.e. excluding test authors data).
+	 * @param trainingSet
+	 * 		The training set (containing both training and test authors data).
+	 * @param numFeatures
+	 * 		The number of features.
+	 * @return
+	 * 		The information gain vector for all features based only on the
+	 * 		the training authors data in the given training set.
+	 * @throws Exception
+	 * 		If an error is encountered during information gain evaluation.
+	 */
+	private static double[] calcInfoGain(Instances trainingSet, int numFeatures) throws Exception {		
+		Instances train = getTrainOnlyData(trainingSet, TEST_AUTHOR_NAME_PREFIX);
+		InfoGainAttributeEval ig = new InfoGainAttributeEval();
+		ig.buildEvaluator(train);
+		double[] IG = new double[numFeatures];
+		for (int j = 0; j < numFeatures; j++)
+			IG[j] = ig.evaluateAttribute(j);
+		return IG;
+	}
+
+	/**
+	 * Removes all test data (classes and instances) from the given training set,
+	 * by removing all data of authors with name beginning with the given prefix.
+	 * @param trainingSet
+	 * 		The training data to filter.
+	 * @param testAuthorsNamePrefix
+	 * 		Test authors name prefix.
+	 * @return
+	 * 		The filtered data, containing only training authors and instances.
+	 */
+	private static Instances getTrainOnlyData(Instances trainingSet, String testAuthorsNamePrefix) {
+		// attributes
+		FastVector newAttributes = new FastVector(trainingSet.numAttributes());
+		int numAttributes = trainingSet.numAttributes();
+		for (int i = 0; i < numAttributes - 1; i++)
+			newAttributes.addElement(trainingSet.attribute(i));
+		Attribute classAttribute = trainingSet.classAttribute();
+		int numAuthors = classAttribute.numValues();
+		FastVector newClassVector = new FastVector();
+		String authorName;
+		Set<Double> testAuthorIndices = new HashSet<Double>();
+		for (int i = 0; i < numAuthors; i++) {
+			authorName = classAttribute.value(i);
+			if (authorName.startsWith(testAuthorsNamePrefix))
+				testAuthorIndices.add(new Double(i));
+			else
+				newClassVector.addElement(authorName);
+		}
+		Attribute newClassAttribute = new Attribute(classAttribute.name(), newClassVector);
+		newAttributes.addElement(newClassAttribute);
+		Instances train = new Instances(
+				trainingSet.relationName(),
+				newAttributes,
+				0);
+		// instances
+		int numInstances = trainingSet.numInstances();
+		Instance originalInst;
+		double[] originalValues;
+		int newClassIndex;
+		for (int i = 0; i < numInstances; i++) {
+			originalInst = trainingSet.instance(i);
+			if (testAuthorIndices.contains(originalInst.classValue()))
+				continue; // skip test authors instances
+			originalValues = originalInst.toDoubleArray();
+			newClassIndex = newClassAttribute.indexOfValue(
+					classAttribute.value((int)(originalValues[numAttributes - 1])));
+			originalValues[numAttributes - 1] = newClassIndex;
+			train.add(new Instance(originalInst.weight(), originalValues));
+		}
+
+		return train;
+	}
 	
 	/**
 	 * Calculates the logarithm base 2 of the given number.
@@ -271,11 +415,16 @@ public class WriteprintsAnalyzer extends Analyzer {
 		return Math.log10(x)/Math.log10(2);
 	}
 	
-	/*
+	
+	// ============================================================================================
+	// ============================================================================================
+	
+	
+	/**
 	 * Main for testing.
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		
 	}
 }

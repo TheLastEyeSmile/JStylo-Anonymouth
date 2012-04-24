@@ -289,16 +289,17 @@ public class BackendInterface {
 				cpb.setText("Extracting and Clustering Features...");
 				try{
 					wizard.runInitial(magician,main.cfd, main.classifiers.get(0));
+					cpb.setText("Extracting and Clustering Features... Done");
+					cpb.setText("Tagging all documents...");
 					boolean loadIfExists = false;
 					Tagger.initTagger();
+					DocumentTagger docTagger = new DocumentTagger();
 					ArrayList<List<Document>> allDocs = magician.getDocumentSets();
-					ConsolidationStation.otherSampleTagger = new DocumentTagger(allDocs.get(0),loadIfExists);
-					ConsolidationStation.authorSampleTagger = new DocumentTagger(allDocs.get(1),loadIfExists);
-					ConsolidationStation.toModifyTagger = new DocumentTagger(allDocs.get(2),loadIfExists);
-					ConsolidationStation.otherSampleTagger.tag();
-					ConsolidationStation.authorSampleTagger.tag();
-					ConsolidationStation.toModifyTagger.tag();
-					cpb.setText("Extracting and Clustering Features... Done");
+					ConsolidationStation.otherSampleTaggedDocs = docTagger.tagDocs(allDocs.get(0),loadIfExists);
+					ConsolidationStation.authorSampleTaggedDocs = docTagger.tagDocs(allDocs.get(1),loadIfExists);
+					ConsolidationStation.toModifyTaggedDocs = docTagger.tagDocs(allDocs.get(2),loadIfExists);
+					ConsolidationStation.setAllDocsTagged(true);
+					cpb.setText("Tagging all documents... Done");
 					cpb.setText("Initialize Cluster Viewer...");
 					ClusterViewerDriver.initializeClusterViewer(main,true);
 					cpb.setText("Initialize Cluster Viewer... Done");

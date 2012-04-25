@@ -33,7 +33,7 @@ public class TaggedSentence {
 	protected String untagged;
 	protected ArrayList<TaggedWord> tagged;
 	protected Iterator<TaggedWord> tagIter;
-	protected TaggedWord taggedWord;
+	private TaggedWord taggedWord;
 	protected ArrayList<String> wordsToReturn;
 	private int PROBABLE_MAX = 3;
 	protected ArrayList<TENSE> tense = new ArrayList<TENSE>(PROBABLE_MAX);

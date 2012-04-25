@@ -111,42 +111,52 @@ public class ConsolidationStation {
 	}
 
 
-	private void findWordBigrams(){
-		int attribIndex,taggedDocsIndex,sentenceIndex,wordIndex, previousIndex;
+	private void findWordGrams(){
+		int attribIndex,taggedDocsIndex,sentenceIndex,wordIndex;
 		//This will parse through the individual sentences
 		
 		for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){//loops through documents
 			ArrayList<TaggedSentence> tagSentences=otherSampleTaggedDocs.get(taggedDocsIndex).getTaggedSentences();
 			for(sentenceIndex=0;sentenceIndex<tagSentences.size();sentenceIndex++){//loopsThrough sentences in each doc
 				TaggedSentence tagged=tagSentences.get(sentenceIndex);
-				previousIndex=0;
 				for(wordIndex=1;wordIndex<tagged.tagged.size();wordIndex++){//loops through words in sentences
-					Word wordBigram=makeWordBigram(tagged.tagged.get(previousIndex),tagged.tagged.get(wordIndex));
+					Word wordBigram=makeWordBigram(tagged.tagged.get(wordIndex-1).word(),tagged.tagged.get(wordIndex).word());
 					addToHashMap(wordsToAdd,wordBigram);
-					previousIndex=wordIndex;
+					if(wordIndex-2>=0){
+						Word wordTrigram=makeWordTrigram(tagged.tagged.get(wordIndex-2).word(),tagged.tagged.get(wordIndex-1).word(),tagged.tagged.get(wordIndex).word());
+						addToHashMap(wordsToAdd,wordTrigram);
+					}
 				}
 			}
 		}
 	}
-	private void findPOSBigrams(){//fix this
-		int attribIndex,taggedDocsIndex,sentenceIndex,wordIndex, previousIndex;
+	private void findPOSGrams(){
+		int attribIndex,taggedDocsIndex,sentenceIndex,wordIndex;
 		//This will parse through the individual sentences
 		
 		for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){//loops through documents
 			ArrayList<TaggedSentence> tagSentences=otherSampleTaggedDocs.get(taggedDocsIndex).getTaggedSentences();
 			for(sentenceIndex=0;sentenceIndex<tagSentences.size();sentenceIndex++){//loopsThrough sentences in each doc
 				TaggedSentence tagged=tagSentences.get(sentenceIndex);
-				previousIndex=0;
 				for(wordIndex=1;wordIndex<tagged.tagged.size();wordIndex++){//loops through words in sentences
-					Word wordBigram=makeWordBigram(tagged.tagged.get(previousIndex),tagged.tagged.get(wordIndex));//here
+					Word wordBigram=makeWordBigram(tagged.tagged.get(wordIndex-1).tag(),tagged.tagged.get(wordIndex).tag());
 					addToHashMap(wordsToAdd,wordBigram);
-					previousIndex=wordIndex;
+					if(wordIndex-2>=0){
+						Word wordTrigram=makeWordTrigram(tagged.tagged.get(wordIndex-2).tag(),tagged.tagged.get(wordIndex-1).tag(),tagged.tagged.get(wordIndex).tag());
+						addToHashMap(wordsToAdd,wordTrigram);
+					}
+					else{
+						Word wordGram=makeWordBigram(tagged.tagged.get(wordIndex-1).tag(),"");
+						addToHashMap(wordsToAdd,wordGram);
+					}
+					Word wordGram=makeWordBigram(tagged.tagged.get(wordIndex).tag(),"");
+					addToHashMap(wordsToAdd,wordGram);
 				}
 			}
 		}
 	}
-	private void findLetterBigrams(){
-		int attribIndex,taggedDocsIndex,sentenceIndex,wordIndex, previousIndex,letterIndex;
+	private void findLetterGrams(){
+		int taggedDocsIndex,sentenceIndex,wordIndex,letterIndex;
 		//This will parse through the individual sentences
 		
 		for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){//loops through documents
@@ -154,12 +164,14 @@ public class ConsolidationStation {
 			for(sentenceIndex=0;sentenceIndex<tagSentences.size();sentenceIndex++){//loopsThrough sentences in each doc
 				TaggedSentence tagged=tagSentences.get(sentenceIndex);
 				for(wordIndex=0;wordIndex<tagged.tagged.size();wordIndex++){//loops through words in sentences
-					String untaggedWord=tagged.tagged.get(wordIndex).word();
-					for(letterIndex=1;letterIndex<untaggedWord.length();letterIndex++){
-						previousIndex=0;
-						Word letterBigram=makeWordBigram(tagged.tagged.get(previousIndex),tagged.tagged.get(wordIndex));
+					char[] untaggedWord=tagged.tagged.get(wordIndex).word().toCharArray();
+					for(letterIndex=1;letterIndex<untaggedWord.length;letterIndex++){
+						Word letterBigram=makeWordBigram(untaggedWord[letterIndex-1]+"",untaggedWord[letterIndex]+"");
 						addToHashMap(wordsToAdd,letterBigram);
-						previousIndex=letterIndex;
+						if(letterIndex-2>=0){
+							Word wordTrigram=makeWordTrigram(untaggedWord[letterIndex-2]+"",untaggedWord[letterIndex-1]+"",untaggedWord[letterIndex]+"");
+							addToHashMap(wordsToAdd,wordTrigram);
+						}
 					}
 				}
 			}
@@ -180,20 +192,36 @@ public class ConsolidationStation {
 	public void addToHashMap(HashMap <String,Word> hashMap, Word wordToAdd){
 		
 		if (hashMap.containsKey(wordToAdd.word)){
-			hashMap.get(wordToAdd.word).adjustVals(1, wordToAdd.infoGainSum);
+			hashMap.get(wordToAdd.word).adjustVals(wordToAdd.rank, wordToAdd.infoGainSum);
 		}
 		else{
 			hashMap.put(wordToAdd.word, wordToAdd);
 		}		
 	}
+	
+	
 	/**
 	 * 
-	 * @param taggedWord the first tagged word to make into a word
-	 * @param taggedWord2
-	 * @return
+	 * @param str1 the first string to make into a word
+	 * @param str2 the second string to make into a word
+	 * @return the newWord that represents the bigram
 	 */
-	private Word makeWordBigram(TaggedWord taggedWord1, TaggedWord taggedWord2) {
-		Word newWord = new Word(taggedWord1.word()+taggedWord2.word());
+	private Word makeWordBigram(String str1, String str2) {
+		Word newWord = new Word(str1+str2);
+		newWord.infoGainSum=1;
+		newWord.rank=1;//I think this needs to be initialized to 1
+		newWord.numFeaturesIncluded=1;// I do not know what this is supposed to be
+		return newWord;
+	}
+	/**
+	 * 
+	 * @param str1 the first string to make into a word
+	 * @param str2 the second string to make into a word
+	 * @param str3 the third string to make into a word
+	 * @return the new word that represents the trigram
+	 */
+	private Word makeWordTrigram(String str1, String str2,String str3) {
+		Word newWord = new Word(str1+str2+str3);
 		newWord.infoGainSum=1;
 		newWord.rank=1;//I htink this needs to be initialized to 1
 		newWord.numFeaturesIncluded=1;// I do not know what this is supposed to be

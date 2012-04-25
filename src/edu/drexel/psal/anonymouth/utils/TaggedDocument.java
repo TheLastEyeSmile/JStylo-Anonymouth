@@ -127,7 +127,7 @@ public class TaggedDocument {
 			toke = tlp.getTokenizerFactory().getTokenizer(new StringReader(tempSent));
 			sentenceTokenized = toke.tokenize();
 			taggedSentence.setTaggedSentence(Tagger.mt.tagSentence(sentenceTokenized));
-			//taggedSentence.setGrammarStats();
+			
 			taggedSentences.add(taggedSentence); 
 			
 		}
@@ -164,6 +164,7 @@ public class TaggedDocument {
 	public String getNextSentence(){
 		if(sentNumber <totalSentences-1){
 			sentNumber++;
+			Logger.logln(taggedSentences.get(sentNumber).tagged.toString());
 			return taggedSentences.get(sentNumber).getUntagged();
 		}
 		else{
@@ -343,14 +344,14 @@ public class TaggedDocument {
 	}
 	
 	
-		public static void main(String[] args){
-			String text1 = "people's enjoy coffee, especially in the mornings, because it helps to wake me up. My dog is fairly small, but she seems not to realize it when she is around bigger dogs. This is my third testing sentence. I hope this works well.";
-			TaggedDocument testDoc = new TaggedDocument(text1);
-			testDoc.setFunctionWords();
-			System.out.println(testDoc.toString());			
-			System.out.println(testDoc.getFunctionWords());
-			
-		}
+	public static void main(String[] args){
+		String text1 = "people's enjoy coffee, especially in the mornings, because it helps to wake me up. My dog is fairly small, but she seems not to realize it when she is around bigger dogs. This is my third testing sentence. I hope this works well.";
+		TaggedDocument testDoc = new TaggedDocument(text1);
+		testDoc.setFunctionWords();
+		System.out.println(testDoc.toString());			
+		System.out.println(testDoc.getFunctionWords());
+		
+	}
 	
 }
 	

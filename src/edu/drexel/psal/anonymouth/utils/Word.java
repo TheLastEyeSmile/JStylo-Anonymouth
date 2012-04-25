@@ -10,8 +10,8 @@ public class Word {
 	
 	protected String word;
 	protected int rank = 0; // start at neutral
-	protected double infoGainSum = 0;
-	protected double numFeaturesIncluded = 0;
+	protected double infoGainSum = 0;//weka calc//want the avg info gain. (I htink)
+	protected double numFeaturesIncluded = 0;//
 	
 	
 	/**
@@ -66,6 +66,8 @@ public class Word {
 		int hash = (int)longHash;
 		return hash;
 	}
+	
+	
 
 	/**
 	 * toString method

@@ -6,8 +6,10 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import com.jgaap.JGAAPConstants;
+import com.sun.org.apache.xerces.internal.impl.xs.identity.Selector.Matcher;
 
 import edu.stanford.nlp.ling.TaggedWord;
 import edu.drexel.psal.anonymouth.suggestors.POS.TheTags;
@@ -39,7 +41,14 @@ public class TaggedSentence {
 	protected ArrayList<TENSE> tense = new ArrayList<TENSE>(PROBABLE_MAX);
 	protected ArrayList<POV> pointOfView = new ArrayList<POV>(PROBABLE_MAX);
 	protected ArrayList<CONJ> conj = new ArrayList<CONJ>(PROBABLE_MAX);
-	protected ArrayList<String> functionWords=new ArrayList<String>();
+	protected ArrayList<String> functionWords=new ArrayList<String>(PROBABLE_MAX);//not sure if should have put PROBABLE_MAX
+	protected ArrayList<String> punctuation =new ArrayList<String>(PROBABLE_MAX);
+	protected ArrayList<String> digits =new ArrayList<String>(PROBABLE_MAX);
+	
+	//private static final String punctuationRegex = "[.?!\"\\,'~(){}]{1}";
+	private static final Pattern punctuationRegex=Pattern.compile("[.?!\"\\,'~(){}]{1}");
+	//private static final String digit = "[\\d]{1,}";
+	private static final Pattern digit=Pattern.compile("[\\d]{1,}");
 	
 	protected List<? extends HasWord> sentenceTokenized;
 	protected Tokenizer<? extends HasWord> toke;
@@ -91,11 +100,34 @@ public class TaggedSentence {
 		for (int i=0;i<tagged.size();i++){
 			TaggedWord temp=tagged.get(i);
 			//System.out.println(temp.tag());
-			if(tagged.get(i).word().matches("[\\w&&\\D]+")){
-				if(fWord.searchListFor(tagged.get(i).word())){
-					functionWords.add(tagged.get(i).word());
+			if(tagged.get(i).word().matches("[\\w&&\\D]+")){//fixes the error with sentences
+				if(fWord.searchListFor(temp.word())){
+					functionWords.add(temp.word());
 				}
-			}/**///This somehow overwrite the taggedDocument.
+				else{
+					java.util.regex.Matcher wordToSearch=punctuationRegex.matcher(temp.word());
+					if(wordToSearch.find()){
+						punctuation.add(temp.word().substring(wordToSearch.start(), wordToSearch.end()));
+					}
+					else{//adds digits
+						wordToSearch=digit.matcher(temp.word());
+						if(wordToSearch.find()){
+							String digitSubStr=temp.word().substring(wordToSearch.start(), wordToSearch.end());
+							for (int count=0;count<digitSubStr.length();count++){
+								if(count-2>=0){
+									digits.add(digitSubStr.substring(count-2, count));
+								}
+								if(count-1>=0){
+									digits.add(digitSubStr.substring(count-1, count));
+								}
+								digits.add(digitSubStr.substring(count, count));
+							}	
+						}	
+					}
+				}	/**///This somehow overwrite the taggedDocument.
+			
+			}
+			/*Stuff for tenses
 			if(temp.tag().startsWith("VB")){
 				//it is a verb 
 				switch(TheTags.valueOf((temp.tag()))){

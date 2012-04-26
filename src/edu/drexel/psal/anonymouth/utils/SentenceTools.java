@@ -43,7 +43,7 @@ public class SentenceTools  {
 	private static int MAX_SENTENCES = 500;
 	private int numSentences;
 	private boolean shouldInitialize = true;
-	private ArrayList<String> sentsToEdit = new ArrayList<String>(MAX_SENTENCES);
+	//private ArrayList<String> sentsToEdit = new ArrayList<String>(MAX_SENTENCES);
 	private ArrayList<String> editedSents = new ArrayList<String>(MAX_SENTENCES);
 	private int currentSentence =0;
 	private int nextSentence = 0;
@@ -184,102 +184,6 @@ public class SentenceTools  {
 			return false;
 	}
 	
-	/**
-	 * gets the next sentence
-	 * @return
-	 */
-	public String getNext(){
-		if(sentNumber <totalSentences-1){
-			sentNumber++;
-			mustAddToIndex = false;
-			return sentsToEdit.get(sentNumber);
-		}
-		else{
-			Logger.logln("ERROR: SentNumber cannot exceed the total sentences.");
-			return null;
-		}
-	}
-	
-	
-	/**
-	 * gets the previous sentence.
-	 * @return the string of the previous sentence 
-	 */
-	public String getLast(){
-		if(sentNumber >0){
-			sentNumber--;
-			mustAddToIndex = true;
-			return sentsToEdit.get(sentNumber);
-		}
-		else{
-			Logger.logln("Returned first sentence");
-			sentNumber=0;
-			return sentsToEdit.get(0);
-		}
-	}
-	
-	/**
-	 * adds the next sentence to the current one.
-	 * @return the concatenation of the current sentence and the next sentence.
-	 */
-	public String addNextSent() {
-		if(sentNumber <totalSentences-1||sentNumber>=0){
-			totalSentences--;
-			String tempSent=sentsToEdit.remove(sentNumber+1);
-			String newSent=sentsToEdit.get(sentNumber)+tempSent;
-			replaceCurrentSentence(newSent);
-			return newSent;
-		}
-		if(sentNumber<0){
-			sentNumber=0;
-		}
-		return sentsToEdit.get(sentNumber);
-		
-	}
-	
-	
-	
-	
-	/**
-	 * makes sure the text in the edit sentence box is just one sentence.
-	 * In the case of multiple sentences, it updates the list so that each sentence has its own index.
-	 * @return a list of the sentences in the box 
-	 */
-	public ArrayList<String> checkNumSent(String editText){
-		
-		ArrayList<String> sentences= makeSentenceTokens(editText);
-		int i=0;
-		replaceCurrentSentence(sentences.get(i));
-		for (i=1; i<sentences.size();i++){
-			sentNumber++;
-			totalSentences++;
-			sentsToEdit.add(sentNumber,sentences.get(i));
-		}
-		
-		return sentences;
-	}
-	
-	
-	public void replaceCurrentSentence(String s){
-		int index;
-		index = sentNumber;
-		sentsToEdit.remove(index);
-		sentsToEdit.add(index,s);
-	}	
-	
-	public String getFullDoc(){
-		
-		String fullDoc = "";
-		for(int i=0;i<totalSentences;i++){
-			fullDoc += sentsToEdit.get(i);
-		}
-		return fullDoc;
-	}
-	
-	public ArrayList<String> getSentenceTokens(){
-		return sentsToEdit;
-	}
-	
 	public void setSentenceCounter(int sentNumber){
 		this.sentNumber = sentNumber;
 	}
@@ -344,39 +248,7 @@ public class SentenceTools  {
 		System.out.println("End");
 		
 	}
-
-	public void setSentsToEdit(ArrayList<String> tokens) {
-		// used in backend interface.
-		sentsToEdit=tokens;
-	}
-
-	public void setNumberSentences(int size) {
-		// used in backend interface
-		totalSentences=size;
-	}
 	
 }
-/*
-class Sentence {
-	
-	private int absStart;
-	private int absStop;
-	private String sentenceText;
-	
-	public Sentence(String sentenceText, int absStart, int absStop){
-		this.absStart = absStart;
-		this.absStop = absStop;
-		this.sentenceText = sentenceText;
-	}
-		
-	public String getSentText(){
-		return sentenceText;
-	}
-	
-	public int[] getAbsBounds(){
-		return new int[]{absStart,absStop};
-	}
-	
-}
-*/
+
 

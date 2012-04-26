@@ -60,6 +60,10 @@ public class TaggedDocument {
 	private int totalSentences=0;
 	
 	private HashMap<String,Integer> functionWords= new HashMap<String,Integer>();
+	private HashMap<String,Integer> digits= new HashMap<String,Integer>();
+	//private HashMap<String,Integer> digitBigrams= new HashMap<String,Integer>();
+	//private HashMap<String,Integer> digitTrigrams= new HashMap<String,Integer>();
+	private HashMap<String,Integer> punctuation= new HashMap<String,Integer>();
 	
 	/**
 	 * Constructor for TaggedDocument
@@ -245,7 +249,10 @@ public class TaggedDocument {
 		
 		return newSent;
 	}
-	public void setFunctionWords(){
+	/**
+	 * concatenates the functionWord lists from all the sentences in the document
+	 */
+	private void setFunctionWords(){
 		String key;
 		for (int i=0;i<taggedSentences.size();i++){
 			for(int j=0;j<taggedSentences.get(i).functionWords.size();j++){
@@ -260,13 +267,55 @@ public class TaggedDocument {
 			}
 		}
 	}
-	
+	/**
+	 * concatenates the punctuation lists from all the sentences in the document
+	 */
+	private void setPunctuation(){
+		String key;
+		for (int i=0;i<taggedSentences.size();i++){
+			for(int j=0;j<taggedSentences.get(i).punctuation.size();j++){
+				key = taggedSentences.get(i).punctuation.get(j);
+				if(punctuation.containsKey(key)){
+					punctuation.put(key,(punctuation.get(key).intValue()+1));
+				}
+				else{
+					punctuation.put(key, 1);
+				}
+			}
+		}
+	}
+	/**
+	 *  concatenates the digit lists from all the sentences in the document
+	 */
+	private void setDigits(){
+		String key;
+		for (int i=0;i<taggedSentences.size();i++){
+			for(int j=0;j<taggedSentences.get(i).digits.size();j++){
+				key = taggedSentences.get(i).digits.get(j);
+				if(digits.containsKey(key)){
+					digits.put(key,(digits.get(key).intValue()+1));
+				}
+				else{
+					digits.put(key, 1);
+				}
+			}
+		}
+	}	
 	public int getSentNumber(){
 		return sentNumber;
 	}
 	
 	public HashMap<String,Integer> getFunctionWords(){
+		setFunctionWords();
 		return functionWords;
+	}
+	public HashMap<String,Integer> getDigits(){
+		setDigits();
+		return digits;
+	}
+	public HashMap<String,Integer> getPunctuation(){
+		setPunctuation();
+		return punctuation;
 	}
 	
 	public static void setSentenceCounter(int sentNumber){
@@ -347,7 +396,6 @@ public class TaggedDocument {
 	public static void main(String[] args){
 		String text1 = "people's enjoy coffee, especially in the mornings, because it helps to wake me up. My dog is fairly small, but she seems not to realize it when she is around bigger dogs. This is my third testing sentence. I hope this works well.";
 		TaggedDocument testDoc = new TaggedDocument(text1);
-		testDoc.setFunctionWords();
 		System.out.println(testDoc.toString());			
 		System.out.println(testDoc.getFunctionWords());
 		

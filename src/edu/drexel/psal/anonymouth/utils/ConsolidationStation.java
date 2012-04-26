@@ -85,13 +85,25 @@ public class ConsolidationStation {
 		// find out how many times that feature appears in the TaggedWord word, and then:
 			// If the hashmap contains the Word, read the value from the map, adjustVals, and replace it
 			// else, create new entry in hashmap
+		boolean letterGrams=false,functionWords=false, posGrams=false,wordGrams=false;
 		int toAddIndex;
 		for(toAddIndex=0;toAddIndex<toAdd.size();toAddIndex++){//loops through toAddTriple
-			if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.WORD_BIGRAMS)){
-				findWordBigrams();
+			if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.WORD_BIGRAMS)||toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.WORD_TRIGRAMS)){
+				findWordGrams();
+				wordGrams=true;
+			}
+			else if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.POS_BIGRAMS)||toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.POS_TRIGRAMS)||
+					toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.POS_TAGS)){
+				findPOSGrams();
+				posGrams=true;
+			}
+			else if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.TOP_LETTER_BIGRAMS)||toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.TOP_LETTER_TRIGRAMS)){
+				findLetterGrams();
+				letterGrams=true;
 			}
 			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.FUNCTION_WORDS)){
 				findFunctionWords();
+				functionWords=true;
 			}
 		}
 				

@@ -661,7 +661,7 @@ public class AnalysisTabDriver {
 				content += "\n================================================================================\n\n";
 				
 				Classifier c;
-				List<Map<String,Double>> results;
+				Map<String,Map<String, Double>> results;
 				int numClass = main.classifiers.size();
 				for (int i=0; i<numClass; i++) {
 					c = main.classifiers.get(i);
@@ -675,7 +675,10 @@ public class AnalysisTabDriver {
 					updateResultsView();
 					
 					// classify
-					results = main.wad.classify(main.wib.getTrainingSet(), main.wib.getTestSet());
+					results = main.wad.classify(
+							main.wib.getTrainingSet(),
+							main.wib.getTestSet(),
+							main.ps.getTestDocs());
 					content += getTimestamp()+" done!\n\n";
 					Logger.logln("Done!");
 					updateResultsView();
@@ -685,7 +688,7 @@ public class AnalysisTabDriver {
 							"Results:\n" +
 							"========\n";
 					
-					content += main.wad.getLastStringResults(main.ps.getTestDocs());
+					content += main.wad.getLastStringResults();
 					updateResultsView();
 					
 				}

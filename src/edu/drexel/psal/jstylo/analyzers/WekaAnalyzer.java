@@ -1,10 +1,11 @@
 package edu.drexel.psal.jstylo.analyzers;
 
 import edu.drexel.psal.jstylo.generics.Analyzer;
-import edu.drexel.psal.jstylo.generics.CumulativeFeatureDriver;
-import edu.drexel.psal.jstylo.generics.ProblemSet;
 
 import java.util.*;
+
+import com.jgaap.generics.Document;
+
 import weka.classifiers.*;
 import weka.core.*;
 import weka.filters.Filter;
@@ -55,13 +56,16 @@ public class WekaAnalyzer extends Analyzer {
 	 * 		The Weka Instances dataset of the training instances.
 	 * @param testSet
 	 * 		The Weka Instances dataset of the test instances.
+	 * @param unknownDocs
+	 * 		The test documents to be deanonymized.
 	 * @return
-	 * 		The list of distributions of classification probabilities per instance, or null if prepare was
+	 * 		The mapping of test documents to distributions of classification probabilities per instance, or null if prepare was
 	 * 		not previously called. Each result in the list is a mapping from the author to its corresponding
 	 * 		classification probability.
 	 */
 	@Override
-	public List<Map<String,Double>> classify(Instances trainingSet, Instances testSet) {
+	public Map<String, Map<String, Double>> classify(Instances trainingSet,
+			Instances testSet, List<Document> unknownDocs) {
 		this.trainingSet = trainingSet;
 		this.testSet = testSet;
 		
@@ -75,9 +79,9 @@ public class WekaAnalyzer extends Analyzer {
 		int numOfInstances = testSet.numInstances();
 		int numOfAuthors = authors.size();
 		
-		List<Map<String,Double>> res = new ArrayList<Map<String,Double>>(numOfInstances);
+		Map<String,Map<String, Double>> res = new HashMap<String,Map<String,Double>>(numOfInstances);
 		for (int i=0; i<numOfInstances; i++)
-			res.add(i,new HashMap<String,Double>(numOfAuthors));
+			res.put(unknownDocs.get(i).getTitle(), new HashMap<String,Double>(numOfAuthors));
 		
 		// train classifier
 		trainingSet.setClass(authorsAttr);
@@ -117,12 +121,15 @@ public class WekaAnalyzer extends Analyzer {
 	 * 		The Weka Instances dataset of the training instances.
 	 * @param testSet
 	 * 		The Weka Instances dataset of the test instances.
+	 * @param unknownDocs
+	 * 		The test documents to be deanonymized.
 	 * @return
 	 * 		The list of distributions of classification probabilities per instance, or null if prepare was
 	 * 		not previously called. Each result in the list is a mapping from the author to its corresponding
 	 * 		classification probability.
 	 */
-	public List<Map<String,Double>> classifyRemoveTitle(Instances trainingSet, Instances testSet) {
+	public Map<String, Map<String, Double>> classifyRemoveTitle(Instances trainingSet,
+			Instances testSet, List<Document> unknownDocs) {
 		// remove titles
 		Remove remove = new Remove();
 		remove.setAttributeIndicesArray(new int[]{1});
@@ -135,7 +142,7 @@ public class WekaAnalyzer extends Analyzer {
 			System.exit(0);
 		}
 		
-		return classify(this.trainingSet,this.testSet);
+		return classify(this.trainingSet,this.testSet,unknownDocs);
 	}
 	
 	/**

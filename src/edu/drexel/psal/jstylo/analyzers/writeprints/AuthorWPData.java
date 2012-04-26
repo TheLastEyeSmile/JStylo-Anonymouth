@@ -23,8 +23,8 @@ public class AuthorWPData {
 	protected List<Integer> zeroFeatures;
 	protected Matrix basisMatrix;
 	protected Matrix writeprint;
-	protected double[] featureProbabilities;
-	protected double[] posteriorProbabilities;
+	//protected double[] featureProbabilities;
+	//protected double[] posteriorProbabilities;
 	
 	// constructor
 	
@@ -142,12 +142,32 @@ public class AuthorWPData {
 	}
 	
 	/**
+	 * Generates a pattern for the target author using the target author's feature values
+	 * and the basis author's basis matrix (in contrast with the paper, there's no particular
+	 * use for the basis author's feature set, as it is the same for all authors in this
+	 * implementation).
+	 * @param basisAuthor
+	 * 		The basis author (the one supplying the basis matrix).
+	 * @param targetAuthor
+	 * 		The target author (the one to generate the pattern for).
+	 * @return
+	 * 		The pattern matrix for the target author.
+	 */
+	public static Matrix generatePattern(AuthorWPData basisAuthor, AuthorWPData targetAuthor) {
+		Matrix targetValuesTransposed = targetAuthor.featureMatrix.transpose();
+		Matrix basisTransposed = basisAuthor.basisMatrix.transpose();
+		return basisTransposed.times(targetValuesTransposed);
+	}
+	
+	/*
+	/**
 	 * Initializes the feature probabilities vector for this given author.
 	 * For this class (author) <code>c</code> and feature <code>j</code>, the
 	 * probability calculated is <code>p(j|c)</code>.<br>
 	 * For increased performance, probabilities are calculated on the average feature
 	 * values vector. 
 	 */
+	/*
 	public void initFeatureProbabilities() {
 		double sum = 0;
 		for (int i = 0; i < numFeatures; i++)
@@ -165,6 +185,7 @@ public class AuthorWPData {
 	 * 		The vector <code>v</code> of the sum of probabilities such that
 	 * 		<code>v(j) = SUM{p(j|c)} over all training authors c</code>
 	 */
+	/*
 	public void initPosteriorProbabilities(double[] totalProbability) {
 		posteriorProbabilities = new double[numFeatures];
 		for (int i = 0; i < numFeatures; i++)
@@ -172,6 +193,7 @@ public class AuthorWPData {
 				posteriorProbabilities[i] =
 				featureProbabilities[i] / totalProbability[i];
 	}
+	*/
 	
 	
 	// ============================================================================================
@@ -193,32 +215,3 @@ public class AuthorWPData {
 		a.writeprint.print(4,4);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

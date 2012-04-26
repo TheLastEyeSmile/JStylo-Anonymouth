@@ -1,17 +1,21 @@
 package edu.drexel.psal.jstylo.analyzers.writeprints;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+
+import Jama.Matrix;
 
 import com.jgaap.JGAAPConstants;
 import com.jgaap.generics.*;
 
 import weka.attributeSelection.InfoGainAttributeEval;
 import weka.classifiers.*;
-import weka.core.*;
+import weka.core.Attribute;
+import weka.core.FastVector;
+import weka.core.Instance;
+import weka.core.Instances;
+import edu.drexel.psal.JSANConstants;
 import edu.drexel.psal.jstylo.generics.*;
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.SynsetType;
@@ -39,14 +43,6 @@ public class WriteprintsAnalyzer extends Analyzer {
 	public static final String TEST_AUTHOR_NAME_PREFIX = "_test_";
 	
 	/**
-	 * Whether to average all feature vectors per author ending up with one feature vector
-	 * all not. Increases performance but may reduce accuracy.
-	 */
-	private boolean averageFeatureVectors = true;
-	
-	private static final double FEATURE_INFO_GAIN_THRESHOLD = 0;
-	
-	/**
 	 * The list of training author data, including feature, basis and writeprint matrices.
 	 */
 	private List<AuthorWPData> trainAuthorData = new ArrayList<AuthorWPData>();
@@ -57,7 +53,13 @@ public class WriteprintsAnalyzer extends Analyzer {
 	private List<AuthorWPData> testAuthorData = new ArrayList<AuthorWPData>();
 	
 	/**
-	 * TODO
+	 * Whether to average all feature vectors per author ending up with one feature vector
+	 * all not. Increases performance but may reduce accuracy.
+	 */
+	private boolean averageFeatureVectors = true;
+	
+	/**
+	 * Indicates whether pre-processing has changed the problem-set.
 	 */
 	private static boolean testDocsPreProcessed = false;
 	
@@ -79,9 +81,12 @@ public class WriteprintsAnalyzer extends Analyzer {
 			List<Document> testDocs = ps.getTestDocs();
 			int numTestDocs = testDocs.size();
 			Document doc;
+			String authorName;
 			for (int i = numTestDocs - 1; i >= 0; i--) {
 				doc = testDocs.remove(i);
-				ps.addTrainDoc(TEST_AUTHOR_NAME_PREFIX + doc.getTitle().replaceAll("\\.\\S+$",""), doc);
+				authorName = TEST_AUTHOR_NAME_PREFIX + doc.getTitle().replaceAll("\\.\\S+$","");
+				doc.setAuthor(authorName);
+				ps.addTrainDoc(authorName, doc);
 			}
 		}
 	}
@@ -95,41 +100,8 @@ public class WriteprintsAnalyzer extends Analyzer {
 	}
 	
 	@Override
-	public List<Map<String, Double>> classify(Instances trainingSet,
-			Instances testSet) {
-		
-		/* =========================
-		 * INFO-GAIN SPACE REDUCTION
-		 * =========================
-		 * deletes any features with information gain <= FEATURE_INFO_GAIN_THRESHOLD
-		 */
-		
-		// calculate information-gain over only the training authors set
-		double[] IG = null;
-		int numFeatures = trainingSet.numAttributes() - 1; // exclude class attribute
-		try {
-			IG = calcInfoGain(trainingSet, numFeatures);
-		} catch (Exception e) {
-			System.err.println("Error evaluating information gain.");
-			e.printStackTrace();
-			return null;
-		}
-		// remove all information gain features below the threshold
-		for (int j = numFeatures - 1; j >= 0; j--) {
-			if (IG[j] <= FEATURE_INFO_GAIN_THRESHOLD)
-				trainingSet.deleteAttributeAt(j);
-		}
-		// update number of features and information gain
-		if (numFeatures > trainingSet.numAttributes() - 1) {
-			numFeatures = trainingSet.numAttributes() - 1; // update
-			try {
-				IG = calcInfoGain(trainingSet, numFeatures);
-			} catch (Exception e) {
-				System.err.println("Error evaluating information gain.");
-				e.printStackTrace();
-				return null;
-			}
-		}
+	public Map<String,Map<String, Double>> classify(Instances trainingSet,
+			Instances testSet, List<Document> unknownDocs) {
 		
 		/* ========
 		 * TRAINING
@@ -146,11 +118,23 @@ public class WriteprintsAnalyzer extends Analyzer {
 			authorName = classAttribute.value(i);
 			authorData = new AuthorWPData(authorName);
 			authorData.initFeatureMatrix(trainingSet, averageFeatureVectors);
+			authorData.initBasisAndWriteprintMatrices();
 			//authorData.initFeatureProbabilities();
 			if (authorName.startsWith(TEST_AUTHOR_NAME_PREFIX))
 				testAuthorData.add(authorData);
 			else
 				trainAuthorData.add(authorData);
+		}
+		
+		// calculate information-gain over only the training authors set
+		double[] IG = null;
+		int numFeatures = trainingSet.numAttributes() - 1;
+		try {
+			IG = calcInfoGain(trainingSet, numFeatures);
+		} catch (Exception e) {
+			System.err.println("Error evaluating information gain.");
+			e.printStackTrace();
+			return null;
 		}
 		
 		// initialize the posterior probability p(c|j)
@@ -168,20 +152,36 @@ public class WriteprintsAnalyzer extends Analyzer {
 		*/
 		
 		// initialize result set
-		List<Map<String, Double>> res =
-				new ArrayList<Map<String,Double>>(trainAuthorData.size());
+		results = new HashMap<String,Map<String,Double>>(trainAuthorData.size());
 		
 		// initialize synonym count mapping
 		Map<String,Integer> wordsSynCount = calcSynonymCount(trainingSet,numFeatures);
+		
 		
 		/* =======
 		 * TESTING
 		 * =======
 		 */
 		
-		//TODO
+		System.out.println(trainAuthorData);
+		System.out.println(testAuthorData);
 		
-		return res;
+		Matrix testPattern, trainPattern;
+		double dist1, dist2;
+		for (AuthorWPData testData: testAuthorData) {
+			Map<String,Double> testRes = new HashMap<String,Double>();
+			for (AuthorWPData trainData: trainAuthorData) {
+				testPattern = AuthorWPData.generatePattern(trainData, testData);
+				trainPattern = AuthorWPData.generatePattern(testData, trainData);
+				dist1 = sumEuclideanDistance(testPattern, trainData.writeprint);
+				dist2 = sumEuclideanDistance(trainPattern, testData.writeprint);
+				
+				// save the inverse to maintain the smallest distance as the best fit
+				testRes.put(trainData.authorName, -((dist1 + dist2) / 2));
+			}
+			results.put(testData.authorName,testRes);
+		}
+		return results;
 	}
 
 	@Override
@@ -222,8 +222,10 @@ public class WriteprintsAnalyzer extends Analyzer {
 	};
 	
 	/**
-	 * Counts the number of synonyms per feature that is word-based, and constructs
-	 * a map from feature indices to their synonym count.
+	 * Constructs a mapping from all word-based features to the number of their synonyms.
+	 * The synonym counted are only those belonging to synsets of the most common part-of-speech
+	 * synset-type. If the feature is an n-gram feature, the synonym count is the multiplication
+	 * of synonym count values of each word in the n-gram.
 	 * @param trainingSet
 	 * 		The training set from which to extract the features.
 	 * @param numFeatures
@@ -241,8 +243,8 @@ public class WriteprintsAnalyzer extends Analyzer {
 		boolean isWordFeature;
 		Attribute feature;
 		String featureName;
-		String word;
-		List<String> words = new ArrayList<String>();
+		String[] words;
+		List<String> featureNames = new ArrayList<String>();
 		for (int j = 0; j < numFeatures; j ++) {
 			feature = trainingSet.attribute(j);
 			featureName = feature.name();
@@ -258,34 +260,58 @@ public class WriteprintsAnalyzer extends Analyzer {
 				continue;
 			
 			// extract word
-			word = featureName.replaceAll(".*\\{", "").replace("}", "");
-			words.add(word);
+			featureNames.add(featureName);
 		}
 		
-		// find synonym count for all words
-		int numWords = words.size();
+		// find synonym count for all word features
+		// multiply synonym-count for n-gram features
+		int numWords = featureNames.size();
 		Synset[] synsets, tmpSynsets;
 		SynsetType[] allTypes = SynsetType.ALL_TYPES;
 		Set<String> synonyms;
+		int synCount;
 		for (int i = 0; i < numWords; i++) {
-			word = words.get(i);
+			synCount = 1;
+			featureName = featureNames.get(i);
+			words = getWordsFromFeatureName(featureName);
 			
-			// find the SynsetType with the maximum number of synsets
-			synsets = wndb.getSynsets(word, allTypes[0]);
-			for (int j = 1; j < allTypes.length; j++) {
-				tmpSynsets = wndb.getSynsets(word, allTypes[j]);
-				if (tmpSynsets.length > synsets.length)
-					synsets = tmpSynsets;
+			for (String word: words) {
+				// find the SynsetType with the maximum number of synsets
+				synsets = wndb.getSynsets(word, allTypes[0]);
+				for (int j = 1; j < allTypes.length; j++) {
+					tmpSynsets = wndb.getSynsets(word, allTypes[j]);
+					if (tmpSynsets.length > synsets.length)
+						synsets = tmpSynsets;
+				}
+
+				// count synonyms
+				synonyms = new HashSet<String>();
+				for (Synset synset: synsets)
+					synonyms.addAll(Arrays.asList(synset.getWordForms()));
+				if (!synonyms.isEmpty())
+					synCount *= synonyms.size();
 			}
-			
-			// count synonyms
-			synonyms = new HashSet<String>();
-			for (Synset synset: synsets)
-				synonyms.addAll(Arrays.asList(synset.getWordForms()));
-			synCountMap.put(word, synonyms.size());
+			synCountMap.put(featureName, synCount);
 		}
 				
 		return synCountMap;
+	}
+	
+	/**
+	 * Extracts the words from the given feature name and returns them in an
+	 * array.
+	 * @param featureName
+	 * 		The feature name, of the form <code>FEATURE-TYPE-{WORDS}</code>.
+	 * @return
+	 */
+	private static String[] getWordsFromFeatureName(String featureName) {
+		String content = featureName.replaceAll(".*\\{", "").replace("}", "");
+		if (!featureName.contains("grams"))
+			return new String[]{content};
+		else {
+			content = content.substring(1, content.length() - 1);
+			return content.split("\\)-\\(");
+		}
 	}
 		
 	/**
@@ -385,6 +411,7 @@ public class WriteprintsAnalyzer extends Analyzer {
 				trainingSet.relationName(),
 				newAttributes,
 				0);
+		train.setClassIndex(train.numAttributes() - 1);
 		// instances
 		int numInstances = trainingSet.numInstances();
 		Instance originalInst;
@@ -404,6 +431,7 @@ public class WriteprintsAnalyzer extends Analyzer {
 		return train;
 	}
 	
+	/*
 	/**
 	 * Calculates the logarithm base 2 of the given number.
 	 * @param x
@@ -411,8 +439,39 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 * @return
 	 * 		The logarithm base 2 of the given number.
 	 */
+	/*
 	private static double log2(double x) {
 		return Math.log10(x)/Math.log10(2);
+	}
+	*/
+	
+	/**
+	 * Returns the sum of the Euclidean distances between every 
+	 * pair of columns (corresponding to document feature values)
+	 * of the given matrices.
+	 * @param a
+	 * 		The first matrix.
+	 * @param b
+	 * 		The second matrix.
+	 * @return
+	 */
+	private static double sumEuclideanDistance(Matrix a, Matrix b) {
+		double sum = 0;
+		double colsDiff, tmp;
+		int numACols = a.getColumnDimension();
+		int numBCols = b.getColumnDimension();
+		int numFeatures = a.getRowDimension();
+		for (int i = 0; i < numACols; i++) {
+			for (int j = 0; j < numBCols; j++) {
+				colsDiff = 0;
+				for (int k = 0; k < numFeatures; k++) {
+					tmp = a.get(k,i) - b.get(k, j);
+					colsDiff += tmp * tmp;
+				}
+				sum += Math.sqrt(colsDiff);
+			}
+		}
+		return sum;
 	}
 	
 	
@@ -425,33 +484,33 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception {
+		WriteprintsAnalyzer wa = new WriteprintsAnalyzer();
+		ProblemSet ps = new ProblemSet(JSANConstants.JSAN_PROBLEMSETS_PREFIX + "drexel_1_train_test.xml");
+		WriteprintsAnalyzer.preExtraction(ps);
+		CumulativeFeatureDriver cfd =
+				new CumulativeFeatureDriver(JSANConstants.JSAN_FEATURESETS_PREFIX + "writeprints_feature_set_limited.xml");
+		WekaInstancesBuilder wib = new WekaInstancesBuilder(false);
 		
+		// extract features
+		wib.prepareTrainingSet(ps.getAllTrainDocs(), cfd);
+		Instances insts = wib.getTrainingSet();
+		System.out.println(insts);
+		
+		// classify
+		Map<String,Map<String, Double>> res = wa.classify(insts, null, ps.getTestDocs());
+		Map<String,Double> docMap;
+		String selectedAuthor = null;
+		double maxValue;
+		for (String doc: res.keySet()) {
+			maxValue = Double.NEGATIVE_INFINITY;
+			docMap = res.get(doc);
+			System.out.println(doc+":");
+			for (String key: docMap.keySet())
+				if (maxValue < docMap.get(key)) {
+					selectedAuthor = key;
+					maxValue = docMap.get(key);
+				}
+			System.out.println("- "+selectedAuthor+": "+maxValue);
+		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

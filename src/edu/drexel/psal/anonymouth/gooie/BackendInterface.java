@@ -2,31 +2,18 @@ package edu.drexel.psal.anonymouth.gooie;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.GroupLayout;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextPane;
-import javax.swing.LayoutStyle;
-import javax.swing.ListModel;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -36,8 +23,6 @@ import javax.swing.table.TableModel;
 
 import com.jgaap.generics.Canonicizer;
 import com.jgaap.generics.Document;
-import com.jgaap.generics.EventDriver;
-import com.jgaap.generics.EventSet;
 
 import edu.drexel.psal.anonymouth.calculators.Computer;
 import edu.drexel.psal.anonymouth.projectDev.DataAnalyzer;
@@ -46,19 +31,13 @@ import edu.drexel.psal.anonymouth.projectDev.FeatureList;
 import edu.drexel.psal.anonymouth.projectDev.Mapper;
 import edu.drexel.psal.anonymouth.projectDev.TheMirror;
 import edu.drexel.psal.anonymouth.suggestors.HighlightMapList;
-import edu.drexel.psal.anonymouth.suggestors.StringFormulator;
 import edu.drexel.psal.anonymouth.suggestors.TheOracle;
 import edu.drexel.psal.anonymouth.utils.ConsolidationStation;
 import edu.drexel.psal.anonymouth.utils.DocumentTagger;
 import edu.drexel.psal.anonymouth.utils.TaggedSentence;
 import edu.drexel.psal.anonymouth.utils.Tagger;
-import edu.drexel.psal.anonymouth.utils.TreeData;
-
-import weka.core.Attribute;
-import edu.drexel.psal.jstylo.generics.CumulativeFeatureDriver;
 import edu.drexel.psal.jstylo.generics.FeatureDriver;
 import edu.drexel.psal.jstylo.generics.Logger;
-import edu.drexel.psal.jstylo.generics.Logger.LogOut;
 import edu.drexel.psal.jstylo.generics.ProblemSet;
 import edu.drexel.psal.jstylo.generics.WekaInstancesBuilder;
 
@@ -312,7 +291,7 @@ public class BackendInterface {
 					ErrorHandler.fatalError();
 				}
 				
-				List<Map<String,Double>> wekaResults = magician.getWekaResultList();
+				Map<String,Map<String,Double>> wekaResults = magician.getWekaResultList();
 				Logger.logln(" ****** WEKA RESULTS for session '"+ThePresident.sessionName+" process number : "+DocumentMagician.numProcessRequests);
 				Logger.logln(wekaResults.toString());
 				//main.getResultsTable().setDefaultRenderer(Object.class, new MyTableRenderer()); 
@@ -350,7 +329,7 @@ public class BackendInterface {
 						ErrorHandler.fatalError();
 					}
 					cpb.setText("Setting Results...");
-					List<Map<String,Double>> wekaResults = magician.getWekaResultList();
+					Map<String,Map<String,Double>> wekaResults = magician.getWekaResultList();
 					Logger.logln(" ****** WEKA RESULTS for session '"+ThePresident.sessionName+" process number : "+DocumentMagician.numProcessRequests);
 					Logger.logln(wekaResults.toString());
 					//main.getResultsTable().setDefaultRenderer(Object.class, new MyTableRenderer()); 
@@ -577,12 +556,12 @@ public class BackendInterface {
 	}
 	
 	
-	public static TableModel makeResultsTable(List<Map<String,Double>> resultMap){
-		Iterator<Map<String, Double>> mapIter = resultMap.iterator();
+	public static TableModel makeResultsTable(Map<String,Map<String,Double>> resultMap){
+		Iterator<String> mapKeyIter = resultMap.keySet().iterator();
 		int numAuthors = DocumentMagician.numSampleAuthors+1;
 		Object[] authors;
 		Object[][] predictions = new Object[2][numAuthors];
-		Map<String,Double> tempMap = mapIter.next(); 
+		Map<String,Double> tempMap = resultMap.get(mapKeyIter.next()); 
 		
 		authors = (tempMap.keySet()).toArray(); 
 		

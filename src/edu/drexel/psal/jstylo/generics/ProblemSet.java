@@ -538,6 +538,15 @@ public class ProblemSet {
 		}
 	}
 	
+	/**
+	 * Returns the number of test documents. 
+	 * @return
+	 * 		The number of test documents.
+	 */
+	public int numTestDocs() {
+		return testDocs.size();
+	}
+	
 	// stringifiers
 	
 	/**

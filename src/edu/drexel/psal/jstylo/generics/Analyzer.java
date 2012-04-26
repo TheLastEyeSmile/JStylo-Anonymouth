@@ -31,9 +31,9 @@ public abstract class Analyzer {
 	protected Instances testSet;
 	
 	/**
-	 * List of distribution classification results for each unknown document.
+	 * Mapping of test documents to distribution classification results for each unknown document.
 	 */
-	protected List<Map<String,Double>> results;
+	protected Map<String,Map<String, Double>> results;
 	
 	/**
 	 * List of authors.
@@ -53,6 +53,28 @@ public abstract class Analyzer {
 	 * ==========
 	 */
 	
+	/*
+	/**
+	 * This procedure runs prior to the feature extraction phase.
+	 * @param ps
+	 * 		The problem set to be analyzed.
+	 * @param cfd
+	 * 		The cumulative feature driver to be used for feature extraction.
+	 */
+	/*
+	public abstract void preExtraction(ProblemSet ps, CumulativeFeatureDriver cfd);
+	
+	/**
+	 * This procedure runs immediately after the feature extraction phase.
+	  * @param ps
+	 * 		The problem set that was analyzed.
+	 * @param cfd
+	 * 		The cumulative feature driver that was used for feature extraction.
+	 */
+	/*
+	public abstract void postExtraction(ProblemSet ps, CumulativeFeatureDriver cfd);
+	*/
+	
 	/**
 	 * Classifies the given test set based on the given training set. Should update the following fields along the classification:
 	 * trainingSet, testSet, results and authors.
@@ -61,12 +83,16 @@ public abstract class Analyzer {
 	 * 		The Weka Instances dataset of the training instances.
 	 * @param testSet
 	 * 		The Weka Instances dataset of the test instances.
+	 * @param unknownDocs
+	 * 		The list of test documents to deanonymize.
 	 * @return
-	 * 		The list of distributions of classification probabilities per instance, or null if prepare was
-	 * 		not previously called. Each result in the list is a mapping from the author to its corresponding
+	 * 		The mapping from test documents to distributions of classification probabilities per instance, or
+	 * 		null if prepare was not previously called.
+	 * 		Each result in the list is a mapping from the author to its corresponding
 	 * 		classification probability.
 	 */
-	public abstract List<Map<String,Double>> classify(Instances trainingSet, Instances testSet);
+	public abstract Map<String,Map<String, Double>> classify(
+			Instances trainingSet, Instances testSet, List<Document> unknownDocs);
 	
 	/**
 	 * Runs cross validation with given number of folds on the given Instances object.
@@ -88,30 +114,19 @@ public abstract class Analyzer {
 	
 	/**
 	 * Returns the string representation of the last classification results.
-	 * @param unknownDocs
-	 * 		The list of the unknown documents on which the classification was applied.
 	 * @return
 	 * 		The string representation of the classification results.
 	 */
-	public String getLastStringResults(List<Document> unknownDocs) {
+	public String getLastStringResults() {
 		// if there are no results yet
 		if (results == null)
-			return "No results!";
-		
-		String[] docs = new String[unknownDocs.size()];
-		String[] unknownAuthors = new String[unknownDocs.size()];
-		for (int i=0; i<docs.length; i++) {
-			docs[i] = unknownDocs.get(i).getTitle();
-			unknownAuthors[i] = unknownDocs.get(i).getAuthor();
-		}
+			return "No results!";		
 		
 		String res = "";
-		
 		Formatter f = new Formatter();
 		f.format("%-14s |", "doc \\ author");
 		
 		List<String> actualAuthors = new ArrayList<String>(authors);
-		//actualAuthors.remove(WekaInstancesBuilder.getDummy());
 		
 		for (String author: actualAuthors)
 			f.format(" %-14s |",author);
@@ -120,12 +135,10 @@ public abstract class Analyzer {
 			res += "-----------------";
 		res += "----------------\n";
 		
-		//int correctlyClassified = 0;
-		for (int i=0; i<results.size(); i++) {
-			//String currAuthor = unknownAuthors[i];
+		for (String testDocTitle: results.keySet()) {
 			f = new Formatter();
-			f.format("%-14s |",docs[i]);
-			Map<String,Double> currRes = results.get(i);
+			f.format("%-14s |", testDocTitle);
+			Map<String,Double> currRes = results.get(testDocTitle);
 			
 			String resAuthor = "";
 			double maxProb = 0, oldMaxProb;
@@ -139,13 +152,6 @@ public abstract class Analyzer {
 			for (String author: actualAuthors) {
 				char c;
 				if (author.equals(resAuthor))
-					/*
-					if (resAuthor.equals(currAuthor)){
-						correctlyClassified++;
-						c = '+';
-					} else
-						c = '-';
-					*/
 					c = '+';
 				else c = ' ';
 				f.format(" %2.6f %c     |",currRes.get(author).doubleValue(),c);
@@ -154,11 +160,6 @@ public abstract class Analyzer {
 		}
 		
 		res += "\n";
-		/*
-		f = new Formatter();
-		f.format("%3.4f %%",((double)correctlyClassified)*100/unknownDocs.size());
-		res += "Total accuracy: "+correctlyClassified+"/"+unknownDocs.size()+" ("+f.toString()+")\n";
-		*/
 		return res;
 	}
 	
@@ -246,7 +247,7 @@ public abstract class Analyzer {
 	 * @return
 	 * 		The classification results or null if no classification was applied.
 	 */
-	public List<Map<String,Double>> getLastResults() {
+	public Map<String,Map<String, Double>> getLastResults() {
 		return results;
 	}
 }

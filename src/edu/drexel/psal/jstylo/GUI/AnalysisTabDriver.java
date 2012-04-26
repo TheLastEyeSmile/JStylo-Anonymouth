@@ -2,6 +2,8 @@ package edu.drexel.psal.jstylo.GUI;
 
 import edu.drexel.psal.jstylo.GUI.DocsTabDriver.ExtFilter;
 import edu.drexel.psal.jstylo.analyzers.WekaAnalyzer;
+import edu.drexel.psal.jstylo.analyzers.writeprints.WriteprintsAnalyzer;
+import edu.drexel.psal.jstylo.generics.AnalyzerTypeEnum;
 import edu.drexel.psal.jstylo.generics.Logger;
 import edu.drexel.psal.jstylo.generics.WekaInstancesBuilder;
 import edu.drexel.psal.jstylo.generics.Logger.LogOut;
@@ -296,6 +298,7 @@ public class AnalysisTabDriver {
 				lockUnlock(main, true);
 				
 				// start analysis thread
+				//main.at = AnalyzerTypeEnum.WRITEPRINTS_ANALYZER;
 				main.analysisThread = new Thread(new RunAnalysisThread(main));
 				main.analysisThread.start();
 			}
@@ -540,6 +543,13 @@ public class AnalysisTabDriver {
 			// feature extraction
 			// ==================
 			
+			// pre-processing
+			Logger.logln("Applying analyzer feature-extraction pre-processing procedures...");
+			content += getTimestamp() + "Applying analyzer feature-extraction pre-processing procedures...\n";
+			if (main.at == AnalyzerTypeEnum.WRITEPRINTS_ANALYZER)
+				WriteprintsAnalyzer.preExtraction(main.ps);
+			content += getTimestamp() + "done!\n\n";
+			
 			// training set
 			Logger.logln("Extracting features from training corpus...");
 			
@@ -604,6 +614,13 @@ public class AnalysisTabDriver {
 					updateResultsView();
 				}
 			}
+
+			// post processing
+			Logger.logln("Applying analyzer feature-extraction post-processing procedures...");
+			content += getTimestamp() + "Applying analyzer feature-extraction post-processing procedures...\n";
+			if (main.at == AnalyzerTypeEnum.WRITEPRINTS_ANALYZER)
+				WriteprintsAnalyzer.postExtraction(main.ps);
+			content += getTimestamp() + "done!\n\n";
 			
 			
 			// running InfoGain
@@ -644,7 +661,7 @@ public class AnalysisTabDriver {
 				content += "\n================================================================================\n\n";
 				
 				Classifier c;
-				List<Map<String,Double>> results;
+				Map<String,Map<String, Double>> results;
 				int numClass = main.classifiers.size();
 				for (int i=0; i<numClass; i++) {
 					c = main.classifiers.get(i);
@@ -658,7 +675,10 @@ public class AnalysisTabDriver {
 					updateResultsView();
 					
 					// classify
-					results = main.wad.classify(main.wib.getTrainingSet(), main.wib.getTestSet());
+					results = main.wad.classify(
+							main.wib.getTrainingSet(),
+							main.wib.getTestSet(),
+							main.ps.getTestDocs());
 					content += getTimestamp()+" done!\n\n";
 					Logger.logln("Done!");
 					updateResultsView();
@@ -668,7 +688,7 @@ public class AnalysisTabDriver {
 							"Results:\n" +
 							"========\n";
 					
-					content += main.wad.getLastStringResults(main.ps.getTestDocs());
+					content += main.wad.getLastStringResults();
 					updateResultsView();
 					
 				}
@@ -696,7 +716,7 @@ public class AnalysisTabDriver {
 					updateResultsView();
 					
 					// run
-					Evaluation eval = main.wad.runCrossValidation(main.wib.getTrainingSet(),10);
+					Evaluation eval = main.wad.runCrossValidation(main.wib.getTrainingSet(),10,0);
 					content += getTimestamp()+" done!\n\n";
 					Logger.logln("Done!");
 					updateResultsView();

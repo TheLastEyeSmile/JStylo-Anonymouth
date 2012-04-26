@@ -16,13 +16,22 @@ import Jama.Matrix;
 public class AuthorWPData {
 
 	// fields
+	
+	/**
+	 * The constant for pattern disruption calculation:<br>
+	 * <code>d_p = IG(c,p) * K * (syn_total + 1) * (syn_used + 1)</code>
+	 */
+	protected static final int K = 2;
+	
 	protected String authorName;
 	protected int numFeatures;
 	protected Matrix featureMatrix;
 	protected double[] featureAverages;
 	protected List<Integer> zeroFeatures;
 	protected Matrix basisMatrix;
+	protected Matrix originalBasisMatrix;
 	protected Matrix writeprint;
+	protected Matrix originalWriteprint;
 	//protected double[] featureProbabilities;
 	//protected double[] posteriorProbabilities;
 	
@@ -138,7 +147,9 @@ public class AuthorWPData {
 		 * 		and calculate the principal component matrix - the author's writeprint*/
 		EigenvalueDecomposition eigenvalues = COV.eig();
 		basisMatrix = eigenvalues.getV();
+		originalBasisMatrix = new Matrix(basisMatrix.getArrayCopy());
 		writeprint = basisMatrix.transpose().times(X_minus_MU);
+		originalWriteprint = new Matrix(writeprint.getArrayCopy());
 	}
 	
 	/**
@@ -157,6 +168,84 @@ public class AuthorWPData {
 		Matrix targetValuesTransposed = targetAuthor.featureMatrix.transpose();
 		Matrix basisTransposed = basisAuthor.basisMatrix.transpose();
 		return basisTransposed.times(targetValuesTransposed);
+	}
+	
+	/**
+	 * Adds pattern disruption values with respect to the given author data.
+	 * That is, for any zero-frequency feature of this author, that is not a
+	 * zero-frequency feature for the other author, adds pattern disruption values
+	 * calculated as follows:<br>
+	 * <code>d_p = IG(c,p) * K * (syn_total + 1) * (syn_used + 1)</code>
+	 * @param other
+	 * 		The other author data to add the pattern disruption with respect to.
+	 * @param IG
+	 * 		Information gain for all features.
+	 * @param wordsSynCount
+	 * 		Mapping from all word-based feature indices to their synonym-count.
+	 * @param otherPattern
+	 * 		The pattern of the other author generated with this author's basis matrix.
+	 */
+	public void addPatternDisruption(AuthorWPData other, double[] IG,
+			Map<Integer,Integer> wordsSynCount, Matrix otherPattern) {
+		
+		// set pattern disruption values
+		int synUsed, synTotal;
+		double patternDisruption;
+		double thisWPAvg, otherPatternAvg;
+		int basisNumRows = basisMatrix.getRowDimension();
+		for (int j: zeroFeatures) {
+			if (!other.zeroFeatures.contains(j)) {
+				if (wordsSynCount.keySet().contains(j)) {
+					synUsed = 1; // simplifying synonym usage count
+					synTotal = wordsSynCount.get(j);
+				}
+				else {
+					synUsed = 0;
+					synTotal = 0;
+				}
+				patternDisruption = IG[j] * K * (synTotal + 1) * (synUsed + 1);
+				
+				// update pattern disruption sign
+				thisWPAvg = avgForRow(writeprint,j);
+				otherPatternAvg = avgForRow(otherPattern, j);
+				if (thisWPAvg > otherPatternAvg)
+					patternDisruption *= -1;
+				
+				// update basis matrix with pattern disruption value
+				for (int i = 0; i < basisNumRows; i++)
+					basisMatrix.set(j, i, patternDisruption);
+			}
+		}
+		
+		// update writeprint
+		writeprint = generatePattern(this, this);
+	}
+	
+	/**
+	 * Calculates and returns the average over all columns of the given matrix
+	 * for the given row index.
+	 * @param m
+	 * 		The matrix.
+	 * @param row
+	 * 		The row index with respect to which calculate the average.
+	 * @return
+	 * 		The average over all columns of the given matrix for the given column index.
+	 */
+	private static double avgForRow(Matrix m, int row) {
+		int numCols = m.getColumnDimension();
+		double sum = 0;
+		for (int i = 0; i < numCols; i ++)
+			sum += m.get(row,i);
+		return sum / numCols;
+	}
+	
+	/**
+	 * Initializes all zero-frequency indices in the basis matrix to the original
+	 * values (before any pattern-disruption value changes).
+	 */
+	public void initBasisMatrix() {
+		basisMatrix = new Matrix(originalBasisMatrix.getArrayCopy());
+		writeprint = new Matrix(originalWriteprint.getArrayCopy());
 	}
 	
 	/*

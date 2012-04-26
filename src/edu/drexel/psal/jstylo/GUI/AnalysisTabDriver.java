@@ -18,7 +18,6 @@ import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.JFileChooser;
@@ -31,8 +30,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
-import weka.classifiers.functions.LibSVM;
-
 
 public class AnalysisTabDriver {
 
@@ -546,7 +543,8 @@ public class AnalysisTabDriver {
 			// pre-processing
 			Logger.logln("Applying analyzer feature-extraction pre-processing procedures...");
 			content += getTimestamp() + "Applying analyzer feature-extraction pre-processing procedures...\n";
-			if (main.at == AnalyzerTypeEnum.WRITEPRINTS_ANALYZER)
+			if (main.at == AnalyzerTypeEnum.WRITEPRINTS_ANALYZER &&
+					main.analysisClassTestDocsJRadioButton.isSelected())
 				WriteprintsAnalyzer.preExtraction(main.ps);
 			content += getTimestamp() + "done!\n\n";
 			
@@ -618,8 +616,9 @@ public class AnalysisTabDriver {
 			// post processing
 			Logger.logln("Applying analyzer feature-extraction post-processing procedures...");
 			content += getTimestamp() + "Applying analyzer feature-extraction post-processing procedures...\n";
-			if (main.at == AnalyzerTypeEnum.WRITEPRINTS_ANALYZER)
-				WriteprintsAnalyzer.postExtraction(main.ps);
+			if (main.at == AnalyzerTypeEnum.WRITEPRINTS_ANALYZER &&
+					main.analysisClassTestDocsJRadioButton.isSelected())
+				WriteprintsAnalyzer.postExtraction(main.wib);
 			content += getTimestamp() + "done!\n\n";
 			
 			

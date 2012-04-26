@@ -86,7 +86,7 @@ public class ConsolidationStation {
 			// If the hashmap contains the Word, read the value from the map, adjustVals, and replace it
 			// else, create new entry in hashmap
 		boolean letterGrams=false,functionWords=false, posGrams=false,wordGrams=false;
-		int toAddIndex;
+		int toAddIndex;//ISSUE WITH THIS STRATEGY: what if multiple grams are unescessary? FInd Another Way than making 20 functions.
 		for(toAddIndex=0;toAddIndex<toAdd.size();toAddIndex++){//loops through toAddTriple
 			if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.WORD_BIGRAMS)||toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.WORD_TRIGRAMS)){
 				findWordGrams();
@@ -138,6 +138,12 @@ public class ConsolidationStation {
 						Word wordTrigram=makeWordTrigram(tagged.tagged.get(wordIndex-2).word(),tagged.tagged.get(wordIndex-1).word(),tagged.tagged.get(wordIndex).word());
 						addToHashMap(wordsToAdd,wordTrigram);
 					}
+					else {
+						Word wordGram=makeWordBigram(tagged.tagged.get(wordIndex-1).tag(),"");
+						addToHashMap(wordsToAdd,wordGram);
+					}
+					Word wordGram=makeWordBigram(tagged.tagged.get(wordIndex).tag(),"");
+					addToHashMap(wordsToAdd,wordGram);
 				}
 			}
 		}

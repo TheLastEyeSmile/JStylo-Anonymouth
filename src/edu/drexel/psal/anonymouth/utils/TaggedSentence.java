@@ -42,35 +42,27 @@ public class TaggedSentence {
 	protected ArrayList<POV> pointOfView = new ArrayList<POV>(PROBABLE_MAX);
 	protected ArrayList<CONJ> conj = new ArrayList<CONJ>(PROBABLE_MAX);
 	protected ArrayList<String> functionWords=new ArrayList<String>(PROBABLE_MAX);//not sure if should have put PROBABLE_MAX
+	protected ArrayList<String> misspelledWords=new ArrayList<String>(PROBABLE_MAX);
 	protected ArrayList<String> punctuation =new ArrayList<String>(PROBABLE_MAX);
 	protected ArrayList<String> digits =new ArrayList<String>(PROBABLE_MAX);
+	protected ArrayList<Integer> wordLengths=new ArrayList<Integer>(PROBABLE_MAX);
 	
-	//private static final String punctuationRegex = "[.?!\"\\,'~(){}]{1}";
-	private static final Pattern punctuationRegex=Pattern.compile("[.?!\"\\,'~(){}]{1}");
-	//private static final String digit = "[\\d]{1,}";
+	private static final Pattern punctuationRegex=Pattern.compile("[.?!,\'\";:]{1}");
 	private static final Pattern digit=Pattern.compile("[\\d]{1,}");
 	
 	protected List<? extends HasWord> sentenceTokenized;
 	protected Tokenizer<? extends HasWord> toke;
 	protected TreebankLanguagePack tlp = new PennTreebankLanguagePack(); 
-	//private MaxentTagger mt = null;	
-	//private boolean tagger_ok;
 	
 	private String[] thirdPersonPronouns={"he","she","him", "her","it","his","hers","its","them","they","their","theirs"};
 	private String[] firstPersonPronouns={"I","me","my","mine","we","us","our","ours"};
 	private String[] secondPersonPronouns={"you","your","yours"};
 	
 	public TaggedSentence(String untagged){
-		//tagger_ok = initMaxentTagger();
-		//Logger.logln("MaxentTagger initialization in TaggedDocument status: "+tagger_ok);
 		this.untagged = untagged;
-		//tagSentence();
-		//setGrammarStats(tagged);
 	}
 	
 	public TaggedSentence(String untagged, ArrayList<TaggedWord> tagged){
-		//tagger_ok = initMaxentTagger();
-		//Logger.logln("MaxentTagger initialization in TaggedDocument status: "+tagger_ok);
 		this.untagged = untagged;
 		this.tagged = tagged;
 		setGrammarStats();
@@ -97,12 +89,16 @@ public class TaggedSentence {
 	 */
 	public void setGrammarStats(){
 		FunctionWord fWord=new FunctionWord();
+		MisspelledWords mWord=new MisspelledWords();
 		for (int i=0;i<tagged.size();i++){
 			TaggedWord temp=tagged.get(i);
 			//System.out.println(temp.tag());
-			if(tagged.get(i).word().matches("[\\w&&\\D]+")){//fixes the error with sentences
+			if(temp.word().matches("[\\w&&\\D]+")){//fixes the error with sentenceAppend button
 				if(fWord.searchListFor(temp.word())){
 					functionWords.add(temp.word());
+				}
+				else if(mWord.searchListFor(temp.word())){
+					misspelledWords.add(temp.word());
 				}
 				else{
 					java.util.regex.Matcher wordToSearch=punctuationRegex.matcher(temp.word());
@@ -125,7 +121,9 @@ public class TaggedSentence {
 						}	
 					}
 				}	/**///This somehow overwrite the taggedDocument.
-			
+				
+				wordLengths.add(temp.word().length());
+				
 			}
 			/*Stuff for tenses
 			if(temp.tag().startsWith("VB")){
@@ -167,12 +165,6 @@ public class TaggedSentence {
 		}
 		
 	}
-/*	
-	public ArrayList<String> findWordsContaining(String thisString){
-		
-	
-	}
-*/
 	
 	public String getUntagged(){
 		return untagged;
@@ -192,15 +184,5 @@ public class TaggedSentence {
 		}
 		return wordsToReturn;
 	}
-	
-	
-	/*public static void main(String[] args){
-		String text1 = "I enjoy coffee, especially in the mornings, because it helps to wake me up.";
-		TaggedSentence testDoc = new TaggedSentence(text1);
-		testDoc.setGrammarStats();
-		System.out.println(testDoc.getUntagged());
-		//testDoc.getWordsWithTag(POS.TheTags.VB);
-		
-	}*/
 	
 }

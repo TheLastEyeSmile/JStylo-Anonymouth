@@ -60,10 +60,10 @@ public class TaggedDocument {
 	private int totalSentences=0;
 	
 	private HashMap<String,Integer> functionWords= new HashMap<String,Integer>();
+	private HashMap<String,Integer> misspelledWords= new HashMap<String,Integer>();
 	private HashMap<String,Integer> digits= new HashMap<String,Integer>();
-	//private HashMap<String,Integer> digitBigrams= new HashMap<String,Integer>();
-	//private HashMap<String,Integer> digitTrigrams= new HashMap<String,Integer>();
 	private HashMap<String,Integer> punctuation= new HashMap<String,Integer>();
+	private HashMap<Integer,Integer> wordLengths= new HashMap<Integer,Integer>();
 	
 	/**
 	 * Constructor for TaggedDocument
@@ -268,6 +268,24 @@ public class TaggedDocument {
 		}
 	}
 	/**
+	 * concatenates the mispelledWord lists from all the sentences in the document
+	 */
+	private void setMisspelledWords(){
+		String key;
+		for (int i=0;i<taggedSentences.size();i++){
+			for(int j=0;j<taggedSentences.get(i).misspelledWords.size();j++){
+				boolean addWord=true;
+				key = taggedSentences.get(i).misspelledWords.get(j).toLowerCase();
+				if(misspelledWords.containsKey(key)){
+					misspelledWords.put(key,(misspelledWords.get(key).intValue()+1));
+				}
+				else{
+					misspelledWords.put(key, 1);
+				}
+			}
+		}
+	}
+	/**
 	 * concatenates the punctuation lists from all the sentences in the document
 	 */
 	private void setPunctuation(){
@@ -300,7 +318,24 @@ public class TaggedDocument {
 				}
 			}
 		}
-	}	
+	}
+	/**
+	 *  concatenates the wordLength lists from all the sentences in the document
+	 */
+	private void setWordLengths(){
+		Integer key;
+		for (int i=0;i<taggedSentences.size();i++){
+			for(int j=0;j<taggedSentences.get(i).wordLengths.size();j++){
+				key = taggedSentences.get(i).wordLengths.get(j);
+				if(digits.containsKey(key)){
+					wordLengths.put(key,(wordLengths.get(key).intValue()+1));
+				}
+				else{
+					wordLengths.put(key, 1);
+				}
+			}
+		}
+	}
 	public int getSentNumber(){
 		return sentNumber;
 	}
@@ -316,6 +351,14 @@ public class TaggedDocument {
 	public HashMap<String,Integer> getPunctuation(){
 		setPunctuation();
 		return punctuation;
+	}
+	public HashMap<String,Integer> getMisspelledWords(){
+		setMisspelledWords();
+		return misspelledWords;
+	}
+	public HashMap<Integer,Integer> getWordLengths(){
+		setWordLengths();
+		return wordLengths;
 	}
 	
 	public static void setSentenceCounter(int sentNumber){

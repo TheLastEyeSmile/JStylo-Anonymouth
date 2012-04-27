@@ -14,7 +14,7 @@ public class Trie{
 	
 	TrieNode trie=new TrieNode();
 	private final char lastChar='{';
-	private final int OFFSET = 96;
+	private final int OFFSET = 95;
 	
 	/**
 	 * Adds a word to the trie.
@@ -96,6 +96,8 @@ public class Trie{
 		}
 		else if(c=='2'||c=='7')
 			c='|';
+		else if(c==' ')
+			c='_';
 		
 		return c;
 	}
@@ -108,6 +110,6 @@ public class Trie{
  *
  */
 class TrieNode {
-	protected TrieNode[] children = new TrieNode[31];
+	protected TrieNode[] children = new TrieNode[32];
 
 }

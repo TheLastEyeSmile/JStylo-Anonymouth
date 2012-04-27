@@ -85,7 +85,8 @@ public class ConsolidationStation {
 		// find out how many times that feature appears in the TaggedWord word, and then:
 			// If the hashmap contains the Word, read the value from the map, adjustVals, and replace it
 			// else, create new entry in hashmap
-		boolean letterGrams=false,functionWords=false, posGrams=false,wordGrams=false;
+		boolean letterGrams=false,functionWords=false, posGrams=false,wordGrams=false;//maybe make jsut one list with all the rnaking andweeights on it???
+		int taggedDocsIndex;
 		int toAddIndex;//ISSUE WITH THIS STRATEGY: what if multiple grams are unescessary? FInd Another Way than making 20 functions.
 		for(toAddIndex=0;toAddIndex<toAdd.size();toAddIndex++){//loops through toAddTriple
 			if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.WORD_BIGRAMS)||toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.WORD_TRIGRAMS)){
@@ -102,13 +103,58 @@ public class ConsolidationStation {
 				letterGrams=true;
 			}
 			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.FUNCTION_WORDS)){
-				findFunctionWords();
+				//findFunctionWords();
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getFunctionWords());
+				}
 				functionWords=true;
 			}
+			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.PUNCTUATION)){
+				//findPunctuation();
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getPunctuation());
+				}
+				//punctuation=true;
+			}
+			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.WORD_LENGTHS)){
+				//findWordLengths();
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+				//	findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getWordLengths());
+				}
+				//wordLength=true;
+			}
+			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.DIGITS)){
+				//findDigits();
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getDigits());
+				}
+				//digits=true;
+			}
+			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.MISSPELLED_WORDS)){
+				//findMisspelledWords();
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getMisspelledWords());
+				}
+				//misspelled=true;
+			}
+			
 		}
 				
 	}
-	
+	private void findAttribute(HashMap<String,Integer> hashMap) {
+		while(hashMap.keySet().iterator().hasNext()){
+			Word newWord=new Word(hashMap.keySet().iterator().next());
+			newWord.rank=hashMap.get(newWord.word).intValue();
+			addToHashMap(wordsToAdd,newWord);
+		}
+	}
+	/*private void findAttribute(HashMap<Integer,Integer> hashMap) {
+		while(hashMap.keySet().iterator().hasNext()){
+			Word newWord=new Word(hashMap.keySet().iterator().next());
+			newWord.rank=hashMap.get(newWord.word).intValue();
+			addToHashMap(wordsToAdd,newWord);
+		}
+	}*/
 	private void findFunctionWords() {
 		int attribIndex,taggedDocsIndex,sentenceIndex;
 		HashMap<String,Integer>functionWords;
@@ -117,6 +163,18 @@ public class ConsolidationStation {
 			while(functionWords.keySet().iterator().hasNext()){
 				Word newWord=new Word(functionWords.keySet().iterator().next());
 				newWord.rank=functionWords.get(newWord.word).intValue();
+				addToHashMap(wordsToAdd,newWord);
+			}
+		}
+	}
+	private void findPunctuation() {
+		int attribIndex,taggedDocsIndex,sentenceIndex;
+		HashMap<String,Integer>punctuation;
+		for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){//loops through documents
+			punctuation=otherSampleTaggedDocs.get(taggedDocsIndex).getPunctuation();
+			while(punctuation.keySet().iterator().hasNext()){
+				Word newWord=new Word(punctuation.keySet().iterator().next());
+				newWord.rank=punctuation.get(newWord.word).intValue();
 				addToHashMap(wordsToAdd,newWord);
 			}
 		}

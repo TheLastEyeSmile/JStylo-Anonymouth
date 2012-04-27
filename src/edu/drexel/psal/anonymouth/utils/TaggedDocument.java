@@ -258,12 +258,7 @@ public class TaggedDocument {
 			for(int j=0;j<taggedSentences.get(i).functionWords.size();j++){
 				boolean addWord=true;
 				key = taggedSentences.get(i).functionWords.get(j).toLowerCase();
-				if(functionWords.containsKey(key)){
-					functionWords.put(key,(functionWords.get(key).intValue()+1));
-				}
-				else{
-					functionWords.put(key, 1);
-				}
+				setHashMap(functionWords,key);
 			}
 		}
 	}
@@ -276,12 +271,7 @@ public class TaggedDocument {
 			for(int j=0;j<taggedSentences.get(i).misspelledWords.size();j++){
 				boolean addWord=true;
 				key = taggedSentences.get(i).misspelledWords.get(j).toLowerCase();
-				if(misspelledWords.containsKey(key)){
-					misspelledWords.put(key,(misspelledWords.get(key).intValue()+1));
-				}
-				else{
-					misspelledWords.put(key, 1);
-				}
+				setHashMap(misspelledWords,key);
 			}
 		}
 	}
@@ -293,12 +283,7 @@ public class TaggedDocument {
 		for (int i=0;i<taggedSentences.size();i++){
 			for(int j=0;j<taggedSentences.get(i).punctuation.size();j++){
 				key = taggedSentences.get(i).punctuation.get(j);
-				if(punctuation.containsKey(key)){
-					punctuation.put(key,(punctuation.get(key).intValue()+1));
-				}
-				else{
-					punctuation.put(key, 1);
-				}
+				setHashMap(punctuation,key);
 			}
 		}
 	}
@@ -310,12 +295,7 @@ public class TaggedDocument {
 		for (int i=0;i<taggedSentences.size();i++){
 			for(int j=0;j<taggedSentences.get(i).digits.size();j++){
 				key = taggedSentences.get(i).digits.get(j);
-				if(digits.containsKey(key)){
-					digits.put(key,(digits.get(key).intValue()+1));
-				}
-				else{
-					digits.put(key, 1);
-				}
+				setHashMap(digits,key);
 			}
 		}
 	}
@@ -327,15 +307,28 @@ public class TaggedDocument {
 		for (int i=0;i<taggedSentences.size();i++){
 			for(int j=0;j<taggedSentences.get(i).wordLengths.size();j++){
 				key = taggedSentences.get(i).wordLengths.get(j);
-				if(digits.containsKey(key)){
-					wordLengths.put(key,(wordLengths.get(key).intValue()+1));
-				}
-				else{
-					wordLengths.put(key, 1);
-				}
+				setHashMap(wordLengths,key);
 			}
 		}
 	}
+	
+	private void setHashMap(HashMap <Integer,Integer> hashMap, Integer key){
+		if(hashMap.containsKey(key)){
+			hashMap.put(key, (hashMap.get(key).intValue()+1));
+		}
+		else {
+			hashMap.put(key, 1);
+		}
+	}
+	private void setHashMap(HashMap <String,Integer> hashMap, String key){
+		if(hashMap.containsKey(key)){
+			hashMap.put(key, (hashMap.get(key).intValue()+1));
+		}
+		else {
+			hashMap.put(key, 1);
+		}
+	}
+	
 	public int getSentNumber(){
 		return sentNumber;
 	}

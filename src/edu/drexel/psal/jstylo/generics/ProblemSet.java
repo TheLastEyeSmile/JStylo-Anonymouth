@@ -685,15 +685,6 @@ public class ProblemSet {
 			sp.parse(filename, this);
 		}
 		
-		/**
-		 * Returns the generated problem set.
-		 * @return
-		 * 		The generated problem set.
-		 */
-		public ProblemSet getProblemSet() {
-			return problemSet;
-		}
-		
 		// event handlers
 		
 		/**

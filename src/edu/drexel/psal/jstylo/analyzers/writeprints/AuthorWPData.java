@@ -73,9 +73,49 @@ public class AuthorWPData {
 		for (int i = 0; i < numInstances; i++)
 			if (trainingData.instance(i).stringValue(classIndex).equals(authorName))
 				data.add(trainingData.instance(i));
-		numInstances = data.numInstances();
+		initFeatureMatrixHelper(data, average);
+	}
+	
+	/**
+	 * Extracts the feature matrix from the given training data (set of all
+	 * extracted features), using only the given instance index.
+	 * If the <code>average</code> parameter is <code>true</code>, sets the
+	 * matrix to be a single vector which is the average values across all
+	 * the author's feature vectors.<br>
+	 * In addition records the list of features that have 0 frequency.
+	 * @param trainingData
+	 * 		The ARFF training data representing various feature vectors
+	 * 		to extract the feature values from.
+	 * @param instanceIndex
+	 * 		The index of the instance to be used.
+	 * @param average
+	 * 		Whether to save only one feature vector, which will be the average
+	 * 		of all extracted feature vectors.
+	 */
+	public void initFeatureMatrix(Instances trainingData, int instanceIndex,
+			boolean average) {
+		Instances data = new Instances(trainingData,1);
+		data.add(trainingData.instance(instanceIndex));
+		initFeatureMatrixHelper(data, average);
+	}
+	
+	/**
+	 * Extracts the feature matrix from the given training data.
+	 * If the <code>average</code> parameter is <code>true</code>, sets the
+	 * matrix to be a single vector which is the average values across all
+	 * the author's feature vectors.<br>
+	 * In addition records the list of features that have 0 frequency.
+	 * @param data
+	 * 		The ARFF training data representing various feature vectors
+	 * 		to extract the feature values from.
+	 * @param average
+	 * 		Whether to save only one feature vector, which will be the average
+	 * 		of all extracted feature vectors.
+	 */
+	private void initFeatureMatrixHelper(Instances data, boolean average) {
+		int numInstances = data.numInstances();
 		numFeatures = data.numAttributes() - 1; // exclude class attribute
-		
+
 		/*
 		 * initialize a matrix of features (each row represents an instance, each
 		 * column represents a feature).
@@ -87,7 +127,7 @@ public class AuthorWPData {
 			for (int j = 0; j < numFeatures; j++)
 				matrix[i][j] = inst.value(j);
 		}
-		
+
 		// calculate feature averages (for later use)
 		featureAverages = new double[numFeatures];
 		for (int j = 0; j < numFeatures; j++) {
@@ -95,13 +135,13 @@ public class AuthorWPData {
 				featureAverages[j] += matrix[i][j];
 			featureAverages[j] /= numInstances;
 		}
-		
+
 		// save feature matrix
 		if (average)
 			featureMatrix = new Matrix(new double[][] {featureAverages});
 		else
 			featureMatrix = new Matrix(matrix);
-		
+
 		// record zero-frequency features for author
 		zeroFeatures = new ArrayList<Integer>();
 		boolean isZero;

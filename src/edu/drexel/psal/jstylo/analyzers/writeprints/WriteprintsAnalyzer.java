@@ -54,69 +54,21 @@ public class WriteprintsAnalyzer extends Analyzer {
 	
 	/**
 	 * Whether to average all feature vectors per author ending up with one feature vector
-	 * all not. Increases performance but may reduce accuracy.
+	 * or not. Increases performance but may reduce accuracy.
 	 */
 	private boolean averageFeatureVectors = true;
-	
-	/**
-	 * Indicates whether pre-processing has changed the problem-set.
-	 */
-	private static boolean testDocsPreProcessed = false;
 	
 	/* ==========
 	 * operations
 	 * ==========
 	 */
 	
-	/**
-	 * Feature extraction pre-processing for the Writeprints analyzer.
-	 * Places all test documents as training documents under temporary author names
-	 * based on the document titles.
-	 * Necessary for the test document feature extraction to be independent of the
-	 * training set features, as applied in {@link WekaInstancesBuilder}.
-	 */
-	public static void preExtraction(ProblemSet ps) {
-		if (ps.hasTestDocs()) {
-			testDocsPreProcessed = true;
-			List<Document> testDocs = ps.getTestDocs();
-			int numTestDocs = testDocs.size();
-			Document doc;
-			String authorName;
-			for (int i = numTestDocs - 1; i >= 0; i--) {
-				doc = testDocs.remove(i);
-				authorName = TEST_AUTHOR_NAME_PREFIX + doc.getTitle().replaceAll("\\.\\S+$","");
-				doc.setAuthor(authorName);
-				ps.addTrainDoc(authorName, doc);
-			}
-		}
-	}
-	
-	public static void postExtraction(WekaInstancesBuilder wib) {
-		// skip if no test documents were pre-processed
-		if (!testDocsPreProcessed)
-			return;
-		
-		// move all test instances to the test set
-		Instances trainingSet = wib.getTrainingSet();
-		Instances testSet = new Instances(trainingSet,0);
-		testSet.setClassIndex(trainingSet.classIndex());
-		int numInstances = trainingSet.numInstances();
-		Attribute classAttribute = trainingSet.classAttribute();
-		for (int i = numInstances - 1; i >= 0; i--)
-			if (classAttribute.value((int)trainingSet.instance(i).
-					classValue()).startsWith(TEST_AUTHOR_NAME_PREFIX)) {
-				testSet.add(trainingSet.instance(i));
-				trainingSet.delete(i);
-			}
-		wib.setTestSet(testSet);
-	}
-	
 	@Override
 	public Map<String,Map<String, Double>> classify(Instances trainingSet,
 			Instances testSet, List<Document> unknownDocs) {
 		
 		/* ========
-		 * TRAINING
+		 * LEARNING
 		 * ========
 		 */
 		
@@ -125,18 +77,25 @@ public class WriteprintsAnalyzer extends Analyzer {
 		int numAuthors = classAttribute.numValues();
 		String authorName;
 		AuthorWPData authorData;
+		// training set
 		for (int i = 0; i < numAuthors; i++) {
 			authorName = classAttribute.value(i);
 			authorData = new AuthorWPData(authorName);
 			//authorData.initFeatureProbabilities();
-			if (authorName.startsWith(TEST_AUTHOR_NAME_PREFIX)) {
-				authorData.initFeatureMatrix(testSet, averageFeatureVectors);
-				testAuthorData.add(authorData);				
-			}
-			else {
-				authorData.initFeatureMatrix(trainingSet, averageFeatureVectors);
-				trainAuthorData.add(authorData);
-			}
+			authorData.initFeatureMatrix(trainingSet, averageFeatureVectors);
+			trainAuthorData.add(authorData);
+			authorData.initBasisAndWriteprintMatrices();
+		}
+		// test set
+		int numTestInstances = testSet.numInstances();
+		for (int i = 0; i < numTestInstances; i++) {
+			authorName = TEST_AUTHOR_NAME_PREFIX + (unknownDocs == null ?
+					testSet.instance(i).stringValue(classAttribute) :
+					unknownDocs.get(i).getTitle());
+			authorData = new AuthorWPData(authorName);
+			//authorData.initFeatureProbabilities();
+			authorData.initFeatureMatrix(testSet, i, averageFeatureVectors);
+			testAuthorData.add(authorData);				
 			authorData.initBasisAndWriteprintMatrices();
 		}
 		
@@ -214,7 +173,47 @@ public class WriteprintsAnalyzer extends Analyzer {
 	@Override
 	public Evaluation runCrossValidation(Instances data, int folds,
 			long randSeed) {
-		// TODO Auto-generated method stub
+		// setup
+		data.setClass(data.attribute("authorName"));
+		Instances randData = new Instances(data);
+		Random rand = new Random(randSeed);
+		randData.randomize(rand);
+		randData.stratify(folds);
+
+		// run CV
+		Map<String,Map<String,Double>> results;
+		Map<String,Double> instResults;
+		double success;
+		double total = 0;
+		double max;
+		String selected;
+		for (int n = 0; n < folds; n++) {
+			Instances train = randData.trainCV(folds, n);
+			Instances test = randData.testCV(folds, n);
+			// build and evaluate classifier
+			results = classify(train, test, null);
+			success = 0;
+			max = Double.NEGATIVE_INFINITY;
+			selected = null;
+			for (String testInstAuthor: results.keySet()) {
+				instResults = results.get(testInstAuthor);
+				for (String key: instResults.keySet()) {
+					if (max < instResults.get(key)) {
+						max = instResults.get(key);
+						selected = key;
+					}
+				}
+				if (testInstAuthor.replace(TEST_AUTHOR_NAME_PREFIX, "").equals(selected))
+					success++;
+			}
+			success = 100 * success / results.size();
+			System.out.printf("- Accuracy for fold %d: %.2f\n", n, success);
+			total += success;
+		}
+		total /= folds;
+		System.out.println("========================");
+		System.out.printf("Total Accuracy: %.2f\n", total);
+
 		return null;
 	}
 	
@@ -504,30 +503,45 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 */
 	public static void main(String[] args) throws Exception {
 		WriteprintsAnalyzer wa = new WriteprintsAnalyzer();
-		ProblemSet ps = new ProblemSet(JSANConstants.JSAN_PROBLEMSETS_PREFIX + "drexel_1_train_test.xml");
+		//ProblemSet ps = new ProblemSet(JSANConstants.JSAN_PROBLEMSETS_PREFIX + "drexel_1_train_test.xml");
+		ProblemSet ps = new ProblemSet(JSANConstants.JSAN_PROBLEMSETS_PREFIX + "drexel_1.xml");
 		CumulativeFeatureDriver cfd =
 				new CumulativeFeatureDriver(JSANConstants.JSAN_FEATURESETS_PREFIX + "writeprints_feature_set_limited.xml");
 		WekaInstancesBuilder wib = new WekaInstancesBuilder(false);
+		List<Document> trainingDocs = ps.getAllTrainDocs();
+		List<Document> testDocs = ps.getTestDocs();
+		int numTrainDocs = trainingDocs.size();
+		int numTestDocs = testDocs.size();
 		
 		// extract features
 		System.out.println("feature pre extraction");
-		WriteprintsAnalyzer.preExtraction(ps);
+		trainingDocs.addAll(testDocs);
 		System.out.println("feature extraction");
-		wib.prepareTrainingSet(ps.getAllTrainDocs(), cfd);
+		wib.prepareTrainingSet(trainingDocs, cfd);
 		System.out.println("feature post extraction");
-		WriteprintsAnalyzer.postExtraction(wib);
+		Instances trainingSet = wib.getTrainingSet();
+		Instances testSet = new Instances(
+				trainingSet,
+				numTrainDocs,
+				numTestDocs);
+		wib.setTestSet(testSet);
+		int total = numTrainDocs + numTestDocs;
+		for (int i = total - 1; i >= numTrainDocs; i--)
+			trainingSet.delete(i);
 		System.out.println("done!");
 		
 		Instances train = wib.getTrainingSet();
 		Instances test = wib.getTestSet();
 		
 		// classify
+		/*
 		System.out.println("classification");
 		Map<String,Map<String, Double>> res = wa.classify(train, test, ps.getTestDocs());
 		System.out.println("done!");
 		Map<String,Double> docMap;
 		String selectedAuthor = null;
 		double maxValue;
+		double success = 0;
 		for (String doc: res.keySet()) {
 			maxValue = Double.NEGATIVE_INFINITY;
 			docMap = res.get(doc);
@@ -538,6 +552,13 @@ public class WriteprintsAnalyzer extends Analyzer {
 					maxValue = docMap.get(key);
 				}
 			System.out.println("- "+selectedAuthor+": "+maxValue);
+			success += doc.replaceFirst(TEST_AUTHOR_NAME_PREFIX, "").startsWith(selectedAuthor) ? 1 : 0;
 		}
+		success = 100 * success / res.size();
+		System.out.printf("Total accuracy: %.2f\n",success);
+		*/
+		
+		// cross-validation
+		wa.runCrossValidation(trainingSet, 10, 0);
 	}
 }

@@ -16,8 +16,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JFileChooser;
@@ -28,8 +30,11 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import com.jgaap.generics.Document;
+
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
+import weka.core.Instances;
 
 public class AnalysisTabDriver {
 
@@ -517,6 +522,12 @@ public class AnalysisTabDriver {
 				content += "\n";
 			}
 			
+			// documents
+			List<Document> trainingDocs = main.ps.getAllTrainDocs();
+			List<Document> testDocs = main.ps.getTestDocs();
+			int numTrainDocs = trainingDocs.size();
+			int numTestDocs = testDocs.size();
+			
 			// feature set
 			content += "Feature set: "+main.cfd.getName()+":\n";
 			for (int i=0; i<main.cfd.numOfFeatureDrivers(); i++) {
@@ -541,12 +552,16 @@ public class AnalysisTabDriver {
 			// ==================
 			
 			// pre-processing
-			Logger.logln("Applying analyzer feature-extraction pre-processing procedures...");
-			content += getTimestamp() + "Applying analyzer feature-extraction pre-processing procedures...\n";
-			if (main.at == AnalyzerTypeEnum.WRITEPRINTS_ANALYZER &&
-					main.analysisClassTestDocsJRadioButton.isSelected())
-				WriteprintsAnalyzer.preExtraction(main.ps);
-			content += getTimestamp() + "done!\n\n";
+			if (main.at == AnalyzerTypeEnum.WRITEPRINTS_ANALYZER) {
+				Logger.logln("Applying analyzer feature-extraction pre-processing procedures...");
+				content += getTimestamp() + "Applying analyzer feature-extraction pre-processing procedures...\n";
+				
+				// move all test documents to be training documents
+				trainingDocs.addAll(testDocs);
+				testDocs = new ArrayList<Document>();
+				
+				content += getTimestamp() + "done!\n\n";
+			}
 			
 			// training set
 			Logger.logln("Extracting features from training corpus...");
@@ -558,7 +573,7 @@ public class AnalysisTabDriver {
 			
 			try {
 				main.wib.prepareTrainingSet(
-						main.ps.getAllTrainDocs(),
+						trainingDocs,
 						main.cfd);
 			} catch (Exception e) {
 				Logger.logln("Could not extract features from training corpus!",LogOut.STDERR);
@@ -590,7 +605,7 @@ public class AnalysisTabDriver {
 
 				try {
 					main.wib.prepareTestSet(
-							main.ps.getTestDocs());
+							testDocs);
 				} catch (Exception e) {
 					Logger.logln("Could not extract features from test documents!",LogOut.STDERR);
 					e.printStackTrace();
@@ -614,12 +629,25 @@ public class AnalysisTabDriver {
 			}
 
 			// post processing
-			Logger.logln("Applying analyzer feature-extraction post-processing procedures...");
-			content += getTimestamp() + "Applying analyzer feature-extraction post-processing procedures...\n";
 			if (main.at == AnalyzerTypeEnum.WRITEPRINTS_ANALYZER &&
-					main.analysisClassTestDocsJRadioButton.isSelected())
-				WriteprintsAnalyzer.postExtraction(main.wib);
-			content += getTimestamp() + "done!\n\n";
+					main.analysisClassTestDocsJRadioButton.isSelected()) {
+				
+				Logger.logln("Applying analyzer feature-extraction post-processing procedures...");
+				content += getTimestamp() + "Applying analyzer feature-extraction post-processing procedures...\n";
+				
+				// put test instances back in the test set
+				Instances trainingSet = main.wib.getTrainingSet();
+				Instances testSet = new Instances(
+						trainingSet,
+						numTrainDocs,
+						numTestDocs);
+				main.wib.setTestSet(testSet);
+				int total = numTrainDocs + numTestDocs;
+				for (int i = total - 1; i >= numTrainDocs; i--)
+					trainingSet.delete(i);
+				
+				content += getTimestamp() + "done!\n\n";
+			}
 			
 			
 			// running InfoGain

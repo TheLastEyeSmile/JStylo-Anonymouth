@@ -97,7 +97,7 @@ public class WekaAnalyzer extends Analyzer {
 		for (int i=0; i<testSet.numInstances(); i++) {
 			Instance test = testSet.instance(i);
 			test.setDataset(trainingSet);
-			map = res.get(i);
+			map = res.get(unknownDocs.get(i).getTitle());
 			try {
 				currRes = classifier.distributionForInstance(test);
 				for (int j=0; j<numOfAuthors; j++) {
@@ -156,6 +156,7 @@ public class WekaAnalyzer extends Analyzer {
 	 *  @return
 	 * 		The evaluation object with cross-validation results, or null if did not succeed running.
 	 */
+	@Override
 	public Evaluation runCrossValidation(Instances data, int folds, long randSeed) {
 		// setup
 		data.setClass(data.attribute("authorName"));

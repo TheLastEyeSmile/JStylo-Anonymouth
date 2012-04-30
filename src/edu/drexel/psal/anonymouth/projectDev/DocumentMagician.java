@@ -61,7 +61,7 @@ public class DocumentMagician {
 	
 	private List<Document> authorSamplesSet;
 	
-	private List<Map<String,Double>> wekaResultList;
+	private Map<String,Map<String,Double>> wekaResultMap;
 	
 	private InstanceConstructor instanceSet; 
 	
@@ -103,8 +103,8 @@ public class DocumentMagician {
 		return toModifyInstanceSet;
 	}
 	
-	public synchronized List<Map<String,Double>> getWekaResultList(){
-		return wekaResultList;
+	public synchronized Map<String,Map<String,Double>> getWekaResultList(){
+		return wekaResultMap;
 	}
 	
 	/**
@@ -316,7 +316,7 @@ public class DocumentMagician {
 	public synchronized void runWeka() throws Exception{
 		Logger.logln("Called runWeka");
 		WekaAnalyzer waz = new WekaAnalyzer(theClassifier);
-		wekaResultList = waz.classify(authorAndTrainDat,toModifyDat);// ?
+		wekaResultMap = waz.classify(authorAndTrainDat,toModifyDat,toModifySet);// ?
 		Logger.logln("Weka Done");
 	}
 		

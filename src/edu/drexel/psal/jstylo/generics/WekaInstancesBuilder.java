@@ -5,14 +5,10 @@ import weka.core.*;
 import weka.core.converters.ArffSaver;
 import weka.core.converters.CSVSaver;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-import com.jgaap.canonicizers.NormalizeASCII;
-import com.jgaap.eventDrivers.*;
 import com.jgaap.generics.*;
 
 import edu.drexel.psal.jstylo.eventDrivers.CharCounterEventDriver;
@@ -512,7 +508,7 @@ public class WekaInstancesBuilder {
 			} else {	// one unique numeric event
 
 				// generate sole event (extract full event name and remove value)
-				Event event = new Event(list.get(0).eventAt(0).getEvent().replaceAll("\\{.*\\}", "{-}"));
+				//Event event = new Event(list.get(0).eventAt(0).getEvent().replaceAll("\\{.*\\}", "{-}"));
 				
 				// update histogram to null at current position
 				for (i=0; i<numOfVectors; i++)

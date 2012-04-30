@@ -87,64 +87,99 @@ public class ConsolidationStation {
 			// else, create new entry in hashmap
 		boolean letterGrams=false,functionWords=false, posGrams=false,wordGrams=false;//maybe make jsut one list with all the rnaking andweeights on it???
 		int taggedDocsIndex;
-		int toAddIndex;//ISSUE WITH THIS STRATEGY: what if multiple grams are unescessary? FInd Another Way than making 20 functions.
+		int toAddIndex;
 		for(toAddIndex=0;toAddIndex<toAdd.size();toAddIndex++){//loops through toAddTriple
-			if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.WORD_BIGRAMS)||toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.WORD_TRIGRAMS)){
-				findWordGrams();
-				wordGrams=true;
+			if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.WORD_BIGRAMS)){
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getWordBigrams(),toAdd.get(toAddIndex));
+				}
 			}
-			else if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.POS_BIGRAMS)||toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.POS_TRIGRAMS)||
-					toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.POS_TAGS)){
-				findPOSGrams();
-				posGrams=true;
+			else if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.WORD_TRIGRAMS)){
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getWordTrigrams(),toAdd.get(toAddIndex));
+				}
 			}
-			else if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.TOP_LETTER_BIGRAMS)||toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.TOP_LETTER_TRIGRAMS)){
-				findLetterGrams();
-				letterGrams=true;
+			else if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.WORDS)){
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getWords(),toAdd.get(toAddIndex));
+				}
+			}
+			else if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.POS_BIGRAMS)){
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getPOSBigrams(),toAdd.get(toAddIndex));
+				}
+			}
+			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.POS_TRIGRAMS)){
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getPOSTrigrams(),toAdd.get(toAddIndex));
+				}
+			}
+			else if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.POS_TAGS)){
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getPOS(),toAdd.get(toAddIndex));
+				}
+			}
+			else if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.LETTERS)){//what is letterNGrams?
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getLetters(),toAdd.get(toAddIndex));
+				}
+			}
+			else if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.TOP_LETTER_BIGRAMS)){
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getLetterBigrams(),toAdd.get(toAddIndex));
+				}
+			}
+			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.TOP_LETTER_TRIGRAMS)){
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getLetterTrigrams(),toAdd.get(toAddIndex));
+				}
 			}
 			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.FUNCTION_WORDS)){
-				//findFunctionWords();
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
-					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getFunctionWords());
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getFunctionWords(),toAdd.get(toAddIndex));
 				}
-				functionWords=true;
 			}
 			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.PUNCTUATION)){
-				//findPunctuation();
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
-					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getPunctuation());
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getPunctuation(),toAdd.get(toAddIndex));
 				}
-				//punctuation=true;
 			}
 			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.WORD_LENGTHS)){
-				//findWordLengths();
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
-				//	findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getWordLengths());
+				//	findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getWordLengths(),toAdd.get(toAddIndex));
 				}
-				//wordLength=true;
 			}
 			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.DIGITS)){
 				//findDigits();
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
-					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getDigits());
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getDigits(),toAdd.get(toAddIndex));
 				}
 				//digits=true;
 			}
 			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.MISSPELLED_WORDS)){
 				//findMisspelledWords();
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
-					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getMisspelledWords());
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getMisspelledWords(),toAdd.get(toAddIndex));
 				}
 				//misspelled=true;
+			}
+			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.SPECIAL_CHARACTERS)){
+				//findSpecialChars();
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getSpecialChars(),toAdd.get(toAddIndex));
+				}
+				//specialChars=true;
 			}
 			
 		}
 				
 	}
-	private void findAttribute(HashMap<String,Integer> hashMap) {
+	private void findAttribute(HashMap<String,Integer> hashMap,Triple toAddTriple) {
 		while(hashMap.keySet().iterator().hasNext()){
 			Word newWord=new Word(hashMap.keySet().iterator().next());
-			newWord.rank=hashMap.get(newWord.word).intValue();
+			newWord.adjustVals(hashMap.get(newWord.word).intValue(), toAddTriple.getInfoGain());
+			//newWord.rank=hashMap.get(newWord.word).intValue();
+			//newWord.infoGainSum=toAddTriple.getInfoGain();
 			addToHashMap(wordsToAdd,newWord);
 		}
 	}
@@ -155,107 +190,6 @@ public class ConsolidationStation {
 			addToHashMap(wordsToAdd,newWord);
 		}
 	}*/
-	private void findFunctionWords() {
-		int attribIndex,taggedDocsIndex,sentenceIndex;
-		HashMap<String,Integer>functionWords;
-		for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){//loops through documents
-			functionWords=otherSampleTaggedDocs.get(taggedDocsIndex).getFunctionWords();
-			while(functionWords.keySet().iterator().hasNext()){
-				Word newWord=new Word(functionWords.keySet().iterator().next());
-				newWord.rank=functionWords.get(newWord.word).intValue();
-				addToHashMap(wordsToAdd,newWord);
-			}
-		}
-	}
-	private void findPunctuation() {
-		int attribIndex,taggedDocsIndex,sentenceIndex;
-		HashMap<String,Integer>punctuation;
-		for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){//loops through documents
-			punctuation=otherSampleTaggedDocs.get(taggedDocsIndex).getPunctuation();
-			while(punctuation.keySet().iterator().hasNext()){
-				Word newWord=new Word(punctuation.keySet().iterator().next());
-				newWord.rank=punctuation.get(newWord.word).intValue();
-				addToHashMap(wordsToAdd,newWord);
-			}
-		}
-	}
-
-
-	private void findWordGrams(){
-		int attribIndex,taggedDocsIndex,sentenceIndex,wordIndex;
-		//This will parse through the individual sentences
-		
-		for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){//loops through documents
-			ArrayList<TaggedSentence> tagSentences=otherSampleTaggedDocs.get(taggedDocsIndex).getTaggedSentences();
-			for(sentenceIndex=0;sentenceIndex<tagSentences.size();sentenceIndex++){//loopsThrough sentences in each doc
-				TaggedSentence tagged=tagSentences.get(sentenceIndex);
-				for(wordIndex=1;wordIndex<tagged.tagged.size();wordIndex++){//loops through words in sentences
-					Word wordBigram=makeWordBigram(tagged.tagged.get(wordIndex-1).word(),tagged.tagged.get(wordIndex).word());
-					addToHashMap(wordsToAdd,wordBigram);
-					if(wordIndex-2>=0){
-						Word wordTrigram=makeWordTrigram(tagged.tagged.get(wordIndex-2).word(),tagged.tagged.get(wordIndex-1).word(),tagged.tagged.get(wordIndex).word());
-						addToHashMap(wordsToAdd,wordTrigram);
-					}
-					else {
-						Word wordGram=makeWordBigram(tagged.tagged.get(wordIndex-1).tag(),"");
-						addToHashMap(wordsToAdd,wordGram);
-					}
-					Word wordGram=makeWordBigram(tagged.tagged.get(wordIndex).tag(),"");
-					addToHashMap(wordsToAdd,wordGram);
-				}
-			}
-		}
-	}
-	private void findPOSGrams(){
-		int attribIndex,taggedDocsIndex,sentenceIndex,wordIndex;
-		//This will parse through the individual sentences
-		
-		for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){//loops through documents
-			ArrayList<TaggedSentence> tagSentences=otherSampleTaggedDocs.get(taggedDocsIndex).getTaggedSentences();
-			for(sentenceIndex=0;sentenceIndex<tagSentences.size();sentenceIndex++){//loopsThrough sentences in each doc
-				TaggedSentence tagged=tagSentences.get(sentenceIndex);
-				for(wordIndex=1;wordIndex<tagged.tagged.size();wordIndex++){//loops through words in sentences
-					Word wordBigram=makeWordBigram(tagged.tagged.get(wordIndex-1).tag(),tagged.tagged.get(wordIndex).tag());
-					addToHashMap(wordsToAdd,wordBigram);
-					if(wordIndex-2>=0){
-						Word wordTrigram=makeWordTrigram(tagged.tagged.get(wordIndex-2).tag(),tagged.tagged.get(wordIndex-1).tag(),tagged.tagged.get(wordIndex).tag());
-						addToHashMap(wordsToAdd,wordTrigram);
-					}
-					else{
-						Word wordGram=makeWordBigram(tagged.tagged.get(wordIndex-1).tag(),"");
-						addToHashMap(wordsToAdd,wordGram);
-					}
-					Word wordGram=makeWordBigram(tagged.tagged.get(wordIndex).tag(),"");
-					addToHashMap(wordsToAdd,wordGram);
-				}
-			}
-		}
-	}
-	private void findLetterGrams(){
-		int taggedDocsIndex,sentenceIndex,wordIndex,letterIndex;
-		//This will parse through the individual sentences
-		
-		for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){//loops through documents
-			ArrayList<TaggedSentence> tagSentences=otherSampleTaggedDocs.get(taggedDocsIndex).getTaggedSentences();
-			for(sentenceIndex=0;sentenceIndex<tagSentences.size();sentenceIndex++){//loopsThrough sentences in each doc
-				TaggedSentence tagged=tagSentences.get(sentenceIndex);
-				for(wordIndex=0;wordIndex<tagged.tagged.size();wordIndex++){//loops through words in sentences
-					char[] untaggedWord=tagged.tagged.get(wordIndex).word().toCharArray();
-					for(letterIndex=1;letterIndex<untaggedWord.length;letterIndex++){
-						Word letterBigram=makeWordBigram(untaggedWord[letterIndex-1]+"",untaggedWord[letterIndex]+"");
-						addToHashMap(wordsToAdd,letterBigram);
-						if(letterIndex-2>=0){
-							Word wordTrigram=makeWordTrigram(untaggedWord[letterIndex-2]+"",untaggedWord[letterIndex-1]+"",untaggedWord[letterIndex]+"");
-							addToHashMap(wordsToAdd,wordTrigram);
-						}
-					}
-				}
-			}
-		}
-	}
-	
-	
-
 
 	/**
 	 * Checks to see if the wordToAdd exists in the map. If it doesn't then it adds it. Otherwise it updates the 
@@ -276,48 +210,7 @@ public class ConsolidationStation {
 	}
 	
 	
-	/**
-	 * 
-	 * @param str1 the first string to make into a word
-	 * @param str2 the second string to make into a word
-	 * @return the newWord that represents the bigram
-	 */
-	private Word makeWordBigram(String str1, String str2) {
-		Word newWord = new Word(str1+str2);
-		newWord.infoGainSum=1;
-		newWord.rank=1;//I think this needs to be initialized to 1
-		newWord.numFeaturesIncluded=1;// I do not know what this is supposed to be
-		return newWord;
-	}
-	/**
-	 * 
-	 * @param str1 the first string to make into a word
-	 * @param str2 the second string to make into a word
-	 * @param str3 the third string to make into a word
-	 * @return the new word that represents the trigram
-	 */
-	private Word makeWordTrigram(String str1, String str2,String str3) {
-		Word newWord = new Word(str1+str2+str3);
-		newWord.infoGainSum=1;
-		newWord.rank=1;//I htink this needs to be initialized to 1
-		newWord.numFeaturesIncluded=1;// I do not know what this is supposed to be
-		return newWord;
-	}
-	
-	/**
-	 * Concatenates 2 words
-	 * @param word1 the first word
-	 * @param word2 the word concatenating onto the first
-	 * @return word1
-	 */
-	
-	private Word concatWords(Word word1, Word word2){
-		 word1.word=word1.word+word2.word;
-		 word1.numFeaturesIncluded+=word2.numFeaturesIncluded;
-		 word1.infoGainSum+=word2.infoGainSum;
-		 word1.rank+=word2.rank;
-		 return word1;
-	}
+	//Note: removed a lot of old code.
 	
 	public void findWordsToRemove(){
 		//TODO Should do the same as above, but ONLY with the toModifyTaggedDocs -- obviously in a separate hashmap.

@@ -2,6 +2,8 @@ package edu.drexel.psal.anonymouth.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.concurrent.locks.Lock;
 
 import edu.drexel.psal.anonymouth.projectDev.Attribute;
 import edu.drexel.psal.anonymouth.projectDev.FeatureList;
@@ -25,6 +27,7 @@ public class ConsolidationStation {
 	private static boolean allDocsTagged = false;
 	
 	private HashMap<String,Word>wordsToAdd;
+	private HashMap<String,Word>newWordsToAdd;
 	private HashMap<String,Word>wordsInDocToMod;
 	private HashMap<String,Word>wordsToRemove;
 	
@@ -39,6 +42,7 @@ public class ConsolidationStation {
 		toAdd = new ArrayList<Triple>(400);
 		toRemove = new ArrayList<Triple>(400);
 		wordsToAdd=new HashMap<String,Word>();
+		newWordsToAdd=new HashMap<String,Word>();
 		wordsInDocToMod=new HashMap<String,Word>();
 		wordsToRemove=new HashMap<String,Word>();
 	}
@@ -89,120 +93,172 @@ public class ConsolidationStation {
 			// If the hashmap contains the Word, read the value from the map, adjustVals, and replace it
 			// else, create new entry in hashmap
 		int taggedDocsIndex, toAddIndex;
-		
+		ArrayList<Runnable> threads=new ArrayList<Runnable>();
 		for(toAddIndex=0;toAddIndex<toAdd.size();toAddIndex++){//loops through toAddTriple
 			if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.WORD_BIGRAMS)){
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
 					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getWordBigrams(),toAdd.get(toAddIndex),wordsToAdd);
-					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getWordBigrams(),toAdd.get(toAddIndex),wordsInDocToMod);
+					//findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getWordBigrams(),toAdd.get(toAddIndex),wordsInDocToMod);
 				}
 			}
 			else if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.WORD_TRIGRAMS)){
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
 					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getWordTrigrams(),toAdd.get(toAddIndex),wordsToAdd);
-					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getWordTrigrams(),toAdd.get(toAddIndex),wordsInDocToMod);
+					//findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getWordTrigrams(),toAdd.get(toAddIndex),wordsInDocToMod);
 				}
 			}
 			else if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.WORDS)){
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
 					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getWords(),toAdd.get(toAddIndex),wordsToAdd);
-					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getWords(),toAdd.get(toAddIndex),wordsInDocToMod);
+					//findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getWords(),toAdd.get(toAddIndex),wordsInDocToMod);
 				}
 			}
-			else if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.POS_BIGRAMS)){
+			else if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.POS_BIGRAMS)){//thread
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
-					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getPOSBigrams(),toAdd.get(toAddIndex),wordsToAdd);
-					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getPOSBigrams(),toAdd.get(toAddIndex),wordsInDocToMod);
+					HashMap<String,Word> tempHashMap=new HashMap<String,Word>();
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getPOSBigrams(),toAdd.get(toAddIndex),tempHashMap);
+					//findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getPOSBigrams(),toAdd.get(toAddIndex),wordsInDocToMod);
+					Runnable csHelper=new ConsolidationStationHelper(wordsToAdd, tempHashMap);
+					threads.add(csHelper);
 				}
 			}
-			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.POS_TRIGRAMS)){
+			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.POS_TRIGRAMS)){//thread
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
-					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getPOSTrigrams(),toAdd.get(toAddIndex),wordsToAdd);
-					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getPOSTrigrams(),toAdd.get(toAddIndex),wordsInDocToMod);
+					HashMap<String,Word> tempHashMap=new HashMap<String,Word>();
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getPOSTrigrams(),toAdd.get(toAddIndex),tempHashMap);
+					//findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getPOSTrigrams(),toAdd.get(toAddIndex),wordsInDocToMod);
+					Runnable csHelper=new ConsolidationStationHelper(wordsToAdd, tempHashMap);
+					threads.add(csHelper);
 				}
 			}
-			else if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.POS_TAGS)){
+			else if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.POS_TAGS)){//thread
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
-					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getPOS(),toAdd.get(toAddIndex),wordsToAdd);
-					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getPOS(),toAdd.get(toAddIndex),wordsInDocToMod);
+					HashMap<String,Word> tempHashMap=new HashMap<String,Word>();
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getPOS(),toAdd.get(toAddIndex),tempHashMap);
+					//findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getPOS(),toAdd.get(toAddIndex),wordsInDocToMod);
+					Runnable csHelper=new ConsolidationStationHelper(wordsToAdd, tempHashMap);
+					threads.add(csHelper);
 				}
 			}
 			else if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.LETTERS)){//what is letterNGrams?
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
-					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getLetters(),toAdd.get(toAddIndex),wordsToAdd);
-					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getLetters(),toAdd.get(toAddIndex),wordsInDocToMod);
+					HashMap<String,Word> tempHashMap=new HashMap<String,Word>();
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getLetters(),toAdd.get(toAddIndex),tempHashMap);
+					//findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getLetters(),toAdd.get(toAddIndex),wordsInDocToMod);
+					Runnable csHelper=new ConsolidationStationHelper(wordsToAdd, tempHashMap);
+					threads.add(csHelper);
 				}
 			}
 			else if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.TOP_LETTER_BIGRAMS)){
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
-					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getLetterBigrams(),toAdd.get(toAddIndex),wordsToAdd);
-					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getLetterBigrams(),toAdd.get(toAddIndex),wordsInDocToMod);
+					HashMap<String,Word> tempHashMap=new HashMap<String,Word>();
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getLetterBigrams(),toAdd.get(toAddIndex),tempHashMap);
+					//findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getLetterBigrams(),toAdd.get(toAddIndex),wordsInDocToMod);
+					Runnable csHelper=new ConsolidationStationHelper(wordsToAdd, tempHashMap);
+					threads.add(csHelper);
+					
 				}
 			}
 			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.TOP_LETTER_TRIGRAMS)){
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
-					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getLetterTrigrams(),toAdd.get(toAddIndex),wordsToAdd);
-					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getLetterTrigrams(),toAdd.get(toAddIndex),wordsInDocToMod);
+					HashMap<String,Word> tempHashMap=new HashMap<String,Word>();
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getLetterTrigrams(),toAdd.get(toAddIndex),tempHashMap);
+					//findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getLetterTrigrams(),toAdd.get(toAddIndex),wordsInDocToMod);
+					Runnable csHelper=new ConsolidationStationHelper(wordsToAdd, tempHashMap);
+					threads.add(csHelper);
 				}
 			}
 			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.FUNCTION_WORDS)){
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
 					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getFunctionWords(),toAdd.get(toAddIndex),wordsToAdd);
-					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getFunctionWords(),toAdd.get(toAddIndex),wordsInDocToMod);
+					//findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getFunctionWords(),toAdd.get(toAddIndex),wordsInDocToMod);
 				}
 			}
 			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.PUNCTUATION)){
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
 					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getPunctuation(),toAdd.get(toAddIndex),wordsToAdd);
-					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getPunctuation(),toAdd.get(toAddIndex),wordsInDocToMod);
+					//findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getPunctuation(),toAdd.get(toAddIndex),wordsInDocToMod);
 				}
 			}
-			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.WORD_LENGTHS)){
+			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.WORD_LENGTHS)){//thread
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
-				//	findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getWordLengths(),toAdd.get(toAddIndex),wordsToAdd);
+					HashMap<Integer,Word> tempHashMap=new HashMap<Integer,Word>();
+					findAttributeLength(otherSampleTaggedDocs.get(taggedDocsIndex).getWordLengths(),toAdd.get(toAddIndex),tempHashMap);
+					Runnable csHelper=new ConsolidationStationHelper(wordsToAdd, tempHashMap,true);
+					threads.add(csHelper);
 				}
 			}
 			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.DIGITS)){
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
 					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getDigits(),toAdd.get(toAddIndex),wordsToAdd);
-					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getDigits(),toAdd.get(toAddIndex),wordsInDocToMod);
+					//findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getDigits(),toAdd.get(toAddIndex),wordsInDocToMod);
 				}
 			}
 			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.MISSPELLED_WORDS)){
 				//findMisspelledWords();
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
 					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getMisspelledWords(),toAdd.get(toAddIndex),wordsToAdd);
-					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getMisspelledWords(),toAdd.get(toAddIndex),wordsInDocToMod);
+					//findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getMisspelledWords(),toAdd.get(toAddIndex),wordsInDocToMod);
 				}
 			}
 			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.SPECIAL_CHARACTERS)){
 				//findSpecialChars();
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
 					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getSpecialChars(),toAdd.get(toAddIndex),wordsToAdd);
-					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getSpecialChars(),toAdd.get(toAddIndex),wordsInDocToMod);
+					//findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getSpecialChars(),toAdd.get(toAddIndex),wordsInDocToMod);
 				}
 			}
 			
 		}
+		ArrayList<Thread>startedThreads=new ArrayList<Thread>();
+		for (int i=0;i<threads.size();i++){//starts threads
+			Thread t=new Thread(threads.get(i));
+			t.start();
+			startedThreads.add(t);
+		}
+		for (int i=0;i<startedThreads.size();i++){
+			try {
+				startedThreads.get(i).join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		//compareMaps(wordsToAdd,wordsInDocToMod);
 				
 	}
 	private void findAttribute(HashMap<String,Integer> hashMap,Triple toAddTriple,HashMap<String,Word> listToAddTo) {
-		while(hashMap.keySet().iterator().hasNext()){
+		Iterator iter=hashMap.keySet().iterator();
+		while(iter.hasNext()){
 			Word newWord=new Word(hashMap.keySet().iterator().next());
 			newWord.adjustVals(hashMap.get(newWord.word).intValue(), toAddTriple.getInfoGain());
-			//newWord.rank=hashMap.get(newWord.word).intValue();
-			//newWord.infoGainSum=toAddTriple.getInfoGain();
 			addToHashMap(listToAddTo,newWord);
 		}
 	}
-	/*private void findAttribute(HashMap<Integer,Integer> hashMap) {
-		while(hashMap.keySet().iterator().hasNext()){
-			Word newWord=new Word(hashMap.keySet().iterator().next());
-			newWord.rank=hashMap.get(newWord.word).intValue();
-			addToHashMap(wordsToAdd,newWord);
+	private void findAttributeLength(HashMap<Integer,Integer> hashMap,Triple toAddTriple,HashMap<Integer,Word> listToAddTo) {
+		Iterator iter=hashMap.keySet().iterator();
+		while(iter.hasNext()){
+			Integer integer=(Integer) iter.next();
+			Word newWord=new Word(integer);
+			newWord.adjustVals(hashMap.get(newWord.word).intValue(), toAddTriple.getInfoGain());
+			if (listToAddTo.containsKey(newWord.word)){
+				listToAddTo.get(newWord.word).adjustVals(newWord.rank, newWord.infoGainSum);
+			}
+			else{
+				listToAddTo.put(integer, newWord);
+			}
 		}
-	}*/
-
+	}
+	
+	private HashMap<String,Word> compareMaps(HashMap<String,Word> hashmap1, HashMap<String,Word>hashmap2){
+		HashMap<String,Word> newHashMap=new HashMap<String,Word>();
+		while(hashmap1.keySet().iterator().hasNext()){
+			
+		}	
+		return newHashMap;
+	}
+	
+	
 	/**
 	 * Checks to see if the wordToAdd exists in the map. If it doesn't then it adds it. Otherwise it updates the 
 	 * word at that location to have more weight
@@ -221,13 +277,109 @@ public class ConsolidationStation {
 		}		
 	}
 	
-	
 	//Note: removed a lot of old code.
 	
 	public void findWordsToRemove(){
 		//TODO Should do the same as above, but ONLY with the toModifyTaggedDocs -- obviously in a separate hashmap.
-	}
-	
-	
+		int taggedDocsIndex,toRemIndex;
+		
+		for(toRemIndex=0;toRemIndex<toAdd.size();toRemIndex++){//loops through toAddTriple
+			if(toAdd.get(toRemIndex).getFeatureName().equals(FeatureList.WORD_BIGRAMS)){
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getWordBigrams(),toAdd.get(toRemIndex),wordsToRemove);
+					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getWordBigrams(),toAdd.get(toRemIndex),wordsInDocToMod);
+				}
+			}
+			else if(toAdd.get(toRemIndex).getFeatureName().equals(FeatureList.WORD_TRIGRAMS)){
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getWordTrigrams(),toAdd.get(toRemIndex),wordsToRemove);
+					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getWordTrigrams(),toAdd.get(toRemIndex),wordsInDocToMod);
+				}
+			}
+			else if(toAdd.get(toRemIndex).getFeatureName().equals(FeatureList.WORDS)){
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getWords(),toAdd.get(toRemIndex),wordsToRemove);
+					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getWords(),toAdd.get(toRemIndex),wordsInDocToMod);
+				}
+			}
+			else if(toAdd.get(toRemIndex).getFeatureName().equals(FeatureList.POS_BIGRAMS)){
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getPOSBigrams(),toAdd.get(toRemIndex),wordsToRemove);
+					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getPOSBigrams(),toAdd.get(toRemIndex),wordsInDocToMod);
+				}
+			}
+			else if (toAdd.get(toRemIndex).getFeatureName().equals(FeatureList.POS_TRIGRAMS)){
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getPOSTrigrams(),toAdd.get(toRemIndex),wordsToRemove);
+					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getPOSTrigrams(),toAdd.get(toRemIndex),wordsInDocToMod);
+				}
+			}
+			else if(toAdd.get(toRemIndex).getFeatureName().equals(FeatureList.POS_TAGS)){
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getPOS(),toAdd.get(toRemIndex),wordsToRemove);
+					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getPOS(),toAdd.get(toRemIndex),wordsInDocToMod);
+				}
+			}
+			else if(toAdd.get(toRemIndex).getFeatureName().equals(FeatureList.LETTERS)){//what is letterNGrams?
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getLetters(),toAdd.get(toRemIndex),wordsToRemove);
+					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getLetters(),toAdd.get(toRemIndex),wordsInDocToMod);
+				}
+			}
+			else if(toAdd.get(toRemIndex).getFeatureName().equals(FeatureList.TOP_LETTER_BIGRAMS)){
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getLetterBigrams(),toAdd.get(toRemIndex),wordsToRemove);
+					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getLetterBigrams(),toAdd.get(toRemIndex),wordsInDocToMod);
+				}
+			}
+			else if (toAdd.get(toRemIndex).getFeatureName().equals(FeatureList.TOP_LETTER_TRIGRAMS)){
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getLetterTrigrams(),toAdd.get(toRemIndex),wordsToRemove);
+					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getLetterTrigrams(),toAdd.get(toRemIndex),wordsInDocToMod);
+				}
+			}
+			else if (toAdd.get(toRemIndex).getFeatureName().equals(FeatureList.FUNCTION_WORDS)){
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getFunctionWords(),toAdd.get(toRemIndex),wordsToRemove);
+					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getFunctionWords(),toAdd.get(toRemIndex),wordsInDocToMod);
+				}
+			}
+			else if (toAdd.get(toRemIndex).getFeatureName().equals(FeatureList.PUNCTUATION)){
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getPunctuation(),toAdd.get(toRemIndex),wordsToRemove);
+					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getPunctuation(),toAdd.get(toRemIndex),wordsInDocToMod);
+				}
+			}
+			else if (toAdd.get(toRemIndex).getFeatureName().equals(FeatureList.WORD_LENGTHS)){
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+				//	findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getWordLengths(),toAdd.get(toRemIndex),wordsToRemove);
+				}
+			}
+			else if (toAdd.get(toRemIndex).getFeatureName().equals(FeatureList.DIGITS)){
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getDigits(),toAdd.get(toRemIndex),wordsToRemove);
+					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getDigits(),toAdd.get(toRemIndex),wordsInDocToMod);
+				}
+			}
+			else if (toAdd.get(toRemIndex).getFeatureName().equals(FeatureList.MISSPELLED_WORDS)){
+				//findMisspelledWords();
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getMisspelledWords(),toAdd.get(toRemIndex),wordsToRemove);
+					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getMisspelledWords(),toAdd.get(toRemIndex),wordsInDocToMod);
+				}
+			}
+			else if (toAdd.get(toRemIndex).getFeatureName().equals(FeatureList.SPECIAL_CHARACTERS)){
+				//findSpecialChars();
+				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
+					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getSpecialChars(),toAdd.get(toRemIndex),wordsToRemove);
+					findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getSpecialChars(),toAdd.get(toRemIndex),wordsInDocToMod);
+				}
+			}
+			
+		}
+		
+		//compareMaps(wordsToAdd,wordsInDocToMod);
+				
+	}	
 
 }

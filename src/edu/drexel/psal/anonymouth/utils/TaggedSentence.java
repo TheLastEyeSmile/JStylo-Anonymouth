@@ -124,13 +124,13 @@ public class TaggedSentence {
 				if(wordToSearch.find()){
 					String digitSubStr=temp.word().substring(wordToSearch.start(), wordToSearch.end());
 					for (int count=0;count<digitSubStr.length();count++){
-						if(count-2>=0){
+						/*if(count-2>=0){
 							digits.add(digitSubStr.substring(count-2, count));
 							digits.add(digitSubStr.substring(count-1, count));
 						}
 						else if(count-1>=0){
 							digits.add(digitSubStr.substring(count-1, count));
-						}
+						}*///not sure if necessary...digits bi/trigrams
 						digits.add(digitSubStr.substring(count, count));
 					}	
 				}	

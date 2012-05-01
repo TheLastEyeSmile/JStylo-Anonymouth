@@ -22,7 +22,12 @@ public class Word {
 		this.word = word;
 	}
 	
-	
+	public Word(Integer integer) {
+		// TODO Auto-generated constructor stub
+		word=integer.toString();
+	}
+
+
 	/**
 	 * the method to use to add or subtract from a Word's rank
 	 * @param changeToRank the amount to change the rank by (should be equal in magnitude to the number of times a feature appears in the Word's String

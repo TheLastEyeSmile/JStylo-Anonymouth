@@ -78,7 +78,6 @@ public class TaggedDocument {
 	private HashMap<String,Integer> letterBigrams= new HashMap<String,Integer>();
 	private HashMap<String,Integer> letterTrigrams= new HashMap<String,Integer>();
 	
-	
 	private HashMap<Integer,Integer> wordLengths= new HashMap<Integer,Integer>();
 	
 	/**
@@ -383,7 +382,7 @@ public class TaggedDocument {
 			setHashMap(finalHashMap,keySetIter.next().toString());//make sure to check this and that its doing the proper thing.
 		}
 	}
-	private void setHashMap(HashMap <Integer,Integer> hashMap, Integer key){
+	private void setHashMap(HashMap <String,Integer> hashMap, String key){
 		if(hashMap.containsKey(key)){
 			hashMap.put(key, (hashMap.get(key).intValue()+1));
 		}
@@ -391,7 +390,7 @@ public class TaggedDocument {
 			hashMap.put(key, 1);
 		}
 	}
-	private void setHashMap(HashMap <String,Integer> hashMap, String key){
+	private void setHashMap(HashMap <Integer,Integer> hashMap, Integer key){
 		if(hashMap.containsKey(key)){
 			hashMap.put(key, (hashMap.get(key).intValue()+1));
 		}

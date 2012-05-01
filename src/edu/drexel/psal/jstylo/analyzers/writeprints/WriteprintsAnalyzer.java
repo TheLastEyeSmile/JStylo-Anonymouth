@@ -1,6 +1,9 @@
 package edu.drexel.psal.jstylo.analyzers.writeprints;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.URL;
 import java.util.*;
 
@@ -12,10 +15,7 @@ import com.jgaap.generics.*;
 import weka.attributeSelection.InfoGainAttributeEval;
 import weka.classifiers.*;
 import weka.core.Attribute;
-import weka.core.FastVector;
-import weka.core.Instance;
 import weka.core.Instances;
-import edu.drexel.psal.JSANConstants;
 import edu.drexel.psal.jstylo.generics.*;
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.SynsetType;
@@ -56,7 +56,12 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 * Whether to average all feature vectors per author ending up with one feature vector
 	 * or not. Increases performance but may reduce accuracy.
 	 */
-	private boolean averageFeatureVectors = true;
+	private boolean averageFeatureVectors = false;
+	
+	/**
+	 * Local logger
+	 */
+	protected static MultiplePrintStream log = new MultiplePrintStream();
 	
 	/* ==========
 	 * operations
@@ -66,11 +71,13 @@ public class WriteprintsAnalyzer extends Analyzer {
 	@Override
 	public Map<String,Map<String, Double>> classify(Instances trainingSet,
 			Instances testSet, List<Document> unknownDocs) {
+		log.println(">>> classify started");
 		
 		/* ========
 		 * LEARNING
 		 * ========
 		 */
+		log.println("> Learning");
 		
 		// initialize features, basis and writeprint matrices
 		Attribute classAttribute = trainingSet.classAttribute();
@@ -78,45 +85,36 @@ public class WriteprintsAnalyzer extends Analyzer {
 		String authorName;
 		AuthorWPData authorData;
 		// training set
+		log.println("Initializing training authors data:");
 		for (int i = 0; i < numAuthors; i++) {
 			authorName = classAttribute.value(i);
 			authorData = new AuthorWPData(authorName);
-			//authorData.initFeatureProbabilities();
+			log.println("- " + authorName);
 			authorData.initFeatureMatrix(trainingSet, averageFeatureVectors);
 			trainAuthorData.add(authorData);
 			authorData.initBasisAndWriteprintMatrices();
 		}
 		// test set
 		int numTestInstances = testSet.numInstances();
+		log.println("Initializing test authors data (author per test document):");
 		for (int i = 0; i < numTestInstances; i++) {
-			authorName = TEST_AUTHOR_NAME_PREFIX + (unknownDocs == null ?
+			authorName = TEST_AUTHOR_NAME_PREFIX +
+					String.format("%03d", i) + "_" +
+					(unknownDocs == null ?
 					testSet.instance(i).stringValue(classAttribute) :
 					unknownDocs.get(i).getTitle());
 			authorData = new AuthorWPData(authorName);
-			//authorData.initFeatureProbabilities();
+			log.println("- " + authorName);
 			authorData.initFeatureMatrix(testSet, i, averageFeatureVectors);
 			testAuthorData.add(authorData);				
 			authorData.initBasisAndWriteprintMatrices();
 		}
 		
-		// initialize the posterior probability p(c|j)
-		// for the training authors only
-		/*
-		double[] totalProbability = new double[numFeatures];
-		for (int j = 0; j < numFeatures; j++)
-			for (AuthorWPData ad: trainAuthorData)
-				totalProbability[j] += ad.featureProbabilities[j];
-		for (AuthorWPData ad: trainAuthorData)
-			ad.initPosteriorProbabilities(totalProbability);
-		
-		// calculate information-gain
-		double[] IG = calcInfoGain(numFeatures, trainAuthorData);
-		*/
-		
 		// initialize result set
 		results = new HashMap<String,Map<String,Double>>(trainAuthorData.size());
 		
-		// calculate information-gain over only the training authors set
+		// calculate information-gain over only training authors
+		log.println("Calculating information gain over training authors data");
 		double[] IG = null;
 		int numFeatures = trainingSet.numAttributes() - 1;
 		try {
@@ -126,8 +124,9 @@ public class WriteprintsAnalyzer extends Analyzer {
 			e.printStackTrace();
 			return null;
 		}
-
+		
 		// initialize synonym count mapping
+		log.println("Initializing word synonym count");
 		Map<Integer,Integer> wordsSynCount = calcSynonymCount(trainingSet,numFeatures);
 		
 		
@@ -135,44 +134,53 @@ public class WriteprintsAnalyzer extends Analyzer {
 		 * TESTING
 		 * =======
 		 */
+		log.println("> Testing");
 		
 		Matrix testPattern, trainPattern;
-		double dist1, dist2;
+		double dist1, dist2, totalDist;
+		AuthorWPData testDataCopy, trainDataCopy;
 		for (AuthorWPData testData: testAuthorData) {
 			Map<String,Double> testRes = new HashMap<String,Double>();
+			log.println("Test author: " + testData.authorName + ":");
 			for (AuthorWPData trainData: trainAuthorData) {
 				// initialize zero-frequency features
-				testData.initBasisMatrix();
-				trainData.initBasisMatrix();
+				//testData.initBasisAndWriteprintMatrix();
+				//trainData.initBasisAndWriteprintMatrix();
+				
+				testDataCopy = testData.halfClone();
+				trainDataCopy = trainData.halfClone();
 				
 				// compute pattern matrices BEFORE adding pattern disruption
 				testPattern = AuthorWPData.generatePattern(trainData, testData);
 				trainPattern = AuthorWPData.generatePattern(testData, trainData);
 				
 				// add pattern disruptions
-				testData.addPatternDisruption(trainData, IG, wordsSynCount, trainPattern);
-				trainData.addPatternDisruption(testData, IG, wordsSynCount, testPattern);
-				testData.addPatternDisruption(trainData, IG, wordsSynCount, trainPattern);
+				testDataCopy.addPatternDisruption(trainData, IG, wordsSynCount, trainPattern);
+				trainDataCopy.addPatternDisruption(testData, IG, wordsSynCount, testPattern);
 				
 				// compute pattern matrices AFTER adding pattern disruption
-				testPattern = AuthorWPData.generatePattern(trainData, testData);
-				trainPattern = AuthorWPData.generatePattern(testData, trainData);
+				testPattern = AuthorWPData.generatePattern(trainDataCopy, testDataCopy);
+				trainPattern = AuthorWPData.generatePattern(testDataCopy, trainDataCopy);
 				
 				// compute distances
-				dist1 = sumEuclideanDistance(testPattern, trainData.writeprint);
-				dist2 = sumEuclideanDistance(trainPattern, testData.writeprint);
-				
+				dist1 = sumEuclideanDistance(testPattern, trainDataCopy.writeprint);
+				dist2 = sumEuclideanDistance(trainPattern, testDataCopy.writeprint);
+				totalDist = - (dist1 + dist2);
 				// save the inverse to maintain the smallest distance as the best fit
-				testRes.put(trainData.authorName, -(dist1 + dist2));
+				testRes.put(trainData.authorName, totalDist);
+				log.println("- " + trainData.authorName + ": " + totalDist);
 			}
 			results.put(testData.authorName,testRes);
 		}
+		log.println(">>> classify finished");
 		return results;
 	}
 
 	@Override
 	public Evaluation runCrossValidation(Instances data, int folds,
 			long randSeed) {
+		log.println(">>> runCrossValidation started");
+		
 		// setup
 		data.setClass(data.attribute("authorName"));
 		Instances randData = new Instances(data);
@@ -188,14 +196,15 @@ public class WriteprintsAnalyzer extends Analyzer {
 		double max;
 		String selected;
 		for (int n = 0; n < folds; n++) {
+			log.println("Running fold " + (n + 1) + " out of " + folds);
 			Instances train = randData.trainCV(folds, n);
 			Instances test = randData.testCV(folds, n);
 			// build and evaluate classifier
 			results = classify(train, test, null);
 			success = 0;
-			max = Double.NEGATIVE_INFINITY;
 			selected = null;
 			for (String testInstAuthor: results.keySet()) {
+				max = Double.NEGATIVE_INFINITY;
 				instResults = results.get(testInstAuthor);
 				for (String key: instResults.keySet()) {
 					if (max < instResults.get(key)) {
@@ -203,17 +212,19 @@ public class WriteprintsAnalyzer extends Analyzer {
 						selected = key;
 					}
 				}
-				if (testInstAuthor.replace(TEST_AUTHOR_NAME_PREFIX, "").equals(selected))
+				log.println(testInstAuthor + ": " + selected);
+				if (testInstAuthor.replaceFirst(TEST_AUTHOR_NAME_PREFIX + "\\d+_", "").equals(selected))
 					success++;
 			}
 			success = 100 * success / results.size();
-			System.out.printf("- Accuracy for fold %d: %.2f\n", n, success);
+			log.printf("- Accuracy for fold %d: %.2f\n", n, success);
 			total += success;
 		}
 		total /= folds;
-		System.out.println("========================");
-		System.out.printf("Total Accuracy: %.2f\n", total);
-
+		log.println("========================");
+		log.printf("Total Accuracy: %.2f\n", total);
+		
+		log.println(">>> runCrossValidation finished");
 		return null;
 	}
 	
@@ -330,137 +341,28 @@ public class WriteprintsAnalyzer extends Analyzer {
 			return content.split("\\)-\\(");
 		}
 	}
-		
-	/**
-	 * Calculates the Information-Gain for each feature, defined as
-	 * <code>IG(c,j) = H(c) - H(c|j)</code> where
-	 * <code>H(c)</code> and <code>H(c|j)</code> are the overall entropy across
-	 * author classes and the conditional entropy for feature <code>j</code>,
-	 * respectively.
-	 * @param numFeatures
-	 * 		The total number of features <code>j</code>.
-	 * @param trainAuthorData
-	 * 		The training author data.
-	 * @return
-	 * 		The vector of Information-Gain per feature.
-	 */
-	/*
-	private static double[] calcInfoGain(int numFeatures, List<AuthorWPData> trainAuthorData) {
-		double[] infoGain = new double[numFeatures];
-		int numAuthors = trainAuthorData.size();
-
-		// total entropy
-		double p = 1 / numAuthors;
-		double totalEntropy = - (numAuthors * p * log2(p));
-
-		double conditionalEntropy, f;
-		for (int j = 0; j < numFeatures; j++) {
-			// conditional entropy
-			conditionalEntropy = 0;
-			for (AuthorWPData ad: trainAuthorData) {
-				f = ad.posteriorProbabilities[j];
-				conditionalEntropy -= f * log2(f);
-			}
-			
-			// information gain
-			infoGain[j] = totalEntropy - conditionalEntropy;
-		}
-		
-		return infoGain;
-	}
-	*/
 	
 	/**
 	 * Calculates and returns the information gain vector for all features
-	 * based only on the training authors data in the given training set
-	 * (i.e. excluding test authors data).
+	 * based on the given training set.
 	 * @param trainingSet
-	 * 		The training set (containing both training and test authors data).
+	 * 		The training set to calculate information gain on.
 	 * @param numFeatures
 	 * 		The number of features.
 	 * @return
-	 * 		The information gain vector for all features based only on the
-	 * 		the training authors data in the given training set.
+	 * 		The information gain vector for all features based on the given
+	 * 		training set.
 	 * @throws Exception
 	 * 		If an error is encountered during information gain evaluation.
 	 */
 	private static double[] calcInfoGain(Instances trainingSet, int numFeatures) throws Exception {		
-		Instances train = getTrainOnlyData(trainingSet, TEST_AUTHOR_NAME_PREFIX);
 		InfoGainAttributeEval ig = new InfoGainAttributeEval();
-		ig.buildEvaluator(train);
+		ig.buildEvaluator(trainingSet);
 		double[] IG = new double[numFeatures];
 		for (int j = 0; j < numFeatures; j++)
 			IG[j] = ig.evaluateAttribute(j);
 		return IG;
 	}
-
-	/**
-	 * Removes all test data (classes and instances) from the given training set,
-	 * by removing all data of authors with name beginning with the given prefix.
-	 * @param trainingSet
-	 * 		The training data to filter.
-	 * @param testAuthorsNamePrefix
-	 * 		Test authors name prefix.
-	 * @return
-	 * 		The filtered data, containing only training authors and instances.
-	 */
-	private static Instances getTrainOnlyData(Instances trainingSet, String testAuthorsNamePrefix) {
-		// attributes
-		FastVector newAttributes = new FastVector(trainingSet.numAttributes());
-		int numAttributes = trainingSet.numAttributes();
-		for (int i = 0; i < numAttributes - 1; i++)
-			newAttributes.addElement(trainingSet.attribute(i));
-		Attribute classAttribute = trainingSet.classAttribute();
-		int numAuthors = classAttribute.numValues();
-		FastVector newClassVector = new FastVector();
-		String authorName;
-		Set<Double> testAuthorIndices = new HashSet<Double>();
-		for (int i = 0; i < numAuthors; i++) {
-			authorName = classAttribute.value(i);
-			if (authorName.startsWith(testAuthorsNamePrefix))
-				testAuthorIndices.add(new Double(i));
-			else
-				newClassVector.addElement(authorName);
-		}
-		Attribute newClassAttribute = new Attribute(classAttribute.name(), newClassVector);
-		newAttributes.addElement(newClassAttribute);
-		Instances train = new Instances(
-				trainingSet.relationName(),
-				newAttributes,
-				0);
-		train.setClassIndex(train.numAttributes() - 1);
-		// instances
-		int numInstances = trainingSet.numInstances();
-		Instance originalInst;
-		double[] originalValues;
-		int newClassIndex;
-		for (int i = 0; i < numInstances; i++) {
-			originalInst = trainingSet.instance(i);
-			if (testAuthorIndices.contains(originalInst.classValue()))
-				continue; // skip test authors instances
-			originalValues = originalInst.toDoubleArray();
-			newClassIndex = newClassAttribute.indexOfValue(
-					classAttribute.value((int)(originalValues[numAttributes - 1])));
-			originalValues[numAttributes - 1] = newClassIndex;
-			train.add(new Instance(originalInst.weight(), originalValues));
-		}
-
-		return train;
-	}
-	
-	/*
-	/**
-	 * Calculates the logarithm base 2 of the given number.
-	 * @param x
-	 * 		The input number.
-	 * @return
-	 * 		The logarithm base 2 of the given number.
-	 */
-	/*
-	private static double log2(double x) {
-		return Math.log10(x)/Math.log10(2);
-	}
-	*/
 	
 	/**
 	 * Returns the average of the Euclidean distance between every 
@@ -502,9 +404,14 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception {
+		// initialize log
+		PrintStream logPS = new PrintStream(new File("./log/" + MultiplePrintStream.getLogFilename()));
+		log = new MultiplePrintStream(System.out, logPS);
+		
 		WriteprintsAnalyzer wa = new WriteprintsAnalyzer();
-		//ProblemSet ps = new ProblemSet(JSANConstants.JSAN_PROBLEMSETS_PREFIX + "drexel_1_train_test.xml");
+		/*
 		ProblemSet ps = new ProblemSet(JSANConstants.JSAN_PROBLEMSETS_PREFIX + "drexel_1.xml");
+		//ProblemSet ps = new ProblemSet(JSANConstants.JSAN_PROBLEMSETS_PREFIX + "amt.xml");
 		CumulativeFeatureDriver cfd =
 				new CumulativeFeatureDriver(JSANConstants.JSAN_FEATURESETS_PREFIX + "writeprints_feature_set_limited.xml");
 		WekaInstancesBuilder wib = new WekaInstancesBuilder(false);
@@ -532,6 +439,10 @@ public class WriteprintsAnalyzer extends Analyzer {
 		
 		Instances train = wib.getTrainingSet();
 		Instances test = wib.getTestSet();
+		WekaInstancesBuilder.writeSetToARFF("d:/tmp/drexel_1_train.arff", train);
+		System.exit(0);
+		*/
+		Instances train = new Instances(new FileReader(new File("d:/tmp/drexel_1_train.arff")));
 		
 		// classify
 		/*
@@ -559,6 +470,6 @@ public class WriteprintsAnalyzer extends Analyzer {
 		*/
 		
 		// cross-validation
-		wa.runCrossValidation(trainingSet, 10, 0);
+		wa.runCrossValidation(train, 10, 0);
 	}
 }

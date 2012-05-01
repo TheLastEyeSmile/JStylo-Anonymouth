@@ -29,11 +29,9 @@ public class AuthorWPData {
 	protected double[] featureAverages;
 	protected List<Integer> zeroFeatures;
 	protected Matrix basisMatrix;
-	protected Matrix originalBasisMatrix;
+	//protected Matrix originalBasisMatrix;
 	protected Matrix writeprint;
-	protected Matrix originalWriteprint;
-	//protected double[] featureProbabilities;
-	//protected double[] posteriorProbabilities;
+	//protected Matrix originalWriteprint;
 	
 	// constructor
 	
@@ -187,9 +185,9 @@ public class AuthorWPData {
 		 * 		and calculate the principal component matrix - the author's writeprint*/
 		EigenvalueDecomposition eigenvalues = COV.eig();
 		basisMatrix = eigenvalues.getV();
-		originalBasisMatrix = new Matrix(basisMatrix.getArrayCopy());
+		//originalBasisMatrix = new Matrix(basisMatrix.getArrayCopy());
 		writeprint = basisMatrix.transpose().times(X_minus_MU);
-		originalWriteprint = new Matrix(writeprint.getArrayCopy());
+		//originalWriteprint = new Matrix(writeprint.getArrayCopy());
 	}
 	
 	/**
@@ -279,51 +277,46 @@ public class AuthorWPData {
 		return sum / numCols;
 	}
 	
+	/*
 	/**
 	 * Initializes all zero-frequency indices in the basis matrix to the original
 	 * values (before any pattern-disruption value changes).
 	 */
-	public void initBasisMatrix() {
+	/*
+	public void initBasisAndWriteprintMatrix() {
 		basisMatrix = new Matrix(originalBasisMatrix.getArrayCopy());
 		writeprint = new Matrix(originalWriteprint.getArrayCopy());
 	}
-	
-	/*
-	/**
-	 * Initializes the feature probabilities vector for this given author.
-	 * For this class (author) <code>c</code> and feature <code>j</code>, the
-	 * probability calculated is <code>p(j|c)</code>.<br>
-	 * For increased performance, probabilities are calculated on the average feature
-	 * values vector. 
-	 */
-	/*
-	public void initFeatureProbabilities() {
-		double sum = 0;
-		for (int i = 0; i < numFeatures; i++)
-			sum += featureAverages[i];
-		featureProbabilities = new double[numFeatures];
-		for (int i = 0; i < numFeatures; i++)
-			featureProbabilities[i] = featureAverages[i] / sum;
-	}
-	
-	/**
-	 * Initializes the posterior probability vector for this given author.
-	 * For this class (author) <code>c</code> and feature <code>j</code>, the
-	 * posterior probability calculated is <code>p(c|j)</code>.
-	 * @param totalProbability
-	 * 		The vector <code>v</code> of the sum of probabilities such that
-	 * 		<code>v(j) = SUM{p(j|c)} over all training authors c</code>
-	 */
-	/*
-	public void initPosteriorProbabilities(double[] totalProbability) {
-		posteriorProbabilities = new double[numFeatures];
-		for (int i = 0; i < numFeatures; i++)
-			if (totalProbability[i] != 0)
-				posteriorProbabilities[i] =
-				featureProbabilities[i] / totalProbability[i];
-	}
 	*/
 	
+	@Override
+	protected AuthorWPData clone() {
+		AuthorWPData cloned = new AuthorWPData(authorName);
+		cloned.basisMatrix = new Matrix(basisMatrix.getArrayCopy());
+		cloned.featureAverages = Arrays.copyOf(featureAverages, featureAverages.length);
+		cloned.featureMatrix = new Matrix(featureMatrix.getArrayCopy());
+		cloned.numFeatures = numFeatures;
+		cloned.writeprint = new Matrix(writeprint.getArrayCopy());
+		cloned.zeroFeatures = new ArrayList<Integer>(zeroFeatures);
+		return cloned;
+	}
+	
+	/**
+	 * Clones only parts of this author data and shallow copies the rest.
+	 * Only the basis and writeprint matrices are deep-copied.
+	 * @return
+	 * 		The half-cloned author data.
+	 */
+	protected AuthorWPData halfClone() {
+		AuthorWPData halfCloned = new AuthorWPData(authorName);
+		halfCloned.basisMatrix = new Matrix(basisMatrix.getArrayCopy());
+		halfCloned.featureAverages = featureAverages;
+		halfCloned.featureMatrix = featureMatrix;
+		halfCloned.numFeatures = numFeatures;
+		halfCloned.writeprint = new Matrix(writeprint.getArrayCopy());
+		halfCloned.zeroFeatures = zeroFeatures;
+		return halfCloned;
+	}
 	
 	// ============================================================================================
 	// ============================================================================================

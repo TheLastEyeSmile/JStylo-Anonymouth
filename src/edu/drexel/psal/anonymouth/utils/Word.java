@@ -10,8 +10,8 @@ public class Word {
 	
 	protected String word;
 	protected int rank = 0; // start at neutral
-	protected double infoGainSum = 0;
-	protected double numFeaturesIncluded = 0;
+	protected double infoGainSum = 0;//weka calc//want the avg info gain. (I htink)
+	protected double numFeaturesIncluded = 0;//
 	
 	
 	/**
@@ -22,7 +22,12 @@ public class Word {
 		this.word = word;
 	}
 	
-	
+	public Word(Integer integer) {
+		// TODO Auto-generated constructor stub
+		word=integer.toString();
+	}
+
+
 	/**
 	 * the method to use to add or subtract from a Word's rank
 	 * @param changeToRank the amount to change the rank by (should be equal in magnitude to the number of times a feature appears in the Word's String
@@ -66,6 +71,8 @@ public class Word {
 		int hash = (int)longHash;
 		return hash;
 	}
+	
+	
 
 	/**
 	 * toString method

@@ -226,15 +226,20 @@ public class EditorInnerTabSpawner {
                                 resultsTablePane = new JScrollPane();
                                 resultsBoxPanel.add(resultsTablePane, BorderLayout.NORTH);
                                 resultsTablePane.setPreferredSize(new java.awt.Dimension(744, 60));
-                                {
+                               {
+                                	
                                     TableModel resultsTableModel = 
 									new DefaultTableModel(
                                                           new String[][] { { "One", "Two" }, { "Three", "Four" } },
                                                           new String[] { "Column 1", "Column 2" });
+                                    if (oldResultsTableModel!=null) {
+                                    	resultsTableModel=oldResultsTableModel; 
+                                    }
                                     resultsTable = new JTable();
                                     resultsTablePane.setViewportView(resultsTable);
                                     resultsTable.setModel(resultsTableModel);
                                     resultsTable.setPreferredSize(new java.awt.Dimension(741, 32));
+                                   
                                 }
                             }
                             {

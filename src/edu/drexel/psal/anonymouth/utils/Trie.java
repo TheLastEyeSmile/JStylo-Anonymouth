@@ -14,7 +14,7 @@ public class Trie{
 	
 	TrieNode trie=new TrieNode();
 	private final char lastChar='{';
-	private final int OFFSET = 96;
+	private final int OFFSET = 95;
 	
 	/**
 	 * Adds a word to the trie.
@@ -37,8 +37,7 @@ public class Trie{
 	 * The newly created child TrieNode of the input TrieNode in the index of the input character's value minus the offset.
 	 */
 	public TrieNode addLetter(TrieNode t,char c){
-		if(c=='\'')
-			c='`';
+		c=checkOddChars(c);
 		if(t.children[c-OFFSET] == null)
 			t.children[c - OFFSET] = new TrieNode();
 		return t.children[c - OFFSET];
@@ -55,8 +54,7 @@ public class Trie{
 		char[] chars = word.toLowerCase().toCharArray();
 		TrieNode t = this.trie;
 		for(char c:chars){
-			if(c=='\'')
-				c='`';
+			c=checkOddChars(c);
 			if(t.children[c-OFFSET] == null)
 					return false;
 			t = t.children[c-OFFSET];
@@ -83,6 +81,26 @@ public class Trie{
 		System.out.println(tt.find("and"));
 		System.out.println(tt.find("was"));
 	}
+	/**
+	 * checks the char for odd values that throw the function off
+	 * @param c character to check.
+	 * @return a char that does not break the program.
+	 */
+	private char checkOddChars(char c){
+		if(c=='\'')
+			c='`';
+		else if (c=='-')
+			c='~';
+		else if(c=='%'){
+			c='}';
+		}
+		else if(c=='2'||c=='7')
+			c='|';
+		else if(c==' ')
+			c='_';
+		
+		return c;
+	}
 }
 
 /**
@@ -92,6 +110,6 @@ public class Trie{
  *
  */
 class TrieNode {
-	protected TrieNode[] children = new TrieNode[28];
+	protected TrieNode[] children = new TrieNode[32];
 
 }

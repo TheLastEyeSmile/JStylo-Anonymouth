@@ -4,10 +4,13 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import com.jgaap.JGAAPConstants;
+import com.sun.org.apache.xerces.internal.impl.xs.identity.Selector.Matcher;
 
 import edu.stanford.nlp.ling.TaggedWord;
 import edu.drexel.psal.anonymouth.suggestors.POS.TheTags;
@@ -33,35 +36,48 @@ public class TaggedSentence {
 	protected String untagged;
 	protected ArrayList<TaggedWord> tagged;
 	protected Iterator<TaggedWord> tagIter;
-	protected TaggedWord taggedWord;
+	private TaggedWord taggedWord;
 	protected ArrayList<String> wordsToReturn;
 	private int PROBABLE_MAX = 3;
 	protected ArrayList<TENSE> tense = new ArrayList<TENSE>(PROBABLE_MAX);
 	protected ArrayList<POV> pointOfView = new ArrayList<POV>(PROBABLE_MAX);
 	protected ArrayList<CONJ> conj = new ArrayList<CONJ>(PROBABLE_MAX);
-	protected ArrayList<String> functionWords=new ArrayList<String>();
+	protected ArrayList<String> functionWords=new ArrayList<String>(PROBABLE_MAX);//not sure if should have put PROBABLE_MAX
+	protected ArrayList<String> misspelledWords=new ArrayList<String>(PROBABLE_MAX);
+	protected ArrayList<String> punctuation =new ArrayList<String>(PROBABLE_MAX);
+	protected ArrayList<String> specialChars =new ArrayList<String>(PROBABLE_MAX);
+	protected ArrayList<String> digits =new ArrayList<String>(PROBABLE_MAX);
+	protected ArrayList<Integer> wordLengths=new ArrayList<Integer>(PROBABLE_MAX);
+	
+	protected HashMap<String,Integer>  words=new HashMap<String,Integer>();
+	protected HashMap<String,Integer>  wordBigrams=new HashMap<String,Integer>();
+	protected HashMap<String,Integer>  wordTrigrams=new HashMap<String,Integer>();
+	
+	protected HashMap<String,Integer>  POS=new HashMap<String,Integer>();
+	protected HashMap<String,Integer>  POSBigrams=new HashMap<String,Integer>();
+	protected HashMap<String,Integer>  POSTrigrams=new HashMap<String,Integer>();
+	
+	protected HashMap<String,Integer> letters=new HashMap<String,Integer>();
+	protected HashMap<String,Integer>  letterBigrams=new HashMap<String,Integer>();
+	protected HashMap<String,Integer>  letterTrigrams=new HashMap<String,Integer>();
+	
+	private static final Pattern punctuationRegex=Pattern.compile("[.?!,\'\";:]{1}");
+	private static final Pattern specialCharsRegex=Pattern.compile("[~@#$%^&*-_=+><[]{}/\\|]+");
+	private static final Pattern digit=Pattern.compile("[\\d]{1,}");
 	
 	protected List<? extends HasWord> sentenceTokenized;
 	protected Tokenizer<? extends HasWord> toke;
 	protected TreebankLanguagePack tlp = new PennTreebankLanguagePack(); 
-	//private MaxentTagger mt = null;	
-	//private boolean tagger_ok;
 	
 	private String[] thirdPersonPronouns={"he","she","him", "her","it","his","hers","its","them","they","their","theirs"};
 	private String[] firstPersonPronouns={"I","me","my","mine","we","us","our","ours"};
 	private String[] secondPersonPronouns={"you","your","yours"};
 	
 	public TaggedSentence(String untagged){
-		//tagger_ok = initMaxentTagger();
-		//Logger.logln("MaxentTagger initialization in TaggedDocument status: "+tagger_ok);
 		this.untagged = untagged;
-		//tagSentence();
-		//setGrammarStats(tagged);
 	}
 	
 	public TaggedSentence(String untagged, ArrayList<TaggedWord> tagged){
-		//tagger_ok = initMaxentTagger();
-		//Logger.logln("MaxentTagger initialization in TaggedDocument status: "+tagger_ok);
 		this.untagged = untagged;
 		this.tagged = tagged;
 		setGrammarStats();
@@ -88,65 +104,92 @@ public class TaggedSentence {
 	 */
 	public void setGrammarStats(){
 		FunctionWord fWord=new FunctionWord();
-		for (int i=0;i<tagged.size();i++){
-			TaggedWord temp=tagged.get(i);
+		MisspelledWords mWord=new MisspelledWords();
+		for (int twCount=0;twCount<tagged.size();twCount++){
+			TaggedWord temp=tagged.get(twCount);
 			//System.out.println(temp.tag());
-			/*if(fWord.searchListFor(tagged.get(i).word())){
-				functionWords.add(tagged.get(i).word());
-			}*///This somehow overwrite the taggedDocument.
-			if(temp.tag().startsWith("VB")){
-				//it is a verb 
-				switch(TheTags.valueOf((temp.tag()))){
-				case VB: conj.add(CONJ.SIMPLE);//"Verb, base form";
-				case VBD: tense.add(TENSE.PAST);
-							conj.add(CONJ.SIMPLE); // "Verb, past tense";
-				//case "VBG": // "Verb, gerund or present participle";
-				//case "VBN": // "Verb, past participle";
-				case VBP: tense.add(TENSE.PRESENT);// "Verb, non-3rd person singular present";
-				case VBZ: tense.add(TENSE.PRESENT);// "Verb, 3rd person singular present";
+			if(temp.word().matches("[\\w&&\\D]+")){//fixes the error with sentenceAppend button
+				if(fWord.searchListFor(temp.word())){
+					functionWords.add(temp.word());
 				}
-			}
-			else if (temp.tag().startsWith("PR")){//this is a pronoun
-				String tempWord=temp.word();
-				for(int j=0;j<firstPersonPronouns.length;j++){
-					if(firstPersonPronouns[j].equalsIgnoreCase(tempWord)){
-						if(!pointOfView.contains(POV.FIRST_PERSON))//will not add POVs twice
-							pointOfView.add(POV.FIRST_PERSON);
+				else if(mWord.searchListFor(temp.word())){
+					misspelledWords.add(temp.word());
+				}
+				java.util.regex.Matcher wordToSearch=punctuationRegex.matcher(temp.word());
+				if(wordToSearch.find()){
+					punctuation.add(temp.word().substring(wordToSearch.start(), wordToSearch.end()));
+				}
+				//adds digits
+				wordToSearch=digit.matcher(temp.word());
+				if(wordToSearch.find()){
+					String digitSubStr=temp.word().substring(wordToSearch.start(), wordToSearch.end());
+					for (int count=0;count<digitSubStr.length();count++){
+						/*if(count-2>=0){
+							digits.add(digitSubStr.substring(count-2, count));
+							digits.add(digitSubStr.substring(count-1, count));
+						}
+						else if(count-1>=0){
+							digits.add(digitSubStr.substring(count-1, count));
+						}*///not sure if necessary...digits bi/trigrams
+						digits.add(digitSubStr.substring(count, count));
+					}	
+				}	
+				wordToSearch=specialCharsRegex.matcher(temp.word());
+				if(wordToSearch.find()){
+					specialChars.add(temp.word().substring(wordToSearch.start(), wordToSearch.end()));
+				}
+				
+				wordLengths.add(temp.word().length());
+				setHashMap(POS,temp.tag());
+				setHashMap(words,temp.word());
+				
+				if(twCount-2>=0){//addsTrigrams&Bigrams
+					setHashMap(POSTrigrams,tagged.get(twCount-2).tag()+tagged.get(twCount-1).tag()+tagged.get(twCount).tag());
+					setHashMap(wordTrigrams,tagged.get(twCount-2).word()+tagged.get(twCount-1).word()+tagged.get(twCount).word());
+					setHashMap(POSBigrams,tagged.get(twCount-1).tag()+tagged.get(twCount).tag());//I feel that doing it this way with if/elif would speed up code
+					setHashMap(wordBigrams,tagged.get(twCount-1).word()+tagged.get(twCount).word());
+				}
+				else if(twCount-1>=0){//addsBigrams
+					setHashMap(POSBigrams,tagged.get(twCount-1).tag()+tagged.get(twCount).tag());
+					setHashMap(wordBigrams,tagged.get(twCount-1).word()+tagged.get(twCount).word());
+				}
+				char[] untaggedWord=temp.word().toLowerCase().toCharArray();
+				for(int letterIndex=0;letterIndex<untaggedWord.length;letterIndex++){
+					setHashMap(letters,untaggedWord[letterIndex]+"");
+					if(letterIndex-2>=0){
+						setHashMap(letterBigrams,untaggedWord[letterIndex-1]+untaggedWord[letterIndex]+"");
+						setHashMap(letterTrigrams,untaggedWord[letterIndex-2]+untaggedWord[letterIndex-1]+untaggedWord[letterIndex]+"");
+					}
+					else if(letterIndex-1>=0){
+						setHashMap(letterBigrams,untaggedWord[letterIndex-1]+untaggedWord[letterIndex]+"");
 					}
 				}
-				for(int j=0;j<secondPersonPronouns.length;j++){
-					if(secondPersonPronouns[j].equalsIgnoreCase(tempWord)){
-						if(!pointOfView.contains(POV.SECOND_PERSON))
-							pointOfView.add(POV.SECOND_PERSON);
-					}
-				}
-				for(int j=0;j<thirdPersonPronouns.length;j++){
-					if(thirdPersonPronouns[j].equalsIgnoreCase(tempWord)){
-						if(!pointOfView.contains(POV.THIRD_PERSON))
-							pointOfView.add(POV.THIRD_PERSON);
-					}
-				}
-			}
-			/*else if(temp.word().equalsIgnoreCase("shall")||temp.word().equalsIgnoreCase("will")){
-				tense.add(TENSE.FUTURE);
-			}actually, this is not necessarily true.*/
+				
+				
+			}	/**///This somehow overwrite the taggedDocument.
+				
+				
 		}
-		
+			
 	}
-/*	
-	public ArrayList<String> findWordsContaining(String thisString){
 		
 	
+	private void setHashMap(HashMap <String,Integer> hashMap, String key){
+		if(hashMap.containsKey(key)){
+			hashMap.put(key, (hashMap.get(key).intValue()+1));
+		}
+		else {
+			hashMap.put(key, 1);
+		}
 	}
-*/
+	
 	
 	public String getUntagged(){
 		return untagged;
 	}
 	
 	public String toString(){
-		return "[ untagged: "+untagged+" ||| tagged: "+tagged.toString()+" ||| tense: "+tense.toString()+" ||| point of view: "+pointOfView.toString()+" conjugation(s): "+conj.toString()+" " +
-				"||| functionWords : "+functionWords.toString()+" ]";
+		return "[ untagged: "+untagged+" ||| tagged: "+tagged.toString()+" ||| tense: "+tense.toString()+" ||| point of view: "+pointOfView.toString()+" conjugation(s): "+conj.toString()+" ||| functionWords : "+functionWords.toString()+" ]";
 	}
 	
 	public ArrayList<String> getWordsWithTag(TheTags tag){
@@ -160,13 +203,42 @@ public class TaggedSentence {
 		return wordsToReturn;
 	}
 	
-	
-	/*public static void main(String[] args){
-		String text1 = "I enjoy coffee, especially in the mornings, because it helps to wake me up.";
-		TaggedSentence testDoc = new TaggedSentence(text1);
-		System.out.println(testDoc.toString());
-		//testDoc.getWordsWithTag(POS.TheTags.VB);
-		
-	}*/
-	
 }
+
+/*Stuff for tenses
+if(temp.tag().startsWith("VB")){
+	//it is a verb 
+	switch(TheTags.valueOf((temp.tag()))){
+	case VB: conj.add(CONJ.SIMPLE);//"Verb, base form";
+	case VBD: tense.add(TENSE.PAST);
+				conj.add(CONJ.SIMPLE); // "Verb, past tense";
+	//case "VBG": // "Verb, gerund or present participle";
+	//case "VBN": // "Verb, past participle";
+	case VBP: tense.add(TENSE.PRESENT);// "Verb, non-3rd person singular present";
+	case VBZ: tense.add(TENSE.PRESENT);// "Verb, 3rd person singular present";
+	}
+}
+else if (temp.tag().startsWith("PR")){//this is a pronoun
+	String tempWord=temp.word();
+	for(int j=0;j<firstPersonPronouns.length;j++){
+		if(firstPersonPronouns[j].equalsIgnoreCase(tempWord)){
+			if(!pointOfView.contains(POV.FIRST_PERSON))//will not add POVs twice
+				pointOfView.add(POV.FIRST_PERSON);
+		}
+	}
+	for(int j=0;j<secondPersonPronouns.length;j++){
+		if(secondPersonPronouns[j].equalsIgnoreCase(tempWord)){
+			if(!pointOfView.contains(POV.SECOND_PERSON))
+				pointOfView.add(POV.SECOND_PERSON);
+		}
+	}
+	for(int j=0;j<thirdPersonPronouns.length;j++){
+		if(thirdPersonPronouns[j].equalsIgnoreCase(tempWord)){
+			if(!pointOfView.contains(POV.THIRD_PERSON))
+				pointOfView.add(POV.THIRD_PERSON);
+		}
+	}
+}
+/*else if(temp.word().equalsIgnoreCase("shall")||temp.word().equalsIgnoreCase("will")){
+	tense.add(TENSE.FUTURE);
+}actually, this is not necessarily true.*/

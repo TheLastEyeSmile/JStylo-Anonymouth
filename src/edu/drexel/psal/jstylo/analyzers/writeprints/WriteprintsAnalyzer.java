@@ -16,6 +16,7 @@ import weka.attributeSelection.InfoGainAttributeEval;
 import weka.classifiers.*;
 import weka.core.Attribute;
 import weka.core.Instances;
+import edu.drexel.psal.JSANConstants;
 import edu.drexel.psal.jstylo.generics.*;
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.SynsetType;
@@ -56,7 +57,7 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 * Whether to average all feature vectors per author ending up with one feature vector
 	 * or not. Increases performance but may reduce accuracy.
 	 */
-	private boolean averageFeatureVectors = false;
+	private boolean averageFeatureVectors = true;
 	
 	/**
 	 * Local logger
@@ -141,12 +142,8 @@ public class WriteprintsAnalyzer extends Analyzer {
 		AuthorWPData testDataCopy, trainDataCopy;
 		for (AuthorWPData testData: testAuthorData) {
 			Map<String,Double> testRes = new HashMap<String,Double>();
-			log.println("Test author: " + testData.authorName + ":");
+			log.println("Test author: " + testData.authorName);
 			for (AuthorWPData trainData: trainAuthorData) {
-				// initialize zero-frequency features
-				//testData.initBasisAndWriteprintMatrix();
-				//trainData.initBasisAndWriteprintMatrix();
-				
 				testDataCopy = testData.halfClone();
 				trainDataCopy = trainData.halfClone();
 				
@@ -159,16 +156,17 @@ public class WriteprintsAnalyzer extends Analyzer {
 				trainDataCopy.addPatternDisruption(testData, IG, wordsSynCount, testPattern);
 				
 				// compute pattern matrices AFTER adding pattern disruption
-				testPattern = AuthorWPData.generatePattern(trainDataCopy, testDataCopy);
-				trainPattern = AuthorWPData.generatePattern(testDataCopy, trainDataCopy);
+				//testPattern = AuthorWPData.generatePattern(trainDataCopy, testDataCopy);
+				//trainPattern = AuthorWPData.generatePattern(testDataCopy, trainDataCopy);
 				
 				// compute distances
 				dist1 = sumEuclideanDistance(testPattern, trainDataCopy.writeprint);
 				dist2 = sumEuclideanDistance(trainPattern, testDataCopy.writeprint);
-				totalDist = - (dist1 + dist2);
+				
 				// save the inverse to maintain the smallest distance as the best fit
+				totalDist = - (dist1 + dist2);
 				testRes.put(trainData.authorName, totalDist);
-				log.println("- " + trainData.authorName + ": " + totalDist);
+				//log.println("- " + trainData.authorName + ": " + totalDist);
 			}
 			results.put(testData.authorName,testRes);
 		}
@@ -409,9 +407,11 @@ public class WriteprintsAnalyzer extends Analyzer {
 		log = new MultiplePrintStream(System.out, logPS);
 		
 		WriteprintsAnalyzer wa = new WriteprintsAnalyzer();
-		/*
-		ProblemSet ps = new ProblemSet(JSANConstants.JSAN_PROBLEMSETS_PREFIX + "drexel_1.xml");
+		
+		ProblemSet ps = new ProblemSet(JSANConstants.JSAN_PROBLEMSETS_PREFIX + "drexel_1_train_test.xml");
+		//ProblemSet ps = new ProblemSet(JSANConstants.JSAN_PROBLEMSETS_PREFIX + "drexel_1.xml");
 		//ProblemSet ps = new ProblemSet(JSANConstants.JSAN_PROBLEMSETS_PREFIX + "amt.xml");
+		/*
 		CumulativeFeatureDriver cfd =
 				new CumulativeFeatureDriver(JSANConstants.JSAN_FEATURESETS_PREFIX + "writeprints_feature_set_limited.xml");
 		WekaInstancesBuilder wib = new WekaInstancesBuilder(false);
@@ -439,13 +439,16 @@ public class WriteprintsAnalyzer extends Analyzer {
 		
 		Instances train = wib.getTrainingSet();
 		Instances test = wib.getTestSet();
-		WekaInstancesBuilder.writeSetToARFF("d:/tmp/drexel_1_train.arff", train);
+		WekaInstancesBuilder.writeSetToARFF("d:/tmp/drexel_1_tt_train.arff", train);
+		WekaInstancesBuilder.writeSetToARFF("d:/tmp/drexel_1_tt_test.arff", test);
 		System.exit(0);
 		*/
-		Instances train = new Instances(new FileReader(new File("d:/tmp/drexel_1_train.arff")));
+		Instances train = new Instances(new FileReader(new File("d:/tmp/drexel_1_tt_train.arff")));
+		train.setClassIndex(train.numAttributes() - 1);
+		Instances test = new Instances(new FileReader(new File("d:/tmp/drexel_1_tt_test.arff")));
+		test.setClassIndex(test.numAttributes() - 1);
 		
 		// classify
-		/*
 		System.out.println("classification");
 		Map<String,Map<String, Double>> res = wa.classify(train, test, ps.getTestDocs());
 		System.out.println("done!");
@@ -463,13 +466,13 @@ public class WriteprintsAnalyzer extends Analyzer {
 					maxValue = docMap.get(key);
 				}
 			System.out.println("- "+selectedAuthor+": "+maxValue);
-			success += doc.replaceFirst(TEST_AUTHOR_NAME_PREFIX, "").startsWith(selectedAuthor) ? 1 : 0;
+			success += doc.replaceFirst(TEST_AUTHOR_NAME_PREFIX + "\\d+_", "").startsWith(selectedAuthor) ? 1 : 0;
 		}
 		success = 100 * success / res.size();
 		System.out.printf("Total accuracy: %.2f\n",success);
-		*/
+		
 		
 		// cross-validation
-		wa.runCrossValidation(train, 10, 0);
+		//wa.runCrossValidation(train, 10, 0);
 	}
 }

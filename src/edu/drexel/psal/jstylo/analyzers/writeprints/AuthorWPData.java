@@ -29,9 +29,7 @@ public class AuthorWPData {
 	protected double[] featureAverages;
 	protected List<Integer> zeroFeatures;
 	protected Matrix basisMatrix;
-	//protected Matrix originalBasisMatrix;
 	protected Matrix writeprint;
-	//protected Matrix originalWriteprint;
 	
 	// constructor
 	
@@ -185,9 +183,7 @@ public class AuthorWPData {
 		 * 		and calculate the principal component matrix - the author's writeprint*/
 		EigenvalueDecomposition eigenvalues = COV.eig();
 		basisMatrix = eigenvalues.getV();
-		//originalBasisMatrix = new Matrix(basisMatrix.getArrayCopy());
 		writeprint = basisMatrix.transpose().times(X_minus_MU);
-		//originalWriteprint = new Matrix(writeprint.getArrayCopy());
 	}
 	
 	/**
@@ -276,18 +272,6 @@ public class AuthorWPData {
 			sum += m.get(row,i);
 		return sum / numCols;
 	}
-	
-	/*
-	/**
-	 * Initializes all zero-frequency indices in the basis matrix to the original
-	 * values (before any pattern-disruption value changes).
-	 */
-	/*
-	public void initBasisAndWriteprintMatrix() {
-		basisMatrix = new Matrix(originalBasisMatrix.getArrayCopy());
-		writeprint = new Matrix(originalWriteprint.getArrayCopy());
-	}
-	*/
 	
 	@Override
 	protected AuthorWPData clone() {

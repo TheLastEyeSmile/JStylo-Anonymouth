@@ -154,7 +154,7 @@ public class WekaAnalyzer extends Analyzer {
 	 * @param randSeed
 	 * 		Random seed to be used for fold generation.
 	 *  @return
-	 * 		The evaluation object with cross-validation results, or null if did not succeed running.
+	 * 		The evaluation object with cross-validation results, or null if failed running.
 	 */
 	@Override
 	public Evaluation runCrossValidation(Instances data, int folds, long randSeed) {

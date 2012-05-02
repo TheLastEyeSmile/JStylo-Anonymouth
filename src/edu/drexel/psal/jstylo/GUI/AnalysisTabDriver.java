@@ -743,21 +743,29 @@ public class AnalysisTabDriver {
 					updateResultsView();
 					
 					// run
-					Evaluation eval = main.wad.runCrossValidation(main.wib.getTrainingSet(),10,0);
+					Object results = main.wad.runCrossValidation(main.wib.getTrainingSet(),10,0);
 					content += getTimestamp()+" done!\n\n";
 					Logger.logln("Done!");
 					updateResultsView();
 					
 					// print out results
-					content += eval.toSummaryString(false)+"\n";
-					try {
-						content +=
-								eval.toClassDetailsString()+"\n" +
-								eval.toMatrixString()+"\n" ;
-					} catch (Exception e) {
-						e.printStackTrace();
+					switch (main.at) {
+					case WEKA_ANALYZER:
+						Evaluation eval = (Evaluation) results;
+						content += eval.toSummaryString(false)+"\n";
+						try {
+							content +=
+									eval.toClassDetailsString()+"\n" +
+									eval.toMatrixString()+"\n" ;
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						break;
+					case WRITEPRINTS_ANALYZER:
+						String strResults = (String) results;
+						content += strResults + "\n";
+						break;
 					}
-							
 					updateResultsView();
 				}
 				

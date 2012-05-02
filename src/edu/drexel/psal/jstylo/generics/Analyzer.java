@@ -53,27 +53,6 @@ public abstract class Analyzer {
 	 * ==========
 	 */
 	
-	/*
-	/**
-	 * This procedure runs prior to the feature extraction phase.
-	 * @param ps
-	 * 		The problem set to be analyzed.
-	 * @param cfd
-	 * 		The cumulative feature driver to be used for feature extraction.
-	 */
-	/*
-	public abstract void preExtraction(ProblemSet ps, CumulativeFeatureDriver cfd);
-	
-	/**
-	 * This procedure runs immediately after the feature extraction phase.
-	  * @param ps
-	 * 		The problem set that was analyzed.
-	 * @param cfd
-	 * 		The cumulative feature driver that was used for feature extraction.
-	 */
-	/*
-	public abstract void postExtraction(ProblemSet ps, CumulativeFeatureDriver cfd);
-	*/
 	
 	/**
 	 * Classifies the given test set based on the given training set. Should update the following fields along the classification:
@@ -103,9 +82,10 @@ public abstract class Analyzer {
 	 * @param randSeed
 	 * 		Random seed to be used for fold generation.
 	 *  @return
-	 * 		The evaluation object with cross-validation results, or null if did not succeed running.
+	 * 		Some object containing the cross validation results (e.g. Evaluation for Weka
+	 * 		classifiers CV results), or null if failed running.		
 	 */
-	public abstract Evaluation runCrossValidation(Instances data, int folds, long randSeed);
+	public abstract Object runCrossValidation(Instances data, int folds, long randSeed);
 	
 	/* =======
 	 * getters

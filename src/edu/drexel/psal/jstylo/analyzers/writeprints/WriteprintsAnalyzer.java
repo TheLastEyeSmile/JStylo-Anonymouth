@@ -80,6 +80,9 @@ public class WriteprintsAnalyzer extends Analyzer {
 		 */
 		log.println("> Learning");
 		
+		trainAuthorData.clear();
+		testAuthorData.clear();
+		
 		// initialize features, basis and writeprint matrices
 		Attribute classAttribute = trainingSet.classAttribute();
 		int numAuthors = classAttribute.numValues();
@@ -97,18 +100,32 @@ public class WriteprintsAnalyzer extends Analyzer {
 		}
 		// test set
 		int numTestInstances = testSet.numInstances();
-		log.println("Initializing test authors data (author per test document):");
-		for (int i = 0; i < numTestInstances; i++) {
-			authorName = TEST_AUTHOR_NAME_PREFIX +
-					String.format("%03d", i) + "_" +
-					(unknownDocs == null ?
-					testSet.instance(i).stringValue(classAttribute) :
-					unknownDocs.get(i).getTitle());
-			authorData = new AuthorWPData(authorName);
-			log.println("- " + authorName);
-			authorData.initFeatureMatrix(testSet, i, averageFeatureVectors);
-			testAuthorData.add(authorData);				
-			authorData.initBasisAndWriteprintMatrices();
+		// train-test mode
+		if (unknownDocs != null) {
+			log.println("Initializing test authors data (author per test document):");
+			for (int i = 0; i < numTestInstances; i++) {
+				authorName =
+						TEST_AUTHOR_NAME_PREFIX +
+						String.format("%03d", i) + "_" +
+						unknownDocs.get(i).getTitle();
+				authorData = new AuthorWPData(authorName);
+				log.println("- " + authorName);
+				authorData.initFeatureMatrix(testSet, i, averageFeatureVectors);
+				testAuthorData.add(authorData);				
+				authorData.initBasisAndWriteprintMatrices();
+			}
+		}
+		// CV mode
+		else {
+			log.println("Initializing test authors data (CV mode):");
+			for (int i = 0; i < numAuthors; i++) {
+				authorName = classAttribute.value(i);
+				authorData = new AuthorWPData(authorName);
+				log.println("- " + authorName);
+				authorData.initFeatureMatrix(testSet, averageFeatureVectors);
+				testAuthorData.add(authorData);
+				authorData.initBasisAndWriteprintMatrices();
+			}
 		}
 		
 		// initialize result set
@@ -156,8 +173,8 @@ public class WriteprintsAnalyzer extends Analyzer {
 				trainDataCopy.addPatternDisruption(testData, IG, wordsSynCount, testPattern);
 				
 				// compute pattern matrices AFTER adding pattern disruption
-				//testPattern = AuthorWPData.generatePattern(trainDataCopy, testDataCopy);
-				//trainPattern = AuthorWPData.generatePattern(testDataCopy, trainDataCopy);
+				testPattern = AuthorWPData.generatePattern(trainDataCopy, testDataCopy);
+				trainPattern = AuthorWPData.generatePattern(testDataCopy, trainDataCopy);
 				
 				// compute distances
 				dist1 = sumEuclideanDistance(testPattern, trainDataCopy.writeprint);
@@ -175,7 +192,7 @@ public class WriteprintsAnalyzer extends Analyzer {
 	}
 
 	@Override
-	public Evaluation runCrossValidation(Instances data, int folds,
+	public String runCrossValidation(Instances data, int folds,
 			long randSeed) {
 		log.println(">>> runCrossValidation started");
 		
@@ -185,19 +202,48 @@ public class WriteprintsAnalyzer extends Analyzer {
 		Random rand = new Random(randSeed);
 		randData.randomize(rand);
 		randData.stratify(folds);
-
-		// run CV
+		
+		// prepare folds
+		Instances[] foldData = new Instances[folds];
+		for (int i = 0; i < folds; i ++)
+			foldData[i] = randData.testCV(folds, i);
+		int half = (folds / 2) + (folds % 2);
+		
+		// run CV - use half the folds for training, half for testing
+		// E.g. for 10 folds, use 1-5 for training, 6-10 for testing; 2-6 for training, 1 + 7-10 for testing, etc.
+		Instances train = new Instances(data,0);
+		Instances test = new Instances(data,0);
+		Instances tmp;
+		int tmpSize;
 		Map<String,Map<String,Double>> results;
 		Map<String,Double> instResults;
 		double success;
 		double total = 0;
 		double max;
 		String selected;
-		for (int n = 0; n < folds; n++) {
-			log.println("Running fold " + (n + 1) + " out of " + folds);
-			Instances train = randData.trainCV(folds, n);
-			Instances test = randData.testCV(folds, n);
-			// build and evaluate classifier
+		for (int i = 0; i < folds; i ++) {
+			log.println("Running experiment " + (i + 1) + " out of " + folds);
+			
+			// initialize
+			train.delete();
+			test.delete();
+			
+			// prepare training set
+			for (int j = i; j < i + half; j++) {
+				tmp = foldData[j % folds];
+				tmpSize = tmp.numInstances();
+				for (int k = 0; k < tmpSize; k++)
+					train.add(tmp.instance(k));
+			}
+			// prepare test set
+			for (int j = i + half; j < i + folds; j++) {
+				tmp = foldData[j % folds];
+				tmpSize = tmp.numInstances();
+				for (int k = 0; k < tmpSize; k++)
+					test.add(tmp.instance(k));
+			}
+			
+			// classify
 			results = classify(train, test, null);
 			success = 0;
 			selected = null;
@@ -211,17 +257,16 @@ public class WriteprintsAnalyzer extends Analyzer {
 					}
 				}
 				log.println(testInstAuthor + ": " + selected);
-				if (testInstAuthor.replaceFirst(TEST_AUTHOR_NAME_PREFIX + "\\d+_", "").equals(selected))
+				if (testInstAuthor.equals(selected))
 					success++;
 			}
 			success = 100 * success / results.size();
-			log.printf("- Accuracy for fold %d: %.2f\n", n, success);
+			log.printf("- Accuracy for experiment %d: %.2f\n", (i + 1), success);
 			total += success;
 		}
 		total /= folds;
 		log.println("========================");
 		log.printf("Total Accuracy: %.2f\n", total);
-		
 		log.println(">>> runCrossValidation finished");
 		return null;
 	}
@@ -408,7 +453,7 @@ public class WriteprintsAnalyzer extends Analyzer {
 		
 		WriteprintsAnalyzer wa = new WriteprintsAnalyzer();
 		
-		ProblemSet ps = new ProblemSet(JSANConstants.JSAN_PROBLEMSETS_PREFIX + "drexel_1_train_test.xml");
+		//ProblemSet ps = new ProblemSet(JSANConstants.JSAN_PROBLEMSETS_PREFIX + "drexel_1_train_test.xml");
 		//ProblemSet ps = new ProblemSet(JSANConstants.JSAN_PROBLEMSETS_PREFIX + "drexel_1.xml");
 		//ProblemSet ps = new ProblemSet(JSANConstants.JSAN_PROBLEMSETS_PREFIX + "amt.xml");
 		/*
@@ -443,12 +488,13 @@ public class WriteprintsAnalyzer extends Analyzer {
 		WekaInstancesBuilder.writeSetToARFF("d:/tmp/drexel_1_tt_test.arff", test);
 		System.exit(0);
 		*/
-		Instances train = new Instances(new FileReader(new File("d:/tmp/drexel_1_tt_train.arff")));
+		Instances train = new Instances(new FileReader(new File("d:/tmp/drexel_1_train.arff")));
 		train.setClassIndex(train.numAttributes() - 1);
-		Instances test = new Instances(new FileReader(new File("d:/tmp/drexel_1_tt_test.arff")));
-		test.setClassIndex(test.numAttributes() - 1);
+		//Instances test = new Instances(new FileReader(new File("d:/tmp/drexel_1_tt_test.arff")));
+		//test.setClassIndex(test.numAttributes() - 1);
 		
 		// classify
+		/*
 		System.out.println("classification");
 		Map<String,Map<String, Double>> res = wa.classify(train, test, ps.getTestDocs());
 		System.out.println("done!");
@@ -470,9 +516,9 @@ public class WriteprintsAnalyzer extends Analyzer {
 		}
 		success = 100 * success / res.size();
 		System.out.printf("Total accuracy: %.2f\n",success);
-		
+		*/
 		
 		// cross-validation
-		//wa.runCrossValidation(train, 10, 0);
+		wa.runCrossValidation(train, 10, 0);
 	}
 }

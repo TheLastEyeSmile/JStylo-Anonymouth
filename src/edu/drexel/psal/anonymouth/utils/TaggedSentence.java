@@ -13,6 +13,7 @@ import com.jgaap.JGAAPConstants;
 import com.sun.org.apache.xerces.internal.impl.xs.identity.Selector.Matcher;
 
 import edu.stanford.nlp.ling.TaggedWord;
+import edu.drexel.psal.anonymouth.projectDev.Attribute;
 import edu.drexel.psal.anonymouth.suggestors.POS.TheTags;
 
 import edu.drexel.psal.anonymouth.utils.*;
@@ -61,8 +62,10 @@ public class TaggedSentence {
 	protected HashMap<String,Integer>  letterBigrams=new HashMap<String,Integer>();
 	protected HashMap<String,Integer>  letterTrigrams=new HashMap<String,Integer>();
 	
+	protected HashMap<String,Word> wordList=new HashMap<String,Word>(); 
+	
 	private static final Pattern punctuationRegex=Pattern.compile("[.?!,\'\";:]{1}");
-	private static final Pattern specialCharsRegex=Pattern.compile("[~@#$%^&*-_=+><[]{}/\\|]+");
+	private static final Pattern specialCharsRegex=Pattern.compile("[~@#$%^&*-_=+><\\\\[\\\\]{}/\\|]+");
 	private static final Pattern digit=Pattern.compile("[\\d]{1,}");
 	
 	protected List<? extends HasWord> sentenceTokenized;
@@ -98,6 +101,28 @@ public class TaggedSentence {
 	public ArrayList<CONJ> getConj(){
 		return conj;
 	}
+	
+	public void setWordList(){
+		for (int i=0;i<tagged.size();i++){
+			Word newWord=new Word(tagged.get(i).word());
+			//newWord=ConsolidationStation.getWordFromString(tagged.get(i).word());
+			newWord.setPOS(tagged.get(i).tag());
+			addToWordList(tagged.get(i).word(),newWord);
+		}
+	}
+	
+	private void addToWordList(String str,Word word){
+		if(wordList.containsKey(str)){
+			Word newWord=new Word(str);
+			newWord=wordList.get(str);
+			newWord.adjustVals(1, word.infoGainSum);//check on this
+			wordList.put(str,newWord);
+		}
+		else {
+			wordList.put(str, word);
+		}
+	}
+	
 	/**
 	 * sets the ArrayLists, Tense, Pow, and Conj.
 	 * @param tagged
@@ -173,7 +198,6 @@ public class TaggedSentence {
 			
 	}
 		
-	
 	private void setHashMap(HashMap <String,Integer> hashMap, String key){
 		if(hashMap.containsKey(key)){
 			hashMap.put(key, (hashMap.get(key).intValue()+1));

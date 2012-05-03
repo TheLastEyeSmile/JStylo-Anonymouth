@@ -12,7 +12,7 @@ public class Word {
 	protected int rank = 0; // start at neutral
 	protected double infoGainSum = 0;//weka calc//want the avg info gain. (I htink)
 	protected double numFeaturesIncluded = 0;//
-	
+	protected String partOfSpeech;
 	
 	/**
 	 * constructor for Word
@@ -28,6 +28,10 @@ public class Word {
 	}
 
 
+	public void setPOS(String pos){
+		partOfSpeech=pos;
+	}
+	
 	/**
 	 * the method to use to add or subtract from a Word's rank
 	 * @param changeToRank the amount to change the rank by (should be equal in magnitude to the number of times a feature appears in the Word's String

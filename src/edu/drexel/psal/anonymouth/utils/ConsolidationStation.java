@@ -7,6 +7,7 @@ import java.util.concurrent.locks.Lock;
 
 import edu.drexel.psal.anonymouth.projectDev.Attribute;
 import edu.drexel.psal.anonymouth.projectDev.FeatureList;
+import edu.drexel.psal.jstylo.generics.Logger;
 import edu.stanford.nlp.ling.TaggedWord;
 
 /**
@@ -60,6 +61,37 @@ public class ConsolidationStation {
 		ConsolidationStation.allDocsTagged = allDocsTagged;
 	}
 	
+	public Word getWordFromString(String str){
+		Word newWord=new Word(str);
+		for (int i=0;i<toAdd.size();i++){//toaddList loop
+			int toAddLength=toAdd.get(i).getStringInBraces().length();
+			if(toAddLength<=str.length()){//checks if it can be a possible match
+				int tempNumber=0;
+				double featureInfoGain=toAdd.get(i).getInfoGain();
+				for(int j=0;j<str.length()-toAddLength;j++){//loops through word to check if/howManyTimes the stringInBraces is found in the word.
+					if(str.substring(j, j+toAddLength).equals((String)toAdd.get(i).stringInBraces)){
+						tempNumber++;
+					}
+				}
+				newWord.adjustVals(tempNumber, featureInfoGain);
+			}
+		}
+		for (int i=0;i<toRemove.size();i++){//toaddList loop
+			int toAddLength=toRemove.get(i).getStringInBraces().length();
+			if(toAddLength<=str.length()){//checks if it can be a possible match
+				int tempNumber=0;
+				double featureInfoGain=toRemove.get(i).getInfoGain();
+				for(int j=0;j<str.length()-toAddLength;j++){//loops through word to check if/howManyTimes the stringInBraces is found in the word.
+					if(str.substring(j, j+toAddLength).equals((String)toRemove.get(i).stringInBraces)){
+						tempNumber++;
+					}
+				}
+				newWord.adjustVals(tempNumber, featureInfoGain);
+			}
+		}
+		return newWord;
+	}
+	
 	/**
 	 * runs through all attributes in attribs and pulls out the stringInBraces if it is there, and the percent (positive and negative)  
 	 * change needed
@@ -74,15 +106,16 @@ public class ConsolidationStation {
 			double tempInfoGain;
 			feature = attrib.getGenericName();
 			tempID = attrib.getStringInBraces();
+			double tempPercentChange=attrib.getPercentChangeNeeded();
 			tempInfoGain = attrib.getInfoGain();
-			/*if (tempPercentChange > 0){
+			if (tempPercentChange > 0){
 				Triple trip = new Triple(tempID,tempPercentChange,tempInfoGain);
 				toAdd.add(trip);
 			}
 			else if(tempPercentChange < 0){
 				Triple trip = new Triple(tempID,tempPercentChange,tempInfoGain);
 				toRemove.add(trip);
-			}*/
+			}
 		}			
 	}
 	
@@ -115,29 +148,29 @@ public class ConsolidationStation {
 			}
 			else if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.POS_BIGRAMS)){//thread
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
-					HashMap<String,Word> tempHashMap=new HashMap<String,Word>();
+					/*HashMap<String,Word> tempHashMap=new HashMap<String,Word>();
 					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getPOSBigrams(),toAdd.get(toAddIndex),tempHashMap);
 					//findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getPOSBigrams(),toAdd.get(toAddIndex),wordsInDocToMod);
 					Runnable csHelper=new ConsolidationStationHelper(wordsToAdd, tempHashMap);
-					threads.add(csHelper);
+					threads.add(csHelper);*/
 				}
 			}
 			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.POS_TRIGRAMS)){//thread
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
-					HashMap<String,Word> tempHashMap=new HashMap<String,Word>();
+					/*HashMap<String,Word> tempHashMap=new HashMap<String,Word>();
 					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getPOSTrigrams(),toAdd.get(toAddIndex),tempHashMap);
 					//findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getPOSTrigrams(),toAdd.get(toAddIndex),wordsInDocToMod);
 					Runnable csHelper=new ConsolidationStationHelper(wordsToAdd, tempHashMap);
-					threads.add(csHelper);
+					threads.add(csHelper);*/
 				}
 			}
 			else if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.POS_TAGS)){//thread
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
-					HashMap<String,Word> tempHashMap=new HashMap<String,Word>();
+					/*HashMap<String,Word> tempHashMap=new HashMap<String,Word>();
 					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getPOS(),toAdd.get(toAddIndex),tempHashMap);
 					//findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getPOS(),toAdd.get(toAddIndex),wordsInDocToMod);
 					Runnable csHelper=new ConsolidationStationHelper(wordsToAdd, tempHashMap);
-					threads.add(csHelper);
+					threads.add(csHelper);*/
 				}
 			}
 			else if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.LETTERS)){//what is letterNGrams?
@@ -225,7 +258,7 @@ public class ConsolidationStation {
 			}
 		}
 		//compareMaps(wordsToAdd,wordsInDocToMod);
-				
+		Logger.logln("LOG OF CONSOLSTAT WORDSTOADD"+wordsToAdd.toString());
 	}
 	private void findAttribute(HashMap<String,Integer> hashMap,Triple toAddTriple,HashMap<String,Word> listToAddTo) {
 		Iterator iter=hashMap.keySet().iterator();

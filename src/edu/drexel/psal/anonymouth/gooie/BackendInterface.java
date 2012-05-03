@@ -204,8 +204,8 @@ public class BackendInterface {
 		public void run(){
 			
 			
-			//EditorTabDriver.consolidator = new ConsolidationStation(EditorTabDriver.attribs);
-			//EditorTabDriver.consolidator.beginConsolidation();
+			EditorTabDriver.consolidator = new ConsolidationStation(EditorTabDriver.attribs);
+			EditorTabDriver.consolidator.beginConsolidation();
 			
 		}
 	}
@@ -274,6 +274,7 @@ public class BackendInterface {
 					Tagger.initTagger();
 					DocumentTagger docTagger = new DocumentTagger();
 					ArrayList<List<Document>> allDocs = magician.getDocumentSets();
+					//where is the COnsolidationStation intialized??
 					ConsolidationStation.otherSampleTaggedDocs = docTagger.tagDocs(allDocs.get(0),loadIfExists);
 					ConsolidationStation.authorSampleTaggedDocs = docTagger.tagDocs(allDocs.get(1),loadIfExists);
 					ConsolidationStation.toModifyTaggedDocs = docTagger.tagDocs(allDocs.get(2),loadIfExists);

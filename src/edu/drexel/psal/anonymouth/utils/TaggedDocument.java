@@ -80,6 +80,8 @@ public class TaggedDocument {
 	
 	private HashMap<Integer,Integer> wordLengths= new HashMap<Integer,Integer>();
 	
+	private HashMap<String,Word> wordsToAdd=new HashMap<String,Word>();
+	private HashMap<String,Word> wordsToRemove=new HashMap<String,Word>();
 	/**
 	 * Constructor for TaggedDocument
 	 */
@@ -185,7 +187,7 @@ public class TaggedDocument {
 	public String getNextSentence(){
 		if(sentNumber <totalSentences-1){
 			sentNumber++;
-			Logger.logln(taggedSentences.get(sentNumber).tagged.toString());
+			//Logger.logln(taggedSentences.get(sentNumber).tagged.toString());
 			return taggedSentences.get(sentNumber).getUntagged();
 		}
 		else{

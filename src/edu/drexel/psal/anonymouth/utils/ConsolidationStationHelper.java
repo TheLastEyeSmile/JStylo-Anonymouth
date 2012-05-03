@@ -3,6 +3,12 @@ package edu.drexel.psal.anonymouth.utils;
 import java.util.HashMap;
 import java.util.Iterator;
 
+/**
+ * 
+ * @author Joe Muoio
+ *
+ */
+
 public class ConsolidationStationHelper implements Runnable {
 
 	private HashMap<String,Word> finalHashMap;
@@ -11,12 +17,12 @@ public class ConsolidationStationHelper implements Runnable {
 	private HashMap<String,Word> tagsHashMap;
 	private boolean tags=false,intHash=false;
 	
-	ConsolidationStationHelper(HashMap<String,Word> finalHashMap,HashMap<String,Word>substrHashMap){//, boolean tags){
+	public ConsolidationStationHelper(HashMap<String,Word> finalHashMap,HashMap<String,Word>substrHashMap){//, boolean tags){
 		//this.tags=tags;
 		this.finalHashMap=finalHashMap;
 		this.substrHashMap=substrHashMap;
 	}
-	ConsolidationStationHelper(HashMap<String,Word> finalHashMap,HashMap<Integer,Word>intHashMap,boolean b){
+	public ConsolidationStationHelper(HashMap<String,Word> finalHashMap,HashMap<Integer,Word>intHashMap,boolean b){
 		intHash=true;
 		this.finalHashMap=finalHashMap;
 		this.intHashMap=intHashMap;
@@ -39,10 +45,13 @@ public class ConsolidationStationHelper implements Runnable {
 			while(iter2.hasNext()){
 				String fullstring=(String)iter2.next();
 				synchronized(this){
-					if(fullstring.matches(".*"+subStr+".*")){
-						Word updatedWord=finalHashMap.get(fullstring);
-						updatedWord.adjustVals(substrHashMap.get(subStr).rank, substrHashMap.get(subStr).infoGainSum);
-						finalHashMap.put(fullstring, updatedWord);
+					//if(fullstring.matches(".*"+subStr+".*")){
+					for(int i=0;i<fullstring.length();i++){
+						if(fullstring.subSequence(i, i+subStr.length()).equals(subStr)){
+							Word updatedWord=finalHashMap.get(fullstring);
+							updatedWord.adjustVals(substrHashMap.get(subStr).rank, substrHashMap.get(subStr).infoGainSum);
+							finalHashMap.put(fullstring, updatedWord);
+						}
 					}
 				}
 			}

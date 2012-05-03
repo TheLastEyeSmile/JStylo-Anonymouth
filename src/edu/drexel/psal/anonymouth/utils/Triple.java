@@ -12,14 +12,14 @@ public class Triple {
 	
 	
 	protected String stringInBraces;
-	//protected double percentChangeNeeded;
+	protected double percentChangeNeeded;
 	protected FeatureList featureName;
 	protected double infoGain;
 	
-	public Triple(String stringInBraces, FeatureList featureName, double infoGain){
+	public Triple(String stringInBraces, double tempPercentChange, double infoGain){
 		this.stringInBraces = stringInBraces;
-		//this.percentChangeNeeded = percentChangeNeeded;
-		this.featureName=featureName;
+		this.percentChangeNeeded = percentChangeNeeded;
+	//	this.featureName=tempPercentChange;
 		this.infoGain = infoGain;
 	}
 	

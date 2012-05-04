@@ -184,6 +184,10 @@ public class AuthorWPData {
 		EigenvalueDecomposition eigenvalues = COV.eig();
 		basisMatrix = eigenvalues.getV();
 		writeprint = basisMatrix.transpose().times(X_minus_MU);
+		WriteprintsAnalyzer.log.print("(basis: " + basisMatrix.getRowDimension() +
+				"x" + basisMatrix.getColumnDimension() +
+				", writeprint: " + writeprint.getRowDimension() +
+				"x" + writeprint.getColumnDimension() + ")  ");
 	}
 	
 	/**

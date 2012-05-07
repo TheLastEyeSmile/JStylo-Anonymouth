@@ -287,6 +287,7 @@ public class BackendInterface {
 					magician.runWeka();
 					cpb.setText("Classifying Documents... Done");
 					ConsolidationStation.attribs=wizard.getAttributes();//not the best maybe??	
+					ConsolidationStation.getStringsFromAttribs();
 				}
 				catch(Exception e){
 					e.printStackTrace();
@@ -375,20 +376,6 @@ public class BackendInterface {
 				Logger.logln("Total: "+heapSize+" Max: "+heapMaxSize+" Free: "+heapFreeSize);
 			}
 			
-		}
-		
-
-		
-		public void somethingTerrible(){
-			JOptionPane.showMessageDialog(null,
-					"Something extaordinarily detrimental to Anonymouth's ability to perform has occured while\n" +
-					"processing the information gain for one or more features. Whatever the issue, chances are that it has\n" +
-					"nothing to do with you - the end user - and is probably related to placing a decimal in the wrong place,\n" +
-					"or otherwise messing up some mundane detail.\n\nUnfortunately, Anonymouth must exit after you press 'ok'.",
-					"Something went very wrong error",
-					JOptionPane.ERROR_MESSAGE,
-					GUIMain.iconNO);
-			System.exit(15);
 		}
 	}
 	

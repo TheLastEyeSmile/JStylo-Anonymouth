@@ -18,7 +18,7 @@ public class Triple {
 	
 	public Triple(String stringInBraces, double tempPercentChange, double infoGain){
 		this.stringInBraces = stringInBraces;
-		this.percentChangeNeeded = percentChangeNeeded;
+		this.percentChangeNeeded = tempPercentChange;
 	//	this.featureName=tempPercentChange;
 		this.infoGain = infoGain;
 	}

@@ -118,6 +118,7 @@ public class TaggedDocument {
 		makeAndTagSentences(untaggedDocument, true);
 		//setHashMaps();
 		setWordsToAddRemove();
+		Logger.logln("Top 100 wordsToRemove: "+wordsToRemove.toString());
 	}
 	/*
 	public boolean writeSerializedSelf(String directory){
@@ -127,10 +128,21 @@ public class TaggedDocument {
 	/**
 	 * 
 	 * @param n the number of top elements to return
-	 * @return the top n ranks
+	 * @return an arrayList of the top n ranks
 	 */
-	public getTopRank(int n){
-		
+	public ArrayList<Word> getTopRemove(int n){//got to think about sorting more.
+		ArrayList<Word> topRanks=new ArrayList<Word>(n);
+		Iterator iter=wordsToRemove.keySet().iterator();
+		topRanks.add(wordsToRemove.get(iter.next()));
+		while(iter.hasNext()){
+			String strKey=(String)iter.next();
+			for(int i=0;i<topRanks.size();i++){
+				if(wordsToRemove.get(strKey).rank>topRanks.get(i).rank){
+					topRanks.add(i, wordsToRemove.get(strKey));
+				}
+			}
+		}
+		return topRanks;
 	}
 	public void setWordsToAddRemove(){
 		for(int i=0;i<taggedSentences.size();i++){
@@ -142,7 +154,7 @@ public class TaggedDocument {
 				if(rank<0){
 					updateHashMap(wordsToRemove,sentenceHash.get(strKey));
 				}
-				else{
+				else if(rank>0){
 					updateHashMap(wordsToAdd, sentenceHash.get(strKey));
 				}
 			}

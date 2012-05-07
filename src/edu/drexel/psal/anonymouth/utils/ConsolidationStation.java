@@ -20,11 +20,11 @@ public class ConsolidationStation {
 	
 	public static Attribute[] attribs;
 	static HashMap<String,ArrayList<TreeData>> parsed;
-	static ArrayList<Triple> toAdd;
-	static ArrayList<Triple> toRemove;
-	public static ArrayList<TaggedDocument> otherSampleTaggedDocs;
+	static ArrayList<Triple> toAdd=new ArrayList<Triple>(400);
+	static ArrayList<Triple> toRemove=new ArrayList<Triple>(400);
+	public static ArrayList<TaggedDocument> otherSampleTaggedDocs;//initialized in backendInterfaces.
 	public static ArrayList<TaggedDocument> authorSampleTaggedDocs;
-	public static ArrayList<TaggedDocument> toModifyTaggedDocs;
+	public static ArrayList<TaggedDocument> toModifyTaggedDocs;//init in editor Tab Driver
 	private static boolean allDocsTagged = false;
 	
 	private HashMap<String,Word>wordsToAdd;
@@ -86,9 +86,10 @@ public class ConsolidationStation {
 						tempNumber++;
 					}
 				}
-				newWord.adjustVals(tempNumber, featureInfoGain);
+				newWord.adjustVals((-1)*tempNumber, featureInfoGain);//respresents a word to remove, so it should be negative
 			}
 		}
+	//	Logger.logln("NEW WORD"+newWord.toString());
 		return newWord;
 	}
 	
@@ -97,7 +98,7 @@ public class ConsolidationStation {
 	 * change needed
 	 * 
 	 */
-	public void getStringsFromAttribs(){
+	public static void getStringsFromAttribs(){
 		for(Attribute attrib:attribs){
 			if (attrib.getCalcHist() == false)
 				continue; // ignore single valued features

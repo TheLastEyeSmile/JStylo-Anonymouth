@@ -84,13 +84,13 @@ public class TaggedSentence {
 		this.untagged = untagged;
 		this.tagged = tagged;
 		setGrammarStats();
-		Logger.logln("WordList"+wordList.toString());
+	//	Logger.logln("WordList"+wordList.toString());
 	}
 	
 	public boolean setTaggedSentence(ArrayList<TaggedWord> tagged){
 		this.tagged = tagged;
 		setGrammarStats();
-		Logger.logln("WordList"+wordList.toString());
+		//Logger.logln("WordList"+wordList.toString());
 		return true;
 	}
 
@@ -133,6 +133,7 @@ public class TaggedSentence {
 	 * @param tagged
 	 */
 	public void setGrammarStats(){
+		setWordList();
 		FunctionWord fWord=new FunctionWord();
 		MisspelledWords mWord=new MisspelledWords();
 		for (int twCount=0;twCount<tagged.size();twCount++){

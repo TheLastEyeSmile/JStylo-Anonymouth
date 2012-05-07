@@ -14,7 +14,7 @@ import com.sun.org.apache.xerces.internal.impl.xs.identity.Selector.Matcher;
 
 import edu.stanford.nlp.ling.TaggedWord;
 import edu.drexel.psal.anonymouth.projectDev.Attribute;
-import edu.drexel.psal.anonymouth.suggestors.POS.TheTags;
+import edu.drexel.psal.anonymouth.utils.POS.TheTags;
 
 import edu.drexel.psal.anonymouth.utils.*;
 
@@ -111,16 +111,17 @@ public class TaggedSentence {
 		for (int i=0;i<tagged.size();i++){
 			Word newWord=new Word(tagged.get(i).word());
 			newWord=ConsolidationStation.getWordFromString(tagged.get(i).word());
-			newWord.setPOS(tagged.get(i).tag());
+			newWord.setPOS(TheTags.valueOf(tagged.get(i).tag()));
 			addToWordList(tagged.get(i).word(),newWord);
 		}
 	}
 	
+	//TODO ????????
 	private void addToWordList(String str,Word word){
 		if(wordList.containsKey(str)){
 			Word newWord=new Word(str);
 			newWord=wordList.get(str);
-			newWord.adjustVals(1, word.infoGainSum);//check on this
+			newWord.adjustVals(0, word.infoGainSum,word.percentChangeNeededSum);//check on this
 			wordList.put(str,newWord);
 		}
 		else {

@@ -1,5 +1,6 @@
 package edu.drexel.psal.anonymouth.utils;
 
+import edu.drexel.psal.anonymouth.utils.POS.TheTags;
 import edu.drexel.psal.jstylo.generics.Logger;
 
 /**
@@ -11,10 +12,11 @@ import edu.drexel.psal.jstylo.generics.Logger;
 public class Word {
 	
 	protected String word;
-	protected int rank = 0; // start at neutral
+	protected double anonymityRank = 0; // start at neutral
 	protected double infoGainSum = 0;//weka calc//want the avg info gain. (I htink)
 	protected double numFeaturesIncluded = 0;//
-	protected String partOfSpeech;
+	protected double percentChangeNeededSum = 0;
+	protected TheTags partOfSpeech;
 	
 	/**
 	 * constructor for Word
@@ -30,28 +32,44 @@ public class Word {
 	}
 
 
-	public void setPOS(String pos){
-		partOfSpeech=pos;
+	public void setPOS(TheTags theTags){
+		partOfSpeech=theTags;
 	}
-	public int getRank(){
-		return rank;
+	
+	/**
+	 * Computes the AnonymityRank of a word: the average information gain of a word * the average percent change needed. These numbers are
+	 * determined by the percent change needed and information gain for each feature (and each instance of each feature) found in the "Word"
+	 * @return
+	 */
+	public double getAnonymityRank(){
+		anonymityRank = ((infoGainSum/numFeaturesIncluded)*(percentChangeNeededSum/numFeaturesIncluded));
+		return anonymityRank;
 	}
-	public void concatWord(Word newWord){
-		if(newWord.word.equalsIgnoreCase(word)){
-			adjustVals(newWord.rank,newWord.infoGainSum);
+	
+	/**
+	 * Merges two words, provided that the 'word' (string) inside are equivalent (case sensitive), and that both 'word' strings have been determined to be of 
+	 * the same part of speech.
+	 * @param newWord
+	 */
+	public void mergeWords(Word newWord){
+		if(newWord.equals(this)){
+			this.infoGainSum += newWord.infoGainSum;
+			this.percentChangeNeededSum += newWord.percentChangeNeededSum;
+			this.numFeaturesIncluded += newWord.numFeaturesIncluded;
 		}
 		else
 			Logger.logln("The Words did not match");
 	}
 	/**
 	 * the method to use to add or subtract from a Word's rank
-	 * @param changeToRank the amount to change the rank by (should be equal in magnitude to the number of times a feature appears in the Word's String
+	 * @param numTimesFeatureSeen the number of times a feature appears in the Word's String
 	 * @param featureInfoGain the information gain for the feature modifying the rank of the word.
 	 */
-	public void adjustVals(int changeToRank, double featureInfoGain){
-		int numAppearancesOfFeature = Math.abs(changeToRank);
-		rank += changeToRank;
+	public void adjustVals(int numTimesFeatureSeen, double featureInfoGain, double percentChangeNeeded){
+		int numAppearancesOfFeature = Math.abs(numTimesFeatureSeen);
+		//rank += numTimesFeatureSeen;
 		infoGainSum += numAppearancesOfFeature*featureInfoGain;
+		percentChangeNeededSum += numAppearancesOfFeature*percentChangeNeeded;
 		numFeaturesIncluded += numAppearancesOfFeature;
 	}
 	
@@ -61,7 +79,13 @@ public class Word {
 	 * 	true if equal
 	 */
 	public boolean equals(Object obj){
-			return word.equals(((Word)obj).word);
+			if(word.equals(((Word)obj).word))
+				if(((Word)obj).partOfSpeech.equals(this.partOfSpeech))
+					return true;
+				else 
+					return false;
+			else
+				return false;
 	}
 	
 	/**
@@ -93,7 +117,7 @@ public class Word {
 	 * toString method
 	 */
 	public String toString(){
-		return "[ WORD: "+word+" ||| RANK: "+rank+" ||| AVG. INFO GAIN: "+(infoGainSum/numFeaturesIncluded)+"]";
+		return "[ WORD: "+word+" ||| RANK: "+anonymityRank+" ||| AVG. INFO GAIN: "+(infoGainSum/numFeaturesIncluded)+"]";
 	}
 	
 	

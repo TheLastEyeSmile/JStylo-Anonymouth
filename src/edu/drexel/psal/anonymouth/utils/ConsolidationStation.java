@@ -68,12 +68,13 @@ public class ConsolidationStation {
 			if(toAddLength<=str.length()){//checks if it can be a possible match
 				int tempNumber=0;
 				double featureInfoGain=toAdd.get(i).getInfoGain();
+				double featurePercentChange = toAdd.get(i).getInfoGain();
 				for(int j=0;j<str.length()-toAddLength;j++){//loops through word to check if/howManyTimes the stringInBraces is found in the word.
 					if(str.substring(j, j+toAddLength).equals((String)toAdd.get(i).stringInBraces)){
 						tempNumber++;
 					}
 				}
-				newWord.adjustVals(tempNumber, featureInfoGain);
+				newWord.adjustVals(tempNumber, featureInfoGain,featurePercentChange);
 			}
 		}
 		for (int i=0;i<toRemove.size();i++){//toaddList loop
@@ -81,12 +82,13 @@ public class ConsolidationStation {
 			if(toAddLength<=str.length()){//checks if it can be a possible match
 				int tempNumber=0;
 				double featureInfoGain=toRemove.get(i).getInfoGain();
+				double featurePercentChange = toRemove.get(i).getInfoGain();
 				for(int j=0;j<str.length()-toAddLength;j++){//loops through word to check if/howManyTimes the stringInBraces is found in the word.
 					if(str.substring(j, j+toAddLength).equals((String)toRemove.get(i).stringInBraces)){
 						tempNumber++;
 					}
 				}
-				newWord.adjustVals((-1)*tempNumber, featureInfoGain);//respresents a word to remove, so it should be negative
+				newWord.adjustVals(tempNumber, featureInfoGain, featurePercentChange);//respresents a word to remove, so it should be negative
 			}
 		}
 	//	Logger.logln("NEW WORD"+newWord.toString());
@@ -119,6 +121,7 @@ public class ConsolidationStation {
 			}
 		}			
 	}
+	
 	
 	public void findWordsToAdd(){//Only loops through otherSampleTaggedDocs.
 		// TODO I think this should take a global (to this function) hashmap of String -> Word objects, and run through all features in the 'toAdd' list, checking them 
@@ -261,22 +264,25 @@ public class ConsolidationStation {
 		//compareMaps(wordsToAdd,wordsInDocToMod);
 		Logger.logln("LOG OF CONSOLSTAT WORDSTOADD"+wordsToAdd.toString());
 	}
+	
+
 	private void findAttribute(HashMap<String,Integer> hashMap,Triple toAddTriple,HashMap<String,Word> listToAddTo) {
 		Iterator iter=hashMap.keySet().iterator();
 		while(iter.hasNext()){
 			Word newWord=new Word(hashMap.keySet().iterator().next());
-			newWord.adjustVals(hashMap.get(newWord.word).intValue(), toAddTriple.getInfoGain());
+			//newWord.mergeWords(hashMap.get(newWord.word).intValue(), toAddTriple.getInfoGain());
 			addToHashMap(listToAddTo,newWord);
 		}
 	}
+	
 	private void findAttributeLength(HashMap<Integer,Integer> hashMap,Triple toAddTriple,HashMap<Integer,Word> listToAddTo) {
 		Iterator iter=hashMap.keySet().iterator();
 		while(iter.hasNext()){
 			Integer integer=(Integer) iter.next();
 			Word newWord=new Word(integer);
-			newWord.adjustVals(hashMap.get(newWord.word).intValue(), toAddTriple.getInfoGain());
+			//newWord.adjustVals(hashMap.get(newWord.word).intValue(), toAddTriple.getInfoGain());
 			if (listToAddTo.containsKey(newWord.word)){
-				listToAddTo.get(newWord.word).adjustVals(newWord.rank, newWord.infoGainSum);
+				//listToAddTo.get(newWord.word).adjustVals(newWord.rank, newWord.infoGainSum);
 			}
 			else{
 				listToAddTo.put(integer, newWord);
@@ -304,7 +310,7 @@ public class ConsolidationStation {
 	public void addToHashMap(HashMap <String,Word> hashMap, Word wordToAdd){
 		
 		if (hashMap.containsKey(wordToAdd.word)){
-			hashMap.get(wordToAdd.word).adjustVals(wordToAdd.rank, wordToAdd.infoGainSum);
+			//hashMap.get(wordToAdd.word).adjustVals(wordToAdd.rank, wordToAdd.infoGainSum);
 		}
 		else{
 			hashMap.put(wordToAdd.word, wordToAdd);
@@ -316,5 +322,6 @@ public class ConsolidationStation {
 	public void findWordsToRemove(){
 		//TODO Should do the same as above, but ONLY with the toModifyTaggedDocs -- obviously in a separate hashmap.
 	}	
+	
 	
 }

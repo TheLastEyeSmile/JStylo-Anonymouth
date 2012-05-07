@@ -49,7 +49,7 @@ public class ConsolidationStationHelper implements Runnable {
 					for(int i=0;i<fullstring.length();i++){
 						if(fullstring.subSequence(i, i+subStr.length()).equals(subStr)){
 							Word updatedWord=finalHashMap.get(fullstring);
-							updatedWord.adjustVals(substrHashMap.get(subStr).rank, substrHashMap.get(subStr).infoGainSum);
+							//updatedWord.adjustVals(substrHashMap.get(subStr).rank, substrHashMap.get(subStr).infoGainSum);
 							finalHashMap.put(fullstring, updatedWord);
 						}
 					}
@@ -67,7 +67,7 @@ public class ConsolidationStationHelper implements Runnable {
 				synchronized(this){
 					if(fullstring.length()==integer.intValue()){
 						Word updatedWord=finalHashMap.get(fullstring);
-						updatedWord.adjustVals(intHashMap.get(integer).rank, intHashMap.get(integer).infoGainSum);
+						//updatedWord.adjustVals(intHashMap.get(integer).rank, intHashMap.get(integer).infoGainSum);
 						finalHashMap.put(fullstring, updatedWord);
 					}
 				}

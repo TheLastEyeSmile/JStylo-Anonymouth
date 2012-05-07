@@ -137,7 +137,7 @@ public class TaggedDocument {
 		while(iter.hasNext()){
 			String strKey=(String)iter.next();
 			for(int i=0;i<topRanks.size();i++){
-				if(wordsToRemove.get(strKey).rank>topRanks.get(i).rank){
+				if(wordsToRemove.get(strKey).anonymityRank>topRanks.get(i).anonymityRank){
 					topRanks.add(i, wordsToRemove.get(strKey));
 				}
 			}
@@ -150,11 +150,11 @@ public class TaggedDocument {
 			Iterator iter=sentenceHash.keySet().iterator();
 			while(iter.hasNext()){
 				String strKey=(String)iter.next();
-				int rank=sentenceHash.get(strKey).getRank();
-				if(rank<0){
+				double anonymityRank=sentenceHash.get(strKey).getAnonymityRank();
+				if(anonymityRank<0){
 					updateHashMap(wordsToRemove,sentenceHash.get(strKey));
 				}
-				else if(rank>0){
+				else if(anonymityRank>0){
 					updateHashMap(wordsToAdd, sentenceHash.get(strKey));
 				}
 			}
@@ -166,7 +166,7 @@ public class TaggedDocument {
 	private void updateHashMap(HashMap<String,Word> hashMap,Word wordToAdd){
 		if(hashMap.containsKey(wordToAdd.word)){
 			Word tempWord=hashMap.get(wordToAdd.word);
-			wordToAdd.concatWord(tempWord);
+			wordToAdd.mergeWords(tempWord);
 			hashMap.put(wordToAdd.word, wordToAdd);
 		}
 		else

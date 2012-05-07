@@ -277,7 +277,7 @@ public class BackendInterface {
 					//where is the COnsolidationStation intialized??
 					ConsolidationStation.otherSampleTaggedDocs = docTagger.tagDocs(allDocs.get(0),loadIfExists);
 					ConsolidationStation.authorSampleTaggedDocs = docTagger.tagDocs(allDocs.get(1),loadIfExists);
-					ConsolidationStation.toModifyTaggedDocs = docTagger.tagDocs(allDocs.get(2),loadIfExists);
+					//ConsolidationStation.toModifyTaggedDocs = ;
 					ConsolidationStation.setAllDocsTagged(true);
 					cpb.setText("Tagging all documents... Done");
 					cpb.setText("Initialize Cluster Viewer...");

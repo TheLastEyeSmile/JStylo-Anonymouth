@@ -18,10 +18,10 @@ import edu.stanford.nlp.ling.TaggedWord;
  */
 public class ConsolidationStation {
 	
-	Attribute[] attribs;
-	HashMap<String,ArrayList<TreeData>> parsed;
-	ArrayList<Triple> toAdd;
-	ArrayList<Triple> toRemove;
+	public static Attribute[] attribs;
+	static HashMap<String,ArrayList<TreeData>> parsed;
+	static ArrayList<Triple> toAdd;
+	static ArrayList<Triple> toRemove;
 	public static ArrayList<TaggedDocument> otherSampleTaggedDocs;
 	public static ArrayList<TaggedDocument> authorSampleTaggedDocs;
 	public static ArrayList<TaggedDocument> toModifyTaggedDocs;
@@ -61,7 +61,7 @@ public class ConsolidationStation {
 		ConsolidationStation.allDocsTagged = allDocsTagged;
 	}
 	
-	public Word getWordFromString(String str){
+	public static Word getWordFromString(String str){
 		Word newWord=new Word(str);
 		for (int i=0;i<toAdd.size();i++){//toaddList loop
 			int toAddLength=toAdd.get(i).getStringInBraces().length();

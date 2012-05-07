@@ -286,6 +286,7 @@ public class BackendInterface {
 					cpb.setText("Classifying Documents...");
 					magician.runWeka();
 					cpb.setText("Classifying Documents... Done");
+					ConsolidationStation.attribs=wizard.getAttributes();//not the best maybe??	
 				}
 				catch(Exception e){
 					e.printStackTrace();

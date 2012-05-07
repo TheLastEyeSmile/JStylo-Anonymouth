@@ -1,5 +1,7 @@
 package edu.drexel.psal.anonymouth.utils;
 
+import edu.drexel.psal.jstylo.generics.Logger;
+
 /**
  * Holds a 'word' as a String, and retains its rank and the collective information gain of all features that have been found within the 'word'
  * Can also hold two or three 'words' in 'word' field. 
@@ -31,7 +33,16 @@ public class Word {
 	public void setPOS(String pos){
 		partOfSpeech=pos;
 	}
-	
+	public int getRank(){
+		return rank;
+	}
+	public void concatWord(Word newWord){
+		if(newWord.word.equalsIgnoreCase(word)){
+			adjustVals(newWord.rank,newWord.infoGainSum);
+		}
+		else
+			Logger.logln("The Words did not match");
+	}
 	/**
 	 * the method to use to add or subtract from a Word's rank
 	 * @param changeToRank the amount to change the rank by (should be equal in magnitude to the number of times a feature appears in the Word's String

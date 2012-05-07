@@ -98,7 +98,8 @@ public class TaggedDocument {
 		jigsaw = new SentenceTools();
 		taggedSentences = new ArrayList<TaggedSentence>(PROBABLE_NUM_SENTENCES);
 		makeAndTagSentences(untaggedDocument, true);
-		setHashMaps();
+		//setHashMaps();
+		setWordsToAddRemove();
 	}
 	 
 	/**
@@ -115,13 +116,57 @@ public class TaggedDocument {
 		jigsaw = new SentenceTools();
 		taggedSentences = new ArrayList<TaggedSentence>(PROBABLE_NUM_SENTENCES);
 		makeAndTagSentences(untaggedDocument, true);
-		setHashMaps();
+		//setHashMaps();
+		setWordsToAddRemove();
 	}
 	/*
 	public boolean writeSerializedSelf(String directory){
 		return ObjectIO.writeObject(this, ID, directory);
 	}
 	*/
+	/**
+	 * 
+	 * @param n the number of top elements to return
+	 * @return the top n ranks
+	 */
+	public getTopRank(int n){
+		
+	}
+	public void setWordsToAddRemove(){
+		for(int i=0;i<taggedSentences.size();i++){
+			HashMap<String,Word>sentenceHash=taggedSentences.get(i).getWordList();
+			Iterator iter=sentenceHash.keySet().iterator();
+			while(iter.hasNext()){
+				String strKey=(String)iter.next();
+				int rank=sentenceHash.get(strKey).getRank();
+				if(rank<0){
+					updateHashMap(wordsToRemove,sentenceHash.get(strKey));
+				}
+				else{
+					updateHashMap(wordsToAdd, sentenceHash.get(strKey));
+				}
+			}
+		}
+		Logger.logln("WordsToAdd: "+wordsToAdd.toString());
+		Logger.logln("WordsToRemove: "+wordsToRemove.toString());
+	}
+	
+	private void updateHashMap(HashMap<String,Word> hashMap,Word wordToAdd){
+		if(hashMap.containsKey(wordToAdd.word)){
+			Word tempWord=hashMap.get(wordToAdd.word);
+			wordToAdd.concatWord(tempWord);
+			hashMap.put(wordToAdd.word, wordToAdd);
+		}
+		else
+			hashMap.put(wordToAdd.word, wordToAdd);
+	}
+	
+	public HashMap<String, Word> getWordsToAdd(){
+		return wordsToAdd;
+	}
+	public HashMap<String, Word> getWordsToRemove(){
+		return wordsToRemove;
+	}
 	
 	public void setTitle(String title){
 		documentTitle = title;

@@ -251,6 +251,7 @@ public class EditorTabDriver {
 					magician = new DocumentMagician(false);
 					theMirror = new TheMirror();
 					docParser = new DocumentParser();
+					//consolidator=new ConsolidationStation(wizard.getAttributes());
 					main.mainJTabbedPane.getComponentAt(4).setEnabled(false);
 					
 				}

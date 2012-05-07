@@ -84,14 +84,19 @@ public class TaggedSentence {
 		this.untagged = untagged;
 		this.tagged = tagged;
 		setGrammarStats();
+		Logger.logln("WordList"+wordList.toString());
 	}
 	
 	public boolean setTaggedSentence(ArrayList<TaggedWord> tagged){
 		this.tagged = tagged;
 		setGrammarStats();
+		Logger.logln("WordList"+wordList.toString());
 		return true;
 	}
 
+	public HashMap<String, Word> getWordList(){
+		return wordList;
+	}
 	public ArrayList<TENSE> getTense(){
 		return tense;
 	}
@@ -105,7 +110,7 @@ public class TaggedSentence {
 	public void setWordList(){
 		for (int i=0;i<tagged.size();i++){
 			Word newWord=new Word(tagged.get(i).word());
-			//newWord=ConsolidationStation.getWordFromString(tagged.get(i).word());
+			newWord=ConsolidationStation.getWordFromString(tagged.get(i).word());
 			newWord.setPOS(tagged.get(i).tag());
 			addToWordList(tagged.get(i).word(),newWord);
 		}

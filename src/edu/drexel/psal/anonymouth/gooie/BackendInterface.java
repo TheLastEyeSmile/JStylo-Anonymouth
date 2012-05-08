@@ -271,6 +271,8 @@ public class BackendInterface {
 					cpb.setText("Extracting and Clustering Features... Done");
 					cpb.setText("Tagging all documents...");
 					boolean loadIfExists = false;
+					ConsolidationStation.attribs=wizard.getAttributes();//not the best maybe??	
+					ConsolidationStation.getStringsFromAttribs();
 					Tagger.initTagger();
 					DocumentTagger docTagger = new DocumentTagger();
 					ArrayList<List<Document>> allDocs = magician.getDocumentSets();
@@ -286,8 +288,8 @@ public class BackendInterface {
 					cpb.setText("Classifying Documents...");
 					magician.runWeka();
 					cpb.setText("Classifying Documents... Done");
-					ConsolidationStation.attribs=wizard.getAttributes();//not the best maybe??	
-					ConsolidationStation.getStringsFromAttribs();
+					//ConsolidationStation.attribs=wizard.getAttributes();//not the best maybe??	
+					//ConsolidationStation.getStringsFromAttribs();//moving this...
 				}
 				catch(Exception e){
 					e.printStackTrace();
@@ -426,7 +428,7 @@ public class BackendInterface {
 			main.processButton.setToolTipText("Click this button once you have made all changes in order to see how they have affected the classification of your document.");
 			main.processButton.setSize(main.processButton.getSize().width+3,main.processButton.getSize().height);
 			main.processButton.setSelected(false);
-			EditorTabDriver.isFirstRun = false;	
+			
 			
 			// XXX for AFTER everything is done
 				
@@ -438,9 +440,11 @@ public class BackendInterface {
 			eits.resultsTablePane.setEnabled(true);
 			eits.resultsTablePane.setOpaque(true);
 			EditorTabDriver.okayToSelectSuggestion = true;
-			ArrayList<TaggedSentence> sentences=EditorTabDriver.taggedDocument.makeAndTagSentences(eits.editorBox.getText(), true);
-			//EditorTabDriver.taggedDocument.setTaggedSentences(sentences);
-			//EditorTabDriver.sentenceTools.setNumberSentences(sentences.size());
+			if(EditorTabDriver.isFirstRun)
+				ConsolidationStation.toModifyTaggedDocs.get(0).makeAndTagSentences(eits.editorBox.getText(), true);
+			else
+				ConsolidationStation.toModifyTaggedDocs.get(0).makeAndTagSentences(eits.editorBox.getText(), false);
+			EditorTabDriver.isFirstRun = false;	
 			eits.getSentenceEditPane().setText(EditorTabDriver.getHelpMessege()+" ");//the space is to differentiate this from the messege in a new inner tab.
 			eits.sentenceEditPane.setEnabled(true);
 			eits.sentenceEditPane.setEditable(false);

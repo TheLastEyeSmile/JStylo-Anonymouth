@@ -98,7 +98,6 @@ public class EditorTabDriver {
 	//public static DocumentTagger otherSampleTagger = new DocumentTagger();
 	//public static DocumentTagger authorSampleTagger = new DocumentTagger();
 	//public static DocumentTagger toModifyTagger = new DocumentTagger();
-	protected static TaggedDocument taggedDocument;
 	private static int highlightSelectionBoxSelectionNumber;
 	public static boolean isUsingNineFeatures = false;
 	protected static boolean hasBeenInitialized = false;
@@ -190,7 +189,7 @@ public class EditorTabDriver {
 			}
 			if(sentences.get(i).startsWith("\n")||sentences.get(i).startsWith("\n")||sentences.get(i).startsWith("\r")){
 				fixTabs=true;
-				Logger.logln("FOUND CHARACTER");
+				//Logger.logln("FOUND CHARACTER");
 				//startHighlight++;
 			}
 		}
@@ -222,10 +221,10 @@ public class EditorTabDriver {
 				main.processButton.setEnabled(false);
 				if(isFirstRun==true){
 					//sentenceTools = new SentenceTools();
-					taggedDocument = new TaggedDocument();//eits.editorBox.getText());
+					TaggedDocument taggedDocument = new TaggedDocument();//eits.editorBox.getText();
 					ConsolidationStation.toModifyTaggedDocs=new ArrayList<TaggedDocument>();
 					ConsolidationStation.toModifyTaggedDocs.add(taggedDocument);
-					
+					//isFirstRun=false;
 					Logger.logln("Intial processing starting...");
 					int i =0;
 					sizeOfCfd = main.cfd.numOfFeatureDrivers();
@@ -311,7 +310,6 @@ public class EditorTabDriver {
 				}
 				else{
 					Logger.logln("next sentence button pressed.");
-					//taggedDocument.makeAndTagSentences(eits.getSentenceEditPane().getText(), false);
 					if(ConsolidationStation.toModifyTaggedDocs.get(0).removeAndReplace(eits.getSentenceEditPane().getText())!=-1){
 						//sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
 						String tempSent=ConsolidationStation.toModifyTaggedDocs.get(0).getNextSentence();
@@ -784,6 +782,7 @@ public class EditorTabDriver {
 				ConsolidationStation.toModifyTaggedDocs.get(0).setSentenceCounter(-1);
 				eits.sentenceEditPane.setEnabled(true);
 				eits.sentenceEditPane.setText(helpMessege);
+				Logger.logln(ConsolidationStation.toModifyTaggedDocs.get(0).getUntaggedDocument());
 				eits.editorBox.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getUntaggedDocument());
 				nextTabIndex++;
 			}

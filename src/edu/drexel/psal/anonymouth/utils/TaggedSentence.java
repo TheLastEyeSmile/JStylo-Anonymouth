@@ -111,7 +111,7 @@ public class TaggedSentence {
 		for (int i=0;i<tagged.size();i++){
 			Word newWord=new Word(tagged.get(i).word());
 			newWord=ConsolidationStation.getWordFromString(tagged.get(i).word());
-			newWord.setPOS(TheTags.valueOf(tagged.get(i).tag()));
+			newWord.setPOS(tagged.get(i).tag());
 			addToWordList(tagged.get(i).word(),newWord);
 		}
 	}
@@ -119,10 +119,8 @@ public class TaggedSentence {
 	//TODO ????????
 	private void addToWordList(String str,Word word){
 		if(wordList.containsKey(str)){
-			Word newWord=new Word(str);
-			newWord=wordList.get(str);
-			newWord.adjustVals(0, word.infoGainSum,word.percentChangeNeededSum);//check on this
-			wordList.put(str,newWord);
+			word.adjustVals(0, wordList.get(str).infoGainSum,wordList.get(str).percentChangeNeededSum);//check on this
+			wordList.put(str,word);
 		}
 		else {
 			wordList.put(str, word);

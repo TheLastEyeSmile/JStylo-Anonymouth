@@ -552,10 +552,10 @@ public class TaggedDocument {
 		ArrayList<TaggedSentence> taggedSentsToAdd = makeAndTagSentences(sentsToAdd,false);
 		removeTaggedSentence(sentNumber);
 		addTaggedSentence(taggedSentsToAdd.get(0),sentNumber);
-		int i ;
-		int len = taggedSentsToAdd.size();
+		int i, len = taggedSentsToAdd.size();
 		for(i=1;i<len;i++){
 			sentNumber++;
+			//removeTaggedSentence(sentNumber);
 			addTaggedSentence(taggedSentsToAdd.get(i),sentNumber);
 			totalSentences++;
 		}

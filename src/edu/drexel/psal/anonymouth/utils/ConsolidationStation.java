@@ -114,10 +114,12 @@ public class ConsolidationStation {
 			if (tempPercentChange > 0){
 				Triple trip = new Triple(tempID,tempPercentChange,tempInfoGain);
 				toAdd.add(trip);
+				Logger.logln("Toadd added: "+trip.toString());
 			}
 			else if(tempPercentChange < 0){
 				Triple trip = new Triple(tempID,tempPercentChange,tempInfoGain);
 				toRemove.add(trip);
+				Logger.logln("ToRemove added: "+trip.toString());
 			}
 		}			
 	}

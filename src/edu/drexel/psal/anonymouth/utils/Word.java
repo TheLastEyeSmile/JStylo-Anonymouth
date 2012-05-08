@@ -16,7 +16,7 @@ public class Word {
 	protected double infoGainSum = 0;//weka calc//want the avg info gain. (I htink)
 	protected double numFeaturesIncluded = 0;//
 	protected double percentChangeNeededSum = 0;
-	protected TheTags partOfSpeech;
+	protected String partOfSpeech;
 	
 	/**
 	 * constructor for Word
@@ -32,8 +32,8 @@ public class Word {
 	}
 
 
-	public void setPOS(TheTags theTags){
-		partOfSpeech=theTags;
+	public void setPOS(String string){
+		partOfSpeech=string;
 	}
 	
 	/**

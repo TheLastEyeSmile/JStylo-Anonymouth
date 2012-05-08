@@ -33,4 +33,10 @@ public class Triple {
 		return stringInBraces;
 	}
 
+	
+	public String toString(){
+		String str="SIB: "+stringInBraces+" %Change: "+percentChangeNeeded+" infoGain: "+infoGain;
+		return str;
+	}
+	
 }

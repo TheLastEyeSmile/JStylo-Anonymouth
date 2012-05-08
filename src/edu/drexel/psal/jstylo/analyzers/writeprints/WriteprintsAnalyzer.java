@@ -13,10 +13,8 @@ import com.jgaap.JGAAPConstants;
 import com.jgaap.generics.*;
 
 import weka.attributeSelection.InfoGainAttributeEval;
-import weka.classifiers.*;
 import weka.core.Attribute;
 import weka.core.Instances;
-import edu.drexel.psal.JSANConstants;
 import edu.drexel.psal.jstylo.generics.*;
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.SynsetType;
@@ -60,19 +58,47 @@ public class WriteprintsAnalyzer extends Analyzer {
 	private boolean averageFeatureVectors = true;
 	
 	/**
+	 * Whether to reduce the feature space.
+	 */
+	private boolean reduceFeatureSpace = false;
+	
+	/**
 	 * The value to reduce the number of all gram-based features to.
 	 */
 	private static int featureReductionThreshold = 50;
 	
 	/**
-	 * Whether to reduce the feature space.
-	 */
-	private static boolean reduceFeatureSpace = false;
-	
-	/**
 	 * Local logger
 	 */
 	protected static MultiplePrintStream log = new MultiplePrintStream();
+	
+	
+	/* ============
+	 * Constructors
+	 * ============
+	 */
+	
+	/**
+	 * Default constructor for WriteprintsAnalyzer.
+	 */
+	public WriteprintsAnalyzer() {
+		// default constructor
+	}
+	
+	/**
+	 * Constructor for WriteprintsAnalyzer.
+	 * @param averageFeatureVectors
+	 * 		Whether to average all feature vectors into one. Increases performance.
+	 * @param reduceFeatureSpace
+	 * 		Whether to apply feature space reduction for large feature classes (e.g.
+	 * 		word bigrams) by information gain.
+	 */
+	public WriteprintsAnalyzer(boolean averageFeatureVectors,
+			boolean reduceFeatureSpace) {
+		this.averageFeatureVectors = averageFeatureVectors;
+		this.reduceFeatureSpace = reduceFeatureSpace;
+	}
+	
 	
 	/* ==========
 	 * operations
@@ -180,11 +206,12 @@ public class WriteprintsAnalyzer extends Analyzer {
 		Matrix testPattern, trainPattern;
 		double dist1, dist2, totalDist;
 		AuthorWPData testDataCopy, trainDataCopy;
-		int count = 1;
+		int count = 0;
 		authorsInRow = 12;
 		for (AuthorWPData testData: testAuthorData) {
 			Map<String,Double> testRes = new HashMap<String,Double>();
 			log.print(testData.authorName + "  ");
+			count++;
 			if (count % authorsInRow == 0)
 				log.println();
 			for (AuthorWPData trainData: trainAuthorData) {
@@ -596,6 +623,23 @@ public class WriteprintsAnalyzer extends Analyzer {
 		return sum;
 	}
 	
+	/**
+	 * Setter for the local logger.
+	 * @param log
+	 * 		The logger to set to.
+	 */
+	public static void setLogger(MultiplePrintStream log) {
+		WriteprintsAnalyzer.log = log;
+	}
+	
+	/**
+	 * Getter for the local logger.
+	 * @return
+	 * 		The local logger.
+	 */
+	public static MultiplePrintStream getLogger() {
+		return log;
+	}
 	
 	// ============================================================================================
 	// ============================================================================================
@@ -627,20 +671,10 @@ public class WriteprintsAnalyzer extends Analyzer {
 		int numTestDocs = testDocs.size();
 		
 		// extract features
-		System.out.println("feature pre extraction");
-		trainingDocs.addAll(testDocs);
 		System.out.println("feature extraction");
 		wib.prepareTrainingSet(trainingDocs, cfd);
 		System.out.println("feature post extraction");
 		Instances trainingSet = wib.getTrainingSet();
-		Instances testSet = new Instances(
-				trainingSet,
-				numTrainDocs,
-				numTestDocs);
-		wib.setTestSet(testSet);
-		int total = numTrainDocs + numTestDocs;
-		for (int i = total - 1; i >= numTrainDocs; i--)
-			trainingSet.delete(i);
 		System.out.println("done!");
 		
 		Instances train = wib.getTrainingSet();
@@ -654,31 +688,6 @@ public class WriteprintsAnalyzer extends Analyzer {
 		train.setClassIndex(train.numAttributes() - 1);
 		//Instances test = new Instances(new FileReader(new File("d:/tmp/drexel_1_tt_test.arff")));
 		//test.setClassIndex(test.numAttributes() - 1);
-		
-		// classify
-		/*
-		System.out.println("classification");
-		Map<String,Map<String, Double>> res = wa.classify(train, test, ps.getTestDocs());
-		System.out.println("done!");
-		Map<String,Double> docMap;
-		String selectedAuthor = null;
-		double maxValue;
-		double success = 0;
-		for (String doc: res.keySet()) {
-			maxValue = Double.NEGATIVE_INFINITY;
-			docMap = res.get(doc);
-			System.out.println(doc+":");
-			for (String key: docMap.keySet())
-				if (maxValue < docMap.get(key)) {
-					selectedAuthor = key;
-					maxValue = docMap.get(key);
-				}
-			System.out.println("- "+selectedAuthor+": "+maxValue);
-			success += doc.replaceFirst(TEST_AUTHOR_NAME_PREFIX + "\\d+_", "").startsWith(selectedAuthor) ? 1 : 0;
-		}
-		success = 100 * success / res.size();
-		System.out.printf("Total accuracy: %.2f\n",success);
-		*/
 		
 		// cross-validation
 		wa.runCrossValidation(train, 10, 0);

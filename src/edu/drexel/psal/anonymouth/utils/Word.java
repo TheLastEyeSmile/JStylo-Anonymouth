@@ -60,6 +60,24 @@ public class Word {
 		else
 			Logger.logln("The Words did not match");
 	}
+	
+/*
+ * XXX NOTE: We may not be able to count on words being added, but we may be able to *kind of* count on words being removed.....
+ * 
+ *	totalNumberFeatures  <=> the total number of features found in a word
+ * 
+ * anonymityIndex = SUM( (totalNumberFeatures - (totalNumberFeatures - numAppearancesOfSpecificFeature[i]))*(percentChangeNeededForFeature[i])*(infoGainForFeature[i]))
+ * 
+ * If we think it would help, we could divide anonymityIndex by the total number of features -> that would then be the average of the above values...  
+ * 
+ * XXX we need to be able to update the percent change needed for features and have that change reflected in EACH Word object (and thus through the sentences, and taggedDocuments) XXX
+ * 
+ *	- the best way may be to reference each attribute rather than a "triple" in each TaggedSentence, so that we will always read the updated value when we want to order the features...
+ *  - Joe, can you think of a better way?
+ */
+	
+
+	
 	/**
 	 * the method to use to add or subtract from a Word's rank
 	 * @param numTimesFeatureSeen the number of times a feature appears in the Word's String

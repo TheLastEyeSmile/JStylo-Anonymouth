@@ -987,6 +987,7 @@ public class FeatureWizardDriver {
 		"edu.drexel.psal.jstylo.eventCullers.MostCommonEventsExtended",
 		"edu.drexel.psal.jstylo.eventCullers.MinAppearances",
 		"edu.drexel.psal.jstylo.eventCullers.MaxAppearances",
+		"edu.drexel.psal.jstylo.eventCullers.IgnoreAppearedEventCuller",
 	};
 	
 	

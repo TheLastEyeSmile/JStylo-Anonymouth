@@ -480,7 +480,7 @@ public class WriteprintsAnalyzer extends Analyzer {
 		"Words",
 		"Word-Bigrams",
 		"Word-Trigrams",
-		"Misspelled-Words"
+		//"Misspelled-Words"
 	};
 	
 	/**
@@ -599,7 +599,7 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 * 		The second matrix.
 	 * @return
 	 */
-	private static double sumEuclideanDistance(Matrix a, Matrix b) {
+	protected static double sumEuclideanDistance(Matrix a, Matrix b) {
 		double sum = 0;
 		double colsDiff, tmp;
 		int numACols = a.getColumnDimension();
@@ -653,22 +653,15 @@ public class WriteprintsAnalyzer extends Analyzer {
 		// initialize log
 		PrintStream logPS = new PrintStream(new File("./log/" + MultiplePrintStream.getLogFilename()));
 		log = new MultiplePrintStream(System.out, logPS);
-		
 		WriteprintsAnalyzer wa = new WriteprintsAnalyzer();
 		
-		//ProblemSet ps = new ProblemSet(JSANConstants.JSAN_PROBLEMSETS_PREFIX + "drexel_1_train_test.xml");
-		//ProblemSet ps = new ProblemSet(JSANConstants.JSAN_PROBLEMSETS_PREFIX + "drexel_1.xml");
-		//ProblemSet ps = new ProblemSet(JSANConstants.JSAN_PROBLEMSETS_PREFIX + "amt.xml");
-		
 		/*
+		ProblemSet ps = new ProblemSet(JSANConstants.JSAN_PROBLEMSETS_PREFIX + "drexel_1.xml");
 		CumulativeFeatureDriver cfd =
-				//new CumulativeFeatureDriver(JSANConstants.JSAN_FEATURESETS_PREFIX + "writeprints_feature_set_limited.xml");
 				new CumulativeFeatureDriver(JSANConstants.JSAN_FEATURESETS_PREFIX + "writeprints_feature_set.xml");
 		WekaInstancesBuilder wib = new WekaInstancesBuilder(false);
 		List<Document> trainingDocs = ps.getAllTrainDocs();
-		List<Document> testDocs = ps.getTestDocs();
 		int numTrainDocs = trainingDocs.size();
-		int numTestDocs = testDocs.size();
 		
 		// extract features
 		System.out.println("feature extraction");
@@ -678,16 +671,12 @@ public class WriteprintsAnalyzer extends Analyzer {
 		System.out.println("done!");
 		
 		Instances train = wib.getTrainingSet();
-		Instances test = wib.getTestSet();
 		WekaInstancesBuilder.writeSetToARFF("d:/tmp/drexel_1_all_train.arff", train);
-		//WekaInstancesBuilder.writeSetToARFF("d:/tmp/drexel_1_tt_test.arff", test);
 		System.exit(0);
 		*/
-		
-		Instances train = new Instances(new FileReader(new File("d:/tmp/amt_limited_100_train.arff")));
+		Instances train = new Instances(new FileReader(
+				new File("d:/dev/writeprints.cs613.project/arff/cv/drexel_1_limited_50_cv.arff")));
 		train.setClassIndex(train.numAttributes() - 1);
-		//Instances test = new Instances(new FileReader(new File("d:/tmp/drexel_1_tt_test.arff")));
-		//test.setClassIndex(test.numAttributes() - 1);
 		
 		// cross-validation
 		wa.runCrossValidation(train, 10, 0);

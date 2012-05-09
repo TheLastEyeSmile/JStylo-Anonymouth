@@ -160,27 +160,31 @@ public class AuthorWPData {
 	 * In addition computes the author's writeprint pattern.
 	 */
 	public void initBasisAndWriteprintMatrices() {
+		
 		int numInstances = featureMatrix.getRowDimension();
-		//int numFeatures = featureMatrix.getColumnDimension();
+		int numFeatures = featureMatrix.getColumnDimension();
 		
-		/* (1) calculate the covariance matrix */
-		
+		// (1) calculate the covariance matrix
+		// -----------------------------------
 		// calculate X, the (#features)x(#instances) matrix
 		Matrix X = featureMatrix.transpose();
 		// calculate MU, the (#features)x(#instances) matrix of feature means
 		// where each cell i,j equals mean(feature_i)
-		double[][] MU_matrix_values = new double[numFeatures][numInstances];
+		double[][] MU_matrix_values = new double[numFeatures][1];
 		for (int i = 0; i < numFeatures; i++)
-			for (int j = 0; j < numInstances; j++)
-				MU_matrix_values[i][j] = featureAverages[i];
-		Matrix MU = new Matrix(MU_matrix_values);
+			MU_matrix_values[i][0] = featureAverages[i];
+		double[][] I_values = new double[1][numInstances];
+		for (int i = 0; i < numInstances; i++)
+			I_values[0][i] = 1;
+		Matrix MU = new Matrix(MU_matrix_values).times(new Matrix(I_values));
 		// calculate X - MU
 		Matrix X_minus_MU = X.minus(MU);
 		// finally, calculate the covariance matrix
-		Matrix COV = X_minus_MU.times(X_minus_MU.transpose()).times(1 / ((double) numFeatures));
+		Matrix COV = X_minus_MU.times(X_minus_MU.transpose());//.times(1 / ((double) numFeatures));
 		
-		/* (2)	calculate eigenvalues followed by eigenvectors - the basis matrix,
-		 * 		and calculate the principal component matrix - the author's writeprint*/
+		// (2)	calculate eigenvalues followed by eigenvectors - the basis matrix,
+		// and calculate the principal component matrix - the author's writeprint
+		// ----------------------------------------------------------------------
 		EigenvalueDecomposition eigenvalues = COV.eig();
 		basisMatrix = eigenvalues.getV();
 		writeprint = basisMatrix.transpose().times(X_minus_MU);
@@ -314,14 +318,81 @@ public class AuthorWPData {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		System.out.println("author a");
+		System.out.println("========");
 		AuthorWPData a = new AuthorWPData("a");
-		double[][] d = new double[][]{
-				{1,2,3},
-				{4,5,6}
-		};
-		a.featureAverages = new double[] {2.5,3.5,4.5};
-		a.featureMatrix = new Matrix(d);
+		a.featureMatrix = new Matrix(new double[][]{
+				{4,2,0,3,1,5,3,2,3,5,4,3},
+				{1,2,0,4,5,6,2,4,3,2,1,4}	
+		});
+		a.zeroFeatures = new ArrayList<Integer>();
+		a.zeroFeatures.add(2);
+		a.featureAverages = new double[]{2.5,2,0,3.5,3,5.5,2.5,3,3,3.5,2.5,3.5};
+		a.numFeatures = a.featureAverages.length;
 		a.initBasisAndWriteprintMatrices();
+		System.out.println("features:");
+		a.featureMatrix.print(4, 4);
+		System.out.println();
+		System.out.println("writeprint:");
 		a.writeprint.print(4,4);
+		System.out.println();
+		System.out.println("basis:");
+		a.basisMatrix.print(4, 4);
+		System.out.println();
+		System.out.println();
+		
+		System.out.println("author a");
+		System.out.println("========");
+		AuthorWPData b = new AuthorWPData("a");
+		b.featureMatrix = new Matrix(new double[][]{
+				{3,6,5,4,2,7,0,6,4,3,5,7},
+				{6,5,3,7,6,1,0,7,4,1,2,3}	
+		});
+		b.zeroFeatures = new ArrayList<Integer>();
+		b.zeroFeatures.add(6);
+		b.featureAverages = new double[]{4.5,5.5,4,5.5,4,4,0,6.5,4,2,3.5,5};
+		b.numFeatures = b.featureAverages.length;
+		b.initBasisAndWriteprintMatrices();
+		System.out.println("features:");
+		b.featureMatrix.print(4, 4);
+		System.out.println();
+		System.out.println("writeprint:");
+		b.writeprint.print(4,4);
+		System.out.println();
+		System.out.println("basis:");
+		b.basisMatrix.print(4, 4);
+		System.out.println();
+		System.out.println();
+		
+		// compare
+		// -------
+		
+		double[] IG = new double[12];
+		for (int i = 0; i < 12; i++) IG[i] = 1;
+		Map<Integer,Integer> syn = new HashMap<Integer, Integer>();
+		syn.put(2, 3);
+		syn.put(6, 3);
+		a.addPatternDisruption(b, IG, syn, AuthorWPData.generatePattern(a, b));
+		b.addPatternDisruption(a, IG, syn, AuthorWPData.generatePattern(b, a));
+		System.out.println("a after pattern disruption:");
+		a.writeprint.print(4, 4);
+		a.basisMatrix.print(4, 4);
+		System.out.println("b after pattern disruption:");
+		b.writeprint.print(4, 4);
+		b.basisMatrix.print(4, 4);
+		
+		double dist1 = WriteprintsAnalyzer.sumEuclideanDistance(AuthorWPData.generatePattern(b, a), b.writeprint);
+		System.out.println("dist1: " + dist1);
+		double dist2 = WriteprintsAnalyzer.sumEuclideanDistance(AuthorWPData.generatePattern(a, b), a.writeprint);
+		System.out.println("dist2: " + dist2);
+		System.out.println("avg: " + (dist1 + dist2)/2);
 	}
 }
+
+
+
+
+
+
+
+

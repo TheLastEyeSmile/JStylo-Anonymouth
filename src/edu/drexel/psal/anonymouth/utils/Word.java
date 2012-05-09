@@ -66,7 +66,7 @@ public class Word {
  * 
  *	totalNumberFeatures  <=> the total number of features found in a word
  * 
- * anonymityIndex = SUM( (totalNumberFeatures - (totalNumberFeatures - numAppearancesOfSpecificFeature[i]))*(percentChangeNeededForFeature[i])*(infoGainForFeature[i]))
+ * anonymityIndex = SUM( (numAppearancesOfSpecificFeature[i]/totalNumberFeatures))*(percentChangeNeededForFeature[i])*(infoGainForFeature[i]))
  * 
  * If we think it would help, we could divide anonymityIndex by the total number of features -> that would then be the average of the above values...  
  * 

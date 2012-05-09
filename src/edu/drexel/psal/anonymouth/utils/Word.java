@@ -1,5 +1,7 @@
 package edu.drexel.psal.anonymouth.utils;
 
+import java.util.ArrayList;
+
 import edu.drexel.psal.anonymouth.utils.POS.TheTags;
 import edu.drexel.psal.jstylo.generics.Logger;
 
@@ -12,11 +14,13 @@ import edu.drexel.psal.jstylo.generics.Logger;
 public class Word {
 	
 	protected String word;
-	protected double anonymityRank = 0; // start at neutral
+	protected double anonymityIndex = 0; // start at neutral
 	protected double infoGainSum = 0;//weka calc//want the avg info gain. (I htink)
 	protected double numFeaturesIncluded = 0;//
 	protected double percentChangeNeededSum = 0;
 	protected String partOfSpeech;
+	protected ArrayList<Triple> attributes;
+	protected ArrayList<Integer> numberAttribAppearances;
 	
 	/**
 	 * constructor for Word
@@ -24,11 +28,15 @@ public class Word {
 	 */
 	public Word(String word){
 		this.word = word;
+		attributes=new ArrayList<Triple>();
+		numberAttribAppearances = new ArrayList<Integer>();
 	}
 	
 	public Word(Integer integer) {
 		// TODO Auto-generated constructor stub
 		word=integer.toString();
+		attributes=new ArrayList<Triple>();
+		numberAttribAppearances = new ArrayList<Integer>();
 	}
 
 
@@ -39,11 +47,29 @@ public class Word {
 	/**
 	 * Computes the AnonymityRank of a word: the average information gain of a word * the average percent change needed. These numbers are
 	 * determined by the percent change needed and information gain for each feature (and each instance of each feature) found in the "Word"
-	 * @return
+	 * @return anonymityIndex
 	 */
-	public double getAnonymityRank(){
-		anonymityRank = ((infoGainSum/numFeaturesIncluded)*(percentChangeNeededSum/numFeaturesIncluded));
-		return anonymityRank;
+	public double getAnonymityIndex(){
+		anonymityIndex=0;
+		for (int i=0;i<attributes.size();i++){
+			anonymityIndex += (numFeaturesIncluded-(numFeaturesIncluded/numberAttribAppearances.get(i).floatValue())*(attributes.get(i).infoGain*attributes.get(i).percentChangeNeeded));
+		}
+		return anonymityIndex;
+	}
+	
+	public void setUpdatedAttributes(Triple newAttrib){
+		Integer appearances=new Integer(0);
+		String sib=newAttrib.stringInBraces;	
+		for(int j=0;j<word.length()-sib.length();j++){
+			//loops through word to check if/howManyTimes the stringInBraces is found in the word.
+			if(word.substring(j, j+sib.length()).equals(word)){
+				appearances++;
+			}
+		}
+		if(appearances>0){
+			attributes.add(newAttrib);
+			numberAttribAppearances.add(appearances);
+		}
 	}
 	
 	/**
@@ -60,6 +86,8 @@ public class Word {
 		else
 			Logger.logln("The Words did not match");
 	}
+	
+	
 	
 /*
  * XXX NOTE: We may not be able to count on words being added, but we may be able to *kind of* count on words being removed.....
@@ -135,7 +163,7 @@ public class Word {
 	 * toString method
 	 */
 	public String toString(){
-		return "[ WORD: "+word+" ||| RANK: "+anonymityRank+" ||| AVG. INFO GAIN: "+(infoGainSum/numFeaturesIncluded)+"]";
+		return "[ WORD: "+word+" ||| RANK: "+anonymityIndex+" ||| AVG. INFO GAIN: "+(infoGainSum/numFeaturesIncluded)+"]";
 	}
 	
 	

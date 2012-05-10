@@ -283,7 +283,6 @@ public class EditorTabDriver {
 					cpb.setText("Initializing... Done");
 					Logger.logln("calling backendInterface for preTargetSelectionProcessing");
 					BackendInterface.preTargetSelectionProcessing(main,wizard,magician,cpb);
-					//TODO: Create thread in BackendInterface that parses documents, and calls some class like ConsolidationStation to run the features down the "ramp"
 				}
 				else
 					main.processButton.setEnabled(true);

@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import com.jgaap.JGAAPConstants;
-import com.sun.org.apache.xerces.internal.impl.xs.identity.Selector.Matcher;
 
 import edu.stanford.nlp.ling.TaggedWord;
 import edu.drexel.psal.anonymouth.projectDev.Attribute;
@@ -35,14 +34,17 @@ import edu.stanford.nlp.trees.TreebankLanguagePack;
 public class TaggedSentence {
 
 	protected String untagged;
+	protected ArrayList<Word> wordsInSentence;
 	protected ArrayList<TaggedWord> tagged;
 	protected Iterator<TaggedWord> tagIter;
 	private TaggedWord taggedWord;
 	protected ArrayList<String> wordsToReturn;
 	private int PROBABLE_MAX = 3;
+	
 	protected ArrayList<TENSE> tense = new ArrayList<TENSE>(PROBABLE_MAX);
 	protected ArrayList<POV> pointOfView = new ArrayList<POV>(PROBABLE_MAX);
 	protected ArrayList<CONJ> conj = new ArrayList<CONJ>(PROBABLE_MAX);
+	/*
 	protected ArrayList<String> functionWords=new ArrayList<String>(PROBABLE_MAX);//not sure if should have put PROBABLE_MAX
 	protected ArrayList<String> misspelledWords=new ArrayList<String>(PROBABLE_MAX);
 	protected ArrayList<String> punctuation =new ArrayList<String>(PROBABLE_MAX);
@@ -61,9 +63,9 @@ public class TaggedSentence {
 	protected HashMap<String,Integer> letters=new HashMap<String,Integer>();
 	protected HashMap<String,Integer>  letterBigrams=new HashMap<String,Integer>();
 	protected HashMap<String,Integer>  letterTrigrams=new HashMap<String,Integer>();
+*/	
+	//protected HashMap<String,Word> wordListMap=new HashMap<String,Word>(); 
 	*/
-	protected HashMap<String,Word> wordList=new HashMap<String,Word>(); 
-	
 	private static final Pattern punctuationRegex=Pattern.compile("[.?!,\'\";:]{1}");
 	private static final Pattern specialCharsRegex=Pattern.compile("[~@#$%^&*-_=+><\\\\[\\\\]{}/\\|]+");
 	private static final Pattern digit=Pattern.compile("[\\d]{1,}");
@@ -77,26 +79,82 @@ public class TaggedSentence {
 	private String[] secondPersonPronouns={"you","your","yours"};
 	
 	public TaggedSentence(String untagged){
+		wordsInSentence = new ArrayList<Word>(tagged.size());
 		this.untagged = untagged;
 	}
 	
 	public TaggedSentence(String untagged, ArrayList<TaggedWord> tagged){
+		wordsInSentence = new ArrayList<Word>(tagged.size());
 		this.untagged = untagged;
 		this.tagged = tagged;
-		setGrammarStats();
+		
+		//setGrammarStats();
 	//	Logger.logln("WordList"+wordList.toString());
 	}
 	
+	/**
+	 * Set's the TaggedSentence which is an ArrayList of Word objects
+	 * @param tagged the tagged sentence as output by the Standford POS Tagger
+	 * @return
+	 */
 	public boolean setTaggedSentence(ArrayList<TaggedWord> tagged){
-		this.tagged = tagged;
-		setGrammarStats();
+		int numTagged = tagged.size();
+		for (int i=0;i< numTagged;i++){
+			Word newWord=new Word(tagged.get(i).word(),tagged.get(i).tag());
+			//newWord=ConsolidationStation.getWordFromString(tagged.get(i).word());
+			//newWord.setPOS(tagged.get(i).tag());
+			//addToWordList(tagged.get(i).word(),newWord);
+			wordsInSentence.add(newWord);
+		}	
+		//setGrammarStats();
+		
 		//Logger.logln("WordList"+wordList.toString());
+		
 		return true;
 	}
-
+/*
 	public HashMap<String, Word> getWordList(){
-		return wordList;
+		return wordListMap;
 	}
+	*/
+	
+	
+	/**
+	 * Retrieves all Reference objects associated with each word in the sentence, and merges them into a single instance of SparseReferences
+	 * @return
+	 */
+	public SparseReferences getReferences(){
+		int numWords = this.size();
+		SparseReferences allRefs = new SparseReferences(numWords*5); // just a guess - I don't think well have more than 5 distinct features per word (as an average)
+		for(Word w: wordsInSentence){
+			allRefs.merge(w.featuresFound);
+		}
+		return allRefs;
+	}
+	
+	/**
+	 * returns the length of the sentence in Words
+	 * @return
+	 */
+	public int size(){
+		return wordsInSentence.size();
+	}
+	
+	/**
+	 * returns a SparseReference object containing the index of each attribute who's value needs to be updated, along with the amount
+	 * it must be changed by (if positive, the present value should increase, if negative, it should decrease. Therefore, you only need to 
+	 * add the 'value' of each Reference to the 'index'th Attribute's presentValue in the Attribute[] array.  
+	 * 
+	 * note: the reason this is done at the sentence level rather than the document level, is that users will generally only edit one sentence at a time; so only that part 
+	 * of the document can change.
+	 * @param oldOne
+	 * @return
+	 */
+	public SparseReferences getOldToNewDeltas(TaggedSentence oldOne){
+		SparseReferences oldRefs = oldOne.getReferences();
+		return this.getReferences().leftMinusRight(oldRefs); 	
+	}
+	
 	public ArrayList<TENSE> getTense(){
 		return tense;
 	}
@@ -108,31 +166,28 @@ public class TaggedSentence {
 	}
 	
 	public void setWordList(){
-		for (int i=0;i<tagged.size();i++){
-			Word newWord=new Word(tagged.get(i).word());
-			newWord=ConsolidationStation.getWordFromString(tagged.get(i).word());//should we move this to word obj?
-			newWord.setPOS(tagged.get(i).tag());
-			addToWordList(tagged.get(i).word(),newWord);
-		}
+	
 	}
 	
-	//TODO ????????
-	private void addToWordList(String str,Word word){
-		if(wordList.containsKey(str)){
-			word.adjustVals(0, wordList.get(str).infoGainSum,wordList.get(str).percentChangeNeededSum);//check on this
-			wordList.put(str,word);
+	/*
+	private void addTowordListMap(String str,Word word){
+		if(wordListMap.containsKey(str)){
+			word.adjustVals(0, wordListMap.get(str).infoGainSum,wordListMap.get(str).percentChangeNeededSum);//check on this
+			wordListMap.put(str,word);
 		}
 		else {
-			wordList.put(str, word);
+			wordListMap.put(str, word);
 		}
 	}
+	*/
 	
-	/**
+/*	
+	
 	 * sets the ArrayLists, Tense, Pow, and Conj.
 	 * @param tagged
-	 */
+	 
 	public void setGrammarStats(){
-		setWordList();
+		//setwordListMap();
 		FunctionWord fWord=new FunctionWord();
 		MisspelledWords mWord=new MisspelledWords();
 		for (int twCount=0;twCount<tagged.size();twCount++){
@@ -140,7 +195,7 @@ public class TaggedSentence {
 			//System.out.println(temp.tag());
 			if(temp.word().matches("[\\w&&\\D]+")){//fixes the error with sentenceAppend button
 				if(fWord.searchListFor(temp.word())){
-					functionWords.add(temp.word());
+					//functionWords.add(temp.word());
 				}
 				else if(mWord.searchListFor(temp.word())){
 					misspelledWords.add(temp.word());
@@ -154,13 +209,13 @@ public class TaggedSentence {
 				if(wordToSearch.find()){
 					String digitSubStr=temp.word().substring(wordToSearch.start(), wordToSearch.end());
 					for (int count=0;count<digitSubStr.length();count++){
-						/*if(count-2>=0){
+						if(count-2>=0){
 							digits.add(digitSubStr.substring(count-2, count));
 							digits.add(digitSubStr.substring(count-1, count));
 						}
 						else if(count-1>=0){
 							digits.add(digitSubStr.substring(count-1, count));
-						}*///not sure if necessary...digits bi/trigrams
+						}//not sure if necessary...digits bi/trigrams
 						digits.add(digitSubStr.substring(count, count));
 					}	
 				}	
@@ -196,12 +251,13 @@ public class TaggedSentence {
 				}
 				*/
 				
-			}	/**///This somehow overwrite the taggedDocument.
+			}	//This somehow overwrite the taggedDocument.
 				
 				
 		}
 			
 	}
+	*/
 		
 	private void setHashMap(HashMap <String,Integer> hashMap, String key){
 		if(hashMap.containsKey(key)){
@@ -213,12 +269,16 @@ public class TaggedSentence {
 	}
 	
 	
+	/**
+	 * returns the untagged version of the sentence
+	 * @return
+	 */
 	public String getUntagged(){
 		return untagged;
 	}
 	
 	public String toString(){
-		return "[ untagged: "+untagged+" ||| tagged: "+tagged.toString()+" ||| tense: "+tense.toString()+" ||| point of view: "+pointOfView.toString()+" conjugation(s): "+conj.toString()+" ||| functionWords : "+functionWords.toString()+" ]";
+		return "[ untagged: "+untagged+" ||| tagged: "+tagged.toString()+" ||| tense: "+tense.toString()+" ||| point of view: "+pointOfView.toString()+" conjugation(s): "+conj.toString()+" ]";// ||| functionWords : "+functionWords.toString()+" ]";
 	}
 	
 	public ArrayList<String> getWordsWithTag(TheTags tag){

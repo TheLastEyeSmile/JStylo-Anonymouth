@@ -476,8 +476,8 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 * Used to identify word-based features.
 	 */
 	private static String[] wordFeatures = {
-		"Function-Words",
-		"Words",
+		"Top-Function-Words",
+		"Bag-of-Words",
 		"Word-Bigrams",
 		"Word-Trigrams",
 		//"Misspelled-Words"

@@ -327,6 +327,7 @@ public class WekaInstancesBuilder {
 				} else {
 
 					// extract numeric value from original sole event
+					//System.out.println(">>>>     parsing double for " + known.get(i).get(j).eventAt(0).toString());
 					double value = Double.parseDouble(known.get(i).get(j).eventAt(0).toString().replaceAll(".*\\{", "").replaceAll("\\}", ""));
 					inst.setValue(
 							(Attribute) attributeList.elementAt(index++),

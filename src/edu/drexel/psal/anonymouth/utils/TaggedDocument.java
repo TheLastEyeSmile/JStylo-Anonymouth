@@ -59,7 +59,7 @@ public class TaggedDocument {
 	private static int sentNumber = -1;
 	private String ID; 
 	private int totalSentences=0;
-	
+	/*
 	private HashMap<String,Integer> functionWords= new HashMap<String,Integer>();
 	private HashMap<String,Integer> misspelledWords= new HashMap<String,Integer>();
 	private HashMap<String,Integer> digits= new HashMap<String,Integer>();
@@ -77,8 +77,8 @@ public class TaggedDocument {
 	private HashMap<String,Integer> letters= new HashMap<String,Integer>();
 	private HashMap<String,Integer> letterBigrams= new HashMap<String,Integer>();
 	private HashMap<String,Integer> letterTrigrams= new HashMap<String,Integer>();
-	
-	private HashMap<Integer,Integer> wordLengths= new HashMap<Integer,Integer>();
+	*/
+	//private HashMap<Integer,Integer> wordLengths= new HashMap<Integer,Integer>();
 	
 	private HashMap<String,Word> wordsToAdd=new HashMap<String,Word>();
 	private HashMap<String,Word> wordsToRemove=new HashMap<String,Word>();
@@ -137,7 +137,7 @@ public class TaggedDocument {
 		while(iter.hasNext()){
 			String strKey=(String)iter.next();
 			for(int i=0;i<topRanks.size();i++){
-				if(wordsToRemove.get(strKey).anonymityRank>topRanks.get(i).anonymityRank){
+				if(wordsToRemove.get(strKey).anonymityIndex>topRanks.get(i).anonymityIndex){
 					topRanks.add(i, wordsToRemove.get(strKey));
 				}
 			}
@@ -150,7 +150,7 @@ public class TaggedDocument {
 			Iterator iter=sentenceHash.keySet().iterator();
 			while(iter.hasNext()){
 				String strKey=(String)iter.next();
-				double anonymityRank=sentenceHash.get(strKey).getAnonymityRank();
+				double anonymityRank=sentenceHash.get(strKey).getAnonymityIndex();
 				if(anonymityRank<0){
 					updateHashMap(wordsToRemove,sentenceHash.get(strKey));
 				}
@@ -347,7 +347,7 @@ public class TaggedDocument {
 			for(int j=0;j<taggedSentences.get(i).functionWords.size();j++){
 				boolean addWord=true;
 				key = taggedSentences.get(i).functionWords.get(j).toLowerCase();
-				setHashMap(functionWords,key);
+				//setHashMap(functionWords,key);
 			}
 		}
 	}
@@ -360,7 +360,7 @@ public class TaggedDocument {
 			for(int j=0;j<taggedSentences.get(i).misspelledWords.size();j++){
 				boolean addWord=true;
 				key = taggedSentences.get(i).misspelledWords.get(j).toLowerCase();
-				setHashMap(misspelledWords,key);
+				//setHashMap(misspelledWords,key);
 			}
 		}
 	}
@@ -372,7 +372,7 @@ public class TaggedDocument {
 		for (int i=0;i<taggedSentences.size();i++){
 			for(int j=0;j<taggedSentences.get(i).punctuation.size();j++){
 				key = taggedSentences.get(i).punctuation.get(j);
-				setHashMap(punctuation,key);
+			//	setHashMap(punctuation,key);
 			}
 		}
 	}
@@ -384,7 +384,7 @@ public class TaggedDocument {
 		for (int i=0;i<taggedSentences.size();i++){
 			for(int j=0;j<taggedSentences.get(i).specialChars.size();j++){
 				key = taggedSentences.get(i).specialChars.get(j);
-				setHashMap(specialChars,key);
+				//setHashMap(specialChars,key);
 			}
 		}
 	}
@@ -396,7 +396,7 @@ public class TaggedDocument {
 		for (int i=0;i<taggedSentences.size();i++){
 			for(int j=0;j<taggedSentences.get(i).digits.size();j++){
 				key = taggedSentences.get(i).digits.get(j);
-				setHashMap(digits,key);
+				//setHashMap(digits,key);
 			}
 		}
 	}
@@ -408,7 +408,7 @@ public class TaggedDocument {
 		for (int i=0;i<taggedSentences.size();i++){
 			for(int j=0;j<taggedSentences.get(i).wordLengths.size();j++){
 				key = taggedSentences.get(i).wordLengths.get(j);
-				setHashMap(wordLengths,key);
+				//setHashMap(wordLengths,key);
 			}
 		}
 	}
@@ -416,7 +416,7 @@ public class TaggedDocument {
 	 * sets the letter,words, and POS hashMaps using the hashmaps from each other taggedSentence
 	 */
 	private void setLettersWordsPOS(){//not entirely sure where would be optimal to call this, however.
-		for (int i=0;i<taggedSentences.size();i++){
+		/*for (int i=0;i<taggedSentences.size();i++){
 			concatHashMaps(POS,taggedSentences.get(i).POS);
 			concatHashMaps(POSBigrams,taggedSentences.get(i).POSBigrams);
 			concatHashMaps(POSTrigrams,taggedSentences.get(i).POSTrigrams);
@@ -426,7 +426,7 @@ public class TaggedDocument {
 			concatHashMaps(letters,taggedSentences.get(i).letters);
 			concatHashMaps(letterBigrams,taggedSentences.get(i).letterBigrams);
 			concatHashMaps(letterTrigrams,taggedSentences.get(i).letterTrigrams);
-		}
+		}*/
 	}
 	//Helper functions to help with setting the hashmaps
 	/**
@@ -463,7 +463,7 @@ public class TaggedDocument {
 	public int getSentNumber(){
 		return sentNumber;
 	}
-	public HashMap<String,Integer> getWords(){
+	/*public HashMap<String,Integer> getWords(){
 		return words;
 	}
 	public HashMap<String,Integer> getWordBigrams(){
@@ -509,7 +509,7 @@ public class TaggedDocument {
 	}
 	public HashMap<Integer,Integer> getWordLengths(){
 		return wordLengths;
-	}
+	}*/
 	
 	public static void setSentenceCounter(int sentNumber){//is this needed?
 		TaggedDocument.sentNumber = sentNumber;
@@ -590,7 +590,7 @@ public class TaggedDocument {
 		String text1 = "people's enjoy coffee, especially in the mornings, because it helps to wake me up. My dog is fairly small, but she seems not to realize it when she is around bigger dogs. This is my third testing sentence. I hope this works well.";
 		TaggedDocument testDoc = new TaggedDocument(text1);
 		System.out.println(testDoc.toString());			
-		System.out.println(testDoc.getFunctionWords());
+		//System.out.println(testDoc.getFunctionWords());
 		
 	}
 	

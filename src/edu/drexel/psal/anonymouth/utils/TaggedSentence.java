@@ -50,7 +50,7 @@ public class TaggedSentence {
 	protected ArrayList<String> digits =new ArrayList<String>(PROBABLE_MAX);
 	protected ArrayList<Integer> wordLengths=new ArrayList<Integer>(PROBABLE_MAX);
 	
-	protected HashMap<String,Integer>  words=new HashMap<String,Integer>();
+	/*protected HashMap<String,Integer>  words=new HashMap<String,Integer>();
 	protected HashMap<String,Integer>  wordBigrams=new HashMap<String,Integer>();
 	protected HashMap<String,Integer>  wordTrigrams=new HashMap<String,Integer>();
 	
@@ -61,7 +61,7 @@ public class TaggedSentence {
 	protected HashMap<String,Integer> letters=new HashMap<String,Integer>();
 	protected HashMap<String,Integer>  letterBigrams=new HashMap<String,Integer>();
 	protected HashMap<String,Integer>  letterTrigrams=new HashMap<String,Integer>();
-	
+	*/
 	protected HashMap<String,Word> wordList=new HashMap<String,Word>(); 
 	
 	private static final Pattern punctuationRegex=Pattern.compile("[.?!,\'\";:]{1}");
@@ -110,7 +110,7 @@ public class TaggedSentence {
 	public void setWordList(){
 		for (int i=0;i<tagged.size();i++){
 			Word newWord=new Word(tagged.get(i).word());
-			newWord=ConsolidationStation.getWordFromString(tagged.get(i).word());
+			newWord=ConsolidationStation.getWordFromString(tagged.get(i).word());//should we move this to word obj?
 			newWord.setPOS(tagged.get(i).tag());
 			addToWordList(tagged.get(i).word(),newWord);
 		}
@@ -170,10 +170,10 @@ public class TaggedSentence {
 				}
 				
 				wordLengths.add(temp.word().length());
-				setHashMap(POS,temp.tag());
-				setHashMap(words,temp.word());
+				//setHashMap(POS,temp.tag());
+				//setHashMap(words,temp.word());
 				
-				if(twCount-2>=0){//addsTrigrams&Bigrams
+				/*if(twCount-2>=0){//addsTrigrams&Bigrams
 					setHashMap(POSTrigrams,tagged.get(twCount-2).tag()+tagged.get(twCount-1).tag()+tagged.get(twCount).tag());
 					setHashMap(wordTrigrams,tagged.get(twCount-2).word()+tagged.get(twCount-1).word()+tagged.get(twCount).word());
 					setHashMap(POSBigrams,tagged.get(twCount-1).tag()+tagged.get(twCount).tag());//I feel that doing it this way with if/elif would speed up code
@@ -194,7 +194,7 @@ public class TaggedSentence {
 						setHashMap(letterBigrams,untaggedWord[letterIndex-1]+untaggedWord[letterIndex]+"");
 					}
 				}
-				
+				*/
 				
 			}	/**///This somehow overwrite the taggedDocument.
 				

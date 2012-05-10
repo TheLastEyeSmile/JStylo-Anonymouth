@@ -35,7 +35,7 @@ public class TaggedSentence {
 
 	protected String untagged;
 	protected ArrayList<Word> wordsInSentence;
-	protected ArrayList<TaggedWord> tagged;
+	protected ArrayList<TaggedWord> tagged=new ArrayList<TaggedWord>();
 	protected Iterator<TaggedWord> tagIter;
 	private TaggedWord taggedWord;
 	protected ArrayList<String> wordsToReturn;
@@ -65,7 +65,7 @@ public class TaggedSentence {
 	protected HashMap<String,Integer>  letterTrigrams=new HashMap<String,Integer>();
 */	
 	//protected HashMap<String,Word> wordListMap=new HashMap<String,Word>(); 
-	*/
+	
 	private static final Pattern punctuationRegex=Pattern.compile("[.?!,\'\";:]{1}");
 	private static final Pattern specialCharsRegex=Pattern.compile("[~@#$%^&*-_=+><\\\\[\\\\]{}/\\|]+");
 	private static final Pattern digit=Pattern.compile("[\\d]{1,}");
@@ -79,7 +79,7 @@ public class TaggedSentence {
 	private String[] secondPersonPronouns={"you","your","yours"};
 	
 	public TaggedSentence(String untagged){
-		wordsInSentence = new ArrayList<Word>(tagged.size());
+		wordsInSentence = new ArrayList<Word>();
 		this.untagged = untagged;
 	}
 	
@@ -92,6 +92,14 @@ public class TaggedSentence {
 	//	Logger.logln("WordList"+wordList.toString());
 	}
 	
+	public TaggedSentence(TaggedSentence taggedSentence) {
+		this.untagged=taggedSentence.untagged;
+		this.tagged=taggedSentence.tagged;
+		this.wordsInSentence=taggedSentence.wordsInSentence;
+		
+		
+	}
+
 	/**
 	 * Set's the TaggedSentence which is an ArrayList of Word objects
 	 * @param tagged the tagged sentence as output by the Standford POS Tagger
@@ -249,7 +257,7 @@ public class TaggedSentence {
 						setHashMap(letterBigrams,untaggedWord[letterIndex-1]+untaggedWord[letterIndex]+"");
 					}
 				}
-				*/
+				
 				
 			}	//This somehow overwrite the taggedDocument.
 				
@@ -278,7 +286,8 @@ public class TaggedSentence {
 	}
 	
 	public String toString(){
-		return "[ untagged: "+untagged+" ||| tagged: "+tagged.toString()+" ||| tense: "+tense.toString()+" ||| point of view: "+pointOfView.toString()+" conjugation(s): "+conj.toString()+" ]";// ||| functionWords : "+functionWords.toString()+" ]";
+		return "[ untagged: "+untagged+" ||| tagged: "+tagged.toString()+" ]";
+		//||| tense: "+tense.toString()+" ||| point of view: "+pointOfView.toString()+" conjugation(s): "+conj.toString()+" ]";// ||| functionWords : "+functionWords.toString()+" ]";
 	}
 	
 	public ArrayList<String> getWordsWithTag(TheTags tag){

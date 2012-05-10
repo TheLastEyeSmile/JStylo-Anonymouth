@@ -40,7 +40,7 @@ enum CONJ {SIMPLE,PROGRESSIVE,PERFECT,PERFECT_PROGRESSIVE};
 public class TaggedDocument {
 	
 	
-	protected ArrayList<TaggedSentence> currentLiveTaggedSentences;
+	protected TaggedSentence currentLiveTaggedSentences;
 	protected ArrayList<TaggedSentence> taggedSentences;
 	//protected ArrayList<String> untaggedSentences;
 	private static final Pattern EOS_chars = Pattern.compile("([?!]+)|([.]){1}\\s*");
@@ -79,7 +79,7 @@ public class TaggedDocument {
 	private HashMap<String,Integer> letters= new HashMap<String,Integer>();
 	private HashMap<String,Integer> letterBigrams= new HashMap<String,Integer>();
 	private HashMap<String,Integer> letterTrigrams= new HashMap<String,Integer>();
-	*/
+	
 	//private HashMap<Integer,Integer> wordLengths= new HashMap<Integer,Integer>();
 	
 	private HashMap<String,Word> wordsToAdd=new HashMap<String,Word>();
@@ -91,7 +91,7 @@ public class TaggedDocument {
 	public TaggedDocument(){
 		jigsaw = new SentenceTools();
 		taggedSentences = new ArrayList<TaggedSentence>(PROBABLE_NUM_SENTENCES);
-		currentLiveTaggedSentences = new ArrayList<TaggedSentence>(5); // Most people probably won't try to edit more than 5 sentences at a time.... if they do... they'll just have to wait for the array to grow.
+		//currentLiveTaggedSentences = new ArrayList<TaggedSentence>(5); // Most people probably won't try to edit more than 5 sentences at a time.... if they do... they'll just have to wait for the array to grow.
 	}
 	
 	/**
@@ -101,7 +101,7 @@ public class TaggedDocument {
 	public TaggedDocument(String untaggedDocument){
 		jigsaw = new SentenceTools();
 		taggedSentences = new ArrayList<TaggedSentence>(PROBABLE_NUM_SENTENCES);
-		currentLiveTaggedSentences = new ArrayList<TaggedSentence>(5); 
+		//currentLiveTaggedSentences = new ArrayList<TaggedSentence>(5); 
 		makeAndTagSentences(untaggedDocument, true);
 		//setHashMaps();
 		//setWordsToAddRemove();
@@ -118,7 +118,7 @@ public class TaggedDocument {
 		this.documentAuthor = author;
 		this.ID = documentTitle+"_"+documentAuthor;
 		Logger.logln("TaggedDocument ID: "+ID);
-		currentLiveTaggedSentences = new ArrayList<TaggedSentence>(5); 
+	//	currentLiveTaggedSentences = new ArrayList<TaggedSentence>(5); 
 		jigsaw = new SentenceTools();
 		taggedSentences = new ArrayList<TaggedSentence>(PROBABLE_NUM_SENTENCES);
 		makeAndTagSentences(untaggedDocument, true);
@@ -268,15 +268,19 @@ public class TaggedDocument {
 	 * @return
 	 */
 	public String getNextSentence(){
-		currentLiveTaggedSentences.clear(); // we don't want unlive sentences here.
+		//currentLiveTaggedSentences.clear(); // we don't want unlive sentences here.
 		if(sentNumber <totalSentences-1){
 			sentNumber++;
-			currentLiveTaggedSentences.add(taggedSentences.get(sentNumber));
+			//for(int i=0;i<currentLiveTaggedSentences.size();i++)
+			if(sentNumber!=0)
+				Logger.logln(currentLiveTaggedSentences.untagged);
 			//Logger.logln(taggedSentences.get(sentNumber).tagged.toString());
 			return taggedSentences.get(sentNumber).getUntagged();
 		}
 		else{
 			sentNumber=totalSentences-1;
+			//for(int i=0;i<currentLiveTaggedSentences.size();i++)
+			Logger.logln(currentLiveTaggedSentences.untagged);
 			return taggedSentences.get(sentNumber).getUntagged();
 		}
 	}
@@ -287,15 +291,20 @@ public class TaggedDocument {
 	 * @return the string of the previous sentence 
 	 */
 	public String getLastSentence(){
-		currentLiveTaggedSentences.clear(); // we don't want unlive sentences here.
+		//currentLiveTaggedSentences.clear(); // we don't want unlive sentences here.
 		if(sentNumber >0){
+			//currentLiveTaggedSentences=new TaggedSentence(taggedSentences.get(sentNumber));
 			sentNumber--;
-			currentLiveTaggedSentences.add(taggedSentences.get(sentNumber));
+			//for(int i=0;i<currentLiveTaggedSentences.size();i++)
+			Logger.logln(currentLiveTaggedSentences.untagged);
 			return taggedSentences.get(sentNumber).getUntagged();
 		}
 		else{
 			Logger.logln("Returned first sentence");
 			sentNumber=0;
+			//currentLiveTaggedSentences.add(taggedSentences.get(sentNumber));
+			//for(int i=0;i<currentLiveTaggedSentences.size();i++)
+			Logger.logln(currentLiveTaggedSentences.untagged);
 			return taggedSentences.get(0).getUntagged();
 		}
 	}
@@ -307,8 +316,13 @@ public class TaggedDocument {
 	 */
 	public String addNextSentence(String boxText) {
 		if(sentNumber <totalSentences-1 && sentNumber>=0){
-			currentLiveTaggedSentences.add(taggedSentences.get(sentNumber));
+			//have to add the next sentence to this one otherwise the appended sentence will not be taken into calculations.
 			totalSentences--;
+			ArrayList<TaggedSentence> tempTaggedSentences=new ArrayList<TaggedSentence>(2);
+			tempTaggedSentences.add(taggedSentences.get(sentNumber));
+			tempTaggedSentences.add(taggedSentences.get(sentNumber+1));
+			currentLiveTaggedSentences=new TaggedSentence(concatSentences(tempTaggedSentences));
+			
 			TaggedSentence newSent= new TaggedSentence(boxText);
 			int position=0;
 			while(position<boxText.length()){
@@ -321,6 +335,8 @@ public class TaggedDocument {
 					newSent.untagged=newSent.getUntagged()+tagSentNext.getUntagged();
 					addTaggedSentence(newSent,sentNumber);//--------possible improvement needed to parser?-----
 					//ErrorHandler.incompleteSentence();
+					//for(int i=0;i<currentLiveTaggedSentences.size();i++)
+					Logger.logln(currentLiveTaggedSentences.untagged);
 					return newSent.getUntagged();
 				}
 				position=sent.end();
@@ -331,12 +347,16 @@ public class TaggedDocument {
 			taggedSentences.remove(sentNumber);
 			newSent=concatSentences(taggedSents);
 			taggedSentences.add(sentNumber, newSent);
+			//for(int i=0;i<currentLiveTaggedSentences.size();i++)
+			Logger.logln(currentLiveTaggedSentences.untagged);
 			return newSent.getUntagged();
 		}
 		if(sentNumber<0){
 			sentNumber=0;
 		}
-		currentLiveTaggedSentences.add(taggedSentences.get(sentNumber));
+		//currentLiveTaggedSentences=taggedSentences.get(sentNumber);
+		//for(int i=0;i<currentLiveTaggedSentences.size();i++)
+		Logger.logln(currentLiveTaggedSentences.untagged);
 		return taggedSentences.get(sentNumber).getUntagged();
 		
 	}
@@ -466,9 +486,10 @@ public class TaggedDocument {
 			concatHashMaps(letters,taggedSentences.get(i).letters);
 			concatHashMaps(letterBigrams,taggedSentences.get(i).letterBigrams);
 			concatHashMaps(letterTrigrams,taggedSentences.get(i).letterTrigrams);
-		}*/
-	}
+		}
+	}*/
 	//Helper functions to help with setting the hashmaps
+/*
 	*
 	 * 
 	 * @param finalHashMap the hashMap that the second is put onto
@@ -548,7 +569,6 @@ public class TaggedDocument {
 	public HashMap<Integer,Integer> getWordLengths(){
 		return wordLengths;
 	}*/
-*/	
 	
 	public static void setSentenceCounter(int sentNumber){//is this needed?
 		TaggedDocument.sentNumber = sentNumber;
@@ -571,6 +591,8 @@ public class TaggedDocument {
 	 */
 	public int removeAndReplace(String sentsToAdd){//, int indexToRemove, int placeToAdd){
 		if(sentsToAdd.matches("\\s*")){//checks to see if the user deleted the current sentence
+			currentLiveTaggedSentences=taggedSentences.get(sentNumber);
+			//CALL COMPARE
 			removeTaggedSentence(sentNumber);
 			Logger.logln("User deleted a sentence.");
 			totalSentences--;
@@ -582,17 +604,22 @@ public class TaggedDocument {
 			Matcher sent = EOS_chars.matcher(sentsToAdd);
 			if(!sent.find(position)){//checks to see if there is a lack of an end of sentence character.
 				Logger.logln("User tried submitting an incomplete sentence.");
+				currentLiveTaggedSentences=taggedSentences.get(sentNumber);
 				TaggedSentence newSent= new TaggedSentence(sentsToAdd);
 				removeTaggedSentence(sentNumber);
 				addTaggedSentence(newSent,sentNumber);
+				//call compare with newSent to currentLiveTaggedSentences
 				ErrorHandler.incompleteSentence();
 				return -1;
 			}
 			position=sent.end();
 		}
 		ArrayList<TaggedSentence> taggedSentsToAdd = makeAndTagSentences(sentsToAdd,false);
+		currentLiveTaggedSentences=taggedSentences.get(sentNumber);
 		removeTaggedSentence(sentNumber);
 		addTaggedSentence(taggedSentsToAdd.get(0),sentNumber);
+		
+		//call compare
 		int i, len = taggedSentsToAdd.size();
 		for(i=1;i<len;i++){
 			sentNumber++;

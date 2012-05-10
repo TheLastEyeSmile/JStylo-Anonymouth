@@ -74,7 +74,7 @@ public class ConsolidationStation {
 						tempNumber++;
 					}
 				}
-				newWord.adjustVals(tempNumber, featureInfoGain,featurePercentChange);
+				//newWord.adjustVals(tempNumber, featureInfoGain,featurePercentChange);
 			}
 		}
 		for (int i=0;i<toRemove.size();i++){//toaddList loop
@@ -88,7 +88,7 @@ public class ConsolidationStation {
 						tempNumber++;
 					}
 				}
-				newWord.adjustVals(tempNumber, featureInfoGain, featurePercentChange);//respresents a word to remove, so it should be negative
+				//newWord.adjustVals(tempNumber, featureInfoGain, featurePercentChange);//respresents a word to remove, so it should be negative
 			}
 		}
 	//	Logger.logln("NEW WORD"+newWord.toString());

@@ -95,12 +95,12 @@ public class ConsolidationStation {
 		return newWord;
 	}
 	
-	/**
+/*	
 	 * runs through all attributes in attribs and pulls out the stringInBraces if it is there, and the percent (positive and negative)  
 	 * change needed
 	 * 
-	 */
-	public static void getStringsFromAttribs(){
+	 
+	public static void findIndicesOfAttribsWithStringInBraces(){
 		for(Attribute attrib:attribs){
 			if (attrib.getCalcHist() == false)
 				continue; // ignore single valued features
@@ -114,17 +114,16 @@ public class ConsolidationStation {
 			if (tempPercentChange > 0){
 				Triple trip = new Triple(tempID,tempPercentChange,tempInfoGain);
 				toAdd.add(trip);
-				Logger.logln("Toadd added: "+trip.toString());
 			}
 			else if(tempPercentChange < 0){
 				Triple trip = new Triple(tempID,tempPercentChange,tempInfoGain);
 				toRemove.add(trip);
-				Logger.logln("ToRemove added: "+trip.toString());
 			}
 		}			
 	}
+*/	
 	
-	
+/*
 	public void findWordsToAdd(){//Only loops through otherSampleTaggedDocs.
 		// TODO I think this should take a global (to this function) hashmap of String -> Word objects, and run through all features in the 'toAdd' list, checking them 
 		// against each TaggedWord words in otherSampleTaggedWords. When it finds that one of the TaggedWord words contains the feature its checking, it should
@@ -154,29 +153,29 @@ public class ConsolidationStation {
 			}
 			else if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.POS_BIGRAMS)){//thread
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
-					/*HashMap<String,Word> tempHashMap=new HashMap<String,Word>();
+					HashMap<String,Word> tempHashMap=new HashMap<String,Word>();
 					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getPOSBigrams(),toAdd.get(toAddIndex),tempHashMap);
 					//findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getPOSBigrams(),toAdd.get(toAddIndex),wordsInDocToMod);
 					Runnable csHelper=new ConsolidationStationHelper(wordsToAdd, tempHashMap);
-					threads.add(csHelper);*/
+					threads.add(csHelper);
 				}
 			}
 			else if (toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.POS_TRIGRAMS)){//thread
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
-					/*HashMap<String,Word> tempHashMap=new HashMap<String,Word>();
+					HashMap<String,Word> tempHashMap=new HashMap<String,Word>();
 					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getPOSTrigrams(),toAdd.get(toAddIndex),tempHashMap);
 					//findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getPOSTrigrams(),toAdd.get(toAddIndex),wordsInDocToMod);
 					Runnable csHelper=new ConsolidationStationHelper(wordsToAdd, tempHashMap);
-					threads.add(csHelper);*/
+					threads.add(csHelper);
 				}
 			}
 			else if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.POS_TAGS)){//thread
 				for(taggedDocsIndex=0;taggedDocsIndex<otherSampleTaggedDocs.size();taggedDocsIndex++){
-					/*HashMap<String,Word> tempHashMap=new HashMap<String,Word>();
-					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getPOS(),toAdd.get(toAddIndex),tempHashMap);
+//					HashMap<String,Word> tempHashMap=new HashMap<String,Word>();
+//					findAttribute(otherSampleTaggedDocs.get(taggedDocsIndex).getPOS(),toAdd.get(toAddIndex),tempHashMap);
 					//findAttribute(toModifyTaggedDocs.get(taggedDocsIndex).getPOS(),toAdd.get(toAddIndex),wordsInDocToMod);
-					Runnable csHelper=new ConsolidationStationHelper(wordsToAdd, tempHashMap);
-					threads.add(csHelper);*/
+//					Runnable csHelper=new ConsolidationStationHelper(wordsToAdd, tempHashMap);
+//					threads.add(csHelper);
 				}
 			}
 			else if(toAdd.get(toAddIndex).getFeatureName().equals(FeatureList.LETTERS)){//what is letterNGrams?
@@ -299,15 +298,15 @@ public class ConsolidationStation {
 		}	
 		return newHashMap;
 	}
+
 	
 	
-	/**
 	 * Checks to see if the wordToAdd exists in the map. If it doesn't then it adds it. Otherwise it updates the 
 	 * word at that location to have more weight
 	 * @param hashMap the hashmap to add the feature to.
 	 * @param wordToAdd the word that is added
 	 * 
-	 */
+	 
 	
 	public void addToHashMap(HashMap <String,Word> hashMap, Word wordToAdd){
 		
@@ -321,9 +320,9 @@ public class ConsolidationStation {
 	
 	//Note: removed a lot of old code.
 	
-	public void findWordsToRemove(){
+	//public void findWordsToRemove(){
 		//TODO Should do the same as above, but ONLY with the toModifyTaggedDocs -- obviously in a separate hashmap.
-	}	
-	
+	//}	
+	*/
 	
 }

@@ -48,7 +48,7 @@ public class DataAnalyzer{
 	
 	private int numFeaturesToReturn;
 	
-	private Attribute[] topAttributes;
+	public static Attribute[] topAttributes;
 	
 	private int lengthTopAttributes;
 	

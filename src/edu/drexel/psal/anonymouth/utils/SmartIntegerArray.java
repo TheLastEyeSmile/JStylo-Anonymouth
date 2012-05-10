@@ -1,5 +1,8 @@
 package edu.drexel.psal.anonymouth.utils;
 
+import edu.drexel.psal.jstylo.generics.Logger;
+import edu.drexel.psal.jstylo.generics.Logger.LogOut;
+
 /**
  * Wrapper for int[]. Allows using integer arrays as keys in HashMap, and does other generally intelligent things. 
  * @author Andrew W.E. McDonald
@@ -16,6 +19,61 @@ public class SmartIntegerArray{
 	public SmartIntegerArray(int[] numbers){
 		this.numbers = numbers;
 		this.len = numbers.length;
+	}
+	
+	/**
+	 * constructor, initializes an empty SmartIntegerArray of size 'size'
+	 * @param size
+	 */
+	public SmartIntegerArray(int size){
+		numbers = new int[size];
+		len = numbers.length;
+	}
+	
+	/**
+	 * inserts 'value' at 'index' provided that index is within the range [0,sizeOfArray). if not, returns false. 
+	 * NOTE: 'put' does not preserve data at location 'index'. Any value in position 'index' will be overwritten with 'value'
+	 * @param index
+	 * @param value
+	 * @return
+	 */
+	public boolean put(int index,int value){
+		if(index >= 0 && index < len){
+			numbers[index] = value;
+			return true;
+		}
+		Logger.logln("Cannot 'put' value into SmartIntegerArray because 'index' out of range",LogOut.STDERR);
+		return false;
+	}
+	
+	/**
+	 * returns the value at the specified index
+	 * @param index
+	 * @return
+	 */
+	public int get(int index){
+		return numbers[index];
+	}
+	
+	/**
+	 * Subtracts the "argument" (right) SmartIntegerArray's array values from the "calling" (left) SmartInteger array, i.e.:
+	 * theLeftOne.leftMinusRight(theRightOne), provided that their lengths are both the same. returns a new SmartIntegerArray with the difference,
+	 * (done on a per index basis)
+	 * @param sia
+	 * @return
+	 */
+	public SmartIntegerArray leftMinusRight(SmartIntegerArray sia){
+		if(this.len != sia.len){
+			Logger.logln("Cannot subtract SmartIntegerArrays of different length!",LogOut.STDERR);
+			return null;
+		}
+		int i = 0;
+		int[] newRay = new int[this.len];
+		for(i = 0; i < this.len; i++){
+			newRay[i] = this.numbers[i] - sia.numbers[i]; //NOTE: This is the SmartIntegerArray on the LEFT MINUS the SmartIntegerArray on the RIGHT,
+			// because the function call would look like: theLeftOne.leftMinusRight(theRightOne)
+		}
+		return new SmartIntegerArray(newRay);
 	}
 	
 	/**

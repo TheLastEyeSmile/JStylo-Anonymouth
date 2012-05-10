@@ -271,8 +271,8 @@ public class BackendInterface {
 					cpb.setText("Extracting and Clustering Features... Done");
 					cpb.setText("Tagging all documents...");
 					boolean loadIfExists = false;
-					ConsolidationStation.attribs=wizard.getAttributes();//not the best maybe??	
-					ConsolidationStation.getStringsFromAttribs();
+					//ConsolidationStation.attribs=wizard.getAttributes();//not the best maybe??	
+					//ConsolidationStation.getStringsFromAttribs();
 					Tagger.initTagger();
 					DocumentTagger docTagger = new DocumentTagger();
 					ArrayList<List<Document>> allDocs = magician.getDocumentSets();

@@ -39,6 +39,8 @@ enum CONJ {SIMPLE,PROGRESSIVE,PERFECT,PERFECT_PROGRESSIVE};
  */
 public class TaggedDocument {
 	
+	
+	protected ArrayList<TaggedSentence> currentLiveTaggedSentences;
 	protected ArrayList<TaggedSentence> taggedSentences;
 	//protected ArrayList<String> untaggedSentences;
 	private static final Pattern EOS_chars = Pattern.compile("([?!]+)|([.]){1}\\s*");
@@ -59,7 +61,7 @@ public class TaggedDocument {
 	private static int sentNumber = -1;
 	private String ID; 
 	private int totalSentences=0;
-	
+/*	
 	private HashMap<String,Integer> functionWords= new HashMap<String,Integer>();
 	private HashMap<String,Integer> misspelledWords= new HashMap<String,Integer>();
 	private HashMap<String,Integer> digits= new HashMap<String,Integer>();
@@ -82,12 +84,14 @@ public class TaggedDocument {
 	
 	private HashMap<String,Word> wordsToAdd=new HashMap<String,Word>();
 	private HashMap<String,Word> wordsToRemove=new HashMap<String,Word>();
+*/	
 	/**
 	 * Constructor for TaggedDocument
 	 */
 	public TaggedDocument(){
 		jigsaw = new SentenceTools();
 		taggedSentences = new ArrayList<TaggedSentence>(PROBABLE_NUM_SENTENCES);
+		currentLiveTaggedSentences = new ArrayList<TaggedSentence>(5); // Most people probably won't try to edit more than 5 sentences at a time.... if they do... they'll just have to wait for the array to grow.
 	}
 	
 	/**
@@ -97,9 +101,10 @@ public class TaggedDocument {
 	public TaggedDocument(String untaggedDocument){
 		jigsaw = new SentenceTools();
 		taggedSentences = new ArrayList<TaggedSentence>(PROBABLE_NUM_SENTENCES);
+		currentLiveTaggedSentences = new ArrayList<TaggedSentence>(5); 
 		makeAndTagSentences(untaggedDocument, true);
 		//setHashMaps();
-		setWordsToAddRemove();
+		//setWordsToAddRemove();
 	}
 	 
 	/**
@@ -113,23 +118,35 @@ public class TaggedDocument {
 		this.documentAuthor = author;
 		this.ID = documentTitle+"_"+documentAuthor;
 		Logger.logln("TaggedDocument ID: "+ID);
+		currentLiveTaggedSentences = new ArrayList<TaggedSentence>(5); 
 		jigsaw = new SentenceTools();
 		taggedSentences = new ArrayList<TaggedSentence>(PROBABLE_NUM_SENTENCES);
 		makeAndTagSentences(untaggedDocument, true);
 		//setHashMaps();
-		setWordsToAddRemove();
-		Logger.logln("Top 100 wordsToRemove: "+wordsToRemove.toString());
+		//setWordsToAddRemove();
+		//Logger.logln("Top 100 wordsToRemove: "+wordsToRemove.toString());
+	}
+	
+	public void consolidateFeatures(ArrayList<TaggedSentence> alts){
+		/*
+		 * TODO: for each TaggedSentence:
+		 * 	call "featurePacker(TaggedSentence ts)" [<= prototype, function not yet written] in ConsolidationStation.
+		 * That will run though each Word in the tagged sentence and:
+		 * 	run through each attribute that is equal to or less than the length of the Word's word. This function will be highly based off 
+		 * of Joe's code already there "getWordFromString". .... more to come....
+		 */
+		
 	}
 	/*
 	public boolean writeSerializedSelf(String directory){
 		return ObjectIO.writeObject(this, ID, directory);
 	}
 	*/
-	/**
+/*
 	 * 
 	 * @param n the number of top elements to return
 	 * @return an arrayList of the top n ranks
-	 */
+
 	public ArrayList<Word> getTopRemove(int n){//got to think about sorting more.
 		ArrayList<Word> topRanks=new ArrayList<Word>(n);
 		Iterator iter=wordsToRemove.keySet().iterator();
@@ -137,20 +154,21 @@ public class TaggedDocument {
 		while(iter.hasNext()){
 			String strKey=(String)iter.next();
 			for(int i=0;i<topRanks.size();i++){
-				if(wordsToRemove.get(strKey).anonymityRank>topRanks.get(i).anonymityRank){
+				if(wordsToRemove.get(strKey).anonymityIndex>topRanks.get(i).anonymityIndex){
 					topRanks.add(i, wordsToRemove.get(strKey));
 				}
 			}
 		}
 		return topRanks;
 	}
+	
 	public void setWordsToAddRemove(){
 		for(int i=0;i<taggedSentences.size();i++){
 			HashMap<String,Word>sentenceHash=taggedSentences.get(i).getWordList();
 			Iterator iter=sentenceHash.keySet().iterator();
 			while(iter.hasNext()){
 				String strKey=(String)iter.next();
-				double anonymityRank=sentenceHash.get(strKey).getAnonymityRank();
+				double anonymityRank=sentenceHash.get(strKey).getAnonymityIndex();
 				if(anonymityRank<0){
 					updateHashMap(wordsToRemove,sentenceHash.get(strKey));
 				}
@@ -187,7 +205,7 @@ public class TaggedDocument {
 	public void setAuthor(String author){
 		documentAuthor = author;
 	}
-	
+*/	
 	/**
 	 * Takes a String of sentences (can be an entire document), breaks it up into individual sentences (sentence tokens), breaks those up into tokens, and then tags them (via MaxentTagger).
 	 * Each tagged sentence is saved into a TaggedSentence object, along with its untagged counterpart.
@@ -223,11 +241,19 @@ public class TaggedDocument {
 		return taggedSentences;
 	}
 	
+	/**
+	 * returns the ArrayList of TaggedSentences
+	 * @return
+	 */
 	public ArrayList<TaggedSentence> getTaggedDocument(){
 		return taggedSentences;
 	}
 		
 
+	/**
+	 * returns the untagged sentences of the TaggedDocument
+	 * @return
+	 */
 	public ArrayList<String> getUntaggedSentences(){
 		ArrayList<String> sentences = new ArrayList<String>();
 		for (int i=0;i<taggedSentences.size();i++){
@@ -242,8 +268,10 @@ public class TaggedDocument {
 	 * @return
 	 */
 	public String getNextSentence(){
+		currentLiveTaggedSentences.clear(); // we don't want unlive sentences here.
 		if(sentNumber <totalSentences-1){
 			sentNumber++;
+			currentLiveTaggedSentences.add(taggedSentences.get(sentNumber));
 			//Logger.logln(taggedSentences.get(sentNumber).tagged.toString());
 			return taggedSentences.get(sentNumber).getUntagged();
 		}
@@ -259,8 +287,10 @@ public class TaggedDocument {
 	 * @return the string of the previous sentence 
 	 */
 	public String getLastSentence(){
+		currentLiveTaggedSentences.clear(); // we don't want unlive sentences here.
 		if(sentNumber >0){
 			sentNumber--;
+			currentLiveTaggedSentences.add(taggedSentences.get(sentNumber));
 			return taggedSentences.get(sentNumber).getUntagged();
 		}
 		else{
@@ -277,6 +307,7 @@ public class TaggedDocument {
 	 */
 	public String addNextSentence(String boxText) {
 		if(sentNumber <totalSentences-1 && sentNumber>=0){
+			currentLiveTaggedSentences.add(taggedSentences.get(sentNumber));
 			totalSentences--;
 			TaggedSentence newSent= new TaggedSentence(boxText);
 			int position=0;
@@ -305,11 +336,14 @@ public class TaggedDocument {
 		if(sentNumber<0){
 			sentNumber=0;
 		}
+		currentLiveTaggedSentences.add(taggedSentences.get(sentNumber));
 		return taggedSentences.get(sentNumber).getUntagged();
 		
 	}
-	//helper functions
 	
+	
+	//helper functions
+/*	
 	private void setHashMaps(){
 		//reset necessary??
 		setFunctionWords();
@@ -321,6 +355,8 @@ public class TaggedDocument {
 		setLettersWordsPOS();
 		
 	}
+*/	
+	
 	/**
 	 * 
 	 * @param taggedList takes a list of tagged sentences.
@@ -338,9 +374,13 @@ public class TaggedDocument {
 		
 		return newSent;
 	}
-	/**
+	public int getSentNumber(){
+		return sentNumber;
+	}
+	
+	/*	 
 	 * concatenates the functionWord lists from all the sentences in the document
-	 */
+	 
 	private void setFunctionWords(){
 		String key;
 		for (int i=0;i<taggedSentences.size();i++){
@@ -351,9 +391,9 @@ public class TaggedDocument {
 			}
 		}
 	}
-	/**
+	
 	 * concatenates the mispelledWord lists from all the sentences in the document
-	 */
+	
 	private void setMisspelledWords(){
 		String key;
 		for (int i=0;i<taggedSentences.size();i++){
@@ -364,9 +404,9 @@ public class TaggedDocument {
 			}
 		}
 	}
-	/**
+	
 	 * concatenates the punctuation lists from all the sentences in the document
-	 */
+	
 	private void setPunctuation(){
 		String key;
 		for (int i=0;i<taggedSentences.size();i++){
@@ -376,9 +416,9 @@ public class TaggedDocument {
 			}
 		}
 	}
-	/**
+	
 	 * concatenates the specialCharacter lists from all the sentences in the document
-	 */
+	
 	private void setSpecialChars(){
 		String key;
 		for (int i=0;i<taggedSentences.size();i++){
@@ -388,9 +428,9 @@ public class TaggedDocument {
 			}
 		}
 	}
-	/**
+	
 	 *  concatenates the digit lists from all the sentences in the document
-	 */
+	
 	private void setDigits(){
 		String key;
 		for (int i=0;i<taggedSentences.size();i++){
@@ -400,9 +440,9 @@ public class TaggedDocument {
 			}
 		}
 	}
-	/**
+	
 	 *  concatenates the wordLength lists from all the sentences in the document
-	 */
+	
 	private void setWordLengths(){
 		Integer key;
 		for (int i=0;i<taggedSentences.size();i++){
@@ -412,9 +452,9 @@ public class TaggedDocument {
 			}
 		}
 	}
-	/**
+	*
 	 * sets the letter,words, and POS hashMaps using the hashmaps from each other taggedSentence
-	 */
+	
 	private void setLettersWordsPOS(){//not entirely sure where would be optimal to call this, however.
 		for (int i=0;i<taggedSentences.size();i++){
 			concatHashMaps(POS,taggedSentences.get(i).POS);
@@ -429,11 +469,11 @@ public class TaggedDocument {
 		}
 	}
 	//Helper functions to help with setting the hashmaps
-	/**
+	*
 	 * 
 	 * @param finalHashMap the hashMap that the second is put onto
 	 * @param hashMapToAdd the hashmap put onto the first one
-	 */
+	
 	private void concatHashMaps(HashMap<String,Integer> finalHashMap,HashMap<String,Integer> hashMapToAdd){
 		Set keySet=finalHashMap.entrySet();
 		Iterator keySetIter=keySet.iterator();
@@ -460,9 +500,7 @@ public class TaggedDocument {
 	//end helper functions
 	
 	//get functions
-	public int getSentNumber(){
-		return sentNumber;
-	}
+
 	public HashMap<String,Integer> getWords(){
 		return words;
 	}
@@ -510,6 +548,7 @@ public class TaggedDocument {
 	public HashMap<Integer,Integer> getWordLengths(){
 		return wordLengths;
 	}
+*/	
 	
 	public static void setSentenceCounter(int sentNumber){//is this needed?
 		TaggedDocument.sentNumber = sentNumber;
@@ -523,6 +562,8 @@ public class TaggedDocument {
 	public TaggedSentence removeTaggedSentence(int indexToRemove){
 		return taggedSentences.remove(indexToRemove);
 	}
+
+	
 	/**
 	 * 
 	 * @param sentsToAdd a String representing the sentence(s) from the editBox
@@ -590,7 +631,7 @@ public class TaggedDocument {
 		String text1 = "people's enjoy coffee, especially in the mornings, because it helps to wake me up. My dog is fairly small, but she seems not to realize it when she is around bigger dogs. This is my third testing sentence. I hope this works well.";
 		TaggedDocument testDoc = new TaggedDocument(text1);
 		System.out.println(testDoc.toString());			
-		System.out.println(testDoc.getFunctionWords());
+		//System.out.println(testDoc.getFunctionWords());
 		
 	}
 	

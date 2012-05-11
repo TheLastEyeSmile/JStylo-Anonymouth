@@ -157,7 +157,13 @@ public class Word implements Comparable<Word>{
 	}
 	
 	
-	
+	/**
+	 * returns the size of the word in this Word
+	 * @return
+	 */
+	public int size(){
+		return word.length();
+	}
 	
 
 	/**

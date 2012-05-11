@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.concurrent.locks.Lock;
 
 import edu.drexel.psal.anonymouth.projectDev.Attribute;
+import edu.drexel.psal.anonymouth.projectDev.DataAnalyzer;
 import edu.drexel.psal.anonymouth.projectDev.FeatureList;
 import edu.drexel.psal.jstylo.generics.Logger;
 import edu.stanford.nlp.ling.TaggedWord;
@@ -61,30 +62,34 @@ public class ConsolidationStation {
 		ConsolidationStation.allDocsTagged = allDocsTagged;
 	}
 	
-	public static Word getWordFromString(String str){
-		Word newWord=new Word(str);
-		for (int i=0;i<toAdd.size();i++){//toaddList loop
-			int toAddLength=toAdd.get(i).getStringInBraces().length();
-			if(toAddLength<=str.length()){//checks if it can be a possible match
-				int tempNumber=0;
-				double featureInfoGain=toAdd.get(i).getInfoGain();
-				double featurePercentChange = toAdd.get(i).getInfoGain();
-				for(int j=0;j<str.length()-toAddLength;j++){//loops through word to check if/howManyTimes the stringInBraces is found in the word.
-					if(str.substring(j, j+toAddLength).equals((String)toAdd.get(i).stringInBraces)){
-						tempNumber++;
+	public static TaggedSentence featurePacker(TaggedSentence ts){
+		int numAttribs = DataAnalyzer.topAttributes.length;
+		int wordLen;
+		Attribute tempAttrib;
+		for(Word w:ts.wordsInSentence){
+			wordLen = w.size();
+			for(int attribIndex = 0; attribIndex < numAttribs; attribIndex++){
+				tempAttrib = DataAnalyzer.topAttributes[attribIndex];
+				int featureLength =tempAttrib.getStringInBraces().length();
+				if(featureLength<=wordLen){//checks if it can be a possible match XXX is this correct??
+					int tempNumber=0;
+					for(int j=0;j<wordLen-featureLength;j++){//loops through word to check if/howManyTimes the stringInBraces is found in the word.
+						if(str.substring(j, j+toAddLength).equals((String)toAdd.get(i).stringInBraces)){
+							tempNumber++;
+						}
 					}
+					//newWord.adjustVals(tempNumber, featureInfoGain,featurePercentChange);
 				}
-				//newWord.adjustVals(tempNumber, featureInfoGain,featurePercentChange);
 			}
 		}
 		for (int i=0;i<toRemove.size();i++){//toaddList loop
-			int toAddLength=toRemove.get(i).getStringInBraces().length();
-			if(toAddLength<=str.length()){//checks if it can be a possible match
-				int tempNumber=0;
-				double featureInfoGain=toRemove.get(i).getInfoGain();
-				double featurePercentChange = toRemove.get(i).getInfoGain();
-				for(int j=0;j<str.length()-toAddLength;j++){//loops through word to check if/howManyTimes the stringInBraces is found in the word.
-					if(str.substring(j, j+toAddLength).equals((String)toRemove.get(i).stringInBraces)){
+		int toAddLength=toRemove.get(i).getStringInBraces().length();
+		if(toAddLength<=str.length()){//checks if it can be a possible match
+			int tempNumber=0;
+			double featureInfoGain=toRemove.get(i).getInfoGain();
+			double featurePercentChange = toRemove.get(i).getInfoGain();
+			for(int j=0;j<str.length()-toAddLength;j++){//loops through word to check if/howManyTimes the stringInBraces is found in the word.
+				if(str.substring(j, j+toAddLength).equals((String)toRemove.get(i).stringInBraces)){
 						tempNumber++;
 					}
 				}

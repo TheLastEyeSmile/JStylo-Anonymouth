@@ -131,7 +131,6 @@ public class TaggedDocument {
 		
 		for(TaggedSentence ts:alts){
 			ConsolidationStation.featurePacker(ts);
-			
 		}
 		/*
 		 * TODO: for each TaggedSentence:

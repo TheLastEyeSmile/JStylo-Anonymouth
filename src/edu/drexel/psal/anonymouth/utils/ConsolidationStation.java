@@ -61,6 +61,34 @@ public class ConsolidationStation {
 		ConsolidationStation.allDocsTagged = allDocsTagged;
 	}
 	
+	/**
+	 * Adds the features present to each word in the taggedSentence
+	 * @param taggedSent the tagged Sentence with the Word List to update.
+	 * @return the taggedSentence passed in.
+	 */
+	public static TaggedSentence featurePacker(TaggedSentence taggedSent){
+		for(Word word:taggedSent.wordsInSentence){
+			String wordString=word.word;
+			int strSize=wordString.length(), tempNumber;
+			for (Attribute attrib:attribs){
+				String stringInBrace=attrib.getStringInBraces();
+				int toAddLength=stringInBrace.length();
+				if(toAddLength<=strSize){//checks for a possible match
+					tempNumber=0;
+					for(int j=0;j<strSize;j++){
+						if(wordString.subSequence(j, j+toAddLength).equals(stringInBrace)){
+							tempNumber++;
+						}
+					}
+					if(tempNumber>0){
+						//add the feature to the word and have it appearing tempNumber times.
+					}
+				}
+			}
+		}
+		return taggedSent;
+	}
+	
 	public static Word getWordFromString(String str){
 		Word newWord=new Word(str);
 		for (int i=0;i<toAdd.size();i++){//toaddList loop

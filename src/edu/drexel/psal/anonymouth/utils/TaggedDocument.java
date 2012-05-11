@@ -136,6 +136,11 @@ public class TaggedDocument {
 		 * of Joe's code already there "getWordFromString". .... more to come....
 		 */
 		
+		int altSize=alts.size(),i;
+		for(i=0;i<altSize;i++){
+			ConsolidationStation.featurePacker(alts.get(i));
+		}
+		
 	}
 	/*
 	public boolean writeSerializedSelf(String directory){
@@ -372,7 +377,8 @@ public class TaggedDocument {
 	 * @param newSentence The after editing version of the sentence(s)
 	 */
 	private void updateReferences(TaggedSentence oldSentence, TaggedSentence newSentence){
-		newSentence.getOldToNewDeltas(oldSentence);
+		;
+		Logger.logln(newSentence.getOldToNewDeltas(oldSentence).toString());
 	}
 	
 	//helper functions

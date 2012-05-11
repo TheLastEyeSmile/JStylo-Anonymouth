@@ -97,7 +97,6 @@ public class TaggedSentence {
 		this.tagged=taggedSentence.tagged;
 		this.wordsInSentence=taggedSentence.wordsInSentence;
 		
-		
 	}
 
 	/**

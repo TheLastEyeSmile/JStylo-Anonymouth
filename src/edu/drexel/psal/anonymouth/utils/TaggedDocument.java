@@ -321,7 +321,7 @@ public class TaggedDocument {
 			ArrayList<TaggedSentence> tempTaggedSentences=new ArrayList<TaggedSentence>(2);
 			tempTaggedSentences.add(taggedSentences.get(sentNumber));
 			tempTaggedSentences.add(taggedSentences.get(sentNumber+1));
-			currentLiveTaggedSentences=new TaggedSentence(concatSentences(tempTaggedSentences));
+			currentLiveTaggedSentences=concatSentences(tempTaggedSentences);
 			
 			TaggedSentence newSent= new TaggedSentence(boxText);
 			int position=0;
@@ -336,7 +336,10 @@ public class TaggedDocument {
 					addTaggedSentence(newSent,sentNumber);//--------possible improvement needed to parser?-----
 					//ErrorHandler.incompleteSentence();
 					//for(int i=0;i<currentLiveTaggedSentences.size();i++)
+					
 					Logger.logln(currentLiveTaggedSentences.untagged);
+					updateReferences(currentLiveTaggedSentences,newSent);
+					
 					return newSent.getUntagged();
 				}
 				position=sent.end();
@@ -347,6 +350,9 @@ public class TaggedDocument {
 			taggedSentences.remove(sentNumber);
 			newSent=concatSentences(taggedSents);
 			taggedSentences.add(sentNumber, newSent);
+			
+			updateReferences(currentLiveTaggedSentences,newSent);
+			
 			//for(int i=0;i<currentLiveTaggedSentences.size();i++)
 			Logger.logln(currentLiveTaggedSentences.untagged);
 			return newSent.getUntagged();
@@ -360,7 +366,14 @@ public class TaggedDocument {
 		return taggedSentences.get(sentNumber).getUntagged();
 		
 	}
-	
+	/**
+	 * As of right now simply is a wrapper for the TaggedSentence.getOldToNewDeltas. May eventually store/return information.
+	 * @param oldSentence The pre-editing version of the sentence(s)
+	 * @param newSentence The after editing version of the sentence(s)
+	 */
+	private void updateReferences(TaggedSentence oldSentence, TaggedSentence newSentence){
+		newSentence.getOldToNewDeltas(oldSentence);
+	}
 	
 	//helper functions
 /*	
@@ -595,6 +608,7 @@ public class TaggedDocument {
 			//CALL COMPARE
 			removeTaggedSentence(sentNumber);
 			Logger.logln("User deleted a sentence.");
+			updateReferences(currentLiveTaggedSentences,new TaggedSentence(""));//all features must be deleted
 			totalSentences--;
 			sentNumber--;
 			return 0;
@@ -608,6 +622,8 @@ public class TaggedDocument {
 				TaggedSentence newSent= new TaggedSentence(sentsToAdd);
 				removeTaggedSentence(sentNumber);
 				addTaggedSentence(newSent,sentNumber);
+				
+				updateReferences(currentLiveTaggedSentences,newSent);
 				//call compare with newSent to currentLiveTaggedSentences
 				ErrorHandler.incompleteSentence();
 				return -1;
@@ -617,6 +633,8 @@ public class TaggedDocument {
 		ArrayList<TaggedSentence> taggedSentsToAdd = makeAndTagSentences(sentsToAdd,false);
 		currentLiveTaggedSentences=taggedSentences.get(sentNumber);
 		removeTaggedSentence(sentNumber);
+		
+		updateReferences(currentLiveTaggedSentences,concatSentences(taggedSentsToAdd));
 		addTaggedSentence(taggedSentsToAdd.get(0),sentNumber);
 		
 		//call compare

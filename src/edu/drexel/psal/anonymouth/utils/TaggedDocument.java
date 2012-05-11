@@ -128,6 +128,11 @@ public class TaggedDocument {
 	}
 	
 	public void consolidateFeatures(ArrayList<TaggedSentence> alts){
+		
+		for(TaggedSentence ts:alts){
+			ConsolidationStation.featurePacker(ts);
+			
+		}
 		/*
 		 * TODO: for each TaggedSentence:
 		 * 	call "featurePacker(TaggedSentence ts)" [<= prototype, function not yet written] in ConsolidationStation.
@@ -273,7 +278,7 @@ public class TaggedDocument {
 	 * @return
 	 */
 	public String getNextSentence(){
-		//currentLiveTaggedSentences.clear(); // we don't want unlive sentences here.
+		//currentLiveTaggedSentences.clear(); // we don't want XXX unlive XXX <-(I think you meant to say 'dead') sentences here.
 		if(sentNumber <totalSentences-1){
 			sentNumber++;
 			//for(int i=0;i<currentLiveTaggedSentences.size();i++)
@@ -296,7 +301,7 @@ public class TaggedDocument {
 	 * @return the string of the previous sentence 
 	 */
 	public String getLastSentence(){
-		//currentLiveTaggedSentences.clear(); // we don't want unlive sentences here.
+		//currentLiveTaggedSentences.clear(); // we don't want unlive sentences here. XXX Scroll up XXX
 		if(sentNumber >0){
 			//currentLiveTaggedSentences=new TaggedSentence(taggedSentences.get(sentNumber));
 			sentNumber--;

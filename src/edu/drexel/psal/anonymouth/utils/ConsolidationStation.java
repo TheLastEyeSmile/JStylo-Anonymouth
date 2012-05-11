@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.concurrent.locks.Lock;
 
 import edu.drexel.psal.anonymouth.projectDev.Attribute;
+import edu.drexel.psal.anonymouth.projectDev.DataAnalyzer;
 import edu.drexel.psal.anonymouth.projectDev.FeatureList;
 import edu.drexel.psal.jstylo.generics.Logger;
 import edu.stanford.nlp.ling.TaggedWord;

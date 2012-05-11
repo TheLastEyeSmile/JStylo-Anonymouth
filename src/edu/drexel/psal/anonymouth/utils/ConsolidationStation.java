@@ -71,8 +71,10 @@ public class ConsolidationStation {
 		for(Word word:taggedSent.wordsInSentence){
 			String wordString=word.word;
 			int strSize=wordString.length(), tempNumber;
-			for (Attribute attrib:attribs){
-				String stringInBrace=attrib.getStringInBraces();
+			int attribLen=attribs.length;
+			//for (Attribute attrib:attribs){
+			for(int i=0;i<attribLen;i++){
+				String stringInBrace=attribs[i].getStringInBraces();
 				int toAddLength=stringInBrace.length();
 				if(toAddLength<=strSize){//checks for a possible match
 					tempNumber=0;
@@ -83,6 +85,8 @@ public class ConsolidationStation {
 					}
 					if(tempNumber>0){
 						//add the feature to the word and have it appearing tempNumber times.
+						word.featuresFound.addNewReference(i, tempNumber);
+						Logger.logln("Added a feature: "+word.featuresFound.toString());
 					}
 				}
 			}

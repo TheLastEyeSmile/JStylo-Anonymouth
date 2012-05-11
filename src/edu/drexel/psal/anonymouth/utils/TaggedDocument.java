@@ -141,11 +141,6 @@ public class TaggedDocument {
 		 * of Joe's code already there "getWordFromString". .... more to come....
 		 */
 		
-		int altSize=alts.size(),i;
-		for(i=0;i<altSize;i++){
-			ConsolidationStation.featurePacker(alts.get(i));
-		}
-		
 	}
 	/*
 	public boolean writeSerializedSelf(String directory){

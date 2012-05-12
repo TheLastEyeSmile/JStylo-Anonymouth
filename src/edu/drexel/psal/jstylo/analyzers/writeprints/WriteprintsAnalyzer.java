@@ -63,6 +63,11 @@ public class WriteprintsAnalyzer extends Analyzer {
 	private boolean reduceFeatureSpace = false;
 	
 	/**
+	 * Whether to calculate word-based features synonym count for pattern disruption.
+	 */
+	private boolean calcSynCount = false;
+	
+	/**
 	 * The value to reduce the number of all gram-based features to.
 	 */
 	private static int featureReductionThreshold = 50;
@@ -92,11 +97,15 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 * @param reduceFeatureSpace
 	 * 		Whether to apply feature space reduction for large feature classes (e.g.
 	 * 		word bigrams) by information gain.
+	 * @param calcSynCount
+	 * 		Whether to apply word-based features synonym count calculation to be
+	 * 		used for pattern disruption.
 	 */
 	public WriteprintsAnalyzer(boolean averageFeatureVectors,
-			boolean reduceFeatureSpace) {
+			boolean reduceFeatureSpace, boolean calcSynCount) {
 		this.averageFeatureVectors = averageFeatureVectors;
 		this.reduceFeatureSpace = reduceFeatureSpace;
+		this.calcSynCount = calcSynCount;
 	}
 	
 	
@@ -193,8 +202,11 @@ public class WriteprintsAnalyzer extends Analyzer {
 		results = new HashMap<String,Map<String,Double>>(trainAuthorData.size());
 		
 		// initialize synonym count mapping
-		log.println("Initializing word synonym count");
-		Map<Integer,Integer> wordsSynCount = calcSynonymCount(trainingSet,numFeatures);
+		Map<Integer,Integer> wordsSynCount = null;
+		if (calcSynCount) {
+			log.println("Initializing word synonym count");
+			wordsSynCount = calcSynonymCount(trainingSet,numFeatures);
+		}
 		
 		
 		/* =======
@@ -335,17 +347,17 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 * reduced by info-gain
 	 */
 	private static String[] toReduceFeatures = {
-		"Top-Letter-bigrams",
-		"Top-Letter-trigrams",
-		"Two-Digit-Numbers",
-		"Three-Digit-Numbers",
-		"Function-Words",
-		"POS-Bigrams",
-		"POS-Trigrams",
-		"Words",
-		"Word-Bigrams",
-		"Word-Trigrams",
-		"Misspelled-Words"
+		"letter-bigrams",
+		"letter-trigrams",
+		"digit-bigrams",
+		"digit-trigrams",
+		"function-words",
+		"POS-bigrams",
+		"POS-trigrams",
+		"bag-of-words",
+		"word-bigrams",
+		"word-trigrams",
+		"misspellings"
 	};
 	
 	/**
@@ -476,11 +488,11 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 * Used to identify word-based features.
 	 */
 	private static String[] wordFeatures = {
-		"Top-Function-Words",
-		"Bag-of-Words",
-		"Word-Bigrams",
-		"Word-Trigrams",
-		//"Misspelled-Words"
+		"function-words",
+		"bag-of-words",
+		"word-bigrams",
+		"word-trigrams",
+		//"misspellings"
 	};
 	
 	/**
@@ -518,7 +530,7 @@ public class WriteprintsAnalyzer extends Analyzer {
 			// check whether it is a word feature, else continue
 			isWordFeature = false;
 			for (String wordFeature: wordFeatures)
-				if (featureName.startsWith(wordFeature)) {
+				if (featureName.toLowerCase().contains(wordFeature)) {
 					isWordFeature = true;
 					break;
 				}

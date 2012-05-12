@@ -160,7 +160,6 @@ public class AuthorWPData {
 	 * In addition computes the author's writeprint pattern.
 	 */
 	public void initBasisAndWriteprintMatrices() {
-		
 		int numInstances = featureMatrix.getRowDimension();
 		int numFeatures = featureMatrix.getColumnDimension();
 		
@@ -237,7 +236,7 @@ public class AuthorWPData {
 		int basisNumRows = basisMatrix.getRowDimension();
 		for (int j: zeroFeatures) {
 			if (!other.zeroFeatures.contains(j)) {
-				if (wordsSynCount.keySet().contains(j)) {
+				if (wordsSynCount != null && wordsSynCount.keySet().contains(j)) {
 					synUsed = 1; // simplifying synonym usage count
 					synTotal = wordsSynCount.get(j);
 				}

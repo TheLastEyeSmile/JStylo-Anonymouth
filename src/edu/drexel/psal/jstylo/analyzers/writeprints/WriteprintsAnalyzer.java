@@ -72,6 +72,7 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 */
 	private static int featureReductionThreshold = 50;
 	
+
 	/**
 	 * Local logger
 	 */
@@ -334,6 +335,95 @@ public class WriteprintsAnalyzer extends Analyzer {
 		log.printf("Total Accuracy: %.2f\n", total);
 		log.println(">>> runCrossValidation finished");
 		return null;
+	}
+	
+	
+	/* ===================
+	 * Getters and Setters
+	 * ===================
+	 */
+	
+	/**
+	 * The <code>averageFeatureVectors</code> parameter sets whether to average
+	 * all feature vectors for each author or to hold a vector per document.
+	 * Increases performance when set to <code>true</code> (by default).
+	 * @return <code>true</code> if the classifier is set to average all feature
+	 * vectors for each author, across all author's documents.<br>
+	 */
+	public boolean isAverageFeatureVectors() {
+		return averageFeatureVectors;
+	}
+
+	/**
+	 * Setter for <code>averageFeatureVectors</code>. If set to <code>true</code>,
+	 * averages all feature vectors per each author. Increases performance when
+	 * set to <code>true</code> (by default).
+	 * @param averageFeatureVectors
+	 * 		The value to set.
+	 */
+	public void setAverageFeatureVectors(boolean averageFeatureVectors) {
+		this.averageFeatureVectors = averageFeatureVectors;
+	}
+
+	/**
+	 * @return <code>true</code> if the classifier is set to apply
+	 * Information Gain over all varying-size feature classes (e.g. word bigrams),
+	 * to be reduced to the value defined in <code>featureReductionThreshold</code>.
+	 */
+	public boolean isReduceFeatureSpace() {
+		return reduceFeatureSpace;
+	}
+
+	/**
+	 * Setter for <code>reduceFeatureSpace</code>. If set to <code>true</code>,
+	 * reduces the feature space by applying Information Gain on all varying-size
+	 * feature classes (e.g. word bigrams) and reducing them to the top
+	 * <code>featureReductionThreshold</code> features.
+	 * @param reduceFeatureSpace
+	 * 		The value to be set.
+	 */
+	public void setReduceFeatureSpace(boolean reduceFeatureSpace) {
+		this.reduceFeatureSpace = reduceFeatureSpace;
+	}
+	
+	/**
+	 * @return <code>true</code> if the classifier is set to calculate synonym
+	 * count for all word-based features, to be integrated in the feature 
+	 * pattern disruption calculation. Otherwise, all word-based features
+	 * are addressed as all other features in the pattern disruption calculation. 
+	 */
+	public boolean isCalcSynCount() {
+		return calcSynCount;
+	}
+	
+	/**
+	 * Setter for <code>calcSynCount</code>. If set to <code>true</code>,
+	 * calculates synonym count for all word-based features to be integrated
+	 * in the pattern disruption calculation for those features.
+	 * @param calcSynCount
+	 * 		The value to be set.
+	 */
+	public void setCalcSynCount(boolean calcSynCount) {
+		this.calcSynCount = calcSynCount;
+	}
+	
+	/**
+	 * @return The value to reduce all varying-size feature classes to,
+	 * if the <code>reduceFeatureSpace</code> is set to <code>true</code>.
+	 */
+	public static int getFeatureReductionThreshold() {
+		return featureReductionThreshold;
+	}
+	
+	/**
+	 * Sets the value to reduce all varying-size feature classes to, if the
+	 * <code>reduceFeatureSpace</code> is set to <code>true</code>, to the
+	 * given one.
+	 * @param featureReductionThreshold
+	 * 		The value to set to.
+	 */
+	public static void setFeatureReductionThreshold(int featureReductionThreshold) {
+		WriteprintsAnalyzer.featureReductionThreshold = featureReductionThreshold;
 	}
 	
 	

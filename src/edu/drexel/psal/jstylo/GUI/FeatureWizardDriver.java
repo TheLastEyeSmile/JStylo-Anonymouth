@@ -953,12 +953,16 @@ public class FeatureWizardDriver {
 				"edu.drexel.psal.jstylo.eventDrivers.SentenceCounterEventDriver",
 				"edu.drexel.psal.jstylo.eventDrivers.EventsCounterEventDriver",
 				"edu.drexel.psal.jstylo.eventDrivers.RegexpCounterEventDriver",
+				"edu.drexel.psal.jstylo.eventDrivers.WordsUsedOnceEventDriver",
+				"edu.drexel.psal.jstylo.eventDrivers.WordsUsedTwiceEventDriver",
 		},
 		
 		// readability metrics
-		new String[] { "Readability Metrics",
+		new String[] { "Readability and Vocabulary Metrics",
 				"edu.drexel.psal.jstylo.eventDrivers.FleschReadingEaseScoreEventDriver",
 				"edu.drexel.psal.jstylo.eventDrivers.GunningFogIndexEventDriver",
+				"edu.drexel.psal.jstylo.eventDrivers.YulesKEventDriver",
+				"edu.drexel.psal.jstylo.eventDrivers.SimpsonsDiversityIndexEventDriver",
 		},
 		
 		// Misc.

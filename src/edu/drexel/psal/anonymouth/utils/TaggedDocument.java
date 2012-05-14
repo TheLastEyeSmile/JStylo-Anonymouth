@@ -306,7 +306,6 @@ public class TaggedDocument {
 	 * @return
 	 */
 	public String getNextSentence(){
-		//currentLiveTaggedSentences.clear(); // we don't want XXX unlive XXX <-(I think you meant to say 'dead') sentences here.
 		if(sentNumber <totalSentences-1){
 			sentNumber++;
 			//for(int i=0;i<currentLiveTaggedSentences.size();i++)

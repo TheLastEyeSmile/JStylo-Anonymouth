@@ -680,7 +680,7 @@ public class EditorTabDriver {
 		if(isUsingNineFeatures == true)
 			return 9;
 		else{
-			Logger.logln("Asking user for desired number of features to return suggestions for.");
+			/*Logger.logln("Asking user for desired number of features to return suggestions for.");
 			JOptionPane theMessage = new JOptionPane();
 			JTextField jtf = new JTextField();
 			if(numSuggestions != -1)
@@ -733,9 +733,9 @@ public class EditorTabDriver {
 								JOptionPane.ERROR_MESSAGE,
 								GUIMain.iconNO);
 				return -1;
-			}
-			numSuggestions = inputNum;
-			return inputNum;
+			}/**/
+			numSuggestions = 200;
+			return numSuggestions;
 		}
 	}	
 		

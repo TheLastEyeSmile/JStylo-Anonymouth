@@ -1,6 +1,7 @@
 package edu.drexel.psal.anonymouth.utils;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import edu.drexel.psal.jstylo.generics.Logger;
 import edu.drexel.psal.jstylo.generics.Logger.LogOut;

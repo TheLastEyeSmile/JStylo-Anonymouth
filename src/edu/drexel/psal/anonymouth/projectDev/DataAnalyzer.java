@@ -274,6 +274,7 @@ public class DataAnalyzer{
 				}
 			}
 			*/
+			
 			if(toModifyIndex == -1){
 				//System.out.println("CONTINUING attribute: "+attrib+" does not appear in toModifyDocument.");
 				numFeatures++;
@@ -412,7 +413,6 @@ public class DataAnalyzer{
 			//System.out.println();
 		}
 		
-		
 		Logger.logln("****** Current list of Present values for: "+ThePresident.sessionName+" process request number: "+DocumentMagician.numProcessRequests+" ******");
 		Logger.logln(holderForLogger.entrySet().toString());
 		return topAttribs;
@@ -541,12 +541,12 @@ public class DataAnalyzer{
 		Logger.logln("called runIntitial in DataAnalyzer");
 		//String authorToRemove = magician.loadExampleSet();
 		List<Document> tempTrainDocs = pSet.getAllTrainDocs();
-		/*
+	/*
 		for (Document d:tempTrainDocs){
 			pSet.removeTrainDocAt(d.getAuthor(),d);
 			pSet.addTrainDoc(d.getAuthor(), SentenceTools.removeUnicodeControlChars(d));
 		}
-		*/
+	*/	
 		List<Document> tempTestDocs = pSet.getTestDocs();
 		for (Document d:tempTestDocs){
 			d.setAuthor(DocumentMagician.dummyName);

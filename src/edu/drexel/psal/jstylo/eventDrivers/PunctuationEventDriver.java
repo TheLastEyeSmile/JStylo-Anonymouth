@@ -1,12 +1,15 @@
 package edu.drexel.psal.jstylo.eventDrivers;
 
-import java.io.*;
-import java.util.*;
-
-import com.jgaap.eventDrivers.NaiveWordEventDriver;
 import com.jgaap.generics.*;
 
-public class WordLengthEventDriver extends EventDriver {
+public class PunctuationEventDriver extends EventDriver {
+
+	/* ======
+	 * fields
+	 * ======
+	 */
+	
+	private static String punct = "?!,.'`\":;";
 	
 	/* ==================
 	 * overriding methods
@@ -14,11 +17,11 @@ public class WordLengthEventDriver extends EventDriver {
 	 */
 	
 	public String displayName() {
-		return "Word Lengths";
+		return "Punctuation";
 	}
 
 	public String tooltipText() {
-		return "The frequencies of all distinct word lengths in the document.";
+		return "The frequencies of punctuation: ? ! , . ' ` \" : ;";
 	}
 
 	public boolean showInGUI() {
@@ -28,10 +31,11 @@ public class WordLengthEventDriver extends EventDriver {
 	@Override
 	public EventSet createEventSet(Document doc) {
 		EventSet es = new EventSet(doc.getAuthor());
-		EventSet words = new NaiveWordEventDriver().createEventSet(doc);
-		for (Event e: words) {
-			es.addEvent(new Event("" + e.getEvent().length()));
-		}
+		char[] cd = doc.getProcessedText();
+
+		for (int i = 0; i < cd.length; i++)
+			if (punct.contains("" + cd[i]))
+				es.addEvent(new Event(cd[i]));
 		
 		return es;
 	}

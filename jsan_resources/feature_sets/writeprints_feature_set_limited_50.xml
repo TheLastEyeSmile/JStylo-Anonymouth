@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<feature-set name="WritePrints (Limited)">
+<feature-set name="WritePrints (Limited 50)">
 	<description value="A (partial) set of features used by Zheng et al. Feature classes with many features (e.g. character bigrams etc.) are limited to top 50."/>
 	<feature name="Character count" calc_hist="false">
 		<description value="The total number of characters in the document."/>

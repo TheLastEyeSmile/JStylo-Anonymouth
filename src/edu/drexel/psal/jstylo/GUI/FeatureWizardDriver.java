@@ -1,5 +1,6 @@
 package edu.drexel.psal.jstylo.GUI;
 
+import edu.drexel.psal.jstylo.eventDrivers.SingleNumericEventDriver;
 import edu.drexel.psal.jstylo.generics.CumulativeFeatureDriver;
 import edu.drexel.psal.jstylo.generics.FeatureDriver;
 import edu.drexel.psal.jstylo.generics.Logger;
@@ -834,16 +835,23 @@ public class FeatureWizardDriver {
 	 * Returns the isCalcHist value for the given event driver class name (false for counters and readability metrics).
 	 */
 	public static boolean getIsCalcHist(String className) {
-		if (className.equals("eventDrivers.CharCounterEventDriver") ||
-				className.equals("eventDrivers.LetterCounterEventDriver") ||
-				className.equals("eventDrivers.WordCounterEventDriver") ||
-				className.equals("eventDrivers.UniqueWordsCounterEventDriver") ||
-				className.equals("eventDrivers.SyllableCounterEventDriver") ||
-				className.equals("eventDrivers.SentenceCounterEventDriver") ||
-				className.equals("eventDrivers.EventsCounterEventDriver") ||
-				className.equals("eventDrivers.FleschReadingEaseScoreEventDriver") ||
-				className.equals("eventDrivers.RegexpCounterEventDriver") ||
-				className.equals("eventDrivers.GunningFogIndexEventDriver"))
+		if (
+				className.endsWith("eventDrivers.CharCounterEventDriver") ||
+				className.endsWith("eventDrivers.EventsCounterEventDriver") ||
+				className.endsWith("eventDrivers.FleschReadingEaseScoreEventDriver") ||
+				className.endsWith("eventDrivers.GunningFogIndexEventDriver") ||
+				className.endsWith("eventDrivers.LetterCounterEventDriver") ||
+				className.endsWith("eventDrivers.RegexpCounterEventDriver") ||
+				className.endsWith("eventDrivers.SentenceCounterEventDriver") ||
+				className.endsWith("eventDrivers.SyllableCounterEventDriver") ||
+				className.endsWith("eventDrivers.UniqueWordsCounterEventDriver") ||
+				className.endsWith("eventDrivers.WordCounterEventDriver") ||
+				className.endsWith("eventDrivers.WordUsageCounterEventDriver") ||
+				className.endsWith("eventDrivers.WordsUsedOnceEventDriver") ||
+				className.endsWith("eventDrivers.WordsUsedTwiceEventDriver") ||
+				className.endsWith("eventDrivers.YulesKEventDriver") ||
+				className.endsWith("eventDrivers.SimpsonsDiversityIndexEventDriver")
+				)
 			return false;
 		else return true;
 	}
@@ -950,12 +958,16 @@ public class FeatureWizardDriver {
 				"edu.drexel.psal.jstylo.eventDrivers.SentenceCounterEventDriver",
 				"edu.drexel.psal.jstylo.eventDrivers.EventsCounterEventDriver",
 				"edu.drexel.psal.jstylo.eventDrivers.RegexpCounterEventDriver",
+				"edu.drexel.psal.jstylo.eventDrivers.WordsUsedOnceEventDriver",
+				"edu.drexel.psal.jstylo.eventDrivers.WordsUsedTwiceEventDriver",
 		},
 		
 		// readability metrics
-		new String[] { "Readability Metrics",
+		new String[] { "Readability and Vocabulary Metrics",
 				"edu.drexel.psal.jstylo.eventDrivers.FleschReadingEaseScoreEventDriver",
 				"edu.drexel.psal.jstylo.eventDrivers.GunningFogIndexEventDriver",
+				"edu.drexel.psal.jstylo.eventDrivers.YulesKEventDriver",
+				"edu.drexel.psal.jstylo.eventDrivers.SimpsonsDiversityIndexEventDriver",
 		},
 		
 		// Misc.
@@ -971,6 +983,8 @@ public class FeatureWizardDriver {
 				"com.jgaap.eventDrivers.TruncatedReactionTimeEventDriver",
 				
 				// JStylo event drivers
+				"edu.drexel.psal.jstylo.eventDrivers.SpecialCharsEventDriver",
+				"edu.drexel.psal.jstylo.eventDrivers.PunctuationEventDriver",
 		}
 	};
 	
@@ -987,6 +1001,7 @@ public class FeatureWizardDriver {
 		"edu.drexel.psal.jstylo.eventCullers.MostCommonEventsExtended",
 		"edu.drexel.psal.jstylo.eventCullers.MinAppearances",
 		"edu.drexel.psal.jstylo.eventCullers.MaxAppearances",
+		"edu.drexel.psal.jstylo.eventCullers.IgnoreAppearedEventCuller",
 	};
 	
 	

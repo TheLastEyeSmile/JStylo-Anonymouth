@@ -51,7 +51,7 @@ public class TaggedDocument {
 			sentencesPreTagging.add(sentenceTokenized);
 		}
 		//while...
-		ArrayList<TaggedWord> beenTagged = mt.tagString(testText);
+		//ArrayList<TaggedWord> beenTagged = mt.tagString(testText);
 		
 	}
 }

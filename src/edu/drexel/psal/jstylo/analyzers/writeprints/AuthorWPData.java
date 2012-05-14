@@ -186,7 +186,7 @@ public class AuthorWPData {
 		// ----------------------------------------------------------------------
 		EigenvalueDecomposition eigenvalues = COV.eig();
 		basisMatrix = eigenvalues.getV();
-		writeprint = basisMatrix.transpose().times(X_minus_MU);
+		writeprint = basisMatrix.transpose().times(X); // was: times(X_minux_MU) instead of times(X)
 		WriteprintsAnalyzer.log.print("(basis: " + basisMatrix.getRowDimension() +
 				"x" + basisMatrix.getColumnDimension() +
 				", writeprint: " + writeprint.getRowDimension() +
@@ -233,7 +233,8 @@ public class AuthorWPData {
 		int synUsed, synTotal;
 		double patternDisruption;
 		double thisWPAvg, otherPatternAvg;
-		int basisNumRows = basisMatrix.getRowDimension();
+		//int basisNumRows = basisMatrix.getRowDimension();
+		int basisNumCols = basisMatrix.getColumnDimension();
 		for (int j: zeroFeatures) {
 			if (!other.zeroFeatures.contains(j)) {
 				if (wordsSynCount != null && wordsSynCount.keySet().contains(j)) {
@@ -246,6 +247,16 @@ public class AuthorWPData {
 				}
 				patternDisruption = IG[j] * K * (synTotal + 1) * (synUsed + 1);
 				
+				for (int k = 0; k < basisNumCols; k++) {
+					thisWPAvg = avgForRow(writeprint,k);
+					otherPatternAvg = avgForRow(otherPattern, k);
+					if (thisWPAvg > otherPatternAvg)
+						basisMatrix.set(j, k, -1 * patternDisruption);
+					else
+						basisMatrix.set(j, k, patternDisruption);
+				}
+				
+				/*
 				// update pattern disruption sign
 				thisWPAvg = avgForRow(writeprint,j);
 				otherPatternAvg = avgForRow(otherPattern, j);
@@ -255,6 +266,7 @@ public class AuthorWPData {
 				// update basis matrix with pattern disruption value
 				for (int i = 0; i < basisNumRows; i++)
 					basisMatrix.set(j, i, patternDisruption);
+				*/
 			}
 		}
 		

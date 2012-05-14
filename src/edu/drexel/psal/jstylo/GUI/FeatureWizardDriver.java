@@ -845,7 +845,12 @@ public class FeatureWizardDriver {
 				className.endsWith("eventDrivers.SentenceCounterEventDriver") ||
 				className.endsWith("eventDrivers.SyllableCounterEventDriver") ||
 				className.endsWith("eventDrivers.UniqueWordsCounterEventDriver") ||
-				className.endsWith("eventDrivers.WordCounterEventDriver")
+				className.endsWith("eventDrivers.WordCounterEventDriver") ||
+				className.endsWith("eventDrivers.WordUsageCounterEventDriver") ||
+				className.endsWith("eventDrivers.WordsUsedOnceEventDriver") ||
+				className.endsWith("eventDrivers.WordsUsedTwiceEventDriver") ||
+				className.endsWith("eventDrivers.YulesKEventDriver") ||
+				className.endsWith("eventDrivers.SimpsonsDiversityIndexEventDriver")
 				)
 			return false;
 		else return true;

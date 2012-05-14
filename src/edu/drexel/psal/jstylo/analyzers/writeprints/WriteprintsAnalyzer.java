@@ -559,7 +559,18 @@ public class WriteprintsAnalyzer extends Analyzer {
 				log.println("removed " +count);
 		}
 		log.println("Number of attributes after: " + train.numAttributes());
+		
+		/*
+		log.print("writing reduced datasets to indices starting at " + writeCount + "... ");
+		WekaInstancesBuilder.writeSetToARFF("./log/dataset_" + writeCount + ".arff", train);
+		writeCount++;
+		WekaInstancesBuilder.writeSetToARFF("./log/dataset_" + writeCount + ".arff", train);
+		writeCount++;
+		log.println("done!");
+		*/
 	}
+	
+	//private static int writeCount = 0;
 	
 	private static WordNetDatabase wndb = null;
 	

@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 import com.jgaap.JGAAPConstants;
 
 import edu.drexel.psal.anonymouth.gooie.ErrorHandler;
+import edu.drexel.psal.anonymouth.projectDev.DataAnalyzer;
 import edu.drexel.psal.jstylo.generics.Logger;
 import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.TaggedWord;
@@ -103,6 +104,7 @@ public class TaggedDocument {
 		taggedSentences = new ArrayList<TaggedSentence>(PROBABLE_NUM_SENTENCES);
 		//currentLiveTaggedSentences = new ArrayList<TaggedSentence>(5); 
 		makeAndTagSentences(untaggedDocument, true);
+		consolidateFeatures(taggedSentences);
 		//setHashMaps();
 		//setWordsToAddRemove();
 	}
@@ -122,25 +124,57 @@ public class TaggedDocument {
 		jigsaw = new SentenceTools();
 		taggedSentences = new ArrayList<TaggedSentence>(PROBABLE_NUM_SENTENCES);
 		makeAndTagSentences(untaggedDocument, true);
+		consolidateFeatures(taggedSentences);
 		//setHashMaps();
 		//setWordsToAddRemove();
 		//Logger.logln("Top 100 wordsToRemove: "+wordsToRemove.toString());
 	}
 	
+	/**
+	 * returns the number of Words in the TaggedDocument
+	 * @return
+	 */
+	public int getWordCount(){
+		int wordCount = 0;
+		for(TaggedSentence ts:taggedSentences){
+			wordCount += ts.size();
+		}
+		return wordCount;
+	}
+	
+	/**
+	 * returns all Words in the TaggedDocument
+	 * @return
+	 */
+	public ArrayList<Word> getWords(){
+		int numWords = getWordCount();
+		ArrayList<Word> theWords = new ArrayList<Word>(numWords);
+		for(TaggedSentence ts: taggedSentences){
+			theWords.addAll(ts.wordsInSentence);
+		}
+		return theWords;
+	}
+	
+	/**
+	 * consolidates features for an ArrayList of TaggedSentences
+	 * @param alts
+	 */
 	public void consolidateFeatures(ArrayList<TaggedSentence> alts){
 		
 		for(TaggedSentence ts:alts){
 			ConsolidationStation.featurePacker(ts);
 		}
-		/*
-		 * TODO: for each TaggedSentence:
-		 * 	call "featurePacker(TaggedSentence ts)" [<= prototype, function not yet written] in ConsolidationStation.
-		 * That will run though each Word in the tagged sentence and:
-		 * 	run through each attribute that is equal to or less than the length of the Word's word. This function will be highly based off 
-		 * of Joe's code already there "getWordFromString". .... more to come....
-		 */
-		
 	}
+		
+	
+	/**
+	 * consolidates features for a single TaggedSentence object
+	 * @param ts
+	 */
+	public void consolidateFeatures(TaggedSentence ts){
+		ConsolidationStation.featurePacker(ts);
+	}
+		
 	/*
 	public boolean writeSerializedSelf(String directory){
 		return ObjectIO.writeObject(this, ID, directory);
@@ -371,14 +405,17 @@ public class TaggedDocument {
 		
 	}
 	/**
-	 * As of right now simply is a wrapper for the TaggedSentence.getOldToNewDeltas. May eventually store/return information.
+	 * updates the referenced Attributes 'toModifyValue's (present value) with the amount that must be added/subtracted from each respective value 
 	 * @param oldSentence The pre-editing version of the sentence(s)
-	 * @param newSentence The after editing version of the sentence(s)
+	 * @param newSentence The post-editing version of the sentence(s)
 	 */
 	private void updateReferences(TaggedSentence oldSentence, TaggedSentence newSentence){
-		;
-		Logger.logln(newSentence.getOldToNewDeltas(oldSentence).toString());
+		SparseReferences updatedValues = newSentence.getOldToNewDeltas(oldSentence);
+		for(Reference ref:updatedValues.references){
+			DataAnalyzer.topAttributes[ref.index].setToModifyValue((DataAnalyzer.topAttributes[ref.index].getToModifyValue() + ref.value));
+		}
 	}
+	
 	
 	//helper functions
 /*	

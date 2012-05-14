@@ -147,6 +147,7 @@ public class TaggedSentence {
 		return wordsInSentence.size();
 	}
 	
+	
 	/**
 	 * returns a SparseReference object containing the index of each attribute who's value needs to be updated, along with the amount
 	 * it must be changed by (if positive, the present value should increase, if negative, it should decrease. Therefore, you only need to 

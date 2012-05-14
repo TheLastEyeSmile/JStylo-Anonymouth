@@ -1,6 +1,7 @@
 package edu.drexel.psal.anonymouth.utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.concurrent.locks.Lock;
@@ -9,6 +10,7 @@ import edu.drexel.psal.anonymouth.projectDev.Attribute;
 import edu.drexel.psal.anonymouth.projectDev.DataAnalyzer;
 import edu.drexel.psal.anonymouth.projectDev.FeatureList;
 import edu.drexel.psal.jstylo.generics.Logger;
+import edu.drexel.psal.jstylo.generics.Logger.LogOut;
 import edu.stanford.nlp.ling.TaggedWord;
 
 /**
@@ -93,6 +95,51 @@ public class ConsolidationStation {
 		}
 		return taggedSent;
 	}
+	
+	/**
+	 * Goes through all Words in all TaggedSentences in all TaggedDocuments, sorts them from least to greatest in terms of Anonymity Index, and returns either the lowest ranked or
+	 * highest ranked percent as strings.
+	 * NOTE:
+	 * 	* percentToReturn, the percent of highest or lowest ranked words (String) to return, should be a number between 0 and 1.
+	 * * if findTopToRemove is false, the highest ranked Words will be returned (as Strings) (these would then be the most important words to ADD to the documentToAnonymize)
+	 * * if findTopToRemove is true, the lowest ranked Words will be returned (as String) (these would then be the most important words to REMOVE from the documentToAnonymize)
+	 * @param docsToConsider the TaggedDocuments to extract Words from
+	 * @param findTopToRemove true to find the top words to remove, false to find the top words to add
+	 * @param percentToReturn the percent of words found to return (should probably be MUCH smaller if finding top words to add, because this will look at all otherSampleDocuments
+	 * @return
+	 */
+	public static ArrayList<String> getPriorityWords(ArrayList<TaggedDocument> docsToConsider, boolean findTopToRemove, double percentToReturn){
+		int totalWords = 0;
+		for(TaggedDocument td:docsToConsider){
+			totalWords += td.getWordCount();
+		}
+		int numToReturn = (int)(totalWords*percentToReturn);
+		ArrayList<String> toReturn = new ArrayList<String>(numToReturn);
+		ArrayList<Word> words = new ArrayList<Word>(totalWords);
+		for(TaggedDocument td: docsToConsider){
+			words.addAll(td.getWords());
+		}
+		int countedNumWords = words.size();
+		if(countedNumWords != totalWords)
+			Logger.logln("ERROR! getPriorityWords calculated a different number of words than it counted: calculated = "+totalWords+" counted = "+countedNumWords,LogOut.STDERR);
+		Collections.sort(words);// sort the words in INCREASING anonymityIndex
+		if(findTopToRemove){ // then start from index 0, and go up to index (numToReturn-1) words (inclusive)
+			for(int i = 0; i<numToReturn; i++){
+				toReturn.add(words.get(i).word);
+			}
+		}
+		else{ // start at the END of the list, and go down to (END-numToReturn) (inclusive)
+			int startIndex = countedNumWords - 1;
+			int stopIndex = startIndex - numToReturn;
+			for(int i = startIndex; i> stopIndex; i--){
+				toReturn.add(words.get(i).word);
+			}
+			
+		}
+		
+		return toReturn;
+	}
+	
 	
 	public static Word getWordFromString(String str){
 		Word newWord=new Word(str);

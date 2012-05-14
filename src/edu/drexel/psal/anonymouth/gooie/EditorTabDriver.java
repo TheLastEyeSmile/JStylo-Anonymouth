@@ -206,6 +206,23 @@ public class EditorTabDriver {
 		}
 	}
 	
+	private void updateAddRemoveBoxes(){
+		ArrayList<String> topToRemove=ConsolidationStation.getPriorityWords(ConsolidationStation.toModifyTaggedDocs, true, .2);
+		ArrayList<String> topToAdd=ConsolidationStation.getPriorityWords(ConsolidationStation.toModifyTaggedDocs, false, .2);
+		String setString="";
+		int arrSize=topToRemove.size();
+		for(int i=0;i<arrSize;i++){
+			setString+=topToRemove.get(i);
+		}
+	//	main.elementsToRemove.setText(setString);
+		setString="";
+		arrSize=topToAdd.size();
+		for(int i=0;i<arrSize;i++){
+			setString+=topToAdd.get(i);
+		}
+		//main.elementsToAdd.setText(setString);
+	}
+	
 	public static String getHelpMessege(){
 		return helpMessege;
 	}
@@ -779,8 +796,11 @@ public class EditorTabDriver {
 				main.processButton.setEnabled(true);
 				eits.editorBox.setEnabled(false);
 				ConsolidationStation.toModifyTaggedDocs.get(0).setSentenceCounter(-1);
+				eits.sentenceEditPane.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getNextSentence());
 				eits.sentenceEditPane.setEnabled(true);
-				eits.sentenceEditPane.setText(helpMessege);
+				//eits.sentenceEditPane.setText(helpMessege);
+				eits.sentenceEditPane.setEditable(true);
+				trackEditSentence();
 				Logger.logln(ConsolidationStation.toModifyTaggedDocs.get(0).getUntaggedDocument());
 				eits.editorBox.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getUntaggedDocument());
 				nextTabIndex++;
@@ -813,6 +833,10 @@ public class EditorTabDriver {
 		main.processButton.setEnabled(true);
 		main.processButton.setSelected(true);
 		main.suggestionBox.setText("");
+		
+		main.elementsToAddPane.setText("");
+		main.elementsToRemovePane.setText("");//not sure if needed to reset..
+		
 		EditorTabDriver.hasBeenInitialized = false;
 		EditorTabDriver.hasCurrentAttrib = false;
 		EditorTabDriver.isWorkingOnUpdating = false;

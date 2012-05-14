@@ -11,7 +11,11 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.util.*;
 
 import edu.drexel.psal.JSANConstants;
@@ -45,6 +49,7 @@ import edu.drexel.psal.jstylo.analyzers.WekaAnalyzer;
  * 
  * @author Andrew W.E. McDonald
  */
+//This is a comment from Joe Muoio to see if he can commit changes.
 public class GUIMain extends javax.swing.JFrame {
 
 	{
@@ -195,6 +200,7 @@ public class GUIMain extends javax.swing.JFrame {
 	protected JTable resultsTable;
 	protected JLabel classificationLabel;
 	protected JLabel suggestionLabel;
+	protected JButton addSentence;
 	protected JTextPane elementsToAddPane;
 	protected JPanel editorRowTwoButtonBufferPanel;
 	protected JPanel buttonBufferJPanel;
@@ -288,6 +294,7 @@ public class GUIMain extends javax.swing.JFrame {
 				}
 				inst = new GUIMain();
 				inst.setDefaultCloseOperation(EXIT_ON_CLOSE);
+			
 				inst.setLocationRelativeTo(null);
 				inst.setVisible(true);
 			}
@@ -298,6 +305,7 @@ public class GUIMain extends javax.swing.JFrame {
 		super();
 		initData();
 		initGUI();
+		
 	}
 
 	private void initData() {
@@ -318,6 +326,7 @@ public class GUIMain extends javax.swing.JFrame {
 			setSize(1024, 768);
 			this.setTitle("Anonymouth");
 			this.setIconImage(new ImageIcon(getClass().getResource(JSANConstants.JSAN_GRAPHICS_PREFIX+"Anonymouth_LOGO.png")).getImage());
+			
 			
 			{
 				mainJTabbedPane = new JTabbedPane();
@@ -1132,6 +1141,8 @@ public class GUIMain extends javax.swing.JFrame {
 					
 					
 				}
+				
+				//editor
 				{
 					theEditorScrollPane = new JScrollPane();
 					mainJTabbedPane.addTab("Editor", null, theEditorScrollPane, null);
@@ -1310,14 +1321,14 @@ public class GUIMain extends javax.swing.JFrame {
 									editorInteractionJPanel.add(editorInteractionWestPanel, BorderLayout.WEST);
 									editorInteractionWestPanel.setPreferredSize(new java.awt.Dimension(352, 87));
 									{
-										editorProgressBar = new JProgressBar();
-										editorInteractionWestPanel.add(editorProgressBar, BorderLayout.SOUTH);
-										editorProgressBar.setPreferredSize(new java.awt.Dimension(352, 20));
-									}
-									{
 										editingProgressBarLabel = new JLabel();
 										editorInteractionWestPanel.add(editingProgressBarLabel, BorderLayout.CENTER);
 										editingProgressBarLabel.setText("Progress...");
+									}
+									{
+										editorProgressBar = new JProgressBar();
+										editorInteractionWestPanel.add(editorProgressBar, BorderLayout.SOUTH);
+										editorProgressBar.setPreferredSize(new java.awt.Dimension(352, 20));
 									}
 								}
 								{
@@ -1326,32 +1337,6 @@ public class GUIMain extends javax.swing.JFrame {
 									editorButtonJPanel.setLayout(editorButtonJPanelLayout);
 									editorInteractionJPanel.add(editorButtonJPanel, BorderLayout.CENTER);
 									editorButtonJPanel.setPreferredSize(new java.awt.Dimension(640, 57));
-									{
-										editorTopRowButtonsPanel = new JPanel();
-										editorButtonJPanel.add(editorTopRowButtonsPanel, BorderLayout.NORTH);
-										editorTopRowButtonsPanel.setPreferredSize(new java.awt.Dimension(643, 36));
-										{
-											nextSentenceButton = new JButton();
-											editorTopRowButtonsPanel.add(nextSentenceButton);
-											nextSentenceButton.setText("Next Sentence");
-										}
-										{
-											lastSentenceButton = new JButton();
-											editorTopRowButtonsPanel.add(lastSentenceButton);
-											lastSentenceButton.setText("Last Sentence");
-										}
-										{
-											buttonBufferJPanel = new JPanel();
-											editorTopRowButtonsPanel.add(buttonBufferJPanel);
-											buttonBufferJPanel.setPreferredSize(new java.awt.Dimension(230, 5));
-										}
-										{
-											processButton = new JButton();
-											editorTopRowButtonsPanel.add(processButton);
-											processButton.setText("Process");
-											processButton.setPreferredSize(new java.awt.Dimension(118, 29));
-										}
-									}
 									{
 										editorBottomRowButtonPanel = new JPanel();
 										editorButtonJPanel.add(editorBottomRowButtonPanel, BorderLayout.SOUTH);
@@ -1376,6 +1361,38 @@ public class GUIMain extends javax.swing.JFrame {
 											editorBottomRowButtonPanel.add(exitButton);
 											exitButton.setText("Close");
 											exitButton.setPreferredSize(new java.awt.Dimension(81, 27));
+										}
+									}
+									{
+										editorTopRowButtonsPanel = new JPanel();
+										editorButtonJPanel.add(editorTopRowButtonsPanel, BorderLayout.NORTH);
+										editorTopRowButtonsPanel.setPreferredSize(new java.awt.Dimension(647, 36));
+										{
+											lastSentenceButton = new JButton();
+											editorTopRowButtonsPanel.add(lastSentenceButton);
+											lastSentenceButton.setText("Last Sentence");
+										}
+										{
+											nextSentenceButton = new JButton();
+											editorTopRowButtonsPanel.add(nextSentenceButton);
+											nextSentenceButton.setText("Next Sentence");
+										}
+										{
+											addSentence = new JButton();
+											editorTopRowButtonsPanel.add(addSentence);
+											addSentence.setText("Append Next Sentence");
+											addSentence.setPreferredSize(new java.awt.Dimension(150, 23));
+										}
+										{
+											buttonBufferJPanel = new JPanel();
+											editorTopRowButtonsPanel.add(buttonBufferJPanel);
+											buttonBufferJPanel.setPreferredSize(new java.awt.Dimension(64, 5));
+										}
+										{
+											processButton = new JButton();
+											editorTopRowButtonsPanel.add(processButton);
+											processButton.setText("Process");
+											processButton.setPreferredSize(new java.awt.Dimension(118, 29));
 										}
 									}
 								}
@@ -1468,13 +1485,10 @@ public class GUIMain extends javax.swing.JFrame {
 					}
 				}
 			
-			
-
-
-				{
+				
 					// bottom toolbar buttons
 					// ======================
-				}
+				
 		
 
 			// initialize listeners - except for EditorTabDriver!

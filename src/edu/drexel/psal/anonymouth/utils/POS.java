@@ -1,11 +1,13 @@
-package edu.drexel.psal.anonymouth.suggestors;
+package edu.drexel.psal.anonymouth.utils;
+
+import java.io.Serializable;
 
 /**
  * Mapping between POS tags and their description, taken from the Penn Treebank Project
  * @author Andrew W.E. McDonald
  *
  */
-public class POS {
+public class POS implements Serializable {
 	
 	/**
 	 * Enumeration of the POS tags used by the Standford MaxentTagger /Penn Treebank. These are used as input to the method

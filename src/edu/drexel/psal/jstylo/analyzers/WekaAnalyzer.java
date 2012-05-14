@@ -1,8 +1,11 @@
 package edu.drexel.psal.jstylo.analyzers;
 
 import edu.drexel.psal.jstylo.generics.Analyzer;
+
 import java.util.*;
-import com.jgaap.generics.*;
+
+import com.jgaap.generics.Document;
+
 import weka.classifiers.*;
 import weka.core.*;
 import weka.filters.Filter;
@@ -45,7 +48,7 @@ public class WekaAnalyzer extends Analyzer {
 	 * operations
 	 * ==========
 	 */
-	
+		
 	/**
 	 * Trains the Weka classifier using the given training set, and then classifies all instances in the given test set.
 	 * Returns list of distributions of classification probabilities per instance.
@@ -53,13 +56,16 @@ public class WekaAnalyzer extends Analyzer {
 	 * 		The Weka Instances dataset of the training instances.
 	 * @param testSet
 	 * 		The Weka Instances dataset of the test instances.
+	 * @param unknownDocs
+	 * 		The test documents to be deanonymized.
 	 * @return
-	 * 		The list of distributions of classification probabilities per instance, or null if prepare was
+	 * 		The mapping of test documents to distributions of classification probabilities per instance, or null if prepare was
 	 * 		not previously called. Each result in the list is a mapping from the author to its corresponding
 	 * 		classification probability.
 	 */
 	@Override
-	public List<Map<String,Double>> classify(Instances trainingSet, Instances testSet) {
+	public Map<String, Map<String, Double>> classify(Instances trainingSet,
+			Instances testSet, List<Document> unknownDocs) {
 		this.trainingSet = trainingSet;
 		this.testSet = testSet;
 		
@@ -73,9 +79,9 @@ public class WekaAnalyzer extends Analyzer {
 		int numOfInstances = testSet.numInstances();
 		int numOfAuthors = authors.size();
 		
-		List<Map<String,Double>> res = new ArrayList<Map<String,Double>>(numOfInstances);
+		Map<String,Map<String, Double>> res = new HashMap<String,Map<String,Double>>(numOfInstances);
 		for (int i=0; i<numOfInstances; i++)
-			res.add(i,new HashMap<String,Double>(numOfAuthors));
+			res.put(unknownDocs.get(i).getTitle(), new HashMap<String,Double>(numOfAuthors));
 		
 		// train classifier
 		trainingSet.setClass(authorsAttr);
@@ -91,7 +97,7 @@ public class WekaAnalyzer extends Analyzer {
 		for (int i=0; i<testSet.numInstances(); i++) {
 			Instance test = testSet.instance(i);
 			test.setDataset(trainingSet);
-			map = res.get(i);
+			map = res.get(unknownDocs.get(i).getTitle());
 			try {
 				currRes = classifier.distributionForInstance(test);
 				for (int j=0; j<numOfAuthors; j++) {
@@ -115,12 +121,15 @@ public class WekaAnalyzer extends Analyzer {
 	 * 		The Weka Instances dataset of the training instances.
 	 * @param testSet
 	 * 		The Weka Instances dataset of the test instances.
+	 * @param unknownDocs
+	 * 		The test documents to be deanonymized.
 	 * @return
 	 * 		The list of distributions of classification probabilities per instance, or null if prepare was
 	 * 		not previously called. Each result in the list is a mapping from the author to its corresponding
 	 * 		classification probability.
 	 */
-	public List<Map<String,Double>> classifyRemoveTitle(Instances trainingSet, Instances testSet) {
+	public Map<String, Map<String, Double>> classifyRemoveTitle(Instances trainingSet,
+			Instances testSet, List<Document> unknownDocs) {
 		// remove titles
 		Remove remove = new Remove();
 		remove.setAttributeIndicesArray(new int[]{1});
@@ -133,7 +142,7 @@ public class WekaAnalyzer extends Analyzer {
 			System.exit(0);
 		}
 		
-		return classify(this.trainingSet,this.testSet);
+		return classify(this.trainingSet,this.testSet,unknownDocs);
 	}
 	
 	/**
@@ -145,8 +154,9 @@ public class WekaAnalyzer extends Analyzer {
 	 * @param randSeed
 	 * 		Random seed to be used for fold generation.
 	 *  @return
-	 * 		The evaluation object with cross-validation results, or null if did not succeed running.
+	 * 		The evaluation object with cross-validation results, or null if failed running.
 	 */
+	@Override
 	public Evaluation runCrossValidation(Instances data, int folds, long randSeed) {
 		// setup
 		data.setClass(data.attribute("authorName"));

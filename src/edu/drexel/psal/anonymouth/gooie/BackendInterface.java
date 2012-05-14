@@ -2,31 +2,18 @@ package edu.drexel.psal.anonymouth.gooie;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.GroupLayout;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextPane;
-import javax.swing.LayoutStyle;
-import javax.swing.ListModel;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -36,8 +23,6 @@ import javax.swing.table.TableModel;
 
 import com.jgaap.generics.Canonicizer;
 import com.jgaap.generics.Document;
-import com.jgaap.generics.EventDriver;
-import com.jgaap.generics.EventSet;
 
 import edu.drexel.psal.anonymouth.calculators.Computer;
 import edu.drexel.psal.anonymouth.projectDev.DataAnalyzer;
@@ -46,16 +31,13 @@ import edu.drexel.psal.anonymouth.projectDev.FeatureList;
 import edu.drexel.psal.anonymouth.projectDev.Mapper;
 import edu.drexel.psal.anonymouth.projectDev.TheMirror;
 import edu.drexel.psal.anonymouth.suggestors.HighlightMapList;
-import edu.drexel.psal.anonymouth.suggestors.StringFormulator;
 import edu.drexel.psal.anonymouth.suggestors.TheOracle;
 import edu.drexel.psal.anonymouth.utils.ConsolidationStation;
-import edu.drexel.psal.anonymouth.utils.TreeData;
-
-import weka.core.Attribute;
-import edu.drexel.psal.jstylo.generics.CumulativeFeatureDriver;
+import edu.drexel.psal.anonymouth.utils.DocumentTagger;
+import edu.drexel.psal.anonymouth.utils.TaggedSentence;
+import edu.drexel.psal.anonymouth.utils.Tagger;
 import edu.drexel.psal.jstylo.generics.FeatureDriver;
 import edu.drexel.psal.jstylo.generics.Logger;
-import edu.drexel.psal.jstylo.generics.Logger.LogOut;
 import edu.drexel.psal.jstylo.generics.ProblemSet;
 import edu.drexel.psal.jstylo.generics.WekaInstancesBuilder;
 
@@ -156,6 +138,7 @@ public class BackendInterface {
 					WekaInstancesBuilder wib = new WekaInstancesBuilder(false);
 					Document currDoc = new Document();
 					currDoc.setText(eits.editorBox.getText().toCharArray());
+					
 					List<Canonicizer> canonList = theOneToUpdate.getCanonicizers();
 					try{
 					Iterator<Canonicizer> canonIter = canonList.iterator();
@@ -201,35 +184,32 @@ public class BackendInterface {
 		}
 	}
 	
-	protected static void tagDocs(GUIMain main){
-		(new Thread(bei.new TagDocs(main))).start();
+	/*
+	protected static void tagDocs(GUIMain main, DocumentMagician magician){
+		(new Thread(bei.new TagDocs(main, magician))).start();
 	}
 	
 	public class TagDocs extends GUIThread{
 		
-		TagDocs(GUIMain main){
+		public DocumentTagger otherSampleTagger;
+		public DocumentTagger authorSampleTagger;
+		public DocumentTagger toModifyTagger;
+		private DocumentMagician magician;
+		
+		TagDocs(GUIMain main, DocumentMagician magician){
 			super(main);
+			this.magician = magician;
 		}
 		
 		public void run(){
-			HashMap<String,ArrayList<TreeData>> parsed = null;
-			/*
-			try {
-				//parsed = EditorTabDriver.docParser.parseAllDocs();
-			} catch (IOException e) {
-				Logger.logln("Fatal Error: Failed to parse documents",LogOut.STDERR);
-				e.printStackTrace();
-				ErrorHandler.fatalError();
-			}
-			*/
-			if(parsed != null){
-				EditorTabDriver.consolidator = new ConsolidationStation(EditorTabDriver.attribs,parsed);
-				EditorTabDriver.consolidator.beginConsolidation();
-			}
+			
+			
+			EditorTabDriver.consolidator = new ConsolidationStation(EditorTabDriver.attribs);
+			EditorTabDriver.consolidator.beginConsolidation();
 			
 		}
 	}
-	
+*/	
 	protected static void preTargetSelectionProcessing(GUIMain main,DataAnalyzer wizard, DocumentMagician magician,ClassifyingProgressBar cpb){
 		//Logger
 		(new Thread(bei.new PreTargetSelectionProcessing(main,wizard,magician,cpb))).start();
@@ -272,6 +252,8 @@ public class BackendInterface {
 			//main.resultsTablePane.setEnabled(false);
 			String tempDoc = "";
 			if(EditorTabDriver.isFirstRun == true){
+				eits.sentenceEditPane.setEditable(false);
+				eits.sentenceEditPane.setEnabled(false);
 				tempDoc = getDocFromCurrentTab();
 				//eits.editorBox.setText("ThisWorked!");
 				//Scanner in = new Scanner(System.in);
@@ -287,19 +269,34 @@ public class BackendInterface {
 				try{
 					wizard.runInitial(magician,main.cfd, main.classifiers.get(0));
 					cpb.setText("Extracting and Clustering Features... Done");
+					cpb.setText("Tagging all documents...");
+					boolean loadIfExists = false;
+					//ConsolidationStation.attribs=wizard.getAttributes();//not the best maybe??	
+					//ConsolidationStation.getStringsFromAttribs();
+					Tagger.initTagger();
+					DocumentTagger docTagger = new DocumentTagger();
+					ArrayList<List<Document>> allDocs = magician.getDocumentSets();
+					//where is the COnsolidationStation intialized??
+					ConsolidationStation.otherSampleTaggedDocs = docTagger.tagDocs(allDocs.get(0),loadIfExists);
+					ConsolidationStation.authorSampleTaggedDocs = docTagger.tagDocs(allDocs.get(1),loadIfExists);
+					//ConsolidationStation.toModifyTaggedDocs = ;
+					ConsolidationStation.setAllDocsTagged(true);
+					cpb.setText("Tagging all documents... Done");
 					cpb.setText("Initialize Cluster Viewer...");
 					ClusterViewerDriver.initializeClusterViewer(main,true);
 					cpb.setText("Initialize Cluster Viewer... Done");
 					cpb.setText("Classifying Documents...");
 					magician.runWeka();
 					cpb.setText("Classifying Documents... Done");
+					//ConsolidationStation.attribs=wizard.getAttributes();//not the best maybe??	
+					//ConsolidationStation.getStringsFromAttribs();//moving this...
 				}
 				catch(Exception e){
 					e.printStackTrace();
 					ErrorHandler.fatalError();
 				}
 				
-				List<Map<String,Double>> wekaResults = magician.getWekaResultList();
+				Map<String,Map<String,Double>> wekaResults = magician.getWekaResultList();
 				Logger.logln(" ****** WEKA RESULTS for session '"+ThePresident.sessionName+" process number : "+DocumentMagician.numProcessRequests);
 				Logger.logln(wekaResults.toString());
 				//main.getResultsTable().setDefaultRenderer(Object.class, new MyTableRenderer()); 
@@ -337,7 +334,7 @@ public class BackendInterface {
 						ErrorHandler.fatalError();
 					}
 					cpb.setText("Setting Results...");
-					List<Map<String,Double>> wekaResults = magician.getWekaResultList();
+					Map<String,Map<String,Double>> wekaResults = magician.getWekaResultList();
 					Logger.logln(" ****** WEKA RESULTS for session '"+ThePresident.sessionName+" process number : "+DocumentMagician.numProcessRequests);
 					Logger.logln(wekaResults.toString());
 					//main.getResultsTable().setDefaultRenderer(Object.class, new MyTableRenderer()); 
@@ -381,20 +378,6 @@ public class BackendInterface {
 				Logger.logln("Total: "+heapSize+" Max: "+heapMaxSize+" Free: "+heapFreeSize);
 			}
 			
-		}
-		
-
-		
-		public void somethingTerrible(){
-			JOptionPane.showMessageDialog(null,
-					"Something extaordinarily detrimental to Anonymouth's ability to perform has occured while\n" +
-					"processing the information gain for one or more features. Whatever the issue, chances are that it has\n" +
-					"nothing to do with you - the end user - and is probably related to placing a decimal in the wrong place,\n" +
-					"or otherwise messing up some mundane detail.\n\nUnfortunately, Anonymouth must exit after you press 'ok'.",
-					"Something went very wrong error",
-					JOptionPane.ERROR_MESSAGE,
-					GUIMain.iconNO);
-			System.exit(15);
 		}
 	}
 	
@@ -445,7 +428,7 @@ public class BackendInterface {
 			main.processButton.setToolTipText("Click this button once you have made all changes in order to see how they have affected the classification of your document.");
 			main.processButton.setSize(main.processButton.getSize().width+3,main.processButton.getSize().height);
 			main.processButton.setSelected(false);
-			EditorTabDriver.isFirstRun = false;	
+			
 			
 			// XXX for AFTER everything is done
 				
@@ -457,8 +440,14 @@ public class BackendInterface {
 			eits.resultsTablePane.setEnabled(true);
 			eits.resultsTablePane.setOpaque(true);
 			EditorTabDriver.okayToSelectSuggestion = true;
-			EditorTabDriver.sentenceTools.makeSentenceTokens(eits.editorBox.getText());
-			eits.getSentenceEditPane().setText(EditorTabDriver.sentenceTools.getNext());
+			if(EditorTabDriver.isFirstRun)
+				ConsolidationStation.toModifyTaggedDocs.get(0).makeAndTagSentences(eits.editorBox.getText(), true);
+			else
+				ConsolidationStation.toModifyTaggedDocs.get(0).makeAndTagSentences(eits.editorBox.getText(), false);
+			EditorTabDriver.isFirstRun = false;	
+			eits.getSentenceEditPane().setText(EditorTabDriver.getHelpMessege()+" ");//the space is to differentiate this from the messege in a new inner tab.
+			eits.sentenceEditPane.setEnabled(true);
+			eits.sentenceEditPane.setEditable(false);
 			main.nextSentenceButton.setEnabled(true);
 			main.lastSentenceButton.setEnabled(true);
 			Logger.logln("Finished in BackendInterface - postTargetSelection");
@@ -560,12 +549,12 @@ public class BackendInterface {
 	}
 	
 	
-	public static TableModel makeResultsTable(List<Map<String,Double>> resultMap){
-		Iterator<Map<String, Double>> mapIter = resultMap.iterator();
+	public static TableModel makeResultsTable(Map<String,Map<String,Double>> resultMap){
+		Iterator<String> mapKeyIter = resultMap.keySet().iterator();
 		int numAuthors = DocumentMagician.numSampleAuthors+1;
 		Object[] authors;
 		Object[][] predictions = new Object[2][numAuthors];
-		Map<String,Double> tempMap = mapIter.next(); 
+		Map<String,Double> tempMap = resultMap.get(mapKeyIter.next()); 
 		
 		authors = (tempMap.keySet()).toArray(); 
 		

@@ -538,6 +538,15 @@ public class ProblemSet {
 		}
 	}
 	
+	/**
+	 * Returns the number of test documents. 
+	 * @return
+	 * 		The number of test documents.
+	 */
+	public int numTestDocs() {
+		return testDocs.size();
+	}
+	
 	// stringifiers
 	
 	/**
@@ -674,15 +683,6 @@ public class ProblemSet {
 			SAXParser sp = spf.newSAXParser();
 			//parse the file and also register this class for call backs
 			sp.parse(filename, this);
-		}
-		
-		/**
-		 * Returns the generated problem set.
-		 * @return
-		 * 		The generated problem set.
-		 */
-		public ProblemSet getProblemSet() {
-			return problemSet;
 		}
 		
 		// event handlers

@@ -14,12 +14,14 @@ import java.util.Scanner;
 
 import weka.classifiers.Classifier;
 import weka.core.Instances;
+import edu.drexel.psal.anonymouth.gooie.EditorTabDriver;
 import edu.drexel.psal.anonymouth.gooie.ThePresident;
 import edu.drexel.psal.jstylo.generics.*;
 import edu.drexel.psal.jstylo.generics.Logger.LogOut;
 
 import edu.drexel.psal.jstylo.analyzers.WekaAnalyzer;
 import edu.drexel.psal.anonymouth.utils.DocumentParser;
+import edu.drexel.psal.anonymouth.utils.DocumentTagger;
 
 import com.jgaap.generics.Document;
 
@@ -59,7 +61,7 @@ public class DocumentMagician {
 	
 	private List<Document> authorSamplesSet;
 	
-	private List<Map<String,Double>> wekaResultList;
+	private Map<String,Map<String,Double>> wekaResultMap;
 	
 	private InstanceConstructor instanceSet; 
 	
@@ -101,8 +103,8 @@ public class DocumentMagician {
 		return toModifyInstanceSet;
 	}
 	
-	public synchronized List<Map<String,Double>> getWekaResultList(){
-		return wekaResultList;
+	public synchronized Map<String,Map<String,Double>> getWekaResultList(){
+		return wekaResultMap;
 	}
 	
 	/**
@@ -155,7 +157,7 @@ public class DocumentMagician {
 	
 	public static String authorToRemove;
 	
-	private String dummyName = "_dummy_";
+	public static final String dummyName = "~* you *~";
 	
 	private Classifier theClassifier;
 	
@@ -197,7 +199,10 @@ public class DocumentMagician {
 		String pathToTempModdedDoc = writeDirectory+ThePresident.sessionName+"_"+numProcessRequests+".txt";
 		Logger.logln("Saving temporary file: "+pathToTempModdedDoc);
 		try {
-			FileWriter writer = new FileWriter(new File(pathToTempModdedDoc));
+			File tempModdedDoc = new File(pathToTempModdedDoc);
+			if(ThePresident.SHOULD_KEEP_AUTO_SAVED_ANONYMIZED_DOCS == false)
+				tempModdedDoc.deleteOnExit();
+			FileWriter writer = new FileWriter(tempModdedDoc);
 			writer.write(modifiedDocument);
 			writer.close();
 		} catch (IOException e) {
@@ -311,7 +316,7 @@ public class DocumentMagician {
 	public synchronized void runWeka() throws Exception{
 		Logger.logln("Called runWeka");
 		WekaAnalyzer waz = new WekaAnalyzer(theClassifier);
-		wekaResultList = waz.classify(authorAndTrainDat,toModifyDat);// ?
+		wekaResultMap = waz.classify(authorAndTrainDat,toModifyDat,toModifySet);// ?
 		Logger.logln("Weka Done");
 	}
 		
@@ -325,6 +330,7 @@ public class DocumentMagician {
 	public void initialDocToData(ProblemSet pSet,CumulativeFeatureDriver cfd, Classifier classifier ){//,List<Map<String,Document>> forTraining, List<Document> forTesting){
 		Logger.logln("Entered initialDocToData in DocumentMagician");
 		theClassifier = classifier;
+		System.out.println(pSet.toString());
 		ProblemSet pSetCopy = new ProblemSet(pSet);
 		trainSet = pSetCopy.getAllTrainDocs();
 		
@@ -342,6 +348,21 @@ public class DocumentMagician {
 		//System.out.println("AUTHOR TO REMOVE: "+authorToRemove);
 		//System.out.println("AUTHOR SAMPLES SET: "+authorSamplesSet.toString());
 		noAuthorTrainSet = pSetCopy.getAllTrainDocs();
+		/*
+		boolean loadIfExists = false;
+		DocumentTagger otherSampleTagger = new DocumentTagger(noAuthorTrainSet,loadIfExists);
+		DocumentTagger authorSampleTagger = new DocumentTagger(authorSamplesSet,loadIfExists);
+		DocumentTagger toModifyTagger = new DocumentTagger(toModifySet,loadIfExists);	
+		otherSampleTagger.run();
+		authorSampleTagger.run();
+		toModifyTagger.run();
+		*/
+		/*EditorTabDriver.otherSampleTagger.setDocList(noAuthorTrainSet,loadIfExists);
+		EditorTabDriver.authorSampleTagger.setDocList(authorSamplesSet,loadIfExists);
+		EditorTabDriver.toModifyTagger.setDocList(toModifySet, loadIfExists);
+		EditorTabDriver.otherSampleTagger.run();
+		EditorTabDriver.authorSampleTagger.run();
+		EditorTabDriver.toModifyTagger.run();
 		/*
 		Logger.logln("Attempting to load and parse documents...");
 		try {
@@ -399,6 +420,18 @@ public class DocumentMagician {
 		//System.out.println(authorAttributeSet.toString());
 		return InstancesForAnalysis;
 		
+	}
+	
+	/**
+	 * Returns all three sets of documents used. 
+	 * @return
+	 */
+	public ArrayList<List<Document>> getDocumentSets(){
+		ArrayList<List<Document>> theDocs = new ArrayList<List<Document>>(3);
+		theDocs.add(noAuthorTrainSet); // index 0
+		theDocs.add(authorSamplesSet); // 1
+		theDocs.add(toModifySet); // 2
+		return theDocs;
 	}
 	
 	/**

@@ -15,9 +15,14 @@ import com.jgaap.generics.*;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Point;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.*;
 
 public class GUIUpdateInterface {
+	
+	
+	
 
 	// about dialog
 	// ============

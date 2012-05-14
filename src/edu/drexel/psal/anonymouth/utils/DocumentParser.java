@@ -41,6 +41,7 @@ import edu.stanford.nlp.parser.ui.TreeJPanel;
 */
 /**
  * Parses documents.....
+ * @deprecated
  * @author Andrew W.E. McDonald
  *
  */

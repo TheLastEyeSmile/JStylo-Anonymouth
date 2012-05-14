@@ -19,6 +19,14 @@ public class ErrorHandler {
 			System.exit(FATAL_ERROR);
 		}
 	}
+	
+	public static void incompleteSentence(){
+		JOptionPane.showMessageDialog(null,
+				"Please finish the current sentence before moving on to the next sentence.",
+				"",
+				JOptionPane.INFORMATION_MESSAGE,
+				GUIMain.icon);
+	}
 			
 	
 	/**

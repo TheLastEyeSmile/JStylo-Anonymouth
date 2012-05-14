@@ -31,7 +31,8 @@ public class ObjectIO {
 	 * @return true if no errors, false otherwise
 	 */
 	public static boolean writeObject(Object o, String id, String dir){
-		ObjectOutputStream outObject;
+		ObjectOutputStream outObject = null;
+		System.out.println("Place to write: "+dir+id+".ser");
 		try {
 			outObject = new ObjectOutputStream(new BufferedOutputStream( new FileOutputStream(dir+id+".ser")));
 			try{
@@ -84,6 +85,33 @@ public class ObjectIO {
 			System.out.println(tdHash.toString());
 		}
 		return tdHash;
+		
+	}
+	
+	public static TaggedDocument readTaggedDocument(String id, String dir, boolean printData){
+		ObjectInput inputObject;
+		TaggedDocument td = null;
+		try {
+			inputObject = new ObjectInputStream(new BufferedInputStream(new FileInputStream(dir+id+".ser")));
+			try{
+				td = (TaggedDocument) inputObject.readObject();
+			} catch (ClassNotFoundException e) {
+				td = null;
+				Logger.logln("Couldn't load TaggedDocument: "+id+", from: "+dir);
+				e.printStackTrace();
+			}
+			finally{
+				inputObject.close();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if(printData == true && td != null){
+			System.out.println(td.toString());
+		}
+		return td;
 		
 	}
 	

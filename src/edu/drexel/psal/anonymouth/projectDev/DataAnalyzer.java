@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
 import java.util.NavigableMap;
 import java.util.Scanner;
 
@@ -16,6 +18,7 @@ import edu.drexel.psal.anonymouth.gooie.EditorTabDriver;
 import edu.drexel.psal.anonymouth.gooie.ThePresident;
 import edu.drexel.psal.anonymouth.gooie.DocsTabDriver.ExtFilter;
 import edu.drexel.psal.anonymouth.suggestors.HighlightMapMaker;
+import edu.drexel.psal.anonymouth.utils.SentenceTools;
 import edu.drexel.psal.jstylo.generics.*;
 import edu.drexel.psal.jstylo.generics.Logger.LogOut;
 
@@ -26,6 +29,8 @@ import java.util.regex.Pattern;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+
+import com.jgaap.generics.Document;
 
 
 import weka.attributeSelection.InfoGainAttributeEval;
@@ -43,7 +48,7 @@ public class DataAnalyzer{
 	
 	private int numFeaturesToReturn;
 	
-	private Attribute[] topAttributes;
+	public static Attribute[] topAttributes;
 	
 	private int lengthTopAttributes;
 	
@@ -249,6 +254,7 @@ public class DataAnalyzer{
 		String strippedAttrib;
 		FeatureList genName;
 		EditorTabDriver.attributesMappedByName = new HashMap<FeatureList,Integer>(numFeatures);
+		
 		for(i=0; i<numFeatures;i++){
 			String attrib = (theArffFile.attribute((int) allInfoGain[i][1]).toString());
 			//System.out.println("ATTRIBUTE: "+attrib);
@@ -259,14 +265,16 @@ public class DataAnalyzer{
 					numFeatures++;
 					continue;
 			}
+			/*
 			if (toModifyIndex != -1){
 				if((toModifyInstancesArray[0][toModifyIndex] == 0.0)){//&& EditorTabDriver.userRequestedNoZeros == true){
-					Logger.logln("CONTINUING attribute: "+attrib+" toModifyValue: "+toModifyInstancesArray[0][toModifyIndex]);
+					Logger.logln("CONTINUING attribute: "+attrib+" toModifyValue: "+toModifyInstancesArray[0][toModifyIndex]+" info gain: "+allInfoGain[j][0]);
 					numFeatures++;
 					continue;
 				}
 			}
-			else{
+			*/
+			if(toModifyIndex == -1){
 				//System.out.println("CONTINUING attribute: "+attrib+" does not appear in toModifyDocument.");
 				numFeatures++;
 				continue;
@@ -414,6 +422,7 @@ public class DataAnalyzer{
 		
 	
 	/**
+	 * 
 	 * @deprecated
 	 * runSelectedFeature extracts the target for the selected feature if 'shouldExtract' is true, and simply returns the attribute if false.
 	 * @param sel - the selected feature number
@@ -531,6 +540,19 @@ public class DataAnalyzer{
 	public void runInitial(DocumentMagician magician, CumulativeFeatureDriver cfd, Classifier classifier) throws Exception{
 		Logger.logln("called runIntitial in DataAnalyzer");
 		//String authorToRemove = magician.loadExampleSet();
+		List<Document> tempTrainDocs = pSet.getAllTrainDocs();
+		/*
+		for (Document d:tempTrainDocs){
+			pSet.removeTrainDocAt(d.getAuthor(),d);
+			pSet.addTrainDoc(d.getAuthor(), SentenceTools.removeUnicodeControlChars(d));
+		}
+		*/
+		List<Document> tempTestDocs = pSet.getTestDocs();
+		for (Document d:tempTestDocs){
+			d.setAuthor(DocumentMagician.dummyName);
+			//pSet.removeTestDoc(d);
+			//pSet.addTestDoc(SentenceTools.removeUnicodeControlChars(d));
+		}
 		magician.initialDocToData(pSet,cfd, classifier);
 		runGeneric(magician);
 		int maxClusters =runAllTopFeatures();
@@ -607,13 +629,13 @@ public class DataAnalyzer{
 			tempCluster = topAttributes[i].getOrderedClusters()[clusterNumber];
 			target = tempCluster.getCentroid();
 			targetSaver += "Attribute: "+topAttributes[i].getFullName()+"  ==> targetValue: "+target+"\n";
-			System.out.println(targetSaver);
 			topAttributes[i].setTargetCentroid(target);
 			topAttributes[i].setTargetValue(target);
 			topAttributes[i].setRangeForTarget(tempCluster.getMinValue(),tempCluster.getMaxValue()); // maybe this should be changed to avg. avs. dev.
 			if((mapMakerSentenceTargetSet && mapMakerCharTargetSet) == false)
 				mapMakerTargetSetter(topAttributes[i].getGenericName(),target);
 		}
+		System.out.println(targetSaver);
 		
 		boolean mustSaveTargets = false;
 		if(mustSaveTargets == true){

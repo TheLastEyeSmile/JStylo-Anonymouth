@@ -5,17 +5,14 @@ import weka.core.*;
 import weka.core.converters.ArffSaver;
 import weka.core.converters.CSVSaver;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-import com.jgaap.canonicizers.NormalizeASCII;
-import com.jgaap.eventDrivers.*;
 import com.jgaap.generics.*;
 
 import edu.drexel.psal.jstylo.eventDrivers.CharCounterEventDriver;
+import edu.drexel.psal.jstylo.eventDrivers.LetterCounterEventDriver;
 import edu.drexel.psal.jstylo.eventDrivers.SentenceCounterEventDriver;
 import edu.drexel.psal.jstylo.eventDrivers.SingleNumericEventDriver;
 import edu.drexel.psal.jstylo.eventDrivers.WordCounterEventDriver;
@@ -121,6 +118,11 @@ public class WekaInstancesBuilder {
 	 * To hold last used list of total number of characters per document.
 	 */
 	private Map<Instance,Integer> charsPerInst;
+	
+	/**
+	 * To hold last used list of total number of English letters per document.
+	 */
+	private Map<Instance,Integer> lettersPerInst;
 	
 	/**
 	 * To hold last used array of opening indices per feature class in the Weka attribute list.
@@ -506,7 +508,7 @@ public class WekaInstancesBuilder {
 			} else {	// one unique numeric event
 
 				// generate sole event (extract full event name and remove value)
-				Event event = new Event(list.get(0).eventAt(0).getEvent().replaceAll("\\{.*\\}", "{-}"));
+				//Event event = new Event(list.get(0).eventAt(0).getEvent().replaceAll("\\{.*\\}", "{-}"));
 				
 				// update histogram to null at current position
 				for (i=0; i<numOfVectors; i++)
@@ -658,6 +660,19 @@ public class WekaInstancesBuilder {
 					doc.load();
 					charsPerInst.put(trainingSet.instance(j),(int)counter.getValue(doc));
 				}
+			} else if (norm == NormBaselineEnum.LETTERS_IN_DOC) {
+				// initialize
+				if (lettersPerInst == null)
+					lettersPerInst = new HashMap<Instance,Integer>();
+				
+				// extract letter count and update
+				Document doc;
+				SingleNumericEventDriver counter = new LetterCounterEventDriver();
+				for (j=0; j<numOfVectors; j++) {
+					doc = knownDocs.get(j);
+					doc.load();
+					lettersPerInst.put(trainingSet.instance(j),(int)counter.getValue(doc));
+				}
 			}
 			
 			if (norm == NormBaselineEnum.FEATURE_CLASS_ALL_DOCS) {
@@ -724,6 +739,15 @@ public class WekaInstancesBuilder {
 					doc = unknownDocs.get(j);
 					doc.load();
 					charsPerInst.put(testSet.instance(j),(int)counter.getValue(doc));
+				}
+			} else if (norm == NormBaselineEnum.LETTERS_IN_DOC) {
+				// extract letter count and update
+				Document doc;
+				SingleNumericEventDriver counter = new LetterCounterEventDriver();
+				for (j=0; j<numOfVectors; j++) {
+					doc = unknownDocs.get(j);
+					doc.load();
+					lettersPerInst.put(testSet.instance(j),(int)counter.getValue(doc));
 				}
 			}
 		}

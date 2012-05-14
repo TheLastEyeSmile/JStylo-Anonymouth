@@ -13,7 +13,9 @@ import edu.drexel.psal.anonymouth.suggestors.Prophecy;
 import edu.drexel.psal.anonymouth.suggestors.TheOracle;
 import edu.drexel.psal.anonymouth.utils.ConsolidationStation;
 import edu.drexel.psal.anonymouth.utils.DocumentParser;
+import edu.drexel.psal.anonymouth.utils.DocumentTagger;
 import edu.drexel.psal.anonymouth.utils.SentenceTools;
+import edu.drexel.psal.anonymouth.utils.TaggedDocument;
 import edu.drexel.psal.jstylo.generics.FeatureDriver;
 import edu.drexel.psal.jstylo.generics.Logger;
 import edu.drexel.psal.jstylo.generics.WekaInstancesBuilder;
@@ -85,12 +87,17 @@ import com.jgaap.generics.Document;
 /**
  * editorTabDriver does the work for the editorTab (Editor) in the main GUI (GUIMain)
  * @author Andrew W.E. McDonald
+ * @author Joe Muoio
  *
  */
 public class EditorTabDriver {
 	
 	
 	protected static SentenceTools sentenceTools;
+	
+	//public static DocumentTagger otherSampleTagger = new DocumentTagger();
+	//public static DocumentTagger authorSampleTagger = new DocumentTagger();
+	//public static DocumentTagger toModifyTagger = new DocumentTagger();
 	private static int highlightSelectionBoxSelectionNumber;
 	public static boolean isUsingNineFeatures = false;
 	protected static boolean hasBeenInitialized = false;
@@ -139,12 +146,69 @@ public class EditorTabDriver {
 	public static HashMap<Integer,Integer> suggestionToAttributeMap;
 	protected static DocumentParser docParser;
 	protected static ConsolidationStation consolidator;
+
+	protected static Highlighter editTracker;
+	protected static Highlighter.HighlightPainter painter;
+	private static final Color HILIT_COLOR = Color.yellow;
+	
+	private final static String helpMessege="Edit the sentence in this box.\n" +
+			"Go to the next/previous sentences by clicking the corresponding buttons.\n" +
+			"To edit multiple sentences at once, you can append the next sentence using the respective button.\n" +
+			"Clicking the features to the right will give you suggestions to help anonymize your paper.\n" +
+			"Click any of the sentence buttons to continue.";
 	
 	protected static void signalTargetsSelected(GUIMain main, boolean goodToGo){
 		if(goodToGo == true)
 			BackendInterface.postTargetSelectionProcessing(main, wizard, magician, cpb);
 	}
 	
+	/*
+	 * Highlights the sentence that is currently in the editor box in the main document
+	 * no return
+	 */
+	protected static void trackEditSentence(){
+		editTracker = new DefaultHighlighter();
+		painter = new DefaultHighlighter.DefaultHighlightPainter(HILIT_COLOR);
+		int startHighlight=0, endHighlight=0;
+		int sentNum=ConsolidationStation.toModifyTaggedDocs.get(0).getSentNumber();
+		ArrayList<String> sentences=ConsolidationStation.toModifyTaggedDocs.get(0).getUntaggedSentences();
+		eits.editorBox.setHighlighter(editTracker);
+		String newText=ConsolidationStation.toModifyTaggedDocs.get(0).getUntaggedDocument();
+		eits.editorBox.setText(newText);
+		boolean fixTabs=false;
+		for (int i=0;i<sentNum+1;i++){
+			if(i<sentNum){
+				startHighlight+=sentences.get(i).length();
+			}
+			else if(i==sentNum){
+				endHighlight=startHighlight+sentences.get(i).length()-1;
+			}
+			if (fixTabs){
+				fixTabs=false;
+				startHighlight-=1;
+			}
+			if(sentences.get(i).startsWith("\n")||sentences.get(i).startsWith("\n")||sentences.get(i).startsWith("\r")){
+				fixTabs=true;
+				//Logger.logln("FOUND CHARACTER");
+				//startHighlight++;
+			}
+		}
+		
+		editTracker.removeAllHighlights();
+		eits.editorBox.repaint();
+		
+		try {
+			editTracker.addHighlight(startHighlight+1,endHighlight, painter);
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Logger.logln("Error highlighting the block");
+		}
+	}
+	
+	public static String getHelpMessege(){
+		return helpMessege;
+	}
 	
 	protected static void initListeners(final GUIMain main){
 		
@@ -156,7 +220,11 @@ public class EditorTabDriver {
 			public synchronized void actionPerformed(ActionEvent event) {
 				main.processButton.setEnabled(false);
 				if(isFirstRun==true){
-					sentenceTools = new SentenceTools();
+					//sentenceTools = new SentenceTools();
+					TaggedDocument taggedDocument = new TaggedDocument();//eits.editorBox.getText();
+					ConsolidationStation.toModifyTaggedDocs=new ArrayList<TaggedDocument>();
+					ConsolidationStation.toModifyTaggedDocs.add(taggedDocument);
+					//isFirstRun=false;
 					Logger.logln("Intial processing starting...");
 					int i =0;
 					sizeOfCfd = main.cfd.numOfFeatureDrivers();
@@ -182,6 +250,7 @@ public class EditorTabDriver {
 					magician = new DocumentMagician(false);
 					theMirror = new TheMirror();
 					docParser = new DocumentParser();
+					//consolidator=new ConsolidationStation(wizard.getAttributes());
 					main.mainJTabbedPane.getComponentAt(4).setEnabled(false);
 					
 				}
@@ -214,11 +283,9 @@ public class EditorTabDriver {
 					cpb.setText("Initializing... Done");
 					Logger.logln("calling backendInterface for preTargetSelectionProcessing");
 					BackendInterface.preTargetSelectionProcessing(main,wizard,magician,cpb);
-					//TODO: Create thread in BackendInterface that parses documents, and calls some class like ConsolidationStation to run the features down the "ramp"
 				}
 				else
 					main.processButton.setEnabled(true);
-				
 
 				}	
 				
@@ -229,9 +296,27 @@ public class EditorTabDriver {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0){
-				Logger.logln("next sentence button pressed.");
-				sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
-				eits.getSentenceEditPane().setText(sentenceTools.getNext());
+				
+				if(!eits.sentenceEditPane.isEditable()){
+					if(!eits.sentenceEditPane.getText().equals(helpMessege)){
+						spawnNew(main);
+					}
+					else{
+						eits.sentenceEditPane.setEditable(true);
+						eits.sentenceEditPane.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getNextSentence());
+						trackEditSentence();
+					}
+				}
+				else{
+					Logger.logln("next sentence button pressed.");
+					if(ConsolidationStation.toModifyTaggedDocs.get(0).removeAndReplace(eits.getSentenceEditPane().getText())!=-1){
+						//sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
+						String tempSent=ConsolidationStation.toModifyTaggedDocs.get(0).getNextSentence();
+						if(tempSent!=null)
+							eits.getSentenceEditPane().setText(tempSent);
+						trackEditSentence();
+					}
+				}
 			}
 			
 		});
@@ -240,15 +325,54 @@ public class EditorTabDriver {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0){
-				Logger.logln("last sentence button pressed.");
-				if(sentenceTools.moreToCheck() == true){
-					sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
-					eits.getSentenceEditPane().setText(sentenceTools.getLast());
+				
+				if(!eits.sentenceEditPane.isEditable()){
+					if(!eits.sentenceEditPane.getText().equals(helpMessege)){
+						spawnNew(main);
+					}
+					else{
+						eits.sentenceEditPane.setEditable(true);
+						eits.sentenceEditPane.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getNextSentence());
+						trackEditSentence();
+					}
 				}
 				else{
-					eits.getSentenceEditPane().setText("END OF DOCUMENT");
+					Logger.logln("last sentence button pressed.");
+					if(ConsolidationStation.toModifyTaggedDocs.get(0).removeAndReplace(eits.getSentenceEditPane().getText())!=-1){
+						
+						String tempSent=ConsolidationStation.toModifyTaggedDocs.get(0).getLastSentence();
+						if(tempSent!=null)
+							eits.getSentenceEditPane().setText(tempSent);
+						trackEditSentence();
+					}
 				}
 				
+			}
+			
+		});
+		
+		main.addSentence.addActionListener(new ActionListener(){
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0){//FIX THIS
+				if(!eits.sentenceEditPane.isEditable()){
+					if(!eits.sentenceEditPane.getText().equals(helpMessege)){
+						spawnNew(main);
+					}
+					else{
+						eits.sentenceEditPane.setEditable(true);
+						eits.sentenceEditPane.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getNextSentence());
+						trackEditSentence();
+					}
+				}
+				else{
+					Logger.logln("Add sentence button pressed.");
+					String tempSent=ConsolidationStation.toModifyTaggedDocs.get(0).addNextSentence(eits.getSentenceEditPane().getText());
+					//ConsolidationStation.toModifyTaggedDocs.get(0).removeAndReplace(eits.getSentenceEditPane().getText());
+					eits.getSentenceEditPane().setText(tempSent);
+					trackEditSentence();
+					
+				}
 			}
 			
 		});
@@ -294,7 +418,7 @@ public class EditorTabDriver {
 			 
 			
 		});
-		/*
+		/*//uncommented from here and it broke everything so I am not touching this code.
 		main.getHighlightSelectionBox().addActionListener(new ActionListener(){
 			
 			public void actionPerformed(ActionEvent act){
@@ -343,7 +467,7 @@ public class EditorTabDriver {
 		
 		
 			
-			*/
+			
 			
 		/*
 		main.searchInputBox.addActionListener(new ActionListener(){
@@ -405,7 +529,7 @@ public class EditorTabDriver {
 					//System.out.println("about to call suggestor.");
 					if(!main.suggestionTable.getSelectionModel().getValueIsAdjusting()){
 						okayToSelectSuggestion =false;
-						if(eits.editorBox.isEditable() == false){
+						if(eits.sentenceEditPane.isEditable() == false){
 							spawnNew(main);
 						}
 						//System.out.println("Table clicked");
@@ -635,8 +759,8 @@ public class EditorTabDriver {
 		return 0;
 	}
 	
-	public static void spawnNew(GUIMain main){
-		if(isFirstRun == false){
+	public static void spawnNew(GUIMain main){//spawns xtra tabs
+		if(!isFirstRun){
 			int answer = JOptionPane.showConfirmDialog(main, "Create new tab to edit document?\n\n" +
 					"Note: Once a version of your document has been processed,\n" +
 					"it may no longer be edited. However, by clicking on the text you wish\n" +
@@ -644,7 +768,7 @@ public class EditorTabDriver {
 			if( answer == 0){
 				Logger.logln("Creating new editor inner tab");
 				//System.out.println("EDIT TABBED PANE SELECTED INDEX at spawn: "+EditorTabDriver.selectedIndexTP);
-	
+			
 				String nameFirstHalf = main.editTP.getTitleAt(selectedIndexTP);
 				if(!nameFirstHalf.equals("Original"))
 					nameFirstHalf = nameFirstHalf.substring(nameFirstHalf.indexOf("->")+2);
@@ -653,10 +777,17 @@ public class EditorTabDriver {
 				main.editTP.setSelectedIndex(nextTabIndex);
 				initEditorInnerTabListeners(main);
 				main.processButton.setEnabled(true);
+				eits.editorBox.setEnabled(false);
+				ConsolidationStation.toModifyTaggedDocs.get(0).setSentenceCounter(-1);
+				eits.sentenceEditPane.setEnabled(true);
+				eits.sentenceEditPane.setText(helpMessege);
+				Logger.logln(ConsolidationStation.toModifyTaggedDocs.get(0).getUntaggedDocument());
+				eits.editorBox.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getUntaggedDocument());
 				nextTabIndex++;
 			}
 			else
 				Logger.logln("User Chose not to create a new tab when prompted.");
+			
 		}
 	}
 	
@@ -707,8 +838,7 @@ public class EditorTabDriver {
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				if(eits.editorBox.isEditable() == false){
-					
+				if(!eits.sentenceEditPane.isEditable()){
 					spawnNew(main);
 				}
 				
@@ -863,7 +993,7 @@ public class EditorTabDriver {
 	}
 	
 	
-}
+} 
 
 	class TheHighlighter extends DefaultHighlighter.DefaultHighlightPainter{
 		public TheHighlighter(Color color){
@@ -910,6 +1040,7 @@ public class EditorTabDriver {
 		
 		public ClassifyingProgressBar(GUIMain main){
 			this.main = main;
+			new Thread(this,"ClassifyingProgressBar").start();
 		}
 
 		@Override

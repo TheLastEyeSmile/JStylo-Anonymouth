@@ -9,7 +9,8 @@ import java.awt.GridLayout;
 import java.util.*;
 
 import edu.drexel.psal.JSANConstants;
-import edu.drexel.psal.jstylo.analyzers.WekaAnalyzer;
+import edu.drexel.psal.jstylo.generics.Analyzer;
+import edu.drexel.psal.jstylo.generics.AnalyzerTypeEnum;
 import edu.drexel.psal.jstylo.generics.CumulativeFeatureDriver;
 import edu.drexel.psal.jstylo.generics.Logger;
 import edu.drexel.psal.jstylo.generics.ProblemSet;
@@ -57,7 +58,8 @@ public class GUIMain extends javax.swing.JFrame {
 	protected CumulativeFeatureDriver cfd;
 	protected List<CumulativeFeatureDriver> presetCFDs;
 	protected WekaInstancesBuilder wib;
-	protected WekaAnalyzer wad;
+	protected Analyzer wad;
+	protected AnalyzerTypeEnum at = AnalyzerTypeEnum.WEKA_ANALYZER; // default
 	protected List<Classifier> classifiers;
 	protected Thread analysisThread;
 	protected List<String> results;

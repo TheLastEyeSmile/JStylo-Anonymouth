@@ -32,12 +32,12 @@ public class WekaInstancesBuilder {
 	 * Determines whether to use a set of SparseInstance or Instance.
 	 */
 	private boolean isSparse;
-	
+
 	/**
 	 * Determines whether to include an attribute for document titles.
 	 */
 	private boolean hasDocNames;
-	
+
 	/**
 	 * To hold last used cumulative feature driver.
 	 */
@@ -52,100 +52,100 @@ public class WekaInstancesBuilder {
 	 * To hold last used list of unknown documents.
 	 */
 	private List<Document> unknownDocs;
-	
+
 	/**
 	 * To hold last used list of lists of event sets for the known documents. 
 	 */
 	private List<List<EventSet>> known;
-	
+
 	/**
 	 * To hold last used list of lists of event sets for the unknown documents.
 	 */
 	private List<List<EventSet>> unknown;
-	
+
 	/**
 	 * To hold last used list of authors.
 	 */
 	private List<String> authors;
-	
+
 	/**
 	 * To hold last used list of Weka attributes.
 	 */
 	private FastVector attributeList;
-	
+
 	/**
 	 * To hold last used list of sets of events, each set corresponds to a feature class (feature driver),
 	 * i.e. each event corresponds to a feature in the Weka attribute list. 
 	 */
 	private List<Set<Event>> allEvents;
-	
+
 	/**
 	 * To hold last used Weka Instances extracted from the training documents.
 	 */
 	private Instances trainingSet;
-	
+
 	/**
 	 * To hold last used Weka Instances extracted from the test documents.
 	 */
 	private Instances testSet;
-		
+
 	/**
 	 * To hold last used map of instances to their list of total appearances per feature class (feature driver). 
 	 */
 	private Map<Instance,int[]> featureClassPerInst;
-	
+
 	/**
 	 * To hold last used list of total number of appearances of all features in a feature class across all TRAINNING documents.
 	 */
 	private int[] featureClassAllTrainDocs;
-	
+
 	/**
 	 * To hold last used map of features to their total number of appearances across all TRAINING documents.
 	 */
 	private Map<String,Integer> featureAllTrainDocs;
-	
+
 	/**
 	 * To hold last used list of total number of sentences per document.
 	 */
 	private Map<Instance,Integer> sentencesPerInst;
-	
+
 	/**
 	 * To hold last used list of total number of words per document.
 	 */
 	private Map<Instance,Integer> wordsPerInst;
-	
+
 	/**
 	 * To hold last used list of total number of characters per document.
 	 */
 	private Map<Instance,Integer> charsPerInst;
-	
+
 	/**
 	 * To hold last used list of total number of English letters per document.
 	 */
 	private Map<Instance,Integer> lettersPerInst;
-	
+
 	/**
 	 * To hold last used array of opening indices per feature class in the Weka attribute list.
 	 * E.g. for feature classes 'digits' and 'letters', with features 0,1,...,9 and a,b,...,z it will hold
 	 * [1, 11, 37] -- starts with 1 since the at 0 resides the author name class.
 	 */
 	private int[] featureClassAttrsFirstIndex;
-	
+
 	/**
 	 * Used for workaround a Weka sparse representation bug.
 	 */
 	//private static String dummy = "___";
-	
+
 	/**
 	 * Whether to use a dummy author name for the test instances.
 	 */
 	private boolean useDummyAuthor = false;
-	
+
 	/* ============
 	 * constructors
 	 * ============
 	 */
-	
+
 	/**
 	 * Constructor for Weka Instances builder.
 	 * @param isSparse
@@ -154,7 +154,7 @@ public class WekaInstancesBuilder {
 	public WekaInstancesBuilder(boolean isSparse) {
 		this.isSparse = isSparse;
 	}
-	
+
 	/**
 	 * Constructor for Weka Instances builder.
 	 * @param isSparse
@@ -166,12 +166,12 @@ public class WekaInstancesBuilder {
 		this.isSparse = isSparse;
 		this.useDummyAuthor = useDummyAuthor;
 	}
-	
+
 	/* ==========
 	 * operations
 	 * ==========
 	 */
-	
+
 	/**
 	 * Prepares the training Weka Instances data: using the given cumulative feature driver, it extracts all features
 	 * from the training documents, builds the corresponding attribute list and saves the data into trainingSet.
@@ -182,11 +182,11 @@ public class WekaInstancesBuilder {
 	 * @throws Exception
 	 */
 	public void prepareTrainingSet(List<Document> knownDocs, CumulativeFeatureDriver cfd) throws Exception {
-		
+
 		int i, j;
 		this.cfd = cfd;
 		this.knownDocs = knownDocs;
-		
+
 		// create event sets for known documents
 		known = new ArrayList<List<EventSet>>(knownDocs.size());
 		for (i=0; i<knownDocs.size(); i++)
@@ -211,26 +211,26 @@ public class WekaInstancesBuilder {
 		//if (isSparse) authors.add(0,dummy);
 		if (useDummyAuthor)
 			authors.add(0,ProblemSet.getDummyAuthor());
-		
+
 		// initialize Weka attributes vector (but authors attribute will be added last)
 		attributeList = new FastVector();
 		FastVector authorNames = new FastVector();
 		for (String name: authors)
 			authorNames.addElement(name);
 		Attribute authorNameAttribute = new Attribute("authorName", authorNames);
-		
+
 		// initialize document title attribute
 		if (hasDocNames)
 			attributeList.addElement(new Attribute("title",(FastVector)null));
-		
+
 		// initialize list of lists of histograms
 		List<List<EventHistogram>> knownEventHists = new ArrayList<List<EventHistogram>>(numOfVectors);
 		for (i=0; i<numOfVectors; i++)
 			knownEventHists.add(new ArrayList<EventHistogram>(numOfFeatureClasses));
-		
+
 		// initialize list of sets of events, which will eventually become the attributes
 		allEvents = new ArrayList<Set<Event>>(numOfFeatureClasses);
-			
+
 		// collect all histograms for all event sets for all TRAINING documents
 		// and update Weka attribute list
 		List<EventSet> list;
@@ -241,11 +241,11 @@ public class WekaInstancesBuilder {
 			for (i=0; i<numOfVectors; i++)
 				list.add(known.get(i).get(currEventSet));
 			histograms = new ArrayList<EventHistogram>();
-			
+
 			Set<Event> events = new HashSet<Event>();
-			
+
 			if (cfd.featureDriverAt(currEventSet).isCalcHist()) {	// calculate histogram
-			
+
 				// generate event histograms and unique event list
 				for (EventSet eventSet : list) {
 					EventHistogram currHist = new EventHistogram();
@@ -256,40 +256,40 @@ public class WekaInstancesBuilder {
 					histograms.add(currHist);
 					allEvents.add(currEventSet,events);
 				}
-				
+
 				// create attribute for each unique event
-				
+
 				int count = 0;
 				for (Event event : events)
 					attributeList.addElement(new Attribute(event.getEvent().replaceFirst("\\{", "-"+(++count)+"{")));
-				
+
 				// update histograms
 				for (i=0; i<numOfVectors; i++)
 					knownEventHists.get(i).add(currEventSet,histograms.get(i));
-				
+
 			} else {	// one unique numeric event
-				
+
 				// generate sole event (extract full event name and remove value)
 				Event event = new Event(list.get(0).eventAt(0).getEvent().replaceAll("\\{.*\\}", "{-}"));
 				events.add(event);
 				allEvents.add(currEventSet,events);
-				
+
 				// create attribute for sole unique event
 				attributeList.addElement(new Attribute(event.getEvent()));
-				
+
 				// update histogram to null at current position
 				for (i=0; i<numOfVectors; i++)
 					knownEventHists.get(i).add(currEventSet,null);
 			}			
 		}
-		
+
 		// add authors attribute as last attribute
 		attributeList.addElement(authorNameAttribute);
-		
+
 		// initialize training Weka Instances object with authorName as class
 		trainingSet = new Instances("JStylo", attributeList, numOfVectors);
 		trainingSet.setClass(authorNameAttribute);
-		
+
 		// initialize vector size (including authorName and title if required) and first indices of feature classes array
 		int vectorSize = (hasDocNames ? 1 : 0);
 		for (i=0; i<numOfFeatureClasses; i++) {
@@ -298,25 +298,25 @@ public class WekaInstancesBuilder {
 		}
 		featureClassAttrsFirstIndex[i] = vectorSize;
 		vectorSize += 1; // one more for authorName
-		
+
 		// generate training instances
 		Instance inst;
 		for (i=0; i<numOfVectors; i++) {
 			// initialize instance
 			if (isSparse) inst = new SparseInstance(vectorSize);
 			else inst = new Instance(vectorSize);
-			
+
 			// update document title
 			if (hasDocNames)
 				inst.setValue((Attribute) attributeList.elementAt(0), knownDocs.get(i).getTitle());
-			
+
 			// update values
 			int index = (hasDocNames ? 1 : 0);
 			for (j=0; j<numOfFeatureClasses; j++) {
 				Set<Event> events = allEvents.get(j);
-				
+
 				if (cfd.featureDriverAt(j).isCalcHist()) {
-					
+
 					// extract absolute frequency from histogram
 					EventHistogram currHist = knownEventHists.get(i).get(j);
 					for (Event e: events) {
@@ -325,27 +325,28 @@ public class WekaInstancesBuilder {
 								currHist.getAbsoluteFrequency(e));				// use absolute values, normalize later
 					}
 				} else {
-					
+
 					// extract numeric value from original sole event
+					//System.out.println(">>>>     parsing double for " + known.get(i).get(j).eventAt(0).toString());
 					double value = Double.parseDouble(known.get(i).get(j).eventAt(0).toString().replaceAll(".*\\{", "").replaceAll("\\}", ""));
 					inst.setValue(
 							(Attribute) attributeList.elementAt(index++),
 							value);	
 				}
 			}
-			
+
 			// update author
 			inst.setValue((Attribute) attributeList.lastElement(), knownDocs.get(i).getAuthor());
-			
+
 			trainingSet.add(inst);
 		}
-		
+
 		// normalization
 		initNormTrainBaselines();
 		normInstances(trainingSet);
 	}
-	
-	
+
+
 	/**
 	 * Applies InfoGain (Weka) on the training set and returns a description of the results:
 	 * List of attributes sorted by weights and feature-type breakdown. 
@@ -358,11 +359,11 @@ public class WekaInstancesBuilder {
 		String res = "";
 		int len = 0;
 		int n = trainingSet.numAttributes();
-		
+
 		// apply InfoGain
 		InfoGainAttributeEval ig = new InfoGainAttributeEval();
 		ig.buildEvaluator(trainingSet);
-		
+
 		// extract and sort attributes by InfoGain
 		double[][] infoArr = new double[n-1][2];
 		int j = 0;
@@ -382,7 +383,7 @@ public class WekaInstancesBuilder {
 				return -1*((Double)first[0]).compareTo(((Double)second[0]));
 			}
 		});
-		
+
 		// add InfoGain results to result string
 		res += 	"Features InfoGain score (non-zero only):\n" +
 				"----------------------------------------\n";
@@ -392,7 +393,7 @@ public class WekaInstancesBuilder {
 			res += String.format("> %-"+len+"s   %f\n", trainingSet.attribute((int)infoArr[i][1]).name(), infoArr[i][0]);
 		}
 		res += "\n";
-		
+
 		// calculate and add feature-type breakdown to result string
 		res +=	"Feature-type breakdown:\n" +
 				"-----------------------\n";
@@ -420,12 +421,12 @@ public class WekaInstancesBuilder {
 		for (String attr: attrListBreakdown)
 			res += String.format("> %-"+len+"s   %f (%.2f%%)\n", attr, featureTypeBreakdown.get(attr), featureTypeBreakdown.get(attr)*100/total);
 		res += "\n";
-		
+
 		// remove attributes if necessary
 		if (changeAttributes) {
 			if (N >= trainingSet.numAttributes() - 1) {
 				res += "The number of attributes to reduce to is not less than the current number of documents. Skipping...\n";
-				
+
 			} else if (N > 0) {
 				// get attributes to remove
 				int[] attrsToRemove = new int[infoArr.length-N];
@@ -437,21 +438,21 @@ public class WekaInstancesBuilder {
 				// remove attributes
 				for (int i=attrsToRemove.length-1; i >= 0; i--)
 					trainingSet.deleteAttributeAt(attrsToRemove[i]);
-				
+
 				res += "Attributes reduced to top "+N+". The new list of attributes is:\n";
 				for (int i=0; i<N; i++) {
 					res += trainingSet.attribute(i)+"\n";
 				}
-				
+
 			} else {
 				res += "ERROR! could not apply InfoGain. Check that given value is a positive integer.\n";
 			}
 		}
-		
+
 		return res;
 	}
 
-	
+
 	/**
 	 * Prepares the test Weka Instances data: it extracts all features from the test documents based on the list
 	 * of attributes derived from the training preparation, and saves the data into testSet.
@@ -500,7 +501,7 @@ public class WekaInstancesBuilder {
 						currHist.add(event);
 					histograms.add(currHist);
 				}
-				
+
 				// update histograms
 				for (i=0; i<numOfVectors; i++)
 					eventHists.get(i).add(currEventSet,histograms.get(i));
@@ -509,7 +510,7 @@ public class WekaInstancesBuilder {
 
 				// generate sole event (extract full event name and remove value)
 				//Event event = new Event(list.get(0).eventAt(0).getEvent().replaceAll("\\{.*\\}", "{-}"));
-				
+
 				// update histogram to null at current position
 				for (i=0; i<numOfVectors; i++)
 					eventHists.get(i).add(currEventSet,null);
@@ -529,7 +530,7 @@ public class WekaInstancesBuilder {
 			// initialize instance
 			if (isSparse) inst = new SparseInstance(vectorSize);
 			else inst = new Instance(vectorSize);
-			
+
 			// update document title
 			if (hasDocNames)
 				inst.setValue((Attribute) attributeList.elementAt(0), unknownDocs.get(i).getTitle());
@@ -557,7 +558,7 @@ public class WekaInstancesBuilder {
 							value);	
 				}
 			}
-			
+
 			// update author
 			if (useDummyAuthor) {
 				// use dummy author name
@@ -574,42 +575,42 @@ public class WekaInstancesBuilder {
 		initNormTestBaselines();
 		normInstances(testSet);
 	}
-	
-	
+
+
 	/**
 	 * Initializes the normalization baselines and values for the training documents.
 	 * @throws Exception
 	 */
 	private void initNormTrainBaselines() throws Exception {
-		
+
 		int i, j;
 		int numOfVectors = trainingSet.numInstances();
 		int numOfFeatureClasses = cfd.numOfFeatureDrivers();
-		
+
 		for (i=0; i<numOfFeatureClasses; i++) {
 			NormBaselineEnum norm = cfd.featureDriverAt(i).getNormBaseline();
 			int start = featureClassAttrsFirstIndex[i], end = featureClassAttrsFirstIndex[i+1], k;
-			
+
 			if (norm == NormBaselineEnum.FEATURE_CLASS_IN_DOC || norm == NormBaselineEnum.FEATURE_CLASS_ALL_DOCS) {
 				// initialize
 				if (featureClassPerInst == null)
 					featureClassPerInst = new HashMap<Instance, int[]>();
-					
-				// accumulate feature class sum per document
-				for (j=0; j<numOfVectors; j++) {
-					int sum = 0;
-					Instance inst = trainingSet.instance(j);
-					featureClassPerInst.put(inst,new int[numOfFeatureClasses]);
-					for (k=start; k<end; k++)
-						sum += inst.value(k);
-					featureClassPerInst.get(inst)[i] = sum;
-				}
-				
+
+					// accumulate feature class sum per document
+					for (j=0; j<numOfVectors; j++) {
+						int sum = 0;
+						Instance inst = trainingSet.instance(j);
+						featureClassPerInst.put(inst,new int[numOfFeatureClasses]);
+						for (k=start; k<end; k++)
+							sum += inst.value(k);
+						featureClassPerInst.get(inst)[i] = sum;
+					}
+
 			} else if (norm == NormBaselineEnum.FEATURE_ALL_DOCUMENTS) {
 				// initialize
 				if (featureAllTrainDocs == null)
 					featureAllTrainDocs = new HashMap<String,Integer>();
-				
+
 				// accumulate feature sum across all TRAINING documents for each feature in this feature class
 				int sum;
 				for (k=start; k<end; k++) {
@@ -618,12 +619,12 @@ public class WekaInstancesBuilder {
 						sum += trainingSet.instance(j).value(k);
 					featureAllTrainDocs.put(trainingSet.attribute(k).name(), sum);
 				}
-			
+
 			} else if (norm == NormBaselineEnum.SENTENCES_IN_DOC) {
 				// initialize
 				if (sentencesPerInst == null)
 					sentencesPerInst = new HashMap<Instance,Integer>();
-				
+
 				// extract sentence count and update
 				Document doc;
 				SingleNumericEventDriver counter = new SentenceCounterEventDriver();
@@ -632,12 +633,12 @@ public class WekaInstancesBuilder {
 					doc.load();
 					sentencesPerInst.put(trainingSet.instance(j),(int)counter.getValue(doc));
 				}
-				
+
 			} else if (norm == NormBaselineEnum.WORDS_IN_DOC) {
 				// initialize
 				if (wordsPerInst == null)
 					wordsPerInst = new HashMap<Instance,Integer>();
-				
+
 				// extract word count and update
 				Document doc;
 				SingleNumericEventDriver counter = new WordCounterEventDriver();
@@ -646,12 +647,12 @@ public class WekaInstancesBuilder {
 					doc.load();
 					wordsPerInst.put(trainingSet.instance(j),(int)counter.getValue(doc));
 				}
-				
+
 			} else if (norm == NormBaselineEnum.CHARS_IN_DOC) {
 				// initialize
 				if (charsPerInst == null)
 					charsPerInst = new HashMap<Instance,Integer>();
-				
+
 				// extract character count and update
 				Document doc;
 				SingleNumericEventDriver counter = new CharCounterEventDriver();
@@ -664,7 +665,7 @@ public class WekaInstancesBuilder {
 				// initialize
 				if (lettersPerInst == null)
 					lettersPerInst = new HashMap<Instance,Integer>();
-				
+
 				// extract letter count and update
 				Document doc;
 				SingleNumericEventDriver counter = new LetterCounterEventDriver();
@@ -674,20 +675,20 @@ public class WekaInstancesBuilder {
 					lettersPerInst.put(trainingSet.instance(j),(int)counter.getValue(doc));
 				}
 			}
-			
+
 			if (norm == NormBaselineEnum.FEATURE_CLASS_ALL_DOCS) {
 				// initialize
 				if (featureClassAllTrainDocs == null)
 					featureClassAllTrainDocs = new int[numOfFeatureClasses];
-				
+
 				// accumulate appearances of all features in the feature class, across all TRAINING documents
 				for (j=0; j<numOfVectors; j++)
 					featureClassAllTrainDocs[i] += featureClassPerInst.get(trainingSet.instance(j))[i];
 			}
 		}
 	}
-	
-	
+
+
 	/**
 	 * Initializes the normalization values for the test documents.
 	 */
@@ -695,11 +696,11 @@ public class WekaInstancesBuilder {
 		int i, j;
 		int numOfVectors = testSet.numInstances();
 		int numOfFeatureClasses = cfd.numOfFeatureDrivers();
-		
+
 		for (i=0; i<numOfFeatureClasses; i++) {
 			NormBaselineEnum norm = cfd.featureDriverAt(i).getNormBaseline();
 			int start = featureClassAttrsFirstIndex[i], end = featureClassAttrsFirstIndex[i+1], k;
-			
+
 			if (norm == NormBaselineEnum.FEATURE_CLASS_IN_DOC || norm == NormBaselineEnum.FEATURE_CLASS_ALL_DOCS) {
 				// accumulate feature class sum per document
 				for (j=0; j<numOfVectors; j++) {
@@ -710,7 +711,7 @@ public class WekaInstancesBuilder {
 						sum += inst.value(k);
 					featureClassPerInst.get(inst)[i] = sum;
 				}
-							
+
 			} else if (norm == NormBaselineEnum.SENTENCES_IN_DOC) {
 				// extract sentence count and update
 				Document doc;
@@ -720,7 +721,7 @@ public class WekaInstancesBuilder {
 					doc.load();
 					sentencesPerInst.put(testSet.instance(j),(int)counter.getValue(doc));
 				}
-				
+
 			} else if (norm == NormBaselineEnum.WORDS_IN_DOC) {
 				// extract word count and update
 				Document doc;
@@ -730,7 +731,7 @@ public class WekaInstancesBuilder {
 					doc.load();
 					wordsPerInst.put(testSet.instance(j),(int)counter.getValue(doc));
 				}
-				
+
 			} else if (norm == NormBaselineEnum.CHARS_IN_DOC) {
 				// extract character count and update
 				Document doc;
@@ -752,7 +753,7 @@ public class WekaInstancesBuilder {
 			}
 		}
 	}
-	
+
 	/**
 	 * Applies normalization over the given Weka Instances data.
 	 * Should be called after normalization initialization.
@@ -761,11 +762,11 @@ public class WekaInstancesBuilder {
 	 * @throws Exception
 	 */
 	private void normInstances(Instances insts) throws Exception {
-		
+
 		int i, j;
 		int numOfFeatureClasses = cfd.numOfFeatureDrivers();
 		int numOfVectors = insts.numInstances();
-		
+
 		for (i=0; i<numOfFeatureClasses; i++) {
 			NormBaselineEnum norm = cfd.featureDriverAt(i).getNormBaseline();
 			double factor = cfd.featureDriverAt(i).getNormFactor();
@@ -822,8 +823,8 @@ public class WekaInstancesBuilder {
 			}
 		}
 	}
-	
-	
+
+
 	/**
 	 * Writes the given Instances set into an ARFF file in the given filename.
 	 * @param filename
@@ -836,17 +837,17 @@ public class WekaInstancesBuilder {
 	public static boolean writeSetToARFF(String filename, Instances set) {
 		try {
 			ArffSaver saver = new ArffSaver();
-			 saver.setInstances(set);
-			 saver.setFile(new File(filename));
-			 saver.writeBatch();
-			 return true;
+			saver.setInstances(set);
+			saver.setFile(new File(filename));
+			saver.writeBatch();
+			return true;
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 			return false;
 		}
 	}
-	
-	
+
+
 	/**
 	 * Writes the given Instances set into an CSV file in the given filename.
 	 * @param filename
@@ -868,8 +869,8 @@ public class WekaInstancesBuilder {
 			return false;
 		}
 	}
-	
-	
+
+
 	/**
 	 * Given Weka Instances object, returns the same dataset represented as a Weka sparse dataset.
 	 * @param data
@@ -890,8 +891,8 @@ public class WekaInstancesBuilder {
 		}
 		return sparse;
 	}
-	
-	
+
+
 	/*
 	 * =======
 	 * setters
@@ -906,21 +907,21 @@ public class WekaInstancesBuilder {
 	public void setSparse(boolean isSparse) {
 		this.isSparse = isSparse;
 	}
-	
+
 	public void setTrainingSet(Instances trainingSet) {
 		this.trainingSet = trainingSet;
 	}
-	
+
 	public void setTestSet(Instances testSet) {
 		this.testSet = testSet;
 	}	
-	
+
 	/*
 	 * =======
 	 * getters
 	 * =======
 	 */
-	
+
 	/**
 	 * Returns true if the Instances representation is sparse, and false otherwise.
 	 * @return
@@ -974,7 +975,7 @@ public class WekaInstancesBuilder {
 	public Instances getTestSet() {
 		return testSet;
 	}
-	
+
 	/**
 	 * Returns the entire data in one Weka Instances set.
 	 * @return
@@ -1005,7 +1006,7 @@ public class WekaInstancesBuilder {
 	public void setHasDocNames(boolean hasDocNames) {
 		this.hasDocNames = hasDocNames;
 	}
-	
+
 	/**
 	 * Returns the dummy author name used to bypass Weka bug when using sparse representation.
 	 * @return
@@ -1015,5 +1016,5 @@ public class WekaInstancesBuilder {
 	public static String getDummy() {
 		return dummy;
 	}
-	*/
+	 */
 }

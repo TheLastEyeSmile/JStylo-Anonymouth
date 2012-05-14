@@ -1,0 +1,764 @@
+>>> runCrossValidation started
+Running experiment 1 out of 10
+>>> classify started
+> Learning
+Calculating information gain over training authors data
+Initializing training authors data:
+aa  (basis: 1423x1423, writeprint: 1423x1)  b  (basis: 1423x1423, writeprint: 1423x1)  bb  (basis: 1423x1423, writeprint: 1423x1)  c  (basis: 1423x1423, writeprint: 1423x1)  cc  (basis: 1423x1423, writeprint: 1423x1)  
+d  (basis: 1423x1423, writeprint: 1423x1)  dd  (basis: 1423x1423, writeprint: 1423x1)  e  (basis: 1423x1423, writeprint: 1423x1)  f  (basis: 1423x1423, writeprint: 1423x1)  ff  (basis: 1423x1423, writeprint: 1423x1)  
+g  (basis: 1423x1423, writeprint: 1423x1)  gg  (basis: 1423x1423, writeprint: 1423x1)  h  (basis: 1423x1423, writeprint: 1423x1)  hh  (basis: 1423x1423, writeprint: 1423x1)  i  (basis: 1423x1423, writeprint: 1423x1)  
+ii  (basis: 1423x1423, writeprint: 1423x1)  j  (basis: 1423x1423, writeprint: 1423x1)  jj  (basis: 1423x1423, writeprint: 1423x1)  k  (basis: 1423x1423, writeprint: 1423x1)  kk  (basis: 1423x1423, writeprint: 1423x1)  
+l  (basis: 1423x1423, writeprint: 1423x1)  ll  (basis: 1423x1423, writeprint: 1423x1)  m  (basis: 1423x1423, writeprint: 1423x1)  mm  (basis: 1423x1423, writeprint: 1423x1)  n  (basis: 1423x1423, writeprint: 1423x1)  
+nn  (basis: 1423x1423, writeprint: 1423x1)  o  (basis: 1423x1423, writeprint: 1423x1)  p  (basis: 1423x1423, writeprint: 1423x1)  pp  (basis: 1423x1423, writeprint: 1423x1)  q  (basis: 1423x1423, writeprint: 1423x1)  
+qq  (basis: 1423x1423, writeprint: 1423x1)  r  (basis: 1423x1423, writeprint: 1423x1)  rr  (basis: 1423x1423, writeprint: 1423x1)  s  (basis: 1423x1423, writeprint: 1423x1)  ss  (basis: 1423x1423, writeprint: 1423x1)  
+t  (basis: 1423x1423, writeprint: 1423x1)  tt  (basis: 1423x1423, writeprint: 1423x1)  u  (basis: 1423x1423, writeprint: 1423x1)  uu  (basis: 1423x1423, writeprint: 1423x1)  vv  (basis: 1423x1423, writeprint: 1423x1)  
+w  (basis: 1423x1423, writeprint: 1423x1)  ww  (basis: 1423x1423, writeprint: 1423x1)  x  (basis: 1423x1423, writeprint: 1423x1)  y  (basis: 1423x1423, writeprint: 1423x1)  z  (basis: 1423x1423, writeprint: 1423x1)  
+
+Initializing test authors data (CV mode):
+aa  (basis: 1423x1423, writeprint: 1423x1)  b  (basis: 1423x1423, writeprint: 1423x1)  bb  (basis: 1423x1423, writeprint: 1423x1)  c  (basis: 1423x1423, writeprint: 1423x1)  cc  (basis: 1423x1423, writeprint: 1423x1)  
+d  (basis: 1423x1423, writeprint: 1423x1)  dd  (basis: 1423x1423, writeprint: 1423x1)  e  (basis: 1423x1423, writeprint: 1423x1)  f  (basis: 1423x1423, writeprint: 1423x1)  ff  (basis: 1423x1423, writeprint: 1423x1)  
+g  (basis: 1423x1423, writeprint: 1423x1)  gg  (basis: 1423x1423, writeprint: 1423x1)  h  (basis: 1423x1423, writeprint: 1423x1)  hh  (basis: 1423x1423, writeprint: 1423x1)  i  (basis: 1423x1423, writeprint: 1423x1)  
+ii  (basis: 1423x1423, writeprint: 1423x1)  j  (basis: 1423x1423, writeprint: 1423x1)  jj  (basis: 1423x1423, writeprint: 1423x1)  k  (basis: 1423x1423, writeprint: 1423x1)  kk  (basis: 1423x1423, writeprint: 1423x1)  
+l  (basis: 1423x1423, writeprint: 1423x1)  ll  (basis: 1423x1423, writeprint: 1423x1)  m  (basis: 1423x1423, writeprint: 1423x1)  mm  (basis: 1423x1423, writeprint: 1423x1)  n  (basis: 1423x1423, writeprint: 1423x1)  
+nn  (basis: 1423x1423, writeprint: 1423x1)  o  (basis: 1423x1423, writeprint: 1423x1)  p  (basis: 1423x1423, writeprint: 1423x1)  pp  (basis: 1423x1423, writeprint: 1423x1)  q  (basis: 1423x1423, writeprint: 1423x1)  
+qq  (basis: 1423x1423, writeprint: 1423x1)  r  (basis: 1423x1423, writeprint: 1423x1)  rr  (basis: 1423x1423, writeprint: 1423x1)  s  (basis: 1423x1423, writeprint: 1423x1)  ss  (basis: 1423x1423, writeprint: 1423x1)  
+t  (basis: 1423x1423, writeprint: 1423x1)  tt  (basis: 1423x1423, writeprint: 1423x1)  u  (basis: 1423x1423, writeprint: 1423x1)  uu  (basis: 1423x1423, writeprint: 1423x1)  vv  (basis: 1423x1423, writeprint: 1423x1)  
+w  (basis: 1423x1423, writeprint: 1423x1)  ww  (basis: 1423x1423, writeprint: 1423x1)  x  (basis: 1423x1423, writeprint: 1423x1)  y  (basis: 1423x1423, writeprint: 1423x1)  z  (basis: 1423x1423, writeprint: 1423x1)  
+
+Initializing word synonym count
+Calculating synonym count for word-based features:
+> Testing
+aa  b  bb  c  cc  d  dd  e  f  ff  g  gg  h  hh  i  ii  j  jj  k  kk  l  ll  m  mm  n  nn  o  p  pp  q  qq  r  rr  s  ss  t  tt  u  uu  vv  w  ww  x  y  z  >>> classify finished
+ll: ll
+nn: nn
+hh: k
+jj: jj
+dd: dd
+ww: ww
+ff: ff
+uu: x
+ss: ss
+bb: bb
+qq: qq
+f: f
+mm: w
+g: k
+d: d
+e: l
+b: b
+c: c
+n: n
+ii: k
+o: nn
+l: i
+m: c
+kk: kk
+j: j
+k: k
+h: h
+i: c
+w: c
+vv: vv
+u: cc
+t: u
+s: ww
+tt: tt
+r: r
+q: q
+p: p
+gg: ff
+rr: rr
+aa: aa
+pp: o
+z: z
+y: y
+cc: z
+x: x
+- Accuracy for experiment 1: 62.22
+Running experiment 2 out of 10
+>>> classify started
+> Learning
+Calculating information gain over training authors data
+Initializing training authors data:
+aa  (basis: 1423x1423, writeprint: 1423x1)  b  (basis: 1423x1423, writeprint: 1423x1)  bb  (basis: 1423x1423, writeprint: 1423x1)  c  (basis: 1423x1423, writeprint: 1423x1)  cc  (basis: 1423x1423, writeprint: 1423x1)  
+d  (basis: 1423x1423, writeprint: 1423x1)  dd  (basis: 1423x1423, writeprint: 1423x1)  e  (basis: 1423x1423, writeprint: 1423x1)  f  (basis: 1423x1423, writeprint: 1423x1)  ff  (basis: 1423x1423, writeprint: 1423x1)  
+g  (basis: 1423x1423, writeprint: 1423x1)  gg  (basis: 1423x1423, writeprint: 1423x1)  h  (basis: 1423x1423, writeprint: 1423x1)  hh  (basis: 1423x1423, writeprint: 1423x1)  i  (basis: 1423x1423, writeprint: 1423x1)  
+ii  (basis: 1423x1423, writeprint: 1423x1)  j  (basis: 1423x1423, writeprint: 1423x1)  jj  (basis: 1423x1423, writeprint: 1423x1)  k  (basis: 1423x1423, writeprint: 1423x1)  kk  (basis: 1423x1423, writeprint: 1423x1)  
+l  (basis: 1423x1423, writeprint: 1423x1)  ll  (basis: 1423x1423, writeprint: 1423x1)  m  (basis: 1423x1423, writeprint: 1423x1)  mm  (basis: 1423x1423, writeprint: 1423x1)  n  (basis: 1423x1423, writeprint: 1423x1)  
+nn  (basis: 1423x1423, writeprint: 1423x1)  o  (basis: 1423x1423, writeprint: 1423x1)  p  (basis: 1423x1423, writeprint: 1423x1)  pp  (basis: 1423x1423, writeprint: 1423x1)  q  (basis: 1423x1423, writeprint: 1423x1)  
+qq  (basis: 1423x1423, writeprint: 1423x1)  r  (basis: 1423x1423, writeprint: 1423x1)  rr  (basis: 1423x1423, writeprint: 1423x1)  s  (basis: 1423x1423, writeprint: 1423x1)  ss  (basis: 1423x1423, writeprint: 1423x1)  
+t  (basis: 1423x1423, writeprint: 1423x1)  tt  (basis: 1423x1423, writeprint: 1423x1)  u  (basis: 1423x1423, writeprint: 1423x1)  uu  (basis: 1423x1423, writeprint: 1423x1)  vv  (basis: 1423x1423, writeprint: 1423x1)  
+w  (basis: 1423x1423, writeprint: 1423x1)  ww  (basis: 1423x1423, writeprint: 1423x1)  x  (basis: 1423x1423, writeprint: 1423x1)  y  (basis: 1423x1423, writeprint: 1423x1)  z  (basis: 1423x1423, writeprint: 1423x1)  
+
+Initializing test authors data (CV mode):
+aa  (basis: 1423x1423, writeprint: 1423x1)  b  (basis: 1423x1423, writeprint: 1423x1)  bb  (basis: 1423x1423, writeprint: 1423x1)  c  (basis: 1423x1423, writeprint: 1423x1)  cc  (basis: 1423x1423, writeprint: 1423x1)  
+d  (basis: 1423x1423, writeprint: 1423x1)  dd  (basis: 1423x1423, writeprint: 1423x1)  e  (basis: 1423x1423, writeprint: 1423x1)  f  (basis: 1423x1423, writeprint: 1423x1)  ff  (basis: 1423x1423, writeprint: 1423x1)  
+g  (basis: 1423x1423, writeprint: 1423x1)  gg  (basis: 1423x1423, writeprint: 1423x1)  h  (basis: 1423x1423, writeprint: 1423x1)  hh  (basis: 1423x1423, writeprint: 1423x1)  i  (basis: 1423x1423, writeprint: 1423x1)  
+ii  (basis: 1423x1423, writeprint: 1423x1)  j  (basis: 1423x1423, writeprint: 1423x1)  jj  (basis: 1423x1423, writeprint: 1423x1)  k  (basis: 1423x1423, writeprint: 1423x1)  kk  (basis: 1423x1423, writeprint: 1423x1)  
+l  (basis: 1423x1423, writeprint: 1423x1)  ll  (basis: 1423x1423, writeprint: 1423x1)  m  (basis: 1423x1423, writeprint: 1423x1)  mm  (basis: 1423x1423, writeprint: 1423x1)  n  (basis: 1423x1423, writeprint: 1423x1)  
+nn  (basis: 1423x1423, writeprint: 1423x1)  o  (basis: 1423x1423, writeprint: 1423x1)  p  (basis: 1423x1423, writeprint: 1423x1)  pp  (basis: 1423x1423, writeprint: 1423x1)  q  (basis: 1423x1423, writeprint: 1423x1)  
+qq  (basis: 1423x1423, writeprint: 1423x1)  r  (basis: 1423x1423, writeprint: 1423x1)  rr  (basis: 1423x1423, writeprint: 1423x1)  s  (basis: 1423x1423, writeprint: 1423x1)  ss  (basis: 1423x1423, writeprint: 1423x1)  
+t  (basis: 1423x1423, writeprint: 1423x1)  tt  (basis: 1423x1423, writeprint: 1423x1)  u  (basis: 1423x1423, writeprint: 1423x1)  uu  (basis: 1423x1423, writeprint: 1423x1)  vv  (basis: 1423x1423, writeprint: 1423x1)  
+w  (basis: 1423x1423, writeprint: 1423x1)  ww  (basis: 1423x1423, writeprint: 1423x1)  x  (basis: 1423x1423, writeprint: 1423x1)  y  (basis: 1423x1423, writeprint: 1423x1)  z  (basis: 1423x1423, writeprint: 1423x1)  
+
+Initializing word synonym count
+Calculating synonym count for word-based features:
+> Testing
+aa  b  bb  c  cc  d  dd  e  f  ff  g  gg  h  hh  i  ii  j  jj  k  kk  l  ll  m  mm  n  nn  o  p  pp  q  qq  r  rr  s  ss  t  tt  u  uu  vv  w  ww  x  y  z  >>> classify finished
+ll: ll
+nn: nn
+hh: hh
+jj: jj
+dd: vv
+ww: l
+ff: ff
+uu: uu
+ss: ss
+bb: bb
+qq: qq
+f: f
+mm: mm
+g: g
+d: d
+e: ll
+b: b
+c: c
+n: q
+ii: ii
+o: l
+l: l
+m: m
+kk: kk
+j: rr
+k: k
+h: h
+i: w
+w: l
+vv: vv
+u: u
+t: t
+s: ff
+tt: tt
+r: r
+q: q
+p: p
+gg: gg
+rr: rr
+aa: aa
+pp: o
+z: z
+y: y
+cc: cc
+x: x
+- Accuracy for experiment 2: 77.78
+Running experiment 3 out of 10
+>>> classify started
+> Learning
+Calculating information gain over training authors data
+Initializing training authors data:
+aa  (basis: 1423x1423, writeprint: 1423x1)  b  (basis: 1423x1423, writeprint: 1423x1)  bb  (basis: 1423x1423, writeprint: 1423x1)  c  (basis: 1423x1423, writeprint: 1423x1)  cc  (basis: 1423x1423, writeprint: 1423x1)  
+d  (basis: 1423x1423, writeprint: 1423x1)  dd  (basis: 1423x1423, writeprint: 1423x1)  e  (basis: 1423x1423, writeprint: 1423x1)  f  (basis: 1423x1423, writeprint: 1423x1)  ff  (basis: 1423x1423, writeprint: 1423x1)  
+g  (basis: 1423x1423, writeprint: 1423x1)  gg  (basis: 1423x1423, writeprint: 1423x1)  h  (basis: 1423x1423, writeprint: 1423x1)  hh  (basis: 1423x1423, writeprint: 1423x1)  i  (basis: 1423x1423, writeprint: 1423x1)  
+ii  (basis: 1423x1423, writeprint: 1423x1)  j  (basis: 1423x1423, writeprint: 1423x1)  jj  (basis: 1423x1423, writeprint: 1423x1)  k  (basis: 1423x1423, writeprint: 1423x1)  kk  (basis: 1423x1423, writeprint: 1423x1)  
+l  (basis: 1423x1423, writeprint: 1423x1)  ll  (basis: 1423x1423, writeprint: 1423x1)  m  (basis: 1423x1423, writeprint: 1423x1)  mm  (basis: 1423x1423, writeprint: 1423x1)  n  (basis: 1423x1423, writeprint: 1423x1)  
+nn  (basis: 1423x1423, writeprint: 1423x1)  o  (basis: 1423x1423, writeprint: 1423x1)  p  (basis: 1423x1423, writeprint: 1423x1)  pp  (basis: 1423x1423, writeprint: 1423x1)  q  (basis: 1423x1423, writeprint: 1423x1)  
+qq  (basis: 1423x1423, writeprint: 1423x1)  r  (basis: 1423x1423, writeprint: 1423x1)  rr  (basis: 1423x1423, writeprint: 1423x1)  s  (basis: 1423x1423, writeprint: 1423x1)  ss  (basis: 1423x1423, writeprint: 1423x1)  
+t  (basis: 1423x1423, writeprint: 1423x1)  tt  (basis: 1423x1423, writeprint: 1423x1)  u  (basis: 1423x1423, writeprint: 1423x1)  uu  (basis: 1423x1423, writeprint: 1423x1)  vv  (basis: 1423x1423, writeprint: 1423x1)  
+w  (basis: 1423x1423, writeprint: 1423x1)  ww  (basis: 1423x1423, writeprint: 1423x1)  x  (basis: 1423x1423, writeprint: 1423x1)  y  (basis: 1423x1423, writeprint: 1423x1)  z  (basis: 1423x1423, writeprint: 1423x1)  
+
+Initializing test authors data (CV mode):
+aa  (basis: 1423x1423, writeprint: 1423x1)  b  (basis: 1423x1423, writeprint: 1423x1)  bb  (basis: 1423x1423, writeprint: 1423x1)  c  (basis: 1423x1423, writeprint: 1423x1)  cc  (basis: 1423x1423, writeprint: 1423x1)  
+d  (basis: 1423x1423, writeprint: 1423x1)  dd  (basis: 1423x1423, writeprint: 1423x1)  e  (basis: 1423x1423, writeprint: 1423x1)  f  (basis: 1423x1423, writeprint: 1423x1)  ff  (basis: 1423x1423, writeprint: 1423x1)  
+g  (basis: 1423x1423, writeprint: 1423x1)  gg  (basis: 1423x1423, writeprint: 1423x1)  h  (basis: 1423x1423, writeprint: 1423x1)  hh  (basis: 1423x1423, writeprint: 1423x1)  i  (basis: 1423x1423, writeprint: 1423x1)  
+ii  (basis: 1423x1423, writeprint: 1423x1)  j  (basis: 1423x1423, writeprint: 1423x1)  jj  (basis: 1423x1423, writeprint: 1423x1)  k  (basis: 1423x1423, writeprint: 1423x1)  kk  (basis: 1423x1423, writeprint: 1423x1)  
+l  (basis: 1423x1423, writeprint: 1423x1)  ll  (basis: 1423x1423, writeprint: 1423x1)  m  (basis: 1423x1423, writeprint: 1423x1)  mm  (basis: 1423x1423, writeprint: 1423x1)  n  (basis: 1423x1423, writeprint: 1423x1)  
+nn  (basis: 1423x1423, writeprint: 1423x1)  o  (basis: 1423x1423, writeprint: 1423x1)  p  (basis: 1423x1423, writeprint: 1423x1)  pp  (basis: 1423x1423, writeprint: 1423x1)  q  (basis: 1423x1423, writeprint: 1423x1)  
+qq  (basis: 1423x1423, writeprint: 1423x1)  r  (basis: 1423x1423, writeprint: 1423x1)  rr  (basis: 1423x1423, writeprint: 1423x1)  s  (basis: 1423x1423, writeprint: 1423x1)  ss  (basis: 1423x1423, writeprint: 1423x1)  
+t  (basis: 1423x1423, writeprint: 1423x1)  tt  (basis: 1423x1423, writeprint: 1423x1)  u  (basis: 1423x1423, writeprint: 1423x1)  uu  (basis: 1423x1423, writeprint: 1423x1)  vv  (basis: 1423x1423, writeprint: 1423x1)  
+w  (basis: 1423x1423, writeprint: 1423x1)  ww  (basis: 1423x1423, writeprint: 1423x1)  x  (basis: 1423x1423, writeprint: 1423x1)  y  (basis: 1423x1423, writeprint: 1423x1)  z  (basis: 1423x1423, writeprint: 1423x1)  
+
+Initializing word synonym count
+Calculating synonym count for word-based features:
+> Testing
+aa  b  bb  c  cc  d  dd  e  f  ff  g  gg  h  hh  i  ii  j  jj  k  kk  l  ll  m  mm  n  nn  o  p  pp  q  qq  r  rr  s  ss  t  tt  u  uu  vv  w  ww  x  y  z  >>> classify finished
+ll: ll
+nn: nn
+hh: nn
+jj: tt
+dd: dd
+ww: l
+ff: ff
+uu: uu
+ss: ss
+bb: bb
+qq: qq
+f: f
+mm: ff
+g: vv
+d: d
+e: f
+b: b
+c: w
+n: n
+ii: ii
+o: l
+l: l
+m: w
+kk: kk
+j: j
+k: k
+h: h
+i: z
+w: l
+vv: vv
+u: n
+t: t
+s: s
+tt: tt
+r: r
+q: q
+p: p
+gg: gg
+rr: rr
+aa: aa
+pp: pp
+z: z
+y: m
+cc: cc
+x: x
+- Accuracy for experiment 3: 71.11
+Running experiment 4 out of 10
+>>> classify started
+> Learning
+Calculating information gain over training authors data
+Initializing training authors data:
+aa  (basis: 1423x1423, writeprint: 1423x1)  b  (basis: 1423x1423, writeprint: 1423x1)  bb  (basis: 1423x1423, writeprint: 1423x1)  c  (basis: 1423x1423, writeprint: 1423x1)  cc  (basis: 1423x1423, writeprint: 1423x1)  
+d  (basis: 1423x1423, writeprint: 1423x1)  dd  (basis: 1423x1423, writeprint: 1423x1)  e  (basis: 1423x1423, writeprint: 1423x1)  f  (basis: 1423x1423, writeprint: 1423x1)  ff  (basis: 1423x1423, writeprint: 1423x1)  
+g  (basis: 1423x1423, writeprint: 1423x1)  gg  (basis: 1423x1423, writeprint: 1423x1)  h  (basis: 1423x1423, writeprint: 1423x1)  hh  (basis: 1423x1423, writeprint: 1423x1)  i  (basis: 1423x1423, writeprint: 1423x1)  
+ii  (basis: 1423x1423, writeprint: 1423x1)  j  (basis: 1423x1423, writeprint: 1423x1)  jj  (basis: 1423x1423, writeprint: 1423x1)  k  (basis: 1423x1423, writeprint: 1423x1)  kk  (basis: 1423x1423, writeprint: 1423x1)  
+l  (basis: 1423x1423, writeprint: 1423x1)  ll  (basis: 1423x1423, writeprint: 1423x1)  m  (basis: 1423x1423, writeprint: 1423x1)  mm  (basis: 1423x1423, writeprint: 1423x1)  n  (basis: 1423x1423, writeprint: 1423x1)  
+nn  (basis: 1423x1423, writeprint: 1423x1)  o  (basis: 1423x1423, writeprint: 1423x1)  p  (basis: 1423x1423, writeprint: 1423x1)  pp  (basis: 1423x1423, writeprint: 1423x1)  q  (basis: 1423x1423, writeprint: 1423x1)  
+qq  (basis: 1423x1423, writeprint: 1423x1)  r  (basis: 1423x1423, writeprint: 1423x1)  rr  (basis: 1423x1423, writeprint: 1423x1)  s  (basis: 1423x1423, writeprint: 1423x1)  ss  (basis: 1423x1423, writeprint: 1423x1)  
+t  (basis: 1423x1423, writeprint: 1423x1)  tt  (basis: 1423x1423, writeprint: 1423x1)  u  (basis: 1423x1423, writeprint: 1423x1)  uu  (basis: 1423x1423, writeprint: 1423x1)  vv  (basis: 1423x1423, writeprint: 1423x1)  
+w  (basis: 1423x1423, writeprint: 1423x1)  ww  (basis: 1423x1423, writeprint: 1423x1)  x  (basis: 1423x1423, writeprint: 1423x1)  y  (basis: 1423x1423, writeprint: 1423x1)  z  (basis: 1423x1423, writeprint: 1423x1)  
+
+Initializing test authors data (CV mode):
+aa  (basis: 1423x1423, writeprint: 1423x1)  b  (basis: 1423x1423, writeprint: 1423x1)  bb  (basis: 1423x1423, writeprint: 1423x1)  c  (basis: 1423x1423, writeprint: 1423x1)  cc  (basis: 1423x1423, writeprint: 1423x1)  
+d  (basis: 1423x1423, writeprint: 1423x1)  dd  (basis: 1423x1423, writeprint: 1423x1)  e  (basis: 1423x1423, writeprint: 1423x1)  f  (basis: 1423x1423, writeprint: 1423x1)  ff  (basis: 1423x1423, writeprint: 1423x1)  
+g  (basis: 1423x1423, writeprint: 1423x1)  gg  (basis: 1423x1423, writeprint: 1423x1)  h  (basis: 1423x1423, writeprint: 1423x1)  hh  (basis: 1423x1423, writeprint: 1423x1)  i  (basis: 1423x1423, writeprint: 1423x1)  
+ii  (basis: 1423x1423, writeprint: 1423x1)  j  (basis: 1423x1423, writeprint: 1423x1)  jj  (basis: 1423x1423, writeprint: 1423x1)  k  (basis: 1423x1423, writeprint: 1423x1)  kk  (basis: 1423x1423, writeprint: 1423x1)  
+l  (basis: 1423x1423, writeprint: 1423x1)  ll  (basis: 1423x1423, writeprint: 1423x1)  m  (basis: 1423x1423, writeprint: 1423x1)  mm  (basis: 1423x1423, writeprint: 1423x1)  n  (basis: 1423x1423, writeprint: 1423x1)  
+nn  (basis: 1423x1423, writeprint: 1423x1)  o  (basis: 1423x1423, writeprint: 1423x1)  p  (basis: 1423x1423, writeprint: 1423x1)  pp  (basis: 1423x1423, writeprint: 1423x1)  q  (basis: 1423x1423, writeprint: 1423x1)  
+qq  (basis: 1423x1423, writeprint: 1423x1)  r  (basis: 1423x1423, writeprint: 1423x1)  rr  (basis: 1423x1423, writeprint: 1423x1)  s  (basis: 1423x1423, writeprint: 1423x1)  ss  (basis: 1423x1423, writeprint: 1423x1)  
+t  (basis: 1423x1423, writeprint: 1423x1)  tt  (basis: 1423x1423, writeprint: 1423x1)  u  (basis: 1423x1423, writeprint: 1423x1)  uu  (basis: 1423x1423, writeprint: 1423x1)  vv  (basis: 1423x1423, writeprint: 1423x1)  
+w  (basis: 1423x1423, writeprint: 1423x1)  ww  (basis: 1423x1423, writeprint: 1423x1)  x  (basis: 1423x1423, writeprint: 1423x1)  y  (basis: 1423x1423, writeprint: 1423x1)  z  (basis: 1423x1423, writeprint: 1423x1)  
+
+Initializing word synonym count
+Calculating synonym count for word-based features:
+> Testing
+aa  b  bb  c  cc  d  dd  e  f  ff  g  gg  h  hh  i  ii  j  jj  k  kk  l  ll  m  mm  n  nn  o  p  pp  q  qq  r  rr  s  ss  t  tt  u  uu  vv  w  ww  x  y  z  >>> classify finished
+ll: ll
+nn: nn
+hh: nn
+jj: jj
+dd: dd
+ww: u
+ff: ff
+uu: ff
+ss: ss
+bb: bb
+qq: qq
+f: f
+mm: ff
+g: tt
+d: n
+e: e
+b: u
+c: w
+n: s
+ii: ii
+o: l
+l: l
+m: m
+kk: kk
+j: cc
+k: k
+h: h
+i: i
+w: l
+vv: vv
+u: n
+t: t
+s: s
+tt: tt
+r: r
+q: n
+p: p
+gg: ff
+rr: rr
+aa: ll
+pp: pp
+z: u
+y: y
+cc: cc
+x: x
+- Accuracy for experiment 4: 62.22
+Running experiment 5 out of 10
+>>> classify started
+> Learning
+Calculating information gain over training authors data
+Initializing training authors data:
+aa  (basis: 1423x1423, writeprint: 1423x1)  b  (basis: 1423x1423, writeprint: 1423x1)  bb  (basis: 1423x1423, writeprint: 1423x1)  c  (basis: 1423x1423, writeprint: 1423x1)  cc  (basis: 1423x1423, writeprint: 1423x1)  
+d  (basis: 1423x1423, writeprint: 1423x1)  dd  (basis: 1423x1423, writeprint: 1423x1)  e  (basis: 1423x1423, writeprint: 1423x1)  f  (basis: 1423x1423, writeprint: 1423x1)  ff  (basis: 1423x1423, writeprint: 1423x1)  
+g  (basis: 1423x1423, writeprint: 1423x1)  gg  (basis: 1423x1423, writeprint: 1423x1)  h  (basis: 1423x1423, writeprint: 1423x1)  hh  (basis: 1423x1423, writeprint: 1423x1)  i  (basis: 1423x1423, writeprint: 1423x1)  
+ii  (basis: 1423x1423, writeprint: 1423x1)  j  (basis: 1423x1423, writeprint: 1423x1)  jj  (basis: 1423x1423, writeprint: 1423x1)  k  (basis: 1423x1423, writeprint: 1423x1)  kk  (basis: 1423x1423, writeprint: 1423x1)  
+l  (basis: 1423x1423, writeprint: 1423x1)  ll  (basis: 1423x1423, writeprint: 1423x1)  m  (basis: 1423x1423, writeprint: 1423x1)  mm  (basis: 1423x1423, writeprint: 1423x1)  n  (basis: 1423x1423, writeprint: 1423x1)  
+nn  (basis: 1423x1423, writeprint: 1423x1)  o  (basis: 1423x1423, writeprint: 1423x1)  p  (basis: 1423x1423, writeprint: 1423x1)  pp  (basis: 1423x1423, writeprint: 1423x1)  q  (basis: 1423x1423, writeprint: 1423x1)  
+qq  (basis: 1423x1423, writeprint: 1423x1)  r  (basis: 1423x1423, writeprint: 1423x1)  rr  (basis: 1423x1423, writeprint: 1423x1)  s  (basis: 1423x1423, writeprint: 1423x1)  ss  (basis: 1423x1423, writeprint: 1423x1)  
+t  (basis: 1423x1423, writeprint: 1423x1)  tt  (basis: 1423x1423, writeprint: 1423x1)  u  (basis: 1423x1423, writeprint: 1423x1)  uu  (basis: 1423x1423, writeprint: 1423x1)  vv  (basis: 1423x1423, writeprint: 1423x1)  
+w  (basis: 1423x1423, writeprint: 1423x1)  ww  (basis: 1423x1423, writeprint: 1423x1)  x  (basis: 1423x1423, writeprint: 1423x1)  y  (basis: 1423x1423, writeprint: 1423x1)  z  (basis: 1423x1423, writeprint: 1423x1)  
+
+Initializing test authors data (CV mode):
+aa  (basis: 1423x1423, writeprint: 1423x1)  b  (basis: 1423x1423, writeprint: 1423x1)  bb  (basis: 1423x1423, writeprint: 1423x1)  c  (basis: 1423x1423, writeprint: 1423x1)  cc  (basis: 1423x1423, writeprint: 1423x1)  
+d  (basis: 1423x1423, writeprint: 1423x1)  dd  (basis: 1423x1423, writeprint: 1423x1)  e  (basis: 1423x1423, writeprint: 1423x1)  f  (basis: 1423x1423, writeprint: 1423x1)  ff  (basis: 1423x1423, writeprint: 1423x1)  
+g  (basis: 1423x1423, writeprint: 1423x1)  gg  (basis: 1423x1423, writeprint: 1423x1)  h  (basis: 1423x1423, writeprint: 1423x1)  hh  (basis: 1423x1423, writeprint: 1423x1)  i  (basis: 1423x1423, writeprint: 1423x1)  
+ii  (basis: 1423x1423, writeprint: 1423x1)  j  (basis: 1423x1423, writeprint: 1423x1)  jj  (basis: 1423x1423, writeprint: 1423x1)  k  (basis: 1423x1423, writeprint: 1423x1)  kk  (basis: 1423x1423, writeprint: 1423x1)  
+l  (basis: 1423x1423, writeprint: 1423x1)  ll  (basis: 1423x1423, writeprint: 1423x1)  m  (basis: 1423x1423, writeprint: 1423x1)  mm  (basis: 1423x1423, writeprint: 1423x1)  n  (basis: 1423x1423, writeprint: 1423x1)  
+nn  (basis: 1423x1423, writeprint: 1423x1)  o  (basis: 1423x1423, writeprint: 1423x1)  p  (basis: 1423x1423, writeprint: 1423x1)  pp  (basis: 1423x1423, writeprint: 1423x1)  q  (basis: 1423x1423, writeprint: 1423x1)  
+qq  (basis: 1423x1423, writeprint: 1423x1)  r  (basis: 1423x1423, writeprint: 1423x1)  rr  (basis: 1423x1423, writeprint: 1423x1)  s  (basis: 1423x1423, writeprint: 1423x1)  ss  (basis: 1423x1423, writeprint: 1423x1)  
+t  (basis: 1423x1423, writeprint: 1423x1)  tt  (basis: 1423x1423, writeprint: 1423x1)  u  (basis: 1423x1423, writeprint: 1423x1)  uu  (basis: 1423x1423, writeprint: 1423x1)  vv  (basis: 1423x1423, writeprint: 1423x1)  
+w  (basis: 1423x1423, writeprint: 1423x1)  ww  (basis: 1423x1423, writeprint: 1423x1)  x  (basis: 1423x1423, writeprint: 1423x1)  y  (basis: 1423x1423, writeprint: 1423x1)  z  (basis: 1423x1423, writeprint: 1423x1)  
+
+Initializing word synonym count
+Calculating synonym count for word-based features:
+> Testing
+aa  b  bb  c  cc  d  dd  e  f  ff  g  gg  h  hh  i  ii  j  jj  k  kk  l  ll  m  mm  n  nn  o  p  pp  q  qq  r  rr  s  ss  t  tt  u  uu  vv  w  ww  x  y  z  >>> classify finished
+ll: ll
+nn: nn
+hh: nn
+jj: jj
+dd: tt
+ww: ww
+ff: ff
+uu: ff
+ss: h
+bb: bb
+qq: qq
+f: f
+mm: ff
+g: vv
+d: t
+e: e
+b: b
+c: o
+n: n
+ii: ff
+o: o
+l: l
+m: m
+kk: kk
+j: j
+k: k
+h: h
+i: l
+w: l
+vv: vv
+u: t
+t: cc
+s: gg
+tt: tt
+r: r
+q: q
+p: p
+gg: vv
+rr: j
+aa: aa
+pp: pp
+z: z
+y: h
+cc: cc
+x: x
+- Accuracy for experiment 5: 62.22
+Running experiment 6 out of 10
+>>> classify started
+> Learning
+Calculating information gain over training authors data
+Initializing training authors data:
+aa  (basis: 1423x1423, writeprint: 1423x1)  b  (basis: 1423x1423, writeprint: 1423x1)  bb  (basis: 1423x1423, writeprint: 1423x1)  c  (basis: 1423x1423, writeprint: 1423x1)  cc  (basis: 1423x1423, writeprint: 1423x1)  
+d  (basis: 1423x1423, writeprint: 1423x1)  dd  (basis: 1423x1423, writeprint: 1423x1)  e  (basis: 1423x1423, writeprint: 1423x1)  f  (basis: 1423x1423, writeprint: 1423x1)  ff  (basis: 1423x1423, writeprint: 1423x1)  
+g  (basis: 1423x1423, writeprint: 1423x1)  gg  (basis: 1423x1423, writeprint: 1423x1)  h  (basis: 1423x1423, writeprint: 1423x1)  hh  (basis: 1423x1423, writeprint: 1423x1)  i  (basis: 1423x1423, writeprint: 1423x1)  
+ii  (basis: 1423x1423, writeprint: 1423x1)  j  (basis: 1423x1423, writeprint: 1423x1)  jj  (basis: 1423x1423, writeprint: 1423x1)  k  (basis: 1423x1423, writeprint: 1423x1)  kk  (basis: 1423x1423, writeprint: 1423x1)  
+l  (basis: 1423x1423, writeprint: 1423x1)  ll  (basis: 1423x1423, writeprint: 1423x1)  m  (basis: 1423x1423, writeprint: 1423x1)  mm  (basis: 1423x1423, writeprint: 1423x1)  n  (basis: 1423x1423, writeprint: 1423x1)  
+nn  (basis: 1423x1423, writeprint: 1423x1)  o  (basis: 1423x1423, writeprint: 1423x1)  p  (basis: 1423x1423, writeprint: 1423x1)  pp  (basis: 1423x1423, writeprint: 1423x1)  q  (basis: 1423x1423, writeprint: 1423x1)  
+qq  (basis: 1423x1423, writeprint: 1423x1)  r  (basis: 1423x1423, writeprint: 1423x1)  rr  (basis: 1423x1423, writeprint: 1423x1)  s  (basis: 1423x1423, writeprint: 1423x1)  ss  (basis: 1423x1423, writeprint: 1423x1)  
+t  (basis: 1423x1423, writeprint: 1423x1)  tt  (basis: 1423x1423, writeprint: 1423x1)  u  (basis: 1423x1423, writeprint: 1423x1)  uu  (basis: 1423x1423, writeprint: 1423x1)  vv  (basis: 1423x1423, writeprint: 1423x1)  
+w  (basis: 1423x1423, writeprint: 1423x1)  ww  (basis: 1423x1423, writeprint: 1423x1)  x  (basis: 1423x1423, writeprint: 1423x1)  y  (basis: 1423x1423, writeprint: 1423x1)  z  (basis: 1423x1423, writeprint: 1423x1)  
+
+Initializing test authors data (CV mode):
+aa  (basis: 1423x1423, writeprint: 1423x1)  b  (basis: 1423x1423, writeprint: 1423x1)  bb  (basis: 1423x1423, writeprint: 1423x1)  c  (basis: 1423x1423, writeprint: 1423x1)  cc  (basis: 1423x1423, writeprint: 1423x1)  
+d  (basis: 1423x1423, writeprint: 1423x1)  dd  (basis: 1423x1423, writeprint: 1423x1)  e  (basis: 1423x1423, writeprint: 1423x1)  f  (basis: 1423x1423, writeprint: 1423x1)  ff  (basis: 1423x1423, writeprint: 1423x1)  
+g  (basis: 1423x1423, writeprint: 1423x1)  gg  (basis: 1423x1423, writeprint: 1423x1)  h  (basis: 1423x1423, writeprint: 1423x1)  hh  (basis: 1423x1423, writeprint: 1423x1)  i  (basis: 1423x1423, writeprint: 1423x1)  
+ii  (basis: 1423x1423, writeprint: 1423x1)  j  (basis: 1423x1423, writeprint: 1423x1)  jj  (basis: 1423x1423, writeprint: 1423x1)  k  (basis: 1423x1423, writeprint: 1423x1)  kk  (basis: 1423x1423, writeprint: 1423x1)  
+l  (basis: 1423x1423, writeprint: 1423x1)  ll  (basis: 1423x1423, writeprint: 1423x1)  m  (basis: 1423x1423, writeprint: 1423x1)  mm  (basis: 1423x1423, writeprint: 1423x1)  n  (basis: 1423x1423, writeprint: 1423x1)  
+nn  (basis: 1423x1423, writeprint: 1423x1)  o  (basis: 1423x1423, writeprint: 1423x1)  p  (basis: 1423x1423, writeprint: 1423x1)  pp  (basis: 1423x1423, writeprint: 1423x1)  q  (basis: 1423x1423, writeprint: 1423x1)  
+qq  (basis: 1423x1423, writeprint: 1423x1)  r  (basis: 1423x1423, writeprint: 1423x1)  rr  (basis: 1423x1423, writeprint: 1423x1)  s  (basis: 1423x1423, writeprint: 1423x1)  ss  (basis: 1423x1423, writeprint: 1423x1)  
+t  (basis: 1423x1423, writeprint: 1423x1)  tt  (basis: 1423x1423, writeprint: 1423x1)  u  (basis: 1423x1423, writeprint: 1423x1)  uu  (basis: 1423x1423, writeprint: 1423x1)  vv  (basis: 1423x1423, writeprint: 1423x1)  
+w  (basis: 1423x1423, writeprint: 1423x1)  ww  (basis: 1423x1423, writeprint: 1423x1)  x  (basis: 1423x1423, writeprint: 1423x1)  y  (basis: 1423x1423, writeprint: 1423x1)  z  (basis: 1423x1423, writeprint: 1423x1)  
+
+Initializing word synonym count
+Calculating synonym count for word-based features:
+> Testing
+aa  b  bb  c  cc  d  dd  e  f  ff  g  gg  h  hh  i  ii  j  jj  k  kk  l  ll  m  mm  n  nn  o  p  pp  q  qq  r  rr  s  ss  t  tt  u  uu  vv  w  ww  x  y  z  >>> classify finished
+ll: ll
+nn: nn
+hh: gg
+jj: jj
+dd: dd
+ww: ww
+ff: ff
+uu: uu
+ss: ss
+bb: bb
+qq: qq
+f: f
+mm: ll
+g: vv
+d: d
+e: t
+b: b
+c: c
+n: n
+ii: l
+o: pp
+l: aa
+m: h
+kk: kk
+j: j
+k: k
+h: h
+i: l
+w: ww
+vv: vv
+u: t
+t: cc
+s: gg
+tt: tt
+r: r
+q: q
+p: p
+gg: gg
+rr: rr
+aa: aa
+pp: pp
+z: z
+y: y
+cc: u
+x: x
+- Accuracy for experiment 6: 68.89
+Running experiment 7 out of 10
+>>> classify started
+> Learning
+Calculating information gain over training authors data
+Initializing training authors data:
+aa  (basis: 1423x1423, writeprint: 1423x1)  b  (basis: 1423x1423, writeprint: 1423x1)  bb  (basis: 1423x1423, writeprint: 1423x1)  c  (basis: 1423x1423, writeprint: 1423x1)  cc  (basis: 1423x1423, writeprint: 1423x1)  
+d  (basis: 1423x1423, writeprint: 1423x1)  dd  (basis: 1423x1423, writeprint: 1423x1)  e  (basis: 1423x1423, writeprint: 1423x1)  f  (basis: 1423x1423, writeprint: 1423x1)  ff  (basis: 1423x1423, writeprint: 1423x1)  
+g  (basis: 1423x1423, writeprint: 1423x1)  gg  (basis: 1423x1423, writeprint: 1423x1)  h  (basis: 1423x1423, writeprint: 1423x1)  hh  (basis: 1423x1423, writeprint: 1423x1)  i  (basis: 1423x1423, writeprint: 1423x1)  
+ii  (basis: 1423x1423, writeprint: 1423x1)  j  (basis: 1423x1423, writeprint: 1423x1)  jj  (basis: 1423x1423, writeprint: 1423x1)  k  (basis: 1423x1423, writeprint: 1423x1)  kk  (basis: 1423x1423, writeprint: 1423x1)  
+l  (basis: 1423x1423, writeprint: 1423x1)  ll  (basis: 1423x1423, writeprint: 1423x1)  m  (basis: 1423x1423, writeprint: 1423x1)  mm  (basis: 1423x1423, writeprint: 1423x1)  n  (basis: 1423x1423, writeprint: 1423x1)  
+nn  (basis: 1423x1423, writeprint: 1423x1)  o  (basis: 1423x1423, writeprint: 1423x1)  p  (basis: 1423x1423, writeprint: 1423x1)  pp  (basis: 1423x1423, writeprint: 1423x1)  q  (basis: 1423x1423, writeprint: 1423x1)  
+qq  (basis: 1423x1423, writeprint: 1423x1)  r  (basis: 1423x1423, writeprint: 1423x1)  rr  (basis: 1423x1423, writeprint: 1423x1)  s  (basis: 1423x1423, writeprint: 1423x1)  ss  (basis: 1423x1423, writeprint: 1423x1)  
+t  (basis: 1423x1423, writeprint: 1423x1)  tt  (basis: 1423x1423, writeprint: 1423x1)  u  (basis: 1423x1423, writeprint: 1423x1)  uu  (basis: 1423x1423, writeprint: 1423x1)  vv  (basis: 1423x1423, writeprint: 1423x1)  
+w  (basis: 1423x1423, writeprint: 1423x1)  ww  (basis: 1423x1423, writeprint: 1423x1)  x  (basis: 1423x1423, writeprint: 1423x1)  y  (basis: 1423x1423, writeprint: 1423x1)  z  (basis: 1423x1423, writeprint: 1423x1)  
+
+Initializing test authors data (CV mode):
+aa  (basis: 1423x1423, writeprint: 1423x1)  b  (basis: 1423x1423, writeprint: 1423x1)  bb  (basis: 1423x1423, writeprint: 1423x1)  c  (basis: 1423x1423, writeprint: 1423x1)  cc  (basis: 1423x1423, writeprint: 1423x1)  
+d  (basis: 1423x1423, writeprint: 1423x1)  dd  (basis: 1423x1423, writeprint: 1423x1)  e  (basis: 1423x1423, writeprint: 1423x1)  f  (basis: 1423x1423, writeprint: 1423x1)  ff  (basis: 1423x1423, writeprint: 1423x1)  
+g  (basis: 1423x1423, writeprint: 1423x1)  gg  (basis: 1423x1423, writeprint: 1423x1)  h  (basis: 1423x1423, writeprint: 1423x1)  hh  (basis: 1423x1423, writeprint: 1423x1)  i  (basis: 1423x1423, writeprint: 1423x1)  
+ii  (basis: 1423x1423, writeprint: 1423x1)  j  (basis: 1423x1423, writeprint: 1423x1)  jj  (basis: 1423x1423, writeprint: 1423x1)  k  (basis: 1423x1423, writeprint: 1423x1)  kk  (basis: 1423x1423, writeprint: 1423x1)  
+l  (basis: 1423x1423, writeprint: 1423x1)  ll  (basis: 1423x1423, writeprint: 1423x1)  m  (basis: 1423x1423, writeprint: 1423x1)  mm  (basis: 1423x1423, writeprint: 1423x1)  n  (basis: 1423x1423, writeprint: 1423x1)  
+nn  (basis: 1423x1423, writeprint: 1423x1)  o  (basis: 1423x1423, writeprint: 1423x1)  p  (basis: 1423x1423, writeprint: 1423x1)  pp  (basis: 1423x1423, writeprint: 1423x1)  q  (basis: 1423x1423, writeprint: 1423x1)  
+qq  (basis: 1423x1423, writeprint: 1423x1)  r  (basis: 1423x1423, writeprint: 1423x1)  rr  (basis: 1423x1423, writeprint: 1423x1)  s  (basis: 1423x1423, writeprint: 1423x1)  ss  (basis: 1423x1423, writeprint: 1423x1)  
+t  (basis: 1423x1423, writeprint: 1423x1)  tt  (basis: 1423x1423, writeprint: 1423x1)  u  (basis: 1423x1423, writeprint: 1423x1)  uu  (basis: 1423x1423, writeprint: 1423x1)  vv  (basis: 1423x1423, writeprint: 1423x1)  
+w  (basis: 1423x1423, writeprint: 1423x1)  ww  (basis: 1423x1423, writeprint: 1423x1)  x  (basis: 1423x1423, writeprint: 1423x1)  y  (basis: 1423x1423, writeprint: 1423x1)  z  (basis: 1423x1423, writeprint: 1423x1)  
+
+Initializing word synonym count
+Calculating synonym count for word-based features:
+> Testing
+aa  b  bb  c  cc  d  dd  e  f  ff  g  gg  h  hh  i  ii  j  jj  k  kk  l  ll  m  mm  n  nn  o  p  pp  q  qq  r  rr  s  ss  t  tt  u  uu  vv  w  ww  x  y  z  >>> classify finished
+ll: ll
+nn: nn
+hh: hh
+jj: jj
+dd: dd
+ww: u
+ff: ff
+uu: uu
+ss: ss
+bb: bb
+qq: qq
+f: f
+mm: mm
+g: g
+d: d
+e: f
+b: b
+c: c
+n: u
+ii: ii
+o: u
+l: l
+m: y
+kk: kk
+j: u
+k: k
+h: h
+i: ll
+w: cc
+vv: vv
+u: u
+t: t
+s: ww
+tt: tt
+r: r
+q: q
+p: p
+gg: gg
+rr: rr
+aa: aa
+pp: y
+z: z
+y: y
+cc: cc
+x: x
+- Accuracy for experiment 7: 77.78
+Running experiment 8 out of 10
+>>> classify started
+> Learning
+Calculating information gain over training authors data
+Initializing training authors data:
+aa  (basis: 1423x1423, writeprint: 1423x1)  b  (basis: 1423x1423, writeprint: 1423x1)  bb  (basis: 1423x1423, writeprint: 1423x1)  c  (basis: 1423x1423, writeprint: 1423x1)  cc  (basis: 1423x1423, writeprint: 1423x1)  
+d  (basis: 1423x1423, writeprint: 1423x1)  dd  (basis: 1423x1423, writeprint: 1423x1)  e  (basis: 1423x1423, writeprint: 1423x1)  f  (basis: 1423x1423, writeprint: 1423x1)  ff  (basis: 1423x1423, writeprint: 1423x1)  
+g  (basis: 1423x1423, writeprint: 1423x1)  gg  (basis: 1423x1423, writeprint: 1423x1)  h  (basis: 1423x1423, writeprint: 1423x1)  hh  (basis: 1423x1423, writeprint: 1423x1)  i  (basis: 1423x1423, writeprint: 1423x1)  
+ii  (basis: 1423x1423, writeprint: 1423x1)  j  (basis: 1423x1423, writeprint: 1423x1)  jj  (basis: 1423x1423, writeprint: 1423x1)  k  (basis: 1423x1423, writeprint: 1423x1)  kk  (basis: 1423x1423, writeprint: 1423x1)  
+l  (basis: 1423x1423, writeprint: 1423x1)  ll  (basis: 1423x1423, writeprint: 1423x1)  m  (basis: 1423x1423, writeprint: 1423x1)  mm  (basis: 1423x1423, writeprint: 1423x1)  n  (basis: 1423x1423, writeprint: 1423x1)  
+nn  (basis: 1423x1423, writeprint: 1423x1)  o  (basis: 1423x1423, writeprint: 1423x1)  p  (basis: 1423x1423, writeprint: 1423x1)  pp  (basis: 1423x1423, writeprint: 1423x1)  q  (basis: 1423x1423, writeprint: 1423x1)  
+qq  (basis: 1423x1423, writeprint: 1423x1)  r  (basis: 1423x1423, writeprint: 1423x1)  rr  (basis: 1423x1423, writeprint: 1423x1)  s  (basis: 1423x1423, writeprint: 1423x1)  ss  (basis: 1423x1423, writeprint: 1423x1)  
+t  (basis: 1423x1423, writeprint: 1423x1)  tt  (basis: 1423x1423, writeprint: 1423x1)  u  (basis: 1423x1423, writeprint: 1423x1)  uu  (basis: 1423x1423, writeprint: 1423x1)  vv  (basis: 1423x1423, writeprint: 1423x1)  
+w  (basis: 1423x1423, writeprint: 1423x1)  ww  (basis: 1423x1423, writeprint: 1423x1)  x  (basis: 1423x1423, writeprint: 1423x1)  y  (basis: 1423x1423, writeprint: 1423x1)  z  (basis: 1423x1423, writeprint: 1423x1)  
+
+Initializing test authors data (CV mode):
+aa  (basis: 1423x1423, writeprint: 1423x1)  b  (basis: 1423x1423, writeprint: 1423x1)  bb  (basis: 1423x1423, writeprint: 1423x1)  c  (basis: 1423x1423, writeprint: 1423x1)  cc  (basis: 1423x1423, writeprint: 1423x1)  
+d  (basis: 1423x1423, writeprint: 1423x1)  dd  (basis: 1423x1423, writeprint: 1423x1)  e  (basis: 1423x1423, writeprint: 1423x1)  f  (basis: 1423x1423, writeprint: 1423x1)  ff  (basis: 1423x1423, writeprint: 1423x1)  
+g  (basis: 1423x1423, writeprint: 1423x1)  gg  (basis: 1423x1423, writeprint: 1423x1)  h  (basis: 1423x1423, writeprint: 1423x1)  hh  (basis: 1423x1423, writeprint: 1423x1)  i  (basis: 1423x1423, writeprint: 1423x1)  
+ii  (basis: 1423x1423, writeprint: 1423x1)  j  (basis: 1423x1423, writeprint: 1423x1)  jj  (basis: 1423x1423, writeprint: 1423x1)  k  (basis: 1423x1423, writeprint: 1423x1)  kk  (basis: 1423x1423, writeprint: 1423x1)  
+l  (basis: 1423x1423, writeprint: 1423x1)  ll  (basis: 1423x1423, writeprint: 1423x1)  m  (basis: 1423x1423, writeprint: 1423x1)  mm  (basis: 1423x1423, writeprint: 1423x1)  n  (basis: 1423x1423, writeprint: 1423x1)  
+nn  (basis: 1423x1423, writeprint: 1423x1)  o  (basis: 1423x1423, writeprint: 1423x1)  p  (basis: 1423x1423, writeprint: 1423x1)  pp  (basis: 1423x1423, writeprint: 1423x1)  q  (basis: 1423x1423, writeprint: 1423x1)  
+qq  (basis: 1423x1423, writeprint: 1423x1)  r  (basis: 1423x1423, writeprint: 1423x1)  rr  (basis: 1423x1423, writeprint: 1423x1)  s  (basis: 1423x1423, writeprint: 1423x1)  ss  (basis: 1423x1423, writeprint: 1423x1)  
+t  (basis: 1423x1423, writeprint: 1423x1)  tt  (basis: 1423x1423, writeprint: 1423x1)  u  (basis: 1423x1423, writeprint: 1423x1)  uu  (basis: 1423x1423, writeprint: 1423x1)  vv  (basis: 1423x1423, writeprint: 1423x1)  
+w  (basis: 1423x1423, writeprint: 1423x1)  ww  (basis: 1423x1423, writeprint: 1423x1)  x  (basis: 1423x1423, writeprint: 1423x1)  y  (basis: 1423x1423, writeprint: 1423x1)  z  (basis: 1423x1423, writeprint: 1423x1)  
+
+Initializing word synonym count
+Calculating synonym count for word-based features:
+> Testing
+aa  b  bb  c  cc  d  dd  e  f  ff  g  gg  h  hh  i  ii  j  jj  k  kk  l  ll  m  mm  n  nn  o  p  pp  q  qq  r  rr  s  ss  t  tt  u  uu  vv  w  ww  x  y  z  >>> classify finished
+ll: ll
+nn: nn
+hh: hh
+jj: ll
+dd: dd
+ww: ww
+ff: ff
+uu: uu
+ss: ss
+bb: bb
+qq: qq
+f: f
+mm: n
+g: k
+d: d
+e: f
+b: cc
+c: c
+n: u
+ii: ii
+o: u
+l: l
+m: y
+kk: kk
+j: j
+k: k
+h: h
+i: ll
+w: u
+vv: vv
+u: cc
+t: cc
+s: s
+tt: tt
+r: r
+q: q
+p: p
+gg: gg
+rr: rr
+aa: aa
+pp: u
+z: z
+y: y
+cc: cc
+x: x
+- Accuracy for experiment 8: 71.11
+Running experiment 9 out of 10
+>>> classify started
+> Learning
+Calculating information gain over training authors data
+Initializing training authors data:
+aa  (basis: 1423x1423, writeprint: 1423x1)  b  (basis: 1423x1423, writeprint: 1423x1)  bb  (basis: 1423x1423, writeprint: 1423x1)  c  (basis: 1423x1423, writeprint: 1423x1)  cc  (basis: 1423x1423, writeprint: 1423x1)  
+d  (basis: 1423x1423, writeprint: 1423x1)  dd  (basis: 1423x1423, writeprint: 1423x1)  e  (basis: 1423x1423, writeprint: 1423x1)  f  (basis: 1423x1423, writeprint: 1423x1)  ff  (basis: 1423x1423, writeprint: 1423x1)  
+g  (basis: 1423x1423, writeprint: 1423x1)  gg  (basis: 1423x1423, writeprint: 1423x1)  h  (basis: 1423x1423, writeprint: 1423x1)  hh  (basis: 1423x1423, writeprint: 1423x1)  i  (basis: 1423x1423, writeprint: 1423x1)  
+ii  (basis: 1423x1423, writeprint: 1423x1)  j  (basis: 1423x1423, writeprint: 1423x1)  jj  (basis: 1423x1423, writeprint: 1423x1)  k  (basis: 1423x1423, writeprint: 1423x1)  kk  (basis: 1423x1423, writeprint: 1423x1)  
+l  (basis: 1423x1423, writeprint: 1423x1)  ll  (basis: 1423x1423, writeprint: 1423x1)  m  (basis: 1423x1423, writeprint: 1423x1)  mm  (basis: 1423x1423, writeprint: 1423x1)  n  (basis: 1423x1423, writeprint: 1423x1)  
+nn  (basis: 1423x1423, writeprint: 1423x1)  o  (basis: 1423x1423, writeprint: 1423x1)  p  (basis: 1423x1423, writeprint: 1423x1)  pp  (basis: 1423x1423, writeprint: 1423x1)  q  (basis: 1423x1423, writeprint: 1423x1)  
+qq  (basis: 1423x1423, writeprint: 1423x1)  r  (basis: 1423x1423, writeprint: 1423x1)  rr  (basis: 1423x1423, writeprint: 1423x1)  s  (basis: 1423x1423, writeprint: 1423x1)  ss  (basis: 1423x1423, writeprint: 1423x1)  
+t  (basis: 1423x1423, writeprint: 1423x1)  tt  (basis: 1423x1423, writeprint: 1423x1)  u  (basis: 1423x1423, writeprint: 1423x1)  uu  (basis: 1423x1423, writeprint: 1423x1)  vv  (basis: 1423x1423, writeprint: 1423x1)  
+w  (basis: 1423x1423, writeprint: 1423x1)  ww  (basis: 1423x1423, writeprint: 1423x1)  x  (basis: 1423x1423, writeprint: 1423x1)  y  (basis: 1423x1423, writeprint: 1423x1)  z  (basis: 1423x1423, writeprint: 1423x1)  
+
+Initializing test authors data (CV mode):
+aa  (basis: 1423x1423, writeprint: 1423x1)  b  (basis: 1423x1423, writeprint: 1423x1)  bb  (basis: 1423x1423, writeprint: 1423x1)  c  (basis: 1423x1423, writeprint: 1423x1)  cc  (basis: 1423x1423, writeprint: 1423x1)  
+d  (basis: 1423x1423, writeprint: 1423x1)  dd  (basis: 1423x1423, writeprint: 1423x1)  e  (basis: 1423x1423, writeprint: 1423x1)  f  (basis: 1423x1423, writeprint: 1423x1)  ff  (basis: 1423x1423, writeprint: 1423x1)  
+g  (basis: 1423x1423, writeprint: 1423x1)  gg  (basis: 1423x1423, writeprint: 1423x1)  h  (basis: 1423x1423, writeprint: 1423x1)  hh  (basis: 1423x1423, writeprint: 1423x1)  i  (basis: 1423x1423, writeprint: 1423x1)  
+ii  (basis: 1423x1423, writeprint: 1423x1)  j  (basis: 1423x1423, writeprint: 1423x1)  jj  (basis: 1423x1423, writeprint: 1423x1)  k  (basis: 1423x1423, writeprint: 1423x1)  kk  (basis: 1423x1423, writeprint: 1423x1)  
+l  (basis: 1423x1423, writeprint: 1423x1)  ll  (basis: 1423x1423, writeprint: 1423x1)  m  (basis: 1423x1423, writeprint: 1423x1)  mm  (basis: 1423x1423, writeprint: 1423x1)  n  (basis: 1423x1423, writeprint: 1423x1)  
+nn  (basis: 1423x1423, writeprint: 1423x1)  o  (basis: 1423x1423, writeprint: 1423x1)  p  (basis: 1423x1423, writeprint: 1423x1)  pp  (basis: 1423x1423, writeprint: 1423x1)  q  (basis: 1423x1423, writeprint: 1423x1)  
+qq  (basis: 1423x1423, writeprint: 1423x1)  r  (basis: 1423x1423, writeprint: 1423x1)  rr  (basis: 1423x1423, writeprint: 1423x1)  s  (basis: 1423x1423, writeprint: 1423x1)  ss  (basis: 1423x1423, writeprint: 1423x1)  
+t  (basis: 1423x1423, writeprint: 1423x1)  tt  (basis: 1423x1423, writeprint: 1423x1)  u  (basis: 1423x1423, writeprint: 1423x1)  uu  (basis: 1423x1423, writeprint: 1423x1)  vv  (basis: 1423x1423, writeprint: 1423x1)  
+w  (basis: 1423x1423, writeprint: 1423x1)  ww  (basis: 1423x1423, writeprint: 1423x1)  x  (basis: 1423x1423, writeprint: 1423x1)  y  (basis: 1423x1423, writeprint: 1423x1)  z  (basis: 1423x1423, writeprint: 1423x1)  
+
+Initializing word synonym count
+Calculating synonym count for word-based features:
+> Testing
+aa  b  bb  c  cc  d  dd  e  f  ff  g  gg  h  hh  i  ii  j  jj  k  kk  l  ll  m  mm  n  nn  o  p  pp  q  qq  r  rr  s  ss  t  tt  u  uu  vv  w  ww  x  y  z  >>> classify finished
+ll: ll
+nn: nn
+hh: bb
+jj: jj
+dd: dd
+ww: u
+ff: ff
+uu: b
+ss: ss
+bb: bb
+qq: qq
+f: f
+mm: n
+g: k
+d: b
+e: e
+b: cc
+c: h
+n: u
+ii: ii
+o: pp
+l: ll
+m: m
+kk: kk
+j: rr
+k: kk
+h: h
+i: i
+w: u
+vv: vv
+u: ww
+t: t
+s: s
+tt: tt
+r: r
+q: mm
+p: p
+gg: gg
+rr: rr
+aa: l
+pp: pp
+z: u
+y: y
+cc: cc
+x: x
+- Accuracy for experiment 9: 60.00
+Running experiment 10 out of 10
+>>> classify started
+> Learning
+Calculating information gain over training authors data
+Initializing training authors data:
+aa  (basis: 1423x1423, writeprint: 1423x1)  b  (basis: 1423x1423, writeprint: 1423x1)  bb  (basis: 1423x1423, writeprint: 1423x1)  c  (basis: 1423x1423, writeprint: 1423x1)  cc  (basis: 1423x1423, writeprint: 1423x1)  
+d  (basis: 1423x1423, writeprint: 1423x1)  dd  (basis: 1423x1423, writeprint: 1423x1)  e  (basis: 1423x1423, writeprint: 1423x1)  f  (basis: 1423x1423, writeprint: 1423x1)  ff  (basis: 1423x1423, writeprint: 1423x1)  
+g  (basis: 1423x1423, writeprint: 1423x1)  gg  (basis: 1423x1423, writeprint: 1423x1)  h  (basis: 1423x1423, writeprint: 1423x1)  hh  (basis: 1423x1423, writeprint: 1423x1)  i  (basis: 1423x1423, writeprint: 1423x1)  
+ii  (basis: 1423x1423, writeprint: 1423x1)  j  (basis: 1423x1423, writeprint: 1423x1)  jj  (basis: 1423x1423, writeprint: 1423x1)  k  (basis: 1423x1423, writeprint: 1423x1)  kk  (basis: 1423x1423, writeprint: 1423x1)  
+l  (basis: 1423x1423, writeprint: 1423x1)  ll  (basis: 1423x1423, writeprint: 1423x1)  m  (basis: 1423x1423, writeprint: 1423x1)  mm  (basis: 1423x1423, writeprint: 1423x1)  n  (basis: 1423x1423, writeprint: 1423x1)  
+nn  (basis: 1423x1423, writeprint: 1423x1)  o  (basis: 1423x1423, writeprint: 1423x1)  p  (basis: 1423x1423, writeprint: 1423x1)  pp  (basis: 1423x1423, writeprint: 1423x1)  q  (basis: 1423x1423, writeprint: 1423x1)  
+qq  (basis: 1423x1423, writeprint: 1423x1)  r  (basis: 1423x1423, writeprint: 1423x1)  rr  (basis: 1423x1423, writeprint: 1423x1)  s  (basis: 1423x1423, writeprint: 1423x1)  ss  (basis: 1423x1423, writeprint: 1423x1)  
+t  (basis: 1423x1423, writeprint: 1423x1)  tt  (basis: 1423x1423, writeprint: 1423x1)  u  (basis: 1423x1423, writeprint: 1423x1)  uu  (basis: 1423x1423, writeprint: 1423x1)  vv  (basis: 1423x1423, writeprint: 1423x1)  
+w  (basis: 1423x1423, writeprint: 1423x1)  ww  (basis: 1423x1423, writeprint: 1423x1)  x  (basis: 1423x1423, writeprint: 1423x1)  y  (basis: 1423x1423, writeprint: 1423x1)  z  (basis: 1423x1423, writeprint: 1423x1)  
+
+Initializing test authors data (CV mode):
+aa  (basis: 1423x1423, writeprint: 1423x1)  b  (basis: 1423x1423, writeprint: 1423x1)  bb  (basis: 1423x1423, writeprint: 1423x1)  c  (basis: 1423x1423, writeprint: 1423x1)  cc  (basis: 1423x1423, writeprint: 1423x1)  
+d  (basis: 1423x1423, writeprint: 1423x1)  dd  (basis: 1423x1423, writeprint: 1423x1)  e  (basis: 1423x1423, writeprint: 1423x1)  f  (basis: 1423x1423, writeprint: 1423x1)  ff  (basis: 1423x1423, writeprint: 1423x1)  
+g  (basis: 1423x1423, writeprint: 1423x1)  gg  (basis: 1423x1423, writeprint: 1423x1)  h  (basis: 1423x1423, writeprint: 1423x1)  hh  (basis: 1423x1423, writeprint: 1423x1)  i  (basis: 1423x1423, writeprint: 1423x1)  
+ii  (basis: 1423x1423, writeprint: 1423x1)  j  (basis: 1423x1423, writeprint: 1423x1)  jj  (basis: 1423x1423, writeprint: 1423x1)  k  (basis: 1423x1423, writeprint: 1423x1)  kk  (basis: 1423x1423, writeprint: 1423x1)  
+l  (basis: 1423x1423, writeprint: 1423x1)  ll  (basis: 1423x1423, writeprint: 1423x1)  m  (basis: 1423x1423, writeprint: 1423x1)  mm  (basis: 1423x1423, writeprint: 1423x1)  n  (basis: 1423x1423, writeprint: 1423x1)  
+nn  (basis: 1423x1423, writeprint: 1423x1)  o  (basis: 1423x1423, writeprint: 1423x1)  p  (basis: 1423x1423, writeprint: 1423x1)  pp  (basis: 1423x1423, writeprint: 1423x1)  q  (basis: 1423x1423, writeprint: 1423x1)  
+qq  (basis: 1423x1423, writeprint: 1423x1)  r  (basis: 1423x1423, writeprint: 1423x1)  rr  (basis: 1423x1423, writeprint: 1423x1)  s  (basis: 1423x1423, writeprint: 1423x1)  ss  (basis: 1423x1423, writeprint: 1423x1)  
+t  (basis: 1423x1423, writeprint: 1423x1)  tt  (basis: 1423x1423, writeprint: 1423x1)  u  (basis: 1423x1423, writeprint: 1423x1)  uu  (basis: 1423x1423, writeprint: 1423x1)  vv  (basis: 1423x1423, writeprint: 1423x1)  
+w  (basis: 1423x1423, writeprint: 1423x1)  ww  (basis: 1423x1423, writeprint: 1423x1)  x  (basis: 1423x1423, writeprint: 1423x1)  y  (basis: 1423x1423, writeprint: 1423x1)  z  (basis: 1423x1423, writeprint: 1423x1)  
+
+Initializing word synonym count
+Calculating synonym count for word-based features:
+> Testing
+aa  b  bb  c  cc  d  dd  e  f  ff  g  gg  h  hh  i  ii  j  jj  k  kk  l  ll  m  mm  n  nn  o  p  pp  q  qq  r  rr  s  ss  t  tt  u  uu  vv  w  ww  x  y  z  >>> classify finished
+ll: ll
+nn: nn
+hh: hh
+jj: jj
+dd: tt
+ww: ww
+ff: ff
+uu: ww
+ss: t
+bb: bb
+qq: qq
+f: f
+mm: n
+g: k
+d: q
+e: e
+b: b
+c: h
+n: n
+ii: k
+o: z
+l: l
+m: m
+kk: kk
+j: j
+k: k
+h: h
+i: t
+w: u
+vv: vv
+u: cc
+t: u
+s: n
+tt: tt
+r: r
+q: q
+p: p
+gg: mm
+rr: j
+aa: aa
+pp: pp
+z: z
+y: j
+cc: cc
+x: x
+- Accuracy for experiment 10: 62.22
+========================
+Total Accuracy: 67.56
+>>> runCrossValidation finished

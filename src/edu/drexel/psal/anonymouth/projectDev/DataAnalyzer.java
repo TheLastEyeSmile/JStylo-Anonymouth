@@ -274,6 +274,7 @@ public class DataAnalyzer{
 				}
 			}
 			*/
+			
 			if(toModifyIndex == -1){
 				//System.out.println("CONTINUING attribute: "+attrib+" does not appear in toModifyDocument.");
 				numFeatures++;

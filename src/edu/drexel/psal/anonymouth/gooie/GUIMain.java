@@ -1224,42 +1224,42 @@ public class GUIMain extends javax.swing.JFrame {
 									updaterJPanel.setLayout(updaterJPanelLayout);
 									updaterJPanel.setPreferredSize(new java.awt.Dimension(311, 288));
 									{
-										valueBoxPanel = new JPanel();
-										updaterJPanel.add(valueBoxPanel, BorderLayout.EAST);
-										valueBoxPanel.setPreferredSize(new java.awt.Dimension(131, 76));
+									//	valueBoxPanel = new JPanel();
+										//updaterJPanel.add(valueBoxPanel, BorderLayout.EAST);
+										//valueBoxPanel.setPreferredSize(new java.awt.Dimension(131, 76));
 										{
-											presentValueField = new JTextField();
-											valueBoxPanel.add(presentValueField);
-											presentValueField.setText("null");
-											presentValueField.setPreferredSize(new java.awt.Dimension(76, 27));
+											//presentValueField = new JTextField();
+											//valueBoxPanel.add(presentValueField);
+											//presentValueField.setText("null");
+											//presentValueField.setPreferredSize(new java.awt.Dimension(76, 27));
 										}
 										{
-											targetValueField = new JTextField();
-											valueBoxPanel.add(targetValueField);
-											targetValueField.setText("null");
-											targetValueField.setPreferredSize(new java.awt.Dimension(76, 27));
+											//targetValueField = new JTextField();
+											//valueBoxPanel.add(targetValueField);
+											//targetValueField.setText("null");
+											//targetValueField.setPreferredSize(new java.awt.Dimension(76, 27));
 										}
 									}
 									{
-										valueLabelJPanel = new JPanel();
-										FlowLayout valueLabelJPanelLayout = new FlowLayout();
-										valueLabelJPanel.setLayout(valueLabelJPanelLayout);
-										updaterJPanel.add(valueLabelJPanel, BorderLayout.WEST);
-										valueLabelJPanel.setPreferredSize(new java.awt.Dimension(180, 76));
+										//valueLabelJPanel = new JPanel();
+										//FlowLayout valueLabelJPanelLayout = new FlowLayout();
+										//valueLabelJPanel.setLayout(valueLabelJPanelLayout);
+										//updaterJPanel.add(valueLabelJPanel, BorderLayout.WEST);
+										//valueLabelJPanel.setPreferredSize(new java.awt.Dimension(180, 76));
 										{
-											presentValueLabel = new JLabel();
-											valueLabelJPanel.add(presentValueLabel);
-											presentValueLabel.setText("Present Value:");
+											//presentValueLabel = new JLabel();
+										//	valueLabelJPanel.add(presentValueLabel);
+										//	presentValueLabel.setText("Present Value:");
 										}
 										{
-											dummyPanelUpdatorLeftSide = new JPanel();
-											valueLabelJPanel.add(dummyPanelUpdatorLeftSide);
-											dummyPanelUpdatorLeftSide.setPreferredSize(new java.awt.Dimension(154, 8));
+											//dummyPanelUpdatorLeftSide = new JPanel();
+											//valueLabelJPanel.add(dummyPanelUpdatorLeftSide);
+											//dummyPanelUpdatorLeftSide.setPreferredSize(new java.awt.Dimension(154, 8));
 										}
 										{
-											targetValueLabel = new JLabel();
-											valueLabelJPanel.add(targetValueLabel);
-											targetValueLabel.setText("Target Value:");
+											//targetValueLabel = new JLabel();
+											//valueLabelJPanel.add(targetValueLabel);
+											//targetValueLabel.setText("Target Value:");
 										}
 									}
 									{
@@ -1269,11 +1269,11 @@ public class GUIMain extends javax.swing.JFrame {
 										updaterJPanel.add(featureNameJPanel, BorderLayout.NORTH);
 										featureNameJPanel.setPreferredSize(new java.awt.Dimension(326, 25));
 										{
-											featureNameLabel = new JLabel();
-											FlowLayout featureNameLabelLayout = new FlowLayout();
-											featureNameLabel.setLayout(null);
-											featureNameJPanel.add(featureNameLabel);
-											featureNameLabel.setText("Feature Name:");
+										//	featureNameLabel = new JLabel();
+											//FlowLayout featureNameLabelLayout = new FlowLayout();
+											//featureNameLabel.setLayout(null);
+											//featureNameJPanel.add(featureNameLabel);
+											//featureNameLabel.setText("Feature Name:");
 										}
 									}
 									{
@@ -1281,16 +1281,16 @@ public class GUIMain extends javax.swing.JFrame {
 										updaterJPanel.add(jPanel2, BorderLayout.SOUTH);
 										jPanel2.setPreferredSize(new java.awt.Dimension(326, 187));
 										{
-											suggestionListLabel = new JLabel();
-											jPanel2.add(suggestionListLabel);
-											suggestionListLabel.setText("Clickable Feature List");
-											suggestionListLabel.setPreferredSize(new java.awt.Dimension(146, 16));
+										//	suggestionListLabel = new JLabel();
+											//jPanel2.add(suggestionListLabel);
+											//suggestionListLabel.setText("Clickable Feature List");
+											//suggestionListLabel.setPreferredSize(new java.awt.Dimension(146, 16));
 										}
 										{
-											suggestionListPane = new JScrollPane();
-											jPanel2.add(suggestionListPane);
-											suggestionListPane.setPreferredSize(new java.awt.Dimension(315, 155));
-											{
+											//suggestionListPane = new JScrollPane();
+											//jPanel2.add(suggestionListPane);
+										//	suggestionListPane.setPreferredSize(new java.awt.Dimension(315, 155));
+											/*{
 												TableModel suggestionTableModel = 
 														new DefaultTableModel(
 																new String[][] { { "One", "Two" }, { "Three", "Four" } },
@@ -1298,7 +1298,7 @@ public class GUIMain extends javax.swing.JFrame {
 												suggestionTable = new JTable();
 												suggestionListPane.setViewportView(suggestionTable);
 												suggestionTable.setModel(suggestionTableModel);
-											}
+											}*/
 										}
 									}
 								}
@@ -1495,7 +1495,7 @@ public class GUIMain extends javax.swing.JFrame {
 			DocsTabDriver.initListeners(this);
 			FeaturesTabDriver.initListeners(this);
 			ClassTabDriver.initListeners(this);
-			EditorTabDriver.initListeners(this);
+				EditorTabDriver.initListeners(this);
 			EditorTabDriver.initEditorInnerTabListeners(this);
 			ClusterViewerDriver.initListeners(this);
 			

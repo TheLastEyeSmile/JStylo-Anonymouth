@@ -96,6 +96,7 @@ public class SparseReferences {
 	 * @return
 	 */
 	public SparseReferences leftMinusRight(SparseReferences sia){
+		//sia=references of old sentence
 		double tempValue;
 		int tempIndex;
 		int indexOfRef;
@@ -109,15 +110,19 @@ public class SparseReferences {
 				tempIndex = r.index;
 				newRef = new Reference(tempIndex,tempValue);
 				cloneOfThis.remove(indexOfRef);
+				Logger.logln("");
 			}
 			else{// There are zero appearances of the feature in the new SparseReferences, so just multiply the number found in the old SparseReferences by -1 (all were removed)
 				newRef = new Reference(r.index,(-r.value));
+				Logger.logln("Reference not in both lists");
 			}
+			Logger.logln("Left Minus Right addNewRef");
 			adjustmentReferences.addNewReference(newRef);
 		}
 		if(cloneOfThis.isEmpty() == false){ //there are still values in the clone which means new attributes / features were added. These all went from a count of zero to whatever their value is now. So, positive change
 			for(Reference r:cloneOfThis){
 				newRef = new Reference(r.index,r.value);
+				Logger.logln("Left Minus Right addNewRef new features added");
 				adjustmentReferences.addNewReference(newRef);
 			}
 		}

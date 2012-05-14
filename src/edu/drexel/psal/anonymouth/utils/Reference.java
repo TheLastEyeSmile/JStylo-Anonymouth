@@ -48,6 +48,7 @@ public class Reference {
 	 * Equals method to set two References equal to eachother if they hold the same 'index' (i.e. if they 'point' to the same attribute)
 	 */
 	public boolean equals(Object o){
+		//Logger.logln("Using the Reference equals.");
 		if(index == ((Reference)o).index)
 			return true;
 		else

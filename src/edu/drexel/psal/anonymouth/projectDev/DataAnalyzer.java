@@ -50,7 +50,7 @@ public class DataAnalyzer{
 	
 	public static Attribute[] topAttributes;
 	
-	private int lengthTopAttributes;
+	public static int lengthTopAttributes;
 	
 	private String[] importantAttribs;
 	

@@ -21,7 +21,6 @@ import edu.stanford.nlp.ling.TaggedWord;
  */
 public class ConsolidationStation {
 	
-	public static Attribute[] attribs;
 	static HashMap<String,ArrayList<TreeData>> parsed;
 	static ArrayList<Triple> toAdd=new ArrayList<Triple>(400);
 	static ArrayList<Triple> toRemove=new ArrayList<Triple>(400);
@@ -41,7 +40,6 @@ public class ConsolidationStation {
 	 * @param parsed
 	 */
 	public ConsolidationStation(Attribute[] attribs){
-		this.attribs = attribs;
 		this.parsed = parsed;
 		toAdd = new ArrayList<Triple>(400);
 		toRemove = new ArrayList<Triple>(400);
@@ -73,22 +71,23 @@ public class ConsolidationStation {
 		for(Word word:taggedSent.wordsInSentence){
 			String wordString=word.word;
 			int strSize=wordString.length(), tempNumber;
-			int attribLen=attribs.length;
+			int attribLen=DataAnalyzer.lengthTopAttributes;
 			//for (Attribute attrib:attribs){
 			for(int i=0;i<attribLen;i++){
-				String stringInBrace=attribs[i].getStringInBraces();
+				String stringInBrace=DataAnalyzer.topAttributes[i].getStringInBraces();
 				int toAddLength=stringInBrace.length();
 				if(toAddLength<=strSize){//checks for a possible match
 					tempNumber=0;
-					for(int j=0;j<strSize;j++){
-						if(wordString.subSequence(j, j+toAddLength).equals(stringInBrace)){
+					for(int j=0;j<strSize-toAddLength;j++){
+						if(wordString.substring(j, j+toAddLength).equals(stringInBrace)){
 							tempNumber++;
 						}
 					}
 					if(tempNumber>0){
 						//add the feature to the word and have it appearing tempNumber times.
+						//Logger.logln("AddNewReference from ConsolStation.featurePacker");
 						word.featuresFound.addNewReference(i, tempNumber);
-						Logger.logln("Added a feature: "+word.featuresFound.toString());
+						//Logger.logln("Added a feature: "+word.featuresFound.toString());
 					}
 				}
 			}

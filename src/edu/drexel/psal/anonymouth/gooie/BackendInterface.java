@@ -270,18 +270,16 @@ public class BackendInterface {
 					wizard.runInitial(magician,main.cfd, main.classifiers.get(0));
 					cpb.setText("Extracting and Clustering Features... Done");
 					cpb.setText("Tagging all documents...");
-					boolean loadIfExists = false;
+					
 					//ConsolidationStation.attribs=wizard.getAttributes();//not the best maybe??	
 					//ConsolidationStation.getStringsFromAttribs();
 					Tagger.initTagger();
-					DocumentTagger docTagger = new DocumentTagger();
-					ArrayList<List<Document>> allDocs = magician.getDocumentSets();
+					
+					
 					//where is the COnsolidationStation intialized??
-					ConsolidationStation.otherSampleTaggedDocs = docTagger.tagDocs(allDocs.get(0),loadIfExists);
-					ConsolidationStation.authorSampleTaggedDocs = docTagger.tagDocs(allDocs.get(1),loadIfExists);
+					
 					//ConsolidationStation.toModifyTaggedDocs = ;
-					ConsolidationStation.setAllDocsTagged(true);
-					cpb.setText("Tagging all documents... Done");
+					
 					cpb.setText("Initialize Cluster Viewer...");
 					ClusterViewerDriver.initializeClusterViewer(main,true);
 					cpb.setText("Initialize Cluster Viewer... Done");
@@ -416,11 +414,11 @@ public class BackendInterface {
 			    eits.resultsTableLabel.setText("Results of this Document's Classification (% probability of authorship per author)");
 			EditorTabDriver.theFeatures = wizard.getAllRelevantFeatures();
 			Logger.logln("The Features are: "+EditorTabDriver.theFeatures.toString());
-			main.suggestionTable.setModel(makeSuggestionListTable(EditorTabDriver.theFeatures));
-			TableColumn tCol = main.suggestionTable.getColumnModel().getColumn(0);
-			tCol.setMaxWidth(30);
-			tCol.setMinWidth(30);
-			tCol.setPreferredWidth(30);
+			//main.suggestionTable.setModel(makeSuggestionListTable(EditorTabDriver.theFeatures));
+			//TableColumn tCol = main.suggestionTable.getColumnModel().getColumn(0);
+			//tCol.setMaxWidth(30);
+			//tCol.setMinWidth(30);
+			//tCol.setPreferredWidth(30);
 			// make highlight bar
 			//main.highlightSelectionBox.setModel(makeHighlightBarModel());
 			TheOracle.setTheDocument(eits.editorBox.getText());
@@ -450,6 +448,22 @@ public class BackendInterface {
 			eits.sentenceEditPane.setEditable(false);
 			main.nextSentenceButton.setEnabled(true);
 			main.lastSentenceButton.setEnabled(true);
+			
+			boolean loadIfExists = false;
+			
+			DocumentTagger docTagger = new DocumentTagger();
+			ArrayList<List<Document>> allDocs = magician.getDocumentSets();
+			try{
+				ConsolidationStation.otherSampleTaggedDocs = docTagger.tagDocs(allDocs.get(0),loadIfExists);
+				ConsolidationStation.authorSampleTaggedDocs = docTagger.tagDocs(allDocs.get(1),loadIfExists);
+				ConsolidationStation.setAllDocsTagged(true);
+				cpb.setText("Tagging all documents... Done");
+			}
+			catch(Exception e){
+				Logger.logln("Oops something bad happened with the tagging of documents...");
+				e.printStackTrace();
+			}
+			
 			Logger.logln("Finished in BackendInterface - postTargetSelection");
 			
 			

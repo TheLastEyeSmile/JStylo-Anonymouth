@@ -277,7 +277,7 @@ public class EditorTabDriver {
 					eits.resultsTable.setOpaque(false);
 					//main.editTP.setEnabled(false);
 					highlightedObjects.clear();
-					main.suggestionTable.clearSelection();
+					//main.suggestionTable.clearSelection();
 					okayToSelectSuggestion = false;
 					wizard.setNumFeaturesToReturn(wekaIsRunningAnswer);
 					cpb.setText("Initializing... Done");
@@ -518,7 +518,7 @@ public class EditorTabDriver {
 		});
 	*/
 		
-		main.suggestionTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+		/*main.suggestionTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 			
 			@Override
 			public void valueChanged(ListSelectionEvent selection) {
@@ -548,7 +548,7 @@ public class EditorTabDriver {
 				}
 			}
 			
-		});
+		});*/
 		/*
 		main.verboseButton.addActionListener(new ActionListener(){
 

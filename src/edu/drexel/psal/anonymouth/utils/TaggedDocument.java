@@ -104,7 +104,7 @@ public class TaggedDocument {
 		taggedSentences = new ArrayList<TaggedSentence>(PROBABLE_NUM_SENTENCES);
 		//currentLiveTaggedSentences = new ArrayList<TaggedSentence>(5); 
 		makeAndTagSentences(untaggedDocument, true);
-		consolidateFeatures(taggedSentences);
+		//consolidateFeatures(taggedSentences);
 		//setHashMaps();
 		//setWordsToAddRemove();
 	}
@@ -124,7 +124,7 @@ public class TaggedDocument {
 		jigsaw = new SentenceTools();
 		taggedSentences = new ArrayList<TaggedSentence>(PROBABLE_NUM_SENTENCES);
 		makeAndTagSentences(untaggedDocument, true);
-		consolidateFeatures(taggedSentences);
+		//consolidateFeatures(taggedSentences);
 		//setHashMaps();
 		//setWordsToAddRemove();
 		//Logger.logln("Top 100 wordsToRemove: "+wordsToRemove.toString());
@@ -263,7 +263,7 @@ public class TaggedDocument {
 			toke = tlp.getTokenizerFactory().getTokenizer(new StringReader(tempSent));
 			sentenceTokenized = toke.tokenize();
 			taggedSentence.setTaggedSentence(Tagger.mt.tagSentence(sentenceTokenized));
-			
+			consolidateFeatures(taggedSentence);
 			taggedSentences.add(taggedSentence); 
 			
 		}
@@ -410,7 +410,10 @@ public class TaggedDocument {
 	 * @param newSentence The post-editing version of the sentence(s)
 	 */
 	private void updateReferences(TaggedSentence oldSentence, TaggedSentence newSentence){
+		Logger.logln("Old Sentence: "+oldSentence.toString());
+		Logger.logln("New Sentence: "+newSentence.toString());
 		SparseReferences updatedValues = newSentence.getOldToNewDeltas(oldSentence);
+		Logger.logln(updatedValues.toString());
 		for(Reference ref:updatedValues.references){
 			DataAnalyzer.topAttributes[ref.index].setToModifyValue((DataAnalyzer.topAttributes[ref.index].getToModifyValue() + ref.value));
 		}

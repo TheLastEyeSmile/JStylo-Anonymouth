@@ -35,10 +35,10 @@ public class TaggedSentence {
 
 	protected String untagged;
 	protected ArrayList<Word> wordsInSentence;
-	protected ArrayList<TaggedWord> tagged=new ArrayList<TaggedWord>();
-	protected Iterator<TaggedWord> tagIter;
-	private TaggedWord taggedWord;
-	protected ArrayList<String> wordsToReturn;
+	//protected ArrayList<TaggedWord> tagged=new ArrayList<TaggedWord>();
+	//protected Iterator<TaggedWord> tagIter;
+	//private TaggedWord taggedWord;
+	//protected ArrayList<String> wordsToReturn;
 	private int PROBABLE_MAX = 3;
 	
 	protected ArrayList<TENSE> tense = new ArrayList<TENSE>(PROBABLE_MAX);
@@ -82,7 +82,7 @@ public class TaggedSentence {
 		wordsInSentence = new ArrayList<Word>();
 		this.untagged = untagged;
 	}
-	
+	/*
 	public TaggedSentence(String untagged, ArrayList<TaggedWord> tagged){
 		wordsInSentence = new ArrayList<Word>(tagged.size());
 		this.untagged = untagged;
@@ -91,10 +91,10 @@ public class TaggedSentence {
 		//setGrammarStats();
 	//	Logger.logln("WordList"+wordList.toString());
 	}
+	*/
 	
 	public TaggedSentence(TaggedSentence taggedSentence) {
 		this.untagged=taggedSentence.untagged;
-		this.tagged=taggedSentence.tagged;
 		this.wordsInSentence=taggedSentence.wordsInSentence;
 		
 	}
@@ -286,10 +286,11 @@ public class TaggedSentence {
 	}
 	
 	public String toString(){
-		return "[ untagged: "+untagged+" ||| tagged: "+tagged.toString()+" ]";
+		return "[ untagged: "+untagged+" ||| tagged: "+wordsInSentence.toString()+" ||| SparseReferences Object: "+getReferences().toString()+" ]";
 		//||| tense: "+tense.toString()+" ||| point of view: "+pointOfView.toString()+" conjugation(s): "+conj.toString()+" ]";// ||| functionWords : "+functionWords.toString()+" ]";
 	}
 	
+	/* TODO: 'tagged' no longer holds tagged words.
 	public ArrayList<String> getWordsWithTag(TheTags tag){
 		wordsToReturn = new ArrayList<String>(tagged.size());// Can't return more words than were tagged
 		tagIter = tagged.iterator();
@@ -300,6 +301,7 @@ public class TaggedSentence {
 		}
 		return wordsToReturn;
 	}
+	*/
 	
 }
 

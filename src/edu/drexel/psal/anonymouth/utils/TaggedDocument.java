@@ -436,22 +436,22 @@ public class TaggedDocument {
 */	
 	
 	/**
-	 * 
+	 * accepts a list of TaggedSentences and returns a single TaggedSentence, preserving all original Word objects
 	 * @param taggedList takes a list of tagged sentences.
 	 * @return returns a single tagged sentences with the properties of all the sentences in the list.
 	 */
 	private TaggedSentence concatSentences(ArrayList<TaggedSentence> taggedList){
-		TaggedSentence newSent=new TaggedSentence(taggedList.get(0).getUntagged());//+taggedList.get(1).getUntagged());
-		newSent.setTaggedSentence(taggedList.get(0).tagged);
-		for (int i=1;i<taggedList.size();i++){
-			newSent.untagged=newSent.getUntagged()+taggedList.get(i).getUntagged();
-			for(int j = 0; j<taggedList.get(i).tagged.size();j++){
-				newSent.tagged.add(taggedList.get(i).tagged.get(j));
-			}
+		TaggedSentence toReturn = taggedList.get(0);
+		int taggedListSize = taggedList.size();
+		int i, j;
+		for (i=1;i<taggedListSize;i++){
+				toReturn.wordsInSentence.addAll(taggedList.get(i).wordsInSentence);
+				toReturn.untagged += taggedList.get(i).untagged;
 		}
-		
-		return newSent;
+		return toReturn;
 	}
+	
+	
 	public int getSentNumber(){
 		return sentNumber;
 	}

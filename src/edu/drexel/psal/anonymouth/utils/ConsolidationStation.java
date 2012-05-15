@@ -121,7 +121,7 @@ public class ConsolidationStation {
 			words.addAll(td.getWords());
 		}
 		int countedNumWords = words.size();
-		//words = mergeWords(words);
+		words = mergeWords(words);
 		Collections.sort(words);// sort the words in INCREASING anonymityIndex
 		int mergedNumWords = words.size();
 		if (mergedNumWords <= numToReturn){

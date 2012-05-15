@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Scanner;
+import java.util.Set;
 import java.util.concurrent.locks.Lock;
 
 import edu.drexel.psal.anonymouth.projectDev.Attribute;
@@ -115,28 +117,53 @@ public class ConsolidationStation {
 		int numToReturn = (int)(totalWords*percentToReturn);
 		ArrayList<String> toReturn = new ArrayList<String>(numToReturn);
 		ArrayList<Word> words = new ArrayList<Word>(totalWords);
-		for(TaggedDocument td: docsToConsider){
+		for(TaggedDocument td:docsToConsider){
 			words.addAll(td.getWords());
 		}
 		int countedNumWords = words.size();
-		if(countedNumWords != totalWords)
-			Logger.logln("ERROR! getPriorityWords calculated a different number of words than it counted: calculated = "+totalWords+" counted = "+countedNumWords,LogOut.STDERR);
+		words = mergeWords(words);
 		Collections.sort(words);// sort the words in INCREASING anonymityIndex
+		int mergedNumWords = words.size();
+		if (mergedNumWords <= numToReturn){
+			Logger.logln("The number of priority words to return is greater than the number of words available. Only returning what is available");
+			numToReturn = mergedNumWords;
+		}
 		if(findTopToRemove){ // then start from index 0, and go up to index (numToReturn-1) words (inclusive)
 			for(int i = 0; i<numToReturn; i++){
-				toReturn.add(words.get(i).word);
+				toReturn.add(words.get(i).word+" - "+words.get(i).getAnonymityIndex());
 			}
 		}
 		else{ // start at the END of the list, and go down to (END-numToReturn) (inclusive)
-			int startIndex = countedNumWords - 1;
+			int startIndex = mergedNumWords - 1;
 			int stopIndex = startIndex - numToReturn;
 			for(int i = startIndex; i> stopIndex; i--){
-				toReturn.add(words.get(i).word);
+				toReturn.add(words.get(i).word+" - "+words.get(i).getAnonymityIndex());
 			}
 			
 		}
 		
 		return toReturn;
+	}
+	
+	
+	public static ArrayList<Word> mergeWords(ArrayList<Word> unMerged){
+		HashMap<String,Word> mergingMap = new HashMap<String,Word>((unMerged.size()));//Guessing there will be at least an average of 3 duplicate words per word -> 1/3 of the size is needed
+		for(Word w: unMerged){
+			if(mergingMap.containsKey(w.word) == true){
+				Word temp = mergingMap.get(w.word);
+				temp.mergeWords(w);
+				mergingMap.put(w.word,temp);
+			}
+			else{
+				mergingMap.put(w.word,new Word(w));
+			}
+		}
+		Set<String> mergedWordKeys = mergingMap.keySet();
+		ArrayList<Word> mergedWords = new ArrayList<Word>(mergedWordKeys.size());
+		for(String s: mergedWordKeys){
+			mergedWords.add(mergingMap.get(s));
+		}
+		return mergedWords;
 	}
 	
 	

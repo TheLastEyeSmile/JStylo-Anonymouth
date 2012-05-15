@@ -207,8 +207,12 @@ public class EditorTabDriver {
 	}
 	
 	private static void updateAddRemoveBoxes(GUIMain main){
+		Logger.logln("About to call ConsolidationStation.getPriorityWords for toRemove words",LogOut.STDERR);
 		ArrayList<String> topToRemove=ConsolidationStation.getPriorityWords(ConsolidationStation.toModifyTaggedDocs, true, .2);
+		Logger.logln("JUST CALLED ConsolidationStation.getPriorityWords for toRemove words",LogOut.STDERR);
+		Logger.logln("About to call ConsolidationStation.getPriorityWords for toAdd words",LogOut.STDERR);
 		ArrayList<String> topToAdd=ConsolidationStation.getPriorityWords(ConsolidationStation.toModifyTaggedDocs, false, .2);
+		Logger.logln("JUST CALLED ConsolidationStation.getPriorityWords for toAdd words",LogOut.STDERR);
 		String setString="";
 		int arrSize=topToRemove.size();
 		for(int i=0;i<arrSize;i++){

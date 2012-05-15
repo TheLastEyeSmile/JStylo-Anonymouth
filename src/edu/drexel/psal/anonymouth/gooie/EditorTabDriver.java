@@ -211,7 +211,8 @@ public class EditorTabDriver {
 		ArrayList<String> topToRemove=ConsolidationStation.getPriorityWords(ConsolidationStation.toModifyTaggedDocs, true, .2);
 		Logger.logln("JUST CALLED ConsolidationStation.getPriorityWords for toRemove words",LogOut.STDERR);
 		Logger.logln("About to call ConsolidationStation.getPriorityWords for toAdd words",LogOut.STDERR);
-		ArrayList<String> topToAdd=ConsolidationStation.getPriorityWords(ConsolidationStation.toModifyTaggedDocs, false, .2);
+		ArrayList<String> topToAdd=ConsolidationStation.getPriorityWords(ConsolidationStation.otherSampleTaggedDocs, false, .2);
+		//TODO: maybe for priority words, use authorSampleDocs as well???
 		Logger.logln("JUST CALLED ConsolidationStation.getPriorityWords for toAdd words",LogOut.STDERR);
 		String setString="";
 		int arrSize=topToRemove.size();

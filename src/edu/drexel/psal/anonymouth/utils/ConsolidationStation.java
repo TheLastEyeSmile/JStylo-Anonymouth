@@ -130,14 +130,14 @@ public class ConsolidationStation {
 		}
 		if(findTopToRemove){ // then start from index 0, and go up to index (numToReturn-1) words (inclusive)
 			for(int i = 0; i<numToReturn; i++){
-				toReturn.add(words.get(i).word+" - "+words.get(i).getAnonymityIndex());
+				toReturn.add(words.get(i).word+" ("+words.get(i).getAnonymityIndex()+")");
 			}
 		}
 		else{ // start at the END of the list, and go down to (END-numToReturn) (inclusive)
 			int startIndex = mergedNumWords - 1;
 			int stopIndex = startIndex - numToReturn;
 			for(int i = startIndex; i> stopIndex; i--){
-				toReturn.add(words.get(i).word+" - "+words.get(i).getAnonymityIndex());
+				toReturn.add(words.get(i).word+" ("+words.get(i).getAnonymityIndex()+")");
 			}
 			
 		}

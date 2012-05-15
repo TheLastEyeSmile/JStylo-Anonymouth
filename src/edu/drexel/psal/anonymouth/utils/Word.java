@@ -35,7 +35,7 @@ public class Word implements Comparable<Word>{
 	 */
 	public Word(Word word){
 		this.word = word.word;
-		featuresFound = word.featuresFound;
+		featuresFound = new SparseReferences(word.featuresFound);
 		partOfSpeech = word.partOfSpeech;
 		
 	}

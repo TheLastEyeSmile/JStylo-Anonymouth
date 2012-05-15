@@ -24,6 +24,16 @@ public class SparseReferences {
 		references = new ArrayList<Reference>(initialSizeOfReferenceArrayList);
 	}
 	
+	/**
+	 * Constructor for SparseReferences
+	 * @param sr
+	 */
+	public SparseReferences(SparseReferences sr){
+		references = new ArrayList<Reference>(sr.length());
+		for(Reference r: sr.references)
+			this.references.add(new Reference(r));
+	}
+	
 	
 	/**
 	 * inserts 'value' at 'index' provided that index is within the range [0,sizeOfArray). if not, returns false. 
@@ -75,7 +85,7 @@ public class SparseReferences {
 		for(Reference notThisEither:notThis.references){
 			if(references.contains(notThisEither)){
 				int thisIndex = references.indexOf(notThisEither);
-				references.add(thisIndex,references.get(thisIndex).merge(notThisEither));
+				references.add(thisIndex,references.remove(thisIndex).merge(notThisEither));
 			}
 			else{
 				references.add(notThisEither);

@@ -27,6 +27,15 @@ public class Reference {
 	}
 	
 	/**
+	 * Constructor
+	 * @param r
+	 */
+	public Reference(Reference r){
+		this.index = r.index;
+		this.value = r.value;
+	}
+	
+	/**
 	 * Merges two Reference objects if they have matching 'index' values
 	 * @param ref
 	 * @return

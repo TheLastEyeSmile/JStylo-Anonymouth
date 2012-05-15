@@ -121,7 +121,7 @@ public class ConsolidationStation {
 			words.addAll(td.getWords());
 		}
 		int countedNumWords = words.size();
-		words = mergeWords(words);
+		//words = mergeWords(words);
 		Collections.sort(words);// sort the words in INCREASING anonymityIndex
 		int mergedNumWords = words.size();
 		if (mergedNumWords <= numToReturn){
@@ -150,7 +150,8 @@ public class ConsolidationStation {
 		HashMap<String,Word> mergingMap = new HashMap<String,Word>((unMerged.size()));//Guessing there will be at least an average of 3 duplicate words per word -> 1/3 of the size is needed
 		for(Word w: unMerged){
 			if(mergingMap.containsKey(w.word) == true){
-				Word temp = mergingMap.get(w.word);
+				Word temp = new Word(mergingMap.get(w.word));
+				//changed the above line to make it a new Word Obj
 				temp.mergeWords(w);
 				mergingMap.put(w.word,temp);
 			}

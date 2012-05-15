@@ -63,6 +63,7 @@ public class Reference {
 	 * 	hashcode
 	 */
 	public int hashCode(){
+		Logger.logln("This is the hashcode being called",LogOut.STDERR);
 		final int thePrime = 31;
 		final int arbitraryLargePrime = 987643211;
 		long longHash = 7;

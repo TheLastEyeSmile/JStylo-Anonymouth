@@ -142,7 +142,7 @@ public class SparseReferences {
 		int numRefs = references.size();
 		for(i=0;i<numRefs;i++){
 			whatIsInside += references.get(i).toString();
-			if(i<numRefs-1) whatIsInside+= "\n";
+			if(i<numRefs-1) whatIsInside+= ",";
 		}	
 		whatIsInside +="]";
 		return whatIsInside;

@@ -16,9 +16,6 @@ import edu.drexel.psal.jstylo.generics.Logger.LogOut;
 public class Word implements Comparable<Word>{
 	
 	protected String word;
-	protected double infoGainSum = 0;//weka calc//want the avg info gain. (I htink)
-	protected double numFeaturesIncluded = 0;//
-	protected double percentChangeNeededSum = 0;
 	protected ArrayList<String>partOfSpeech;
 	protected SparseReferences featuresFound; 
 	
@@ -30,6 +27,16 @@ public class Word implements Comparable<Word>{
 		featuresFound = new SparseReferences(10);// probably won't find > 10 features in a word (wild guess)
 		partOfSpeech = new ArrayList<String>(); // is an array list because it is possible to have one word as more than one part of speech. It doesn't seem to make sense at this point to count them as different words.
 		this.word = word;
+	}
+	
+	/**
+	 * Constructor for Word
+	 * @param word
+	 */
+	public Word(Word word){
+		this.word = word.word;
+		featuresFound = word.featuresFound;
+		partOfSpeech = word.partOfSpeech;
 		
 	}
 	
@@ -97,6 +104,7 @@ public class Word implements Comparable<Word>{
 	public void mergeWords(Word newWord){
 		if(newWord.equals(this)){
 			this.featuresFound.merge(newWord.featuresFound);
+			this.partOfSpeech.addAll(newWord.partOfSpeech);
 		}
 		else
 			Logger.logln("Cannot merge inequivalent  Words!",LogOut.STDERR);

@@ -119,7 +119,7 @@ public class TaggedDocument {
 		this.documentTitle = docTitle;
 		this.documentAuthor = author;
 		this.ID = documentTitle+"_"+documentAuthor;
-		Logger.logln("TaggedDocument ID: "+ID);
+		//Logger.logln("TaggedDocument ID: "+ID);
 	//	currentLiveTaggedSentences = new ArrayList<TaggedSentence>(5); 
 		jigsaw = new SentenceTools();
 		taggedSentences = new ArrayList<TaggedSentence>(PROBABLE_NUM_SENTENCES);

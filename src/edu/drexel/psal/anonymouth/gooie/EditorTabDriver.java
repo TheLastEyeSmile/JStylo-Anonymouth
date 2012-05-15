@@ -215,12 +215,14 @@ public class EditorTabDriver {
 			setString+=topToRemove.get(i)+"\n";
 		}
 		main.elementsToRemovePane.setText(setString);
+		main.elementsToRemovePane.setCaretPosition(0);
 		setString="";
 		arrSize=topToAdd.size();
 		for(int i=0;i<arrSize;i++){
 			setString+=topToAdd.get(i)+"\n";
 		}
 		main.elementsToAddPane.setText(setString);
+		main.elementsToAddPane.setCaretPosition(0);
 	}
 	
 	public static String getHelpMessege(){

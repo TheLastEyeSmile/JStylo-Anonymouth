@@ -1285,7 +1285,7 @@ public class GUIMain extends javax.swing.JFrame {
 									editorInfoJPanel.add(updaterJPanel, BorderLayout.SOUTH);
 									BorderLayout updaterJPanelLayout = new BorderLayout();
 									updaterJPanel.setLayout(updaterJPanelLayout);
-									updaterJPanel.setPreferredSize(new java.awt.Dimension(346, 196));
+									updaterJPanel.setPreferredSize(new java.awt.Dimension(346, 126));
 									{
 										//	valueBoxPanel = new JPanel();
 										//updaterJPanel.add(valueBoxPanel, BorderLayout.EAST);
@@ -1329,7 +1329,7 @@ public class GUIMain extends javax.swing.JFrame {
 									{
 										jPanel2 = new JPanel();
 										updaterJPanel.add(jPanel2, BorderLayout.SOUTH);
-										jPanel2.setPreferredSize(new java.awt.Dimension(326, 187));
+										jPanel2.setPreferredSize(new java.awt.Dimension(346, 113));
 										{
 											//	suggestionListLabel = new JLabel();
 											//jPanel2.add(suggestionListLabel);
@@ -1355,7 +1355,7 @@ public class GUIMain extends javax.swing.JFrame {
 								{
 									jPanel1 = new JPanel();
 									editorInfoJPanel.add(jPanel1, BorderLayout.NORTH);
-									jPanel1.setPreferredSize(new java.awt.Dimension(346, 407));
+									jPanel1.setPreferredSize(new java.awt.Dimension(346, 495));
 									{
 										suggestionBoxLabelJPanel = new JPanel();
 										jPanel1.add(suggestionBoxLabelJPanel);
@@ -1408,7 +1408,7 @@ public class GUIMain extends javax.swing.JFrame {
 									{
 										elementsToAddScrollPane = new JScrollPane();
 										jPanel1.add(elementsToAddScrollPane);
-										elementsToAddScrollPane.setPreferredSize(new java.awt.Dimension(123, 119));
+										elementsToAddScrollPane.setPreferredSize(new java.awt.Dimension(123, 255));
 										elementsToAddScrollPane.setSize(306, 157);
 										{
 											elementsToAddPane = new JTextPane();
@@ -1425,12 +1425,13 @@ public class GUIMain extends javax.swing.JFrame {
 									{
 										elementsToRemoveScrollPane = new JScrollPane();
 										jPanel1.add(elementsToRemoveScrollPane);
-										elementsToRemoveScrollPane.setPreferredSize(new java.awt.Dimension(128, 120));
+										elementsToRemoveScrollPane.setPreferredSize(new java.awt.Dimension(128, 256));
 										{
 											elementsToRemovePane = new JTextPane();
 											elementsToRemoveScrollPane.setViewportView(elementsToRemovePane);
+											
 											elementsToRemovePane.setText("This is where the words that you want to try to remove from your document will be displayed.");
-											elementsToRemovePane.setPreferredSize(new java.awt.Dimension(118, 118));
+											elementsToRemovePane.setPreferredSize(new java.awt.Dimension(126, 248));
 										}
 									}
 									{

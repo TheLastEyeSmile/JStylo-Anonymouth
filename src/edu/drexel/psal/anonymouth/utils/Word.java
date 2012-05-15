@@ -126,12 +126,12 @@ public class Word implements Comparable<Word>{
 	 * @return
 	 * 	true if equal
 	 */
-	/*public boolean equals(Object obj){
+	public boolean equals(Object obj){
 			if(word.equals(((Word)obj).word))
 					return true;
 				else 
 					return false;
-	}*/
+	}
 	
 	/**
 	 * generates a hashcode for Word, modulus 987643211 (an arbitrary large prime number) to mitigate risk of integer overflow. Multiplier is 31,

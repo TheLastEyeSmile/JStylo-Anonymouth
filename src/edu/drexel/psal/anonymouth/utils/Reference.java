@@ -27,7 +27,7 @@ public class Reference {
 	}
 	
 	/**
-	 * Merges two Reference objects iff they have matching 'index' values
+	 * Merges two Reference objects if they have matching 'index' values
 	 * @param ref
 	 * @return
 	 */

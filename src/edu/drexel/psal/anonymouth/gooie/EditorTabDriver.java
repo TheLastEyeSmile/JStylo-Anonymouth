@@ -206,21 +206,21 @@ public class EditorTabDriver {
 		}
 	}
 	
-	private void updateAddRemoveBoxes(){
+	private static void updateAddRemoveBoxes(GUIMain main){
 		ArrayList<String> topToRemove=ConsolidationStation.getPriorityWords(ConsolidationStation.toModifyTaggedDocs, true, .2);
 		ArrayList<String> topToAdd=ConsolidationStation.getPriorityWords(ConsolidationStation.toModifyTaggedDocs, false, .2);
 		String setString="";
 		int arrSize=topToRemove.size();
 		for(int i=0;i<arrSize;i++){
-			setString+=topToRemove.get(i);
+			setString+=topToRemove.get(i)+"\n";
 		}
-	//	main.elementsToRemove.setText(setString);
+		main.elementsToRemovePane.setText(setString);
 		setString="";
 		arrSize=topToAdd.size();
 		for(int i=0;i<arrSize;i++){
-			setString+=topToAdd.get(i);
+			setString+=topToAdd.get(i)+"\n";
 		}
-		//main.elementsToAdd.setText(setString);
+		main.elementsToAddPane.setText(setString);
 	}
 	
 	public static String getHelpMessege(){
@@ -322,6 +322,7 @@ public class EditorTabDriver {
 						eits.sentenceEditPane.setEditable(true);
 						eits.sentenceEditPane.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getNextSentence());
 						trackEditSentence();
+						
 					}
 				}
 				else{
@@ -334,6 +335,7 @@ public class EditorTabDriver {
 						trackEditSentence();
 					}
 				}
+				updateAddRemoveBoxes(main);
 			}
 			
 		});
@@ -363,6 +365,7 @@ public class EditorTabDriver {
 						trackEditSentence();
 					}
 				}
+				updateAddRemoveBoxes(main);
 				
 			}
 			
@@ -390,6 +393,7 @@ public class EditorTabDriver {
 					trackEditSentence();
 					
 				}
+				updateAddRemoveBoxes(main);
 			}
 			
 		});

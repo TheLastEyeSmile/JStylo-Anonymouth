@@ -71,6 +71,7 @@ public class Word implements Comparable<Word>{
 		}
 		return anonymityIndex;
 	}
+
 	
 	/**
 	 * Adds another feature to the SparseReferences instance

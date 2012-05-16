@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -316,6 +317,7 @@ public class DataAnalyzer{
 			
 		}
 		Logger.logln("found all top attributes");
+		
 		return topAttribs;	
 	}
 	
@@ -579,6 +581,7 @@ public class DataAnalyzer{
 		authorAttribs = allAttribSets.get(2);
 		//computeInfoGain(simplyInstances.get("authorAndTrain"));
 		topAttributes = computeInfoGain(simplyInstances.get("authorAndTrain")); // KEEP THIS!!!
+		Arrays.sort(topAttributes);
 		lengthTopAttributes = topAttributes.length;
 		authorAverageFinder();
 		authorStdDevFinder();

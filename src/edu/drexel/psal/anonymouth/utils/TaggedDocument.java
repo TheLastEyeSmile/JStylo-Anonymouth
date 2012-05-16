@@ -410,14 +410,23 @@ public class TaggedDocument {
 	 * @param newSentence The post-editing version of the sentence(s)
 	 */
 	private void updateReferences(TaggedSentence oldSentence, TaggedSentence newSentence){
-		Logger.logln("Old Sentence: "+oldSentence.toString());
-		Logger.logln("New Sentence: "+newSentence.toString());
+		//Logger.logln("Old Sentence: "+oldSentence.toString());
+		//Logger.logln("New Sentence: "+newSentence.toString());
 		SparseReferences updatedValues = newSentence.getOldToNewDeltas(oldSentence);
-		Logger.logln(updatedValues.toString());
+		//Logger.logln(updatedValues.toString());
 		for(Reference ref:updatedValues.references){
 			Logger.logln("Attribute: "+DataAnalyzer.topAttributes[ref.index].getFullName()+" pre-update value: "+DataAnalyzer.topAttributes[ref.index].getToModifyValue());
-			DataAnalyzer.topAttributes[ref.index].setToModifyValue((DataAnalyzer.topAttributes[ref.index].getToModifyValue() + ref.value));
-			Logger.logln("Attribute: "+DataAnalyzer.topAttributes[ref.index].getFullName()+" post-update value: "+DataAnalyzer.topAttributes[ref.index].getToModifyValue(),LogOut.STDERR);
+			if(DataAnalyzer.topAttributes[ref.index].getFullName().contains("Percentage")){
+				//then it is a percentage.
+				Logger.logln("Attribute: "+DataAnalyzer.topAttributes[ref.index].getFullName()+"Is a percentage! ERROR!",Logger.LogOut.STDERR);
+			}
+			else if(DataAnalyzer.topAttributes[ref.index].getFullName().contains("Percentage")){
+				//then it is an average
+				Logger.logln("Attribute: "+DataAnalyzer.topAttributes[ref.index].getFullName()+"Is an average!ERROR!",Logger.LogOut.STDERR);
+			}
+			else
+				DataAnalyzer.topAttributes[ref.index].setToModifyValue((DataAnalyzer.topAttributes[ref.index].getToModifyValue() + ref.value));
+			Logger.logln("Attribute: "+DataAnalyzer.topAttributes[ref.index].getFullName()+" post-update value: "+DataAnalyzer.topAttributes[ref.index].getToModifyValue());
 		}
 	}
 	
@@ -443,7 +452,7 @@ public class TaggedDocument {
 	 * @return returns a single tagged sentences with the properties of all the sentences in the list.
 	 */
 	private TaggedSentence concatSentences(ArrayList<TaggedSentence> taggedList){
-		TaggedSentence toReturn = taggedList.get(0);
+		TaggedSentence toReturn =new TaggedSentence(taggedList.get(0));
 		int taggedListSize = taggedList.size();
 		int i, j;
 		for (i=1;i<taggedListSize;i++){
@@ -680,8 +689,6 @@ public class TaggedDocument {
 		ArrayList<TaggedSentence> taggedSentsToAdd = makeAndTagSentences(sentsToAdd,false);
 		currentLiveTaggedSentences=taggedSentences.get(sentNumber);
 		removeTaggedSentence(sentNumber);
-		
-		updateReferences(currentLiveTaggedSentences,concatSentences(taggedSentsToAdd));
 		addTaggedSentence(taggedSentsToAdd.get(0),sentNumber);
 		
 		//call compare
@@ -692,6 +699,7 @@ public class TaggedDocument {
 			addTaggedSentence(taggedSentsToAdd.get(i),sentNumber);
 			totalSentences++;
 		}
+		updateReferences(currentLiveTaggedSentences,concatSentences(taggedSentsToAdd));
 		return 1;
 		
 	}

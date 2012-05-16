@@ -269,7 +269,7 @@ public class BackendInterface {
 				try{
 					wizard.runInitial(magician,main.cfd, main.classifiers.get(0));
 					cpb.setText("Extracting and Clustering Features... Done");
-					cpb.setText("Tagging all documents...");
+					cpb.setText("Initializing Tagger...");
 					
 					//ConsolidationStation.attribs=wizard.getAttributes();//not the best maybe??	
 					//ConsolidationStation.getStringsFromAttribs();
@@ -427,13 +427,19 @@ public class BackendInterface {
 			main.processButton.setSize(main.processButton.getSize().width+3,main.processButton.getSize().height);
 			main.processButton.setSelected(false);
 			
-			
+			main.nextSentenceButton.setEnabled(false);
+			main.lastSentenceButton.setEnabled(false);
+			main.addSentence.setEnabled(false);
 			// XXX for AFTER everything is done
 				
 			//main.highlightSelectionBox.setEnabled(true);
 			main.processButton.setSelected(false);
-			cpb.setText("User Editing... Waiting to\"Re-process\"");
+			cpb.setText("Tagging all documents... Done");
+			
 			cpb.stop();
+			
+			main.editorProgressBar.setIndeterminate(true);	
+			
 			eits.editBoxPanel.setEnabled(true);
 			eits.resultsTablePane.setEnabled(true);
 			eits.resultsTablePane.setOpaque(true);
@@ -446,8 +452,8 @@ public class BackendInterface {
 			eits.getSentenceEditPane().setText(EditorTabDriver.getHelpMessege()+" ");//the space is to differentiate this from the messege in a new inner tab.
 			eits.sentenceEditPane.setEnabled(true);
 			eits.sentenceEditPane.setEditable(false);
-			main.nextSentenceButton.setEnabled(true);
-			main.lastSentenceButton.setEnabled(true);
+			main.nextSentenceButton.setEnabled(false);
+			main.lastSentenceButton.setEnabled(false);//changed this and ^ values.
 			
 			boolean loadIfExists = false;
 			
@@ -457,7 +463,7 @@ public class BackendInterface {
 				ConsolidationStation.otherSampleTaggedDocs = docTagger.tagDocs(allDocs.get(0),loadIfExists);
 				ConsolidationStation.authorSampleTaggedDocs = docTagger.tagDocs(allDocs.get(1),loadIfExists);
 				ConsolidationStation.setAllDocsTagged(true);
-				cpb.setText("Tagging all documents... Done");
+				
 			}
 			catch(Exception e){
 				Logger.logln("Oops something bad happened with the tagging of documents...");
@@ -465,8 +471,11 @@ public class BackendInterface {
 			}
 			
 			Logger.logln("Finished in BackendInterface - postTargetSelection");
-			
-			
+			main.editorProgressBar.setIndeterminate(false);	
+			main.nextSentenceButton.setEnabled(true);
+			main.lastSentenceButton.setEnabled(true);
+			main.addSentence.setEnabled(true);
+			cpb.setText("User Editing... Waiting to\"Re-process\"");
 			
 		}
 		

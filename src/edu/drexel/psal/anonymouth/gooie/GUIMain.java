@@ -1183,11 +1183,10 @@ public class GUIMain extends javax.swing.JFrame {
 										editingProgressBarLabel = new JLabel();
 										editorInteractionWestPanel.add(editingProgressBarLabel, BorderLayout.CENTER);
 										editingProgressBarLabel.setText("Progress...");
-										editingProgressBarLabel.setPreferredSize(new java.awt.Dimension(352, 62));
 									}
 									{
 										editorProgressBar = new JProgressBar();
-										editorInteractionWestPanel.add(editorProgressBar, BorderLayout.NORTH);
+										editorInteractionWestPanel.add(editorProgressBar, BorderLayout.SOUTH);
 										editorProgressBar.setPreferredSize(new java.awt.Dimension(352, 20));
 									}
 								}

@@ -35,7 +35,7 @@ public class Word implements Comparable<Word>{
 	 */
 	public Word(Word word){
 		this.word = word.word;
-		featuresFound = word.featuresFound;
+		featuresFound = new SparseReferences(word.featuresFound);
 		partOfSpeech = word.partOfSpeech;
 		
 	}
@@ -67,14 +67,11 @@ public class Word implements Comparable<Word>{
 		int numFeatures = featuresFound.length();
 		for (int i=0;i<numFeatures;i++){
 			Reference tempFeature = featuresFound.references.get(i);
-			//Logger.logln("percentChangeNeeded: "+DataAnalyzer.topAttributes[tempFeature.index].getPercentChangeNeeded());
-			//Logger.logln("getInfoGain: "+DataAnalyzer.topAttributes[tempFeature.index].getInfoGain());
-			//Logger.logln("tempFeature.value: "+tempFeature.value);
-			//Logger.logln("numFeatures: "+numFeatures);
 			anonymityIndex += (tempFeature.value/numFeatures)*(DataAnalyzer.topAttributes[tempFeature.index].getInfoGain())*(DataAnalyzer.topAttributes[tempFeature.index].getPercentChangeNeeded());
 		}
 		return anonymityIndex;
 	}
+
 	
 	/**
 	 * Adds another feature to the SparseReferences instance

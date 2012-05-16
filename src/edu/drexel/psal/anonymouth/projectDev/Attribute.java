@@ -180,7 +180,6 @@ public class Attribute {
 		else
 			temp = Math.ceil(this.targetValue); // if value doesnt exist in document, set percent change needed to the ceil value of the  target value (e.g. add 5 occurrences of 'if': 500%)
 		percentChangeNeeded = temp*100;
-		
 	}
 	
 	/**

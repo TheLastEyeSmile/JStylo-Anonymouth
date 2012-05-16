@@ -19,6 +19,7 @@ import com.jgaap.JGAAPConstants;
 import edu.drexel.psal.anonymouth.gooie.ErrorHandler;
 import edu.drexel.psal.anonymouth.projectDev.DataAnalyzer;
 import edu.drexel.psal.jstylo.generics.Logger;
+import edu.drexel.psal.jstylo.generics.Logger.LogOut;
 import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.TaggedWord;
 import edu.stanford.nlp.process.Tokenizer;
@@ -414,7 +415,9 @@ public class TaggedDocument {
 		SparseReferences updatedValues = newSentence.getOldToNewDeltas(oldSentence);
 		Logger.logln(updatedValues.toString());
 		for(Reference ref:updatedValues.references){
+			Logger.logln("Attribute: "+DataAnalyzer.topAttributes[ref.index].getFullName()+" pre-update value: "+DataAnalyzer.topAttributes[ref.index].getToModifyValue());
 			DataAnalyzer.topAttributes[ref.index].setToModifyValue((DataAnalyzer.topAttributes[ref.index].getToModifyValue() + ref.value));
+			Logger.logln("Attribute: "+DataAnalyzer.topAttributes[ref.index].getFullName()+" post-update value: "+DataAnalyzer.topAttributes[ref.index].getToModifyValue(),LogOut.STDERR);
 		}
 	}
 	

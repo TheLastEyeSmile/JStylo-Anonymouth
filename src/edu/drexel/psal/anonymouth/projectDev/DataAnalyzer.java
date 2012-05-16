@@ -581,7 +581,7 @@ public class DataAnalyzer{
 		authorAttribs = allAttribSets.get(2);
 		//computeInfoGain(simplyInstances.get("authorAndTrain"));
 		topAttributes = computeInfoGain(simplyInstances.get("authorAndTrain")); // KEEP THIS!!!
-		Arrays.sort(topAttributes);
+		
 		lengthTopAttributes = topAttributes.length;
 		authorAverageFinder();
 		authorStdDevFinder();

@@ -93,7 +93,7 @@ public class TaggedSentence {
 	}
 	*/
 	
-	public TaggedSentence(TaggedSentence taggedSentence) {
+	public TaggedSentence(TaggedSentence taggedSentence) {//TODO make sure this doesnt need new objects.
 		this.untagged=taggedSentence.untagged;
 		this.wordsInSentence=taggedSentence.wordsInSentence;
 		

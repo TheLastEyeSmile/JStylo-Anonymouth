@@ -207,18 +207,29 @@ public class EditorTabDriver {
 	}
 	
 	private static void updateAddRemoveBoxes(GUIMain main){
-		Logger.logln("About to call ConsolidationStation.getPriorityWords for toRemove words",LogOut.STDERR);
+		Highlighter removeTracker = new DefaultHighlighter();
+		Highlighter.HighlightPainter removePainterUp = new DefaultHighlighter.DefaultHighlightPainter(Color.red);
+		Highlighter.HighlightPainter removePainterDown = new DefaultHighlighter.DefaultHighlightPainter(Color.green);
+		
+		//Logger.logln("About to call ConsolidationStation.getPriorityWords for toRemove words",LogOut.STDERR);
 		ArrayList<String> topToRemove=ConsolidationStation.getPriorityWords(ConsolidationStation.toModifyTaggedDocs, true, .2);
-		Logger.logln("JUST CALLED ConsolidationStation.getPriorityWords for toRemove words",LogOut.STDERR);
-		Logger.logln("About to call ConsolidationStation.getPriorityWords for toAdd words",LogOut.STDERR);
-		ArrayList<String> topToAdd=ConsolidationStation.getPriorityWords(ConsolidationStation.otherSampleTaggedDocs, false, .2);
+		//Logger.logln("JUST CALLED ConsolidationStation.getPriorityWords for toRemove words",LogOut.STDERR);
+		//Logger.logln("About to call ConsolidationStation.getPriorityWords for toAdd words",LogOut.STDERR);
+		int sizeAuthorTagged=ConsolidationStation.authorSampleTaggedDocs.size();
+		ArrayList<TaggedDocument> tempArrTagged=new ArrayList<TaggedDocument>(ConsolidationStation.otherSampleTaggedDocs.size()+sizeAuthorTagged);
+		tempArrTagged=ConsolidationStation.otherSampleTaggedDocs;
+		for(int i=0;i<sizeAuthorTagged;i++){
+			tempArrTagged.add(ConsolidationStation.authorSampleTaggedDocs.get(i));
+		}
+		ArrayList<String> topToAdd=ConsolidationStation.getPriorityWords(tempArrTagged, false, .005);
 		//TODO: maybe for priority words, use authorSampleDocs as well???
-		Logger.logln("JUST CALLED ConsolidationStation.getPriorityWords for toAdd words",LogOut.STDERR);
+		//Logger.logln("JUST CALLED ConsolidationStation.getPriorityWords for toAdd words",LogOut.STDERR);
 		String setString="";
 		int arrSize=topToRemove.size();
 		for(int i=0;i<arrSize;i++){
 			setString+=topToRemove.get(i)+"\n";
 		}
+		//main.elementsToRemovePane.get
 		main.elementsToRemovePane.setText(setString);
 		main.elementsToRemovePane.setCaretPosition(0);
 		setString="";

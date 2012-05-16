@@ -78,7 +78,10 @@ public class ConsolidationStation {
 			for(int i=0;i<attribLen;i++){
 				String stringInBrace=DataAnalyzer.topAttributes[i].getStringInBraces();
 				int toAddLength=stringInBrace.length();
-				if(toAddLength<=strSize){//checks for a possible match
+				if(toAddLength==0){
+					//Logger.logln("THIS IS BAD",Logger.LogOut.STDERR);
+				}
+				else if(toAddLength<=strSize){//checks for a possible match
 					tempNumber=0;
 					for(int j=0;j<strSize-toAddLength;j++){
 						if(wordString.substring(j, j+toAddLength).equals(stringInBrace)){
@@ -88,6 +91,7 @@ public class ConsolidationStation {
 					if(tempNumber>0){
 						//add the feature to the word and have it appearing tempNumber times.
 						//Logger.logln("AddNewReference from ConsolStation.featurePacker");
+						Logger.logln("Value i: "+i+" Value indexOf Attrib: "+DataAnalyzer.topAttributes[i].getIndexNumber()+" Attribute: "+DataAnalyzer.topAttributes[i].getFullName());//+"Attribute at Index "+DataAnalyzer.topAttributes[DataAnalyzer.topAttributes[i].getIndexNumber()].getFullName());
 						word.featuresFound.addNewReference(i, tempNumber);
 						//Logger.logln("Added a feature: "+word.featuresFound.toString());
 					}
@@ -128,20 +132,25 @@ public class ConsolidationStation {
 			Logger.logln("The number of priority words to return is greater than the number of words available. Only returning what is available");
 			numToReturn = mergedNumWords;
 		}
-		if(findTopToRemove){ // then start from index 0, and go up to index (numToReturn-1) words (inclusive)
+		Word tempWord;
+		if(findTopToRemove){ // then start from index 0, and go up to index (numToReturn-1) words (inclusive)]
 			for(int i = 0; i<numToReturn; i++){
-				toReturn.add(words.get(i).word+" ("+words.get(i).getAnonymityIndex()+")");
+				if((tempWord=words.get(i)).getAnonymityIndex()<0)
+					toReturn.add(tempWord.word+" ("+tempWord.getAnonymityIndex()+")");
+				else 
+					break;
 			}
 		}
 		else{ // start at the END of the list, and go down to (END-numToReturn) (inclusive)
 			int startIndex = mergedNumWords - 1;
 			int stopIndex = startIndex - numToReturn;
 			for(int i = startIndex; i> stopIndex; i--){
-				toReturn.add(words.get(i).word+" ("+words.get(i).getAnonymityIndex()+")");
-			}
-			
+				if((tempWord=words.get(i)).getAnonymityIndex()>0)
+					toReturn.add(tempWord.word+" ("+tempWord.getAnonymityIndex()+")");
+				else 
+					break;
+			}	
 		}
-		
 		return toReturn;
 	}
 	
@@ -150,9 +159,19 @@ public class ConsolidationStation {
 		HashMap<String,Word> mergingMap = new HashMap<String,Word>((unMerged.size()));//Guessing there will be at least an average of 3 duplicate words per word -> 1/3 of the size is needed
 		for(Word w: unMerged){
 			if(mergingMap.containsKey(w.word) == true){
-				Word temp = mergingMap.get(w.word);
-				temp.mergeWords(w);
-				mergingMap.put(w.word,temp);
+				//Word temp = mergingMap.get(w.word);
+				//temp.mergeWords(w);
+				//mergingMap.put(w.word,temp);
+				if(w.equals(mergingMap.get(w.word))){
+					//check is sparse ref the same
+					if(!w.featuresFound.equals(mergingMap.get(w.word).featuresFound)){
+						Logger.logln("The featuresFound in the words are not equal.",Logger.LogOut.STDERR);
+					}
+				}
+				else{
+					Logger.logln("Problem in mergeWords--Words objects not equal",Logger.LogOut.STDERR);
+				}
+				
 			}
 			else{
 				mergingMap.put(w.word,new Word(w));

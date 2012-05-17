@@ -238,9 +238,9 @@ public class EditorTabDriver {
 		for(int i=0;i<arrSize;i++){
 			setString+=topToAdd.get(i)+"\n";
 		}
-		System.out.println("NEW toAdd words:\n"+setString);
-		Scanner in = new Scanner(System.in);
-		in.nextLine();
+		//System.out.println("NEW toAdd words:\n"+setString);
+		//Scanner in = new Scanner(System.in);
+		//in.nextLine();
 		main.elementsToAddPane.setText(setString);
 		main.elementsToAddPane.setCaretPosition(0);
 	}

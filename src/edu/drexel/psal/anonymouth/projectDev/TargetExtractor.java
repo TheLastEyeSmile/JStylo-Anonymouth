@@ -153,6 +153,7 @@ public class TargetExtractor {
 				}
 				if(notFound == true){	
 					if(skipSet.size() > 10000){
+						Logger.logln("kPlusPlusPrep reached 10k tries.");
 						tooManyTries = true;
 						break;
 					}
@@ -182,6 +183,7 @@ public class TargetExtractor {
 			if(maxCentroidsFound==true)
 				break;
 			if(tooManyTries == true){
+				Logger.logln("Calling kPlusPlusPrep again from within itself.");
 				kPlusPlusPrep();
 				break;
 			}

@@ -44,6 +44,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 
 import javax.swing.DefaultComboBoxModel;
@@ -237,6 +238,9 @@ public class EditorTabDriver {
 		for(int i=0;i<arrSize;i++){
 			setString+=topToAdd.get(i)+"\n";
 		}
+		System.out.println("NEW toAdd words:\n"+setString);
+		Scanner in = new Scanner(System.in);
+		in.nextLine();
 		main.elementsToAddPane.setText(setString);
 		main.elementsToAddPane.setCaretPosition(0);
 	}

@@ -114,6 +114,7 @@ public class SparseReferences {
 		SparseReferences adjustmentReferences = new SparseReferences((sia.references.size()+this.references.size())); // absolute max size
 		Reference newRef;
 		ArrayList<Reference> cloneOfThis = (ArrayList<Reference>) this.references.clone();
+		Logger.logln("compare these: "+this+" to "+cloneOfThis);
 		for(Reference r: sia.references){
 			if(cloneOfThis.contains(r)){
 				indexOfRef = cloneOfThis.indexOf(r);

@@ -415,7 +415,7 @@ public class TaggedDocument {
 		SparseReferences updatedValues = newSentence.getOldToNewDeltas(oldSentence);
 		//Logger.logln(updatedValues.toString());
 		for(Reference ref:updatedValues.references){
-			Logger.logln("Attribute: "+DataAnalyzer.topAttributes[ref.index].getFullName()+" pre-update value: "+DataAnalyzer.topAttributes[ref.index].getToModifyValue());
+			//Logger.logln("Attribute: "+DataAnalyzer.topAttributes[ref.index].getFullName()+" pre-update value: "+DataAnalyzer.topAttributes[ref.index].getToModifyValue());
 			if(DataAnalyzer.topAttributes[ref.index].getFullName().contains("Percentage")){
 				//then it is a percentage.
 				Logger.logln("Attribute: "+DataAnalyzer.topAttributes[ref.index].getFullName()+"Is a percentage! ERROR!",Logger.LogOut.STDERR);
@@ -424,9 +424,12 @@ public class TaggedDocument {
 				//then it is an average
 				Logger.logln("Attribute: "+DataAnalyzer.topAttributes[ref.index].getFullName()+"Is an average!ERROR!",Logger.LogOut.STDERR);
 			}
-			else
+			else{
 				DataAnalyzer.topAttributes[ref.index].setToModifyValue((DataAnalyzer.topAttributes[ref.index].getToModifyValue() + ref.value));
-			Logger.logln("Attribute: "+DataAnalyzer.topAttributes[ref.index].getFullName()+" post-update value: "+DataAnalyzer.topAttributes[ref.index].getToModifyValue());
+				//Logger.logln("Updated attribute: "+DataAnalyzer.topAttributes[ref.index].getFullName());
+			}
+				
+			//Logger.logln("Attribute: "+DataAnalyzer.topAttributes[ref.index].getFullName()+" post-update value: "+DataAnalyzer.topAttributes[ref.index].getToModifyValue());
 		}
 	}
 	

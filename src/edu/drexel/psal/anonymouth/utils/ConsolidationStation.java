@@ -91,7 +91,7 @@ public class ConsolidationStation {
 					if(tempNumber>0){
 						//add the feature to the word and have it appearing tempNumber times.
 						//Logger.logln("AddNewReference from ConsolStation.featurePacker");
-						//Logger.logln("Value i: "+i+" Value indexOf Attrib: "+DataAnalyzer.topAttributes[i].getIndexNumber()+" Attribute: "+DataAnalyzer.topAttributes[i].getFullName()+" the word: "+wordString));
+						//Logger.logln("Value i: "+i+" Value indexOf Attrib: "+DataAnalyzer.topAttributes[i].getIndexNumber()+" Attribute: "+DataAnalyzer.topAttributes[i].getFullName()+" the word: "+wordString);
 						word.featuresFound.addNewReference(i, tempNumber);
 						//Logger.logln("Added a feature: "+word.featuresFound.toString());
 					}
@@ -115,18 +115,17 @@ public class ConsolidationStation {
 	 */
 	public static ArrayList<String> getPriorityWords(ArrayList<TaggedDocument> docsToConsider, boolean findTopToRemove, double percentToReturn){
 		int totalWords = 0;
+		ArrayList<Word> words = new ArrayList<Word>(totalWords);
 		for(TaggedDocument td:docsToConsider){
 			totalWords += td.getWordCount();
+			words.addAll(td.getWords());
 		}
 		int numToReturn = (int)(totalWords*percentToReturn);
 		ArrayList<String> toReturn = new ArrayList<String>(numToReturn);
-		ArrayList<Word> words = new ArrayList<Word>(totalWords);
-		for(TaggedDocument td:docsToConsider){
-			words.addAll(td.getWords());
-		}
-		int countedNumWords = words.size();
 		words = removeDuplicateWords(words);
+		
 		Collections.sort(words);// sort the words in INCREASING anonymityIndex
+		
 		int mergedNumWords = words.size();
 		if (mergedNumWords <= numToReturn){
 			Logger.logln("The number of priority words to return is greater than the number of words available. Only returning what is available");

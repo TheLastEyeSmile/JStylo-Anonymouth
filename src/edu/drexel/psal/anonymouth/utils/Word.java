@@ -63,11 +63,12 @@ public class Word implements Comparable<Word>{
 	 * @return anonymityIndex
 	 */
 	public double getAnonymityIndex(){
-		int anonymityIndex=0;
-		int numFeatures = featuresFound.length();
+		double anonymityIndex=0;
+		double numFeatures = featuresFound.length();
 		for (int i=0;i<numFeatures;i++){
 			Reference tempFeature = featuresFound.references.get(i);
-			anonymityIndex += (tempFeature.value/numFeatures)*(DataAnalyzer.topAttributes[tempFeature.index].getInfoGain())*(DataAnalyzer.topAttributes[tempFeature.index].getPercentChangeNeeded());
+			double value=tempFeature.value;
+			anonymityIndex += (value/numFeatures)*(DataAnalyzer.topAttributes[tempFeature.index].getInfoGain())*(DataAnalyzer.topAttributes[tempFeature.index].getPercentChangeNeeded());
 		}
 		return anonymityIndex;
 	}

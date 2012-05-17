@@ -91,7 +91,7 @@ public class ConsolidationStation {
 					if(tempNumber>0){
 						//add the feature to the word and have it appearing tempNumber times.
 						//Logger.logln("AddNewReference from ConsolStation.featurePacker");
-						Logger.logln("Value i: "+i+" Value indexOf Attrib: "+DataAnalyzer.topAttributes[i].getIndexNumber()+" Attribute: "+DataAnalyzer.topAttributes[i].getFullName());//+"Attribute at Index "+DataAnalyzer.topAttributes[DataAnalyzer.topAttributes[i].getIndexNumber()].getFullName());
+						//Logger.logln("Value i: "+i+" Value indexOf Attrib: "+DataAnalyzer.topAttributes[i].getIndexNumber()+" Attribute: "+DataAnalyzer.topAttributes[i].getFullName()+" the word: "+wordString));
 						word.featuresFound.addNewReference(i, tempNumber);
 						//Logger.logln("Added a feature: "+word.featuresFound.toString());
 					}

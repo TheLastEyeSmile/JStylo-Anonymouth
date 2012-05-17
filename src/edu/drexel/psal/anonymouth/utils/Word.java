@@ -179,7 +179,7 @@ public class Word implements Comparable<Word>{
 	 * toString method
 	 */
 	public String toString(){
-		return "[ WORD: "+word+" ||| RANK: "+getAnonymityIndex()+"]";
+		return "[ WORD: "+word+" ||| Anonymity Index: "+getAnonymityIndex()+"]";
 	}
 
 	/**

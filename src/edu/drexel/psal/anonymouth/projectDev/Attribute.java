@@ -11,7 +11,7 @@ import edu.drexel.psal.jstylo.generics.Logger;
  * @author Andrew W.E. McDonald
  *
  */
-public class Attribute implements Comparable<Attribute> {
+public class Attribute {
 	
 	private int indexNumber;
 	
@@ -437,17 +437,7 @@ public class Attribute implements Comparable<Attribute> {
 		
 	}
 
-	/**
-	 * compareTo method
-	 */
-	public int compareTo(Attribute a) {
-		if(this.indexNumber < a.indexNumber)
-			return -1;
-		else if(this.indexNumber == a.indexNumber)
-			return 0;
-		else
-			return 0;
-	}
+
 	
 
 }

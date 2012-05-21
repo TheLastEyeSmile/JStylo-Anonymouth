@@ -18,23 +18,26 @@ import edu.drexel.psal.anonymouth.utils.Trie;
  * 
  */
 
-public class FunctionWord {
-	
-	protected String[] functionWordArray=new String[486];//make this larger if more words are added
+public class FunctionWord implements Runnable {
+	private final int fWordArrSize=486;//make this larger if more words are added
+	protected String[] functionWordArray=new String[fWordArrSize];
 	private ArrayList<String> functionWordList;
 	private static String filePath="src/edu/drexel/psal/resources/koppel_function_words.txt";
 	private Trie node;
 
 	public FunctionWord() {
+		
+	}
+	
+	public void run(){
 		functionWordList=readFunctionWords();
-		for(int i=0;i<functionWordArray.length;i++){
+		for(int i=0;i<fWordArrSize;i++){
 			functionWordArray[i]=functionWordList.get(i);
 		}
 		node = new Trie();
 		node.addWords(functionWordArray);
+		Logger.logln("FINISHED ITITIALIZING FUNCTION WORDS");
 	}
-	
-	
 	public boolean searchListFor(String str){
 		return node.find(str);
 	}
@@ -44,7 +47,7 @@ public class FunctionWord {
 	}
 	
 	
-	public static ArrayList<String> readFunctionWords(){
+	private static ArrayList<String> readFunctionWords(){
 		ArrayList<String> functionWords=new ArrayList<String>();
 		
 		 try {

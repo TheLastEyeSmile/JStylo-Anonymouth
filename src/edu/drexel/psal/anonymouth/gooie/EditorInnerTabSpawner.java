@@ -68,6 +68,9 @@ public class EditorInnerTabSpawner {
 			protected JPanel sentenceAndDocumentPanel;
 			protected JPanel sentenceLabelPanel;
 			protected JScrollPane sentencePane;
+			protected JButton shuffleButton;
+			private JPanel spacer1;
+			protected JButton restoreSentenceButton;
 			protected JLabel classificationLabel;
 			protected JPanel resultsBoxPanel_InnerBottomPanel;
 			protected JTable resultsTable;
@@ -129,17 +132,6 @@ public class EditorInnerTabSpawner {
                             sentenceAndDocumentPanel.add(sentenceAndSentenceLabelPanel, BorderLayout.NORTH);
                             sentenceAndSentenceLabelPanel.setPreferredSize(new java.awt.Dimension(744, 115));
                             {
-                                sentenceLabelPanel = new JPanel();
-                                sentenceAndSentenceLabelPanel.add(sentenceLabelPanel, BorderLayout.NORTH);
-                                sentenceLabelPanel.setPreferredSize(new java.awt.Dimension(744, 24));
-                                {
-                                    sentenceBoxLabel = new JLabel();
-                                    sentenceLabelPanel.add(sentenceBoxLabel);
-                                    sentenceBoxLabel.setText("Sentence You are Currently Editing:");
-                                    sentenceBoxLabel.setPreferredSize(new java.awt.Dimension(236, 15));
-                                }
-                            }
-                            {
                                 sentencePanel = new JPanel();
                                 BorderLayout sentencePanelLayout = new BorderLayout();
                                 sentencePanel.setLayout(sentencePanelLayout);
@@ -148,6 +140,7 @@ public class EditorInnerTabSpawner {
                                 {
                                     sentencePane = new JScrollPane();
                                     sentencePanel.add(sentencePane, BorderLayout.CENTER);
+                                    sentencePane.setPreferredSize(new java.awt.Dimension(744, 74));
                                     {
                                     	StyleContext sc = new StyleContext();
                                         final DefaultStyledDocument doc = new DefaultStyledDocument(sc);
@@ -163,6 +156,20 @@ public class EditorInnerTabSpawner {
                                         doc.setLogicalStyle(0, editBoxStyle);
                                     }
                                 }
+                            }
+                            {
+                            	sentenceLabelPanel = new JPanel();
+                            	sentenceAndSentenceLabelPanel.add(sentenceLabelPanel, BorderLayout.NORTH);
+                            	sentenceLabelPanel.setPreferredSize(new java.awt.Dimension(744, 28));
+                            	{
+                            		sentenceBoxLabel = new JLabel();
+                            		sentenceLabelPanel.add(sentenceBoxLabel);
+                            		sentenceLabelPanel.add(getSpacer1());
+                            		sentenceLabelPanel.add(getRestoreSentenceButton());
+                            		sentenceLabelPanel.add(getShuffleButton());
+                            		sentenceBoxLabel.setText("Sentence You are Currently Editing:");
+                            		sentenceBoxLabel.setPreferredSize(new java.awt.Dimension(196, 15));
+                            	}
                             }
                         }
                         {
@@ -274,6 +281,33 @@ public class EditorInnerTabSpawner {
 					sentenceEditPane.setVisible(true);
 				}
 				return sentenceEditPane;
+			}
+			
+			public JButton getRestoreSentenceButton() {
+				if(restoreSentenceButton == null) {
+					restoreSentenceButton = new JButton();
+					restoreSentenceButton.setText("Restore Sentence");
+					restoreSentenceButton.setEnabled(false);
+				}
+				return restoreSentenceButton;
+			}
+			
+			public JPanel getSpacer1() {
+				if(spacer1 == null) {
+					spacer1 = new JPanel();
+					spacer1.setPreferredSize(new java.awt.Dimension(76, 10));
+				}
+				return spacer1;
+			}
+			
+			private JButton getShuffleButton() {
+				if(shuffleButton == null) {
+					shuffleButton = new JButton();
+					shuffleButton.setText("Shuffle!");
+					shuffleButton.setPreferredSize(new java.awt.Dimension(100, 23));
+					shuffleButton.setEnabled(false);
+				}
+				return shuffleButton;
 			}
 
 }

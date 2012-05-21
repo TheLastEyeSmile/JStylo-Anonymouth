@@ -30,6 +30,7 @@ public class ConsolidationStation {
 	public static ArrayList<TaggedDocument> authorSampleTaggedDocs;
 	public static ArrayList<TaggedDocument> toModifyTaggedDocs;//init in editor Tab Driver
 	private static boolean allDocsTagged = false;
+	public static FunctionWord functionWords=new FunctionWord();
 	
 	private HashMap<String,Word>wordsToAdd;
 	private HashMap<String,Word>newWordsToAdd;
@@ -49,6 +50,7 @@ public class ConsolidationStation {
 		newWordsToAdd=new HashMap<String,Word>();
 		wordsInDocToMod=new HashMap<String,Word>();
 		wordsToRemove=new HashMap<String,Word>();
+		
 	}
 	
 	

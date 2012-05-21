@@ -146,7 +146,9 @@ public class TaggedSentence {
 	public int size(){
 		return wordsInSentence.size();
 	}
-	
+	public ArrayList<Word> getWordsInSentence(){
+		return wordsInSentence;
+	}
 	
 	/**
 	 * returns a SparseReference object containing the index of each attribute who's value needs to be updated, along with the amount

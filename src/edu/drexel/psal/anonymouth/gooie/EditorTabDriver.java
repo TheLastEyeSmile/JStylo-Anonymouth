@@ -14,8 +14,11 @@ import edu.drexel.psal.anonymouth.suggestors.TheOracle;
 import edu.drexel.psal.anonymouth.utils.ConsolidationStation;
 import edu.drexel.psal.anonymouth.utils.DocumentParser;
 import edu.drexel.psal.anonymouth.utils.DocumentTagger;
+import edu.drexel.psal.anonymouth.utils.FunctionWord;
 import edu.drexel.psal.anonymouth.utils.SentenceTools;
 import edu.drexel.psal.anonymouth.utils.TaggedDocument;
+import edu.drexel.psal.anonymouth.utils.TaggedSentence;
+import edu.drexel.psal.anonymouth.utils.Word;
 import edu.drexel.psal.jstylo.generics.FeatureDriver;
 import edu.drexel.psal.jstylo.generics.Logger;
 import edu.drexel.psal.jstylo.generics.WekaInstancesBuilder;
@@ -172,7 +175,7 @@ public class EditorTabDriver {
 	 * Highlights the sentence that is currently in the editor box in the main document
 	 * no return
 	 */
-	protected static void trackEditSentence(GUIMain main){
+	protected static void trackEditSentence(GUIMain main){//TODO: figure out all the pretty colors
 		editTracker = new DefaultHighlighter();
 		painter = new DefaultHighlighter.DefaultHighlightPainter(HILIT_COLOR);
 		int startHighlight=0, endHighlight=0;
@@ -209,7 +212,7 @@ public class EditorTabDriver {
 		String sentence=sentences.get(sentNum);
 		
 		//removeTracker = new DefaultHighlighter();
-		painter2 = new DefaultHighlighter.DefaultHighlightPainter(Color.red);
+		painter2 = new DefaultHighlighter.DefaultHighlightPainter(new Color(255,0,0,128));
 
 		startHighlight=startHighlight;
 		
@@ -279,7 +282,7 @@ public class EditorTabDriver {
 		}
 	}
 	
-	private static void updateAddRemoveBoxes(GUIMain main){
+	/*private static void updateAddRemoveBoxes(GUIMain main){
 		
 		//Logger.logln("About to call ConsolidationStation.getPriorityWords for toRemove words",LogOut.STDERR);
 		ArrayList<String> topToRemove=ConsolidationStation.getPriorityWords(ConsolidationStation.toModifyTaggedDocs, true, .2);
@@ -292,7 +295,7 @@ public class EditorTabDriver {
 			tempArrTagged.add(ConsolidationStation.authorSampleTaggedDocs.get(i));
 		}*/
 	
-		ArrayList<String> topToAdd=ConsolidationStation.getPriorityWords(ConsolidationStation.authorSampleTaggedDocs, false, .015);
+		/*ArrayList<String> topToAdd=ConsolidationStation.getPriorityWords(ConsolidationStation.authorSampleTaggedDocs, false, .015);
 		//TODO: maybe for priority words, use authorSampleDocs as well???
 		//Logger.logln("JUST CALLED ConsolidationStation.getPriorityWords for toAdd words",LogOut.STDERR);
 		TaggedDocument taggedDoc=ConsolidationStation.toModifyTaggedDocs.get(0);
@@ -340,7 +343,7 @@ public class EditorTabDriver {
 		//in.nextLine();
 		main.elementsToAddPane.setText(setString);
 		main.elementsToAddPane.setCaretPosition(0);
-	}
+	}*/
 	
 	public static String getHelpMessege(){
 		return helpMessege;
@@ -527,6 +530,7 @@ public class EditorTabDriver {
 			}
 			
 		});	
+		
 		/*
 		main.clearHighlightingButton.addActionListener(new ActionListener(){
 
@@ -981,6 +985,54 @@ public class EditorTabDriver {
 	}
 	
 	public static void initEditorInnerTabListeners(final GUIMain main){
+		
+		
+		eits.shuffleButton.setEnabled(true);
+		eits.restoreSentenceButton.setEnabled(true);
+		
+		eits.shuffleButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Logger.logln("Shuffle button pressed by User.");
+				//shuffle current sentence
+				if(!eits.sentenceEditPane.getText().startsWith(helpMessege)&&!eits.sentenceEditPane.getText().equals("Please press the Process button now.")){
+					TaggedSentence currentSentence=ConsolidationStation.toModifyTaggedDocs.get(0).getTaggedSentences().get(ConsolidationStation.toModifyTaggedDocs.get(0).getSentNumber());
+					ArrayList<String> untaggedWords=new ArrayList<String>(currentSentence.size());
+					ArrayList<Word> wordArr=currentSentence.getWordsInSentence();
+					for(Word word:wordArr){
+						System.out.println("Word: "+word.getUntagged());
+						if(!ConsolidationStation.functionWords.searchListFor(word.getUntagged())){//TODO: make sure this works
+							untaggedWords.add(word.getUntagged());//This excludes ALL function words
+						}
+					}
+					//does the shuffling
+					int sizeOfWordList=untaggedWords.size(),randNum;
+					String toReturn="",temp;
+					for(int i=0;i<sizeOfWordList;i++){
+						randNum=(int) ((Math.random())*(untaggedWords.size()-1)+.5);
+						temp=untaggedWords.remove(randNum);
+						toReturn+=temp+" ";
+						//Logger.logln(toReturn);
+					}
+					eits.sentenceEditPane.setText(toReturn);
+				}
+			}
+			
+		});	
+		eits.restoreSentenceButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Logger.logln("Previous sentence restored.");
+				if(!eits.sentenceEditPane.getText().startsWith(helpMessege)&&!eits.sentenceEditPane.getText().equals("Please press the Process button now.")){
+					eits.sentenceEditPane.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getUntaggedSentences().get(ConsolidationStation.toModifyTaggedDocs.get(0).getSentNumber()));
+			
+				}
+			}
+			
+		});	
+		
 		eits.editorBox.addMouseListener(new MouseListener(){
 
 			@Override

@@ -254,6 +254,7 @@ public class BackendInterface {
 			if(EditorTabDriver.isFirstRun == true){
 				eits.sentenceEditPane.setEditable(false);
 				eits.sentenceEditPane.setEnabled(false);
+				ConsolidationStation.functionWords.run();
 				tempDoc = getDocFromCurrentTab();
 				//eits.editorBox.setText("ThisWorked!");
 				//Scanner in = new Scanner(System.in);

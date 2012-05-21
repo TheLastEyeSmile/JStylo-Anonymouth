@@ -97,7 +97,9 @@ public class Word implements Comparable<Word>{
 		}
 	}
 */	
-	
+	public String getUntagged(){
+		return word;
+	}
 	/**
 	 * Merges two words, provided that the 'word' (string) inside are equivalent (case sensitive), and that both 'word' strings have been determined to be of 
 	 * the same part of speech.

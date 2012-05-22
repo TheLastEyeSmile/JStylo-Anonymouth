@@ -36,7 +36,8 @@ public class FunctionWord implements Runnable {
 		}
 		node = new Trie();
 		node.addWords(functionWordArray);
-		Logger.logln("FINISHED ITITIALIZING FUNCTION WORDS");
+		Logger.logln("FINISHED INITIALIZING FUNCTION WORDS",Logger.LogOut.STDERR);
+		//System.exit(0);
 	}
 	public boolean searchListFor(String str){
 		return node.find(str);

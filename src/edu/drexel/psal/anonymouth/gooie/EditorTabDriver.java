@@ -99,9 +99,6 @@ public class EditorTabDriver {
 	
 	protected static SentenceTools sentenceTools;
 	
-	//public static DocumentTagger otherSampleTagger = new DocumentTagger();
-	//public static DocumentTagger authorSampleTagger = new DocumentTagger();
-	//public static DocumentTagger toModifyTagger = new DocumentTagger();
 	private static int highlightSelectionBoxSelectionNumber;
 	public static boolean isUsingNineFeatures = false;
 	protected static boolean hasBeenInitialized = false;
@@ -997,13 +994,19 @@ public class EditorTabDriver {
 				Logger.logln("Shuffle button pressed by User.");
 				//shuffle current sentence
 				if(!eits.sentenceEditPane.getText().startsWith(helpMessege)&&!eits.sentenceEditPane.getText().equals("Please press the Process button now.")){
+					if(eits.sentenceEditPane.getText().matches(".*([?!]+)|.*([.]){1}\\s*")){//EOS "([?!]+)|([.]){1}\\s*"
+						ConsolidationStation.toModifyTaggedDocs.get(0).removeAndReplace(eits.sentenceEditPane.getText());
+					}
 					TaggedSentence currentSentence=ConsolidationStation.toModifyTaggedDocs.get(0).getTaggedSentences().get(ConsolidationStation.toModifyTaggedDocs.get(0).getSentNumber());
 					ArrayList<String> untaggedWords=new ArrayList<String>(currentSentence.size());
 					ArrayList<Word> wordArr=currentSentence.getWordsInSentence();
-					for(Word word:wordArr){
+					for(Word word:wordArr){//if theres an EOS char then the sentence should be saved
 						System.out.println("Word: "+word.getUntagged());
-						if(!ConsolidationStation.functionWords.searchListFor(word.getUntagged())){//TODO: make sure this works
-							untaggedWords.add(word.getUntagged());//This excludes ALL function words
+						if(word.getUntagged().matches("[\\w&&[^\\d]]*")){
+							if(!ConsolidationStation.functionWords.searchListFor(word.getUntagged())){//TODO: make sure this works
+								untaggedWords.add(word.getUntagged());//This excludes ALL function words and punctuation
+								System.out.println(word.getUntagged());
+							}
 						}
 					}
 					//does the shuffling
@@ -1027,7 +1030,7 @@ public class EditorTabDriver {
 				Logger.logln("Previous sentence restored.");
 				if(!eits.sentenceEditPane.getText().startsWith(helpMessege)&&!eits.sentenceEditPane.getText().equals("Please press the Process button now.")){
 					eits.sentenceEditPane.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getUntaggedSentences().get(ConsolidationStation.toModifyTaggedDocs.get(0).getSentNumber()));
-			
+					//eits.sentenceEditPane.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getCurrentLiveTaggedSentence());
 				}
 			}
 			

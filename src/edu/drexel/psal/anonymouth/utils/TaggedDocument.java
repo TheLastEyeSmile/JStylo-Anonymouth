@@ -737,6 +737,11 @@ public class TaggedDocument {
 		//System.out.println(testDoc.getFunctionWords());
 		
 	}
+
+	public String getCurrentLiveTaggedSentence() {
+		// TODO Auto-generated method stub
+		return currentLiveTaggedSentences.untagged;
+	}
 	
 }
 	

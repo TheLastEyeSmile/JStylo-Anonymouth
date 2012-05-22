@@ -68,6 +68,7 @@ public class EditorInnerTabSpawner {
 			protected JPanel sentenceAndDocumentPanel;
 			protected JPanel sentenceLabelPanel;
 			protected JScrollPane sentencePane;
+			protected JButton removeWordsButton;
 			protected JButton shuffleButton;
 			private JPanel spacer1;
 			protected JButton restoreSentenceButton;
@@ -167,6 +168,7 @@ public class EditorInnerTabSpawner {
                             		sentenceLabelPanel.add(getSpacer1());
                             		sentenceLabelPanel.add(getRestoreSentenceButton());
                             		sentenceLabelPanel.add(getShuffleButton());
+                            		sentenceLabelPanel.add(getRemoveWordsButton());
                             		sentenceBoxLabel.setText("Sentence You are Currently Editing:");
                             		sentenceBoxLabel.setPreferredSize(new java.awt.Dimension(196, 15));
                             	}
@@ -308,6 +310,15 @@ public class EditorInnerTabSpawner {
 					shuffleButton.setEnabled(false);
 				}
 				return shuffleButton;
+			}
+			
+			private JButton getRemoveWordsButton() {
+				if(removeWordsButton == null) {
+					removeWordsButton = new JButton();
+					removeWordsButton.setText("Remove Red Words");
+					shuffleButton.setEnabled(false);
+				}
+				return removeWordsButton;
 			}
 
 }

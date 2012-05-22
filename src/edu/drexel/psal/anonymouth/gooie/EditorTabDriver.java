@@ -148,6 +148,9 @@ public class EditorTabDriver {
 	protected static DocumentParser docParser;
 	protected static ConsolidationStation consolidator;
 
+	protected static ArrayList<String> topToRemove;
+	protected static ArrayList<String> topToAdd;
+	
 	protected static Highlighter editTracker;
 	protected static Highlighter removeTracker;
 	protected static Highlighter.HighlightPainter painter;
@@ -201,8 +204,8 @@ public class EditorTabDriver {
 				//startHighlight++;
 			}
 		}
-		ArrayList<String> topToRemove=ConsolidationStation.getPriorityWords(ConsolidationStation.toModifyTaggedDocs, true, .2);
-		ArrayList<String> topToAdd=ConsolidationStation.getPriorityWords(ConsolidationStation.authorSampleTaggedDocs, false, .015);
+		topToRemove=ConsolidationStation.getPriorityWords(ConsolidationStation.toModifyTaggedDocs, true, .2);
+		topToAdd=ConsolidationStation.getPriorityWords(ConsolidationStation.authorSampleTaggedDocs, false, .015);
 		
 		//TaggedDocument taggedDoc=ConsolidationStation.toModifyTaggedDocs.get(0);
 		int lenPrevSentences=0;
@@ -1003,10 +1006,14 @@ public class EditorTabDriver {
 					for(Word word:wordArr){//if theres an EOS char then the sentence should be saved
 						System.out.println("Word: "+word.getUntagged());
 						if(word.getUntagged().matches("[\\w&&[^\\d]]*")){
-							if(!ConsolidationStation.functionWords.searchListFor(word.getUntagged())){//TODO: make sure this works
+							//if(!ConsolidationStation.functionWords.searchListFor(word.getUntagged())){//TODO: make sure this works
+							//if(!topToRemove.contains(word.getUntagged())){
 								untaggedWords.add(word.getUntagged());//This excludes ALL function words and punctuation
-								System.out.println(word.getUntagged());
-							}
+								//System.out.println(word.getUntagged());
+							//}
+							//else if((word.getUntagged())){
+								
+							//}
 						}
 					}
 					//does the shuffling
@@ -1031,6 +1038,39 @@ public class EditorTabDriver {
 				if(!eits.sentenceEditPane.getText().startsWith(helpMessege)&&!eits.sentenceEditPane.getText().equals("Please press the Process button now.")){
 					eits.sentenceEditPane.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getUntaggedSentences().get(ConsolidationStation.toModifyTaggedDocs.get(0).getSentNumber()));
 					//eits.sentenceEditPane.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getCurrentLiveTaggedSentence());
+				}
+			}
+			
+		});	
+		eits.removeWordsButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Logger.logln("Previous sentence restored.");
+				if(!eits.sentenceEditPane.getText().startsWith(helpMessege)&&!eits.sentenceEditPane.getText().equals("Please press the Process button now.")){
+					if(eits.sentenceEditPane.getText().matches(".*([?!]+)|.*([.]){1}\\s*")){//EOS "([?!]+)|([.]){1}\\s*"
+						ConsolidationStation.toModifyTaggedDocs.get(0).removeAndReplace(eits.sentenceEditPane.getText());
+					}
+					TaggedSentence currentSentence=ConsolidationStation.toModifyTaggedDocs.get(0).getTaggedSentences().get(ConsolidationStation.toModifyTaggedDocs.get(0).getSentNumber());
+					ArrayList<String> untaggedWords=new ArrayList<String>(currentSentence.size());
+					ArrayList<Word> wordArr=currentSentence.getWordsInSentence();
+					for(Word word:wordArr){//if theres an EOS char then the sentence should be saved
+						System.out.println("Word: "+word.getUntagged());
+						if(word.getUntagged().matches("[\\w&&[^\\d]]*")){
+							//if(!ConsolidationStation.functionWords.searchListFor(word.getUntagged())){//TODO: make sure this works
+							if(!topToRemove.contains(word.getUntagged())){
+								untaggedWords.add(word.getUntagged());//This excludes ALL function words and punctuation
+								//System.out.println(word.getUntagged());
+							}
+						}
+					}
+					int sizeOfWordList=untaggedWords.size();
+					String toReturn="";
+					for(int i=0;i<sizeOfWordList;i++){
+						toReturn+=untaggedWords.get(i)+" ";
+						//Logger.logln(toReturn);
+					}
+					eits.sentenceEditPane.setText(toReturn);
 				}
 			}
 			

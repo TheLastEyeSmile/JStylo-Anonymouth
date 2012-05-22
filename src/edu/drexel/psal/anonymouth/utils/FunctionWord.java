@@ -37,6 +37,8 @@ public class FunctionWord implements Runnable {
 		node = new Trie();
 		node.addWords(functionWordArray);
 		Logger.logln("FINISHED INITIALIZING FUNCTION WORDS",Logger.LogOut.STDERR);
+		System.out.println("TEST CASE: "+this.searchListFor("The"));
+			
 		//System.exit(0);
 	}
 	public boolean searchListFor(String str){
@@ -75,7 +77,7 @@ public class FunctionWord implements Runnable {
 	public static void main(String[] args){//times the execution of the search on the list of function words.
 		
 		FunctionWord fWord=new FunctionWord();
-		
+		fWord.run();
 		String findStr;
 		Random randomGen = new Random(); 
 		int num;
@@ -85,7 +87,7 @@ public class FunctionWord implements Runnable {
 		for(int i=0;i<fWord.functionWordList.size();i++){
 			num=Math.abs(randomGen.nextInt()%fWord.functionWordList.size());
 			findStr=fWord.functionWordList.get(num);			
-			//System.out.println(tt.find(findStr));
+			System.out.println(fWord.searchListFor(findStr));
 			fWord.searchListFor(findStr);
 		}
 		endTime = System.currentTimeMillis();

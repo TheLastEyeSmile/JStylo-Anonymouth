@@ -1,9 +1,6 @@
 package edu.drexel.psal.jstylo.analyzers.writeprints;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.URL;
 import java.util.*;
 
@@ -14,6 +11,8 @@ import com.jgaap.generics.*;
 
 import weka.attributeSelection.InfoGainAttributeEval;
 import weka.core.Attribute;
+import weka.core.FastVector;
+import weka.core.Instance;
 import weka.core.Instances;
 import edu.drexel.psal.jstylo.generics.*;
 import edu.smu.tspell.wordnet.Synset;
@@ -65,13 +64,7 @@ public class WriteprintsAnalyzer extends Analyzer {
 	/**
 	 * Whether to calculate word-based features synonym count for pattern disruption.
 	 */
-	private boolean calcSynCount = false;
-	
-	/**
-	 * The value to reduce the number of all gram-based features to.
-	 */
-	private static int featureReductionThreshold = 50;
-	
+	private boolean calcSynCount = false;	
 
 	/**
 	 * Local logger
@@ -127,8 +120,11 @@ public class WriteprintsAnalyzer extends Analyzer {
 		log.println("> Learning");
 		
 		// reduce feature space by info-gain
-		if (reduceFeatureSpace)
-			reduceFeatures(trainingSet, testSet);
+		if (reduceFeatureSpace) {
+			Pair<Instances,Instances> newSets = reduceFeatures(trainingSet, testSet);
+			trainingSet = newSets.getFirst();
+			testSet = newSets.getSecond();
+		}
 		double[] IG = null;
 		// calculate information-gain over only training authors
 		// (after reduction)
@@ -287,8 +283,18 @@ public class WriteprintsAnalyzer extends Analyzer {
 		double total = 0;
 		double max;
 		String selected;
-		for (int i = 0; i < folds; i ++) {
-			log.println("Running experiment " + (i + 1) + " out of " + folds);
+		for (int i = 0; i + half < folds; i ++) {
+			log.println("Running experiment " + (i + 1) + " out of " + (folds - half));
+			
+			log.println("Training fold indices: " + i + " - " + (i + half - 1));
+			boolean separator = i > 0 && (i + half) < (folds - 1);
+			log.println("Test fold indices:     " +
+					(i > 0 ?
+							(0 == (i - 1) ? 0 : (0 + " - " + (i - 1) + ", "))
+							: "") +
+					(separator ? ", " : "") +
+					((i + half == folds - 1) ? (i + half)
+							: (i + half) + " - " + (folds - 1)));
 			
 			// initialize
 			train = new Instances(data,0);
@@ -330,7 +336,7 @@ public class WriteprintsAnalyzer extends Analyzer {
 			log.printf("- Accuracy for experiment %d: %.2f\n", (i + 1), success);
 			total += success;
 		}
-		total /= folds;
+		total /= (folds - half);
 		log.println("========================");
 		log.printf("Total Accuracy: %.2f\n", total);
 		log.println(">>> runCrossValidation finished");
@@ -408,22 +414,31 @@ public class WriteprintsAnalyzer extends Analyzer {
 	}
 	
 	/**
-	 * @return The value to reduce all varying-size feature classes to,
-	 * if the <code>reduceFeatureSpace</code> is set to <code>true</code>.
+	 * @return
+	 * 		The value to reduce the feature-class with the given name prefix to
+	 * 		if the <code>reduceFeatureSpace</code> is set to <code>true</code>,
+	 * 		and -1 otherwise (or in the case the given feature prefix is not set
+	 * 		to be reduced).
 	 */
-	public static int getFeatureReductionThreshold() {
-		return featureReductionThreshold;
+	public static int getFeatureReductionThreshold(String key) {
+		Integer res = toReduceFeatures.get(key);
+		if (res == null)
+			return -1;
+		return res;
 	}
 	
 	/**
-	 * Sets the value to reduce all varying-size feature classes to, if the
+	 * Sets the value to reduce the given feature-classe name prefix to, if the
 	 * <code>reduceFeatureSpace</code> is set to <code>true</code>, to the
 	 * given one.
+	 * @param featureNamePrefix
+	 * 		The name prefix of the feature-class to reduce.
 	 * @param featureReductionThreshold
 	 * 		The value to set to.
 	 */
-	public static void setFeatureReductionThreshold(int featureReductionThreshold) {
-		WriteprintsAnalyzer.featureReductionThreshold = featureReductionThreshold;
+	public static void setFeatureReductionThreshold(String featureNamePrefix,
+			int featureReductionThreshold) {
+		toReduceFeatures.put(featureNamePrefix, featureReductionThreshold);
 	}
 	
 	
@@ -436,18 +451,19 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 * Used to identify features that should be
 	 * reduced by info-gain
 	 */
-	private static String[] toReduceFeatures = {
-		"letter-bigrams",
-		"letter-trigrams",
-		"digit-bigrams",
-		"digit-trigrams",
-		"function-words",
-		"POS-bigrams",
-		"POS-trigrams",
-		"bag-of-words",
-		"word-bigrams",
-		"word-trigrams",
-		"misspellings"
+	private static Map<String,Integer> toReduceFeatures = new HashMap<String,Integer>();
+	static {
+		toReduceFeatures.put("letter-bigrams",50);
+		toReduceFeatures.put("letter-trigrams",50);
+		toReduceFeatures.put("digit-bigrams",50);
+		toReduceFeatures.put("digit-trigrams",50);
+		toReduceFeatures.put("function-words",300);
+		toReduceFeatures.put("POS-bigrams",50);
+		toReduceFeatures.put("POS-trigrams",50);
+		toReduceFeatures.put("bag-of-words",300);
+		toReduceFeatures.put("word-bigrams",50);
+		toReduceFeatures.put("word-trigrams",50);
+		toReduceFeatures.put("misspellings",50);
 	};
 	
 	/**
@@ -459,7 +475,7 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 * @param train
 	 * @param test
 	 */
-	private static void reduceFeatures(Instances train, Instances test) {
+	private static Pair<Instances,Instances> reduceFeatures(Instances train, Instances test) {
 		log.println("Reducing feature space");
 		log.println("Number of attributes before: " + train.numAttributes());
 		// calculate information-gain over only training authors
@@ -471,15 +487,16 @@ public class WriteprintsAnalyzer extends Analyzer {
 		} catch (Exception e) {
 			System.err.println("Error evaluating information gain.");
 			e.printStackTrace();
-			return;
+			return null;
 		}
 		
 		// find feature indices ranges
 		Map<String,int[]> featureRanges =
-				new HashMap<String,int[]>(toReduceFeatures.length);
+				new HashMap<String,int[]>(toReduceFeatures.size());
 		int[] range;
 		boolean foundFirst, foundSecond;
-		for (String feature: toReduceFeatures) {
+		for (String feature: toReduceFeatures.keySet()) {
+			int featureReductionThreshold = toReduceFeatures.get(feature);
 			foundFirst = false;
 			foundSecond = false;
 			range = new int[2];
@@ -503,9 +520,9 @@ public class WriteprintsAnalyzer extends Analyzer {
 			log.println(feature + ": [" + range[0] + "," + range[1] + "]");
 			if (range[1] - range[0] + 1 > featureReductionThreshold)
 				featureRanges.put(feature, range);
-		}
+		}		
 		
-		// mark indices of features to remove
+		// mark indices of features to save
 		Comparator<double[]> IGcomp = new Comparator<double[]>() {
 			@Override
 			public int compare(double[] arg0, double[] arg1) {
@@ -515,12 +532,13 @@ public class WriteprintsAnalyzer extends Analyzer {
 				return 0;
 			}
 		};
-		List<Integer> indicesToRemove = new ArrayList<Integer>();
+		List<Integer> indicesToSave = new ArrayList<Integer>();
 		double[][] featureIndicesIG;
 		int featureIGLen;
 		int count;
-		log.println("calculating features to be removed");
-		for (String feature: toReduceFeatures) {
+		log.println("calculating features to save");
+		for (String feature: toReduceFeatures.keySet()) {
+			int featureReductionThreshold = toReduceFeatures.get(feature);
 			range = featureRanges.get(feature);
 			if (range == null)
 				continue;
@@ -529,49 +547,95 @@ public class WriteprintsAnalyzer extends Analyzer {
 			featureIndicesIG = new double[featureIGLen][2];
 			log.print("initializing... ");
 			for (int i = 0; i < featureIGLen; i++) {
-				featureIndicesIG[i][0] = i;
+				featureIndicesIG[i][0] = i + range[0];
 				featureIndicesIG[i][1] = IG[i + range[0]];
 			}
 			log.print("sorting... ");
 			Arrays.sort(featureIndicesIG, IGcomp);
-			log.print("adding feature indices to be removed... ");
+			log.print("adding feature indices to be saved... ");
 			count = 0;
-			for (int i = featureReductionThreshold; i < featureIGLen; i++) {
-				indicesToRemove.add((int) featureIndicesIG[i][0]);
+			for (int i = 0; i < featureReductionThreshold; i++) {
+				indicesToSave.add((int) featureIndicesIG[i][0]);
 				count++;
 			}
-			log.println("done! total features to remove: " + count);
+			log.println("done! total features to save: " + count);
 		}
-		log.print("sorting all features to be removed by indices... ");
-		Collections.sort(indicesToRemove);
+		log.print("adding all features that weren't candidates to be removed... ");
+		boolean inList;
+		String attrName;
+		for (int i = 0; i < numFeatures; i++) {
+			inList = false;
+			attrName = train.attribute(i).name();
+			for (String prefix: toReduceFeatures.keySet())
+				if (attrName.startsWith(prefix)) {
+					inList = true;
+					break;
+				}
+			if (!inList)
+				indicesToSave.add(i);
+		}
+		log.println("done!");
+		log.print("sorting all features to be saved by indices... ");
+		Collections.sort(indicesToSave);
+		int newNumFeatures = indicesToSave.size();		
 		log.println("done!");
 		
-		// remove selected features
-		int indexToRemove;
-		log.println("removing selected features");
-		count = 0;
-		for (int i = indicesToRemove.size() - 1; i >= 0; i--) {
-			indexToRemove = indicesToRemove.get(i);
-			train.deleteAttributeAt(indexToRemove);
-			test.deleteAttributeAt(indexToRemove);
-			count++;
-			if (count % 1000 == 0)
-				log.println("removed " +count);
-		}
-		log.println("Number of attributes after: " + train.numAttributes());
-		
-		/*
-		log.print("writing reduced datasets to indices starting at " + writeCount + "... ");
-		WekaInstancesBuilder.writeSetToARFF("./log/dataset_" + writeCount + ".arff", train);
-		writeCount++;
-		WekaInstancesBuilder.writeSetToARFF("./log/dataset_" + writeCount + ".arff", train);
-		writeCount++;
+		// create new attribute list without the removed indices
+		log.print("creating new attribute list... ");
+		FastVector newAttrList = new FastVector(newNumFeatures);
+		Iterator<Integer> indicesToSaveIter = indicesToSave.iterator();
+		for (int i = 0; i < newNumFeatures - 1; i++)
+			newAttrList.addElement(train.attribute(indicesToSaveIter.next().intValue()));
+		// handle class attribute
+		Attribute classAttr = train.classAttribute();
+		FastVector newClassAttr = new FastVector(classAttr.numValues());
+		for (int i = 0; i < classAttr.numValues(); i++)
+			newClassAttr.addElement(classAttr.value(i));
+		newAttrList.addElement(new Attribute(classAttr.name(), newClassAttr));
 		log.println("done!");
-		*/
+		
+		// create new training set
+		log.print("creating new training set... ");
+		int numTrainInst = train.numInstances();
+		Instances newTrain = new Instances(train.relationName(), newAttrList, numTrainInst);
+		newTrain.setClassIndex(newNumFeatures - 1);
+		Instance inst, newInst;
+		for (int i = 0; i < numTrainInst; i++) {
+			inst = train.instance(i);
+			newInst = new Instance(newNumFeatures);
+			// copy all relevant features
+			int j = 0;
+			for (; j < newNumFeatures - 1; j++)
+				newInst.setValue(j, inst.value(indicesToSave.get(j)));
+			// copy class attribute
+			newInst.setValue(newTrain.classAttribute(),
+					newTrain.classAttribute().value((int) inst.classValue()));
+			newTrain.add(newInst);
+		}
+		log.println("done!");
+		
+		// create new test set
+		log.print("creating new test set... ");
+		int numTestInst = test.numInstances();
+		Instances newTest = new Instances(test.relationName(), newAttrList, numTestInst);
+		newTest.setClassIndex(newNumFeatures - 1);
+		for (int i = 0; i < numTestInst; i++) {
+			inst = test.instance(i);
+			newInst = new Instance(newNumFeatures);
+			// copy all relevant features
+			int j = 0;
+			for (; j < newNumFeatures - 1; j++)
+				newInst.setValue(j, inst.value(indicesToSave.get(j)));
+			// copy class attribute
+			newInst.setValue(newTest.classAttribute(),
+					newTest.classAttribute().value((int) inst.classValue()));
+			newTest.add(newInst);
+		}
+		log.println("done!");
+				
+		return new Pair<Instances, Instances>(newTrain, newTest);
 	}
-	
-	//private static int writeCount = 0;
-	
+		
 	private static WordNetDatabase wndb = null;
 	
 	/**
@@ -762,6 +826,7 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 * Main for testing.
 	 * @param args
 	 */
+	/*
 	public static void main(String[] args) throws Exception {
 		// initialize log
 		PrintStream logPS = new PrintStream(new File("./log/" + MultiplePrintStream.getLogFilename()));
@@ -787,6 +852,7 @@ public class WriteprintsAnalyzer extends Analyzer {
 		WekaInstancesBuilder.writeSetToARFF("d:/tmp/drexel_1_all_train.arff", train);
 		System.exit(0);
 		*/
+	/*
 		Instances train = new Instances(new FileReader(
 				new File("d:/dev/writeprints.cs613.project/arff/cv/drexel_1_limited_50_cv.arff")));
 		train.setClassIndex(train.numAttributes() - 1);
@@ -794,4 +860,5 @@ public class WriteprintsAnalyzer extends Analyzer {
 		// cross-validation
 		wa.runCrossValidation(train, 10, 0);
 	}
+	*/
 }

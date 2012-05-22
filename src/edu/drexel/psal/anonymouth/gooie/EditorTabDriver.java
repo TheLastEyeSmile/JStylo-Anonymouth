@@ -219,30 +219,39 @@ public class EditorTabDriver {
 		ArrayList<ArrayList<Integer>> indexArray=new ArrayList<ArrayList<Integer>>();
 		ArrayList<Integer> tempArray;
 		int indexOfTemp;
+		boolean added=false;
 		String setString="",tempString;
-		int arrSize=topToRemove.size();
-		for(int i=0;i<arrSize;i++){
+		int arrSize=topToRemove.size(),fromIndex=0;
+		for(int i=0;i<arrSize;i++){//loops thorugh top to remove list
 			setString+=topToRemove.get(i)+"\n";//sets the string to return
 			Scanner parser=new Scanner(sentence);
+			fromIndex=0;
 			while(parser.hasNext()){//finds if the given word to remove is in the current sentence
+				//loops through current sentence
 				tempString=parser.next();
-				if(topToRemove.get(i).equals(tempString)){
+				if(tempString.matches(".*([.]){1}")){//TODO: check this...
+					tempString=tempString.substring(0,tempString.length()-2);
+					Logger.logln("replaced a period");
+				}
+				if(tempString.equals(topToRemove.get(i))){
 					tempArray=new ArrayList<Integer>(2);
-					indexOfTemp=sentence.indexOf(tempString);
+					indexOfTemp=sentence.indexOf(tempString,fromIndex);
 					tempArray.add(indexOfTemp+startHighlight);//-numberTimesFixTabs
 					tempArray.add(indexOfTemp+tempString.length()+startHighlight);
-					if(indexArray.size()==0)
-						indexArray.add(tempArray);
-					else{
-						for(int j=0;j<indexArray.size();j++){
-							if(indexArray.get(j).get(0)>tempArray.get(0)){
-								indexArray.add(j,tempArray);
-								break;
-							}
+					Logger.logln("Word: "+tempString+" start: "+tempArray.get(0)+" end: "+tempArray.get(1),Logger.LogOut.STDERR);
+					added=false;
+					for(int j=0;j<indexArray.size();j++){
+						if(indexArray.get(j).get(0)>tempArray.get(0)){
+							indexArray.add(j,tempArray);
+							added=true;
+							break;
 						}
-						indexArray.add(tempArray);
 					}
+					if(!added)
+						indexArray.add(tempArray);
 				}
+				fromIndex+=tempString.length();
+				
 			}
 		}
 		
@@ -260,16 +269,17 @@ public class EditorTabDriver {
 		eits.editorBox.repaint();
 		int innerArrSize,outerArrSize=indexArray.size(), currentStart,currentEnd;
 		currentStart=startHighlight;
+		Logger.logln("indexArr "+indexArray.toString(),Logger.LogOut.STDERR);
 		try {
 			for(int i=0;i<outerArrSize;i++){
-				innerArrSize=indexArray.get(i).size();
 				currentEnd=indexArray.get(i).get(0);
-				if(currentStart<currentEnd)
+				Logger.logln("before first addhighlight: currentStart: "+currentStart+" currentEnd: "+currentEnd);
+				//if(currentStart<currentEnd)
 					editTracker.addHighlight(currentStart,currentEnd, painter);
 				currentStart=currentEnd;
 				currentEnd=indexArray.get(i).get(1);
 				//Logger.logln("currentEnd: "+currentEnd+" currentStart: "+currentStart);
-				if(currentStart<currentEnd)
+				//if(currentStart<currentEnd)
 					editTracker.addHighlight(currentStart, currentEnd, painter2);
 				currentStart=currentEnd;
 				//Logger.logln("currentEnd: "+currentEnd+" currentStart: "+currentStart);
@@ -1056,13 +1066,13 @@ public class EditorTabDriver {
 					ArrayList<Word> wordArr=currentSentence.getWordsInSentence();
 					for(Word word:wordArr){//if theres an EOS char then the sentence should be saved
 						System.out.println("Word: "+word.getUntagged());
-						if(word.getUntagged().matches("[\\w&&[^\\d]]*")){
+						//if(word.getUntagged().matches("[\\w&&[^\\d]]*")){
 							//if(!ConsolidationStation.functionWords.searchListFor(word.getUntagged())){//TODO: make sure this works
 							if(!topToRemove.contains(word.getUntagged())){
 								untaggedWords.add(word.getUntagged());//This excludes ALL function words and punctuation
 								//System.out.println(word.getUntagged());
 							}
-						}
+						//}
 					}
 					int sizeOfWordList=untaggedWords.size();
 					String toReturn="";

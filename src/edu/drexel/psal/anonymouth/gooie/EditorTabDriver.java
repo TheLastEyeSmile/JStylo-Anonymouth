@@ -175,7 +175,7 @@ public class EditorTabDriver {
 	 * Highlights the sentence that is currently in the editor box in the main document
 	 * no return
 	 */
-	protected static void trackEditSentence(GUIMain main){//TODO: figure out all the pretty colors
+	protected static void trackEditSentence(GUIMain main){
 		editTracker = new DefaultHighlighter();
 		painter = new DefaultHighlighter.DefaultHighlightPainter(HILIT_COLOR);
 		int startHighlight=0, endHighlight=0;
@@ -222,7 +222,7 @@ public class EditorTabDriver {
 		boolean added=false;
 		String setString="",tempString;
 		int arrSize=topToRemove.size(),fromIndex=0;
-		for(int i=0;i<arrSize;i++){//loops thorugh top to remove list
+		for(int i=0;i<arrSize;i++){//loops through top to remove list
 			setString+=topToRemove.get(i)+"\n";//sets the string to return
 			Scanner parser=new Scanner(sentence);
 			fromIndex=0;
@@ -239,16 +239,16 @@ public class EditorTabDriver {
 					indexOfTemp=sentence.indexOf(tempString,fromIndex);
 					tempArray.add(indexOfTemp+startHighlight);//-numberTimesFixTabs
 					tempArray.add(indexOfTemp+tempString.length()+startHighlight);
-					Logger.logln("fromIndex: "+fromIndex+" startHighlight: "+startHighlight);
-					Logger.logln("Word: "+tempString+" start: "+tempArray.get(0)+" end: "+tempArray.get(1),Logger.LogOut.STDERR);
+					//Logger.logln("fromIndex: "+fromIndex+" startHighlight: "+startHighlight);
+					//Logger.logln("Word: "+tempString+" start: "+tempArray.get(0)+" end: "+tempArray.get(1),Logger.LogOut.STDERR);
 					added=false;
 					for(int j=0;j<indexArray.size();j++){
-						if(indexArray.get(j).get(0)==tempArray.get(0)){
+						if(indexArray.get(j).get(0)>tempArray.get(0)){
+							indexArray.add(j,tempArray);
 							added=true;
 							break;
 						}
-						else if(indexArray.get(j).get(0)>tempArray.get(0)){
-							indexArray.add(j,tempArray);
+						if(indexArray.get(j).get(0)==tempArray.get(0)){
 							added=true;
 							break;
 						}
@@ -280,7 +280,7 @@ public class EditorTabDriver {
 		try {
 			for(int i=0;i<outerArrSize;i++){
 				currentEnd=indexArray.get(i).get(0);
-				Logger.logln("before first addhighlight: currentStart: "+currentStart+" currentEnd: "+currentEnd);
+				//Logger.logln("before first addhighlight: currentStart: "+currentStart+" currentEnd: "+currentEnd);
 				//if(currentStart<currentEnd)
 					editTracker.addHighlight(currentStart,currentEnd, painter);
 				currentStart=currentEnd;

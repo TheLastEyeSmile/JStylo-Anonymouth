@@ -65,6 +65,11 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 * Whether to calculate word-based features synonym count for pattern disruption.
 	 */
 	private boolean calcSynCount = false;	
+	
+	/**
+	 * Whether to count synonyms only in the first synset returned by Wordnet.
+	 */
+	private boolean useFirstSynsetOnly = true;
 
 	/**
 	 * Local logger
@@ -94,12 +99,15 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 * @param calcSynCount
 	 * 		Whether to apply word-based features synonym count calculation to be
 	 * 		used for pattern disruption.
+	 * @param useFirstSynsetOnly
+	 * 		Whether to count synonyms only in the first synset returned by Wordnet.
 	 */
 	public WriteprintsAnalyzer(boolean averageFeatureVectors,
-			boolean reduceFeatureSpace, boolean calcSynCount) {
+			boolean reduceFeatureSpace, boolean calcSynCount, boolean useFirstSynsetOnly) {
 		this.averageFeatureVectors = averageFeatureVectors;
 		this.reduceFeatureSpace = reduceFeatureSpace;
 		this.calcSynCount = calcSynCount;
+		this.useFirstSynsetOnly = useFirstSynsetOnly;
 	}
 	
 	
@@ -202,7 +210,7 @@ public class WriteprintsAnalyzer extends Analyzer {
 		Map<Integer,Integer> wordsSynCount = null;
 		if (calcSynCount) {
 			log.println("Initializing word synonym count");
-			wordsSynCount = calcSynonymCount(trainingSet,numFeatures);
+			wordsSynCount = calcSynonymCount(trainingSet,numFeatures,useFirstSynsetOnly);
 		}
 		
 		
@@ -669,10 +677,14 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 * 		The training set from which to extract the features.
 	 * @param numFeatures
 	 * 		The number of features.
+	 * @param firstSynsetOnly
+	 * 		Whether to count only the number of synonyms in the first synset returned by Wordnet
+	 * 		or count all synonyms in all synsets.
 	 * @return
 	 * 		A mapping from the word feature indices of the given training set to the synonym count.
 	 */
-	private static Map<Integer,Integer> calcSynonymCount(Instances trainingSet, int numFeatures) {
+	private static Map<Integer,Integer> calcSynonymCount(Instances trainingSet,
+			int numFeatures, boolean firstSynsetOnly) {
 		log.println("Calculating synonym count for word-based features:");
 		
 		// initialize
@@ -717,8 +729,11 @@ public class WriteprintsAnalyzer extends Analyzer {
 
 				// count synonyms
 				synonyms = new HashSet<String>();
-				for (Synset synset: synsets)
+				for (Synset synset: synsets) {
 					synonyms.addAll(Arrays.asList(synset.getWordForms()));
+					if (firstSynsetOnly)
+						break;
+				}
 				if (!synonyms.isEmpty())
 					synCount *= synonyms.size();
 			}

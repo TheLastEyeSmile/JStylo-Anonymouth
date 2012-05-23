@@ -229,19 +229,25 @@ public class EditorTabDriver {
 			while(parser.hasNext()){//finds if the given word to remove is in the current sentence
 				//loops through current sentence
 				tempString=parser.next();
-				if(tempString.matches(".*([.]){1}")){//TODO: check this...
-					tempString=tempString.substring(0,tempString.length()-2);
-					Logger.logln("replaced a period");
+				if(tempString.matches(".*([\\.,!?])+")){
+					tempString=tempString.substring(0,tempString.length()-1);
+					//Logger.logln("replaced a period in: "+tempString);
 				}
 				if(tempString.equals(topToRemove.get(i))){
 					tempArray=new ArrayList<Integer>(2);
+					
 					indexOfTemp=sentence.indexOf(tempString,fromIndex);
 					tempArray.add(indexOfTemp+startHighlight);//-numberTimesFixTabs
 					tempArray.add(indexOfTemp+tempString.length()+startHighlight);
+					Logger.logln("fromIndex: "+fromIndex+" startHighlight: "+startHighlight);
 					Logger.logln("Word: "+tempString+" start: "+tempArray.get(0)+" end: "+tempArray.get(1),Logger.LogOut.STDERR);
 					added=false;
 					for(int j=0;j<indexArray.size();j++){
-						if(indexArray.get(j).get(0)>tempArray.get(0)){
+						if(indexArray.get(j).get(0)==tempArray.get(0)){
+							added=true;
+							break;
+						}
+						else if(indexArray.get(j).get(0)>tempArray.get(0)){
 							indexArray.add(j,tempArray);
 							added=true;
 							break;
@@ -249,6 +255,7 @@ public class EditorTabDriver {
 					}
 					if(!added)
 						indexArray.add(tempArray);
+					//fromIndex=tempArray.get(1);
 				}
 				fromIndex+=tempString.length();
 				

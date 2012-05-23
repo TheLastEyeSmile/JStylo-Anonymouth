@@ -229,7 +229,7 @@ public class EditorTabDriver {
 			while(parser.hasNext()){//finds if the given word to remove is in the current sentence
 				//loops through current sentence
 				tempString=parser.next();
-				if(tempString.matches(".*([\\.,!?])+")){
+				if(tempString.matches(".*([\\.,!?])+")){//TODO: refine this.
 					tempString=tempString.substring(0,tempString.length()-1);
 					//Logger.logln("replaced a period in: "+tempString);
 				}
@@ -248,16 +248,12 @@ public class EditorTabDriver {
 							added=true;
 							break;
 						}
-						if(indexArray.get(j).get(0)==tempArray.get(0)){
-							added=true;
-							break;
-						}
 					}
 					if(!added)
 						indexArray.add(tempArray);
 					//fromIndex=tempArray.get(1);
 				}
-				fromIndex+=tempString.length();
+				fromIndex+=tempString.length()+1;
 				
 			}
 		}

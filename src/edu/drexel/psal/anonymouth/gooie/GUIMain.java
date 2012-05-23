@@ -135,6 +135,13 @@ public class GUIMain extends javax.swing.JFrame {
 	protected JScrollPane featuresCanonConfigJScrollPane;
 	protected JList featuresCullJList;
 	protected DefaultComboBoxModel featuresCullJListModel;
+	private JPanel spacer1;
+	private JPanel jPanel5;
+	private JPanel jPanel4;
+	private JPanel jPanel3;
+	protected JTextPane elementsToRemovePane;
+	private JScrollPane elementsToRemoveScrollPane;
+	protected JLabel jLabel1;
 
 	protected JScrollPane featuresCullListJScrollPane;
 	protected JScrollPane featuresCanonListJScrollPane;
@@ -214,7 +221,6 @@ public class GUIMain extends javax.swing.JFrame {
 	protected JPanel elementsToAddBoxLabelJPanel;
 	protected JPanel suggestionBoxLabelJPanel;
 	protected JPanel jPanel1;
-	protected JPanel featureNameJPanel;
 	protected JPanel valueLabelJPanel;
 	protected JPanel valueBoxPanel;
 	protected JPanel updaterJPanel;
@@ -1158,153 +1164,6 @@ public class GUIMain extends javax.swing.JFrame {
 						theEditorScrollPane.setViewportView(editorTab);
 						editorTab.setPreferredSize(new java.awt.Dimension(950, 654));
 						{
-							EditorInfoScrollPane = new JScrollPane();
-							editorTab.add(EditorInfoScrollPane, BorderLayout.EAST);
-							EditorInfoScrollPane.setPreferredSize(new java.awt.Dimension(365, 612));
-							{
-								editorInfoJPanel = new JPanel();
-								BorderLayout editorInfoJPanelLayout = new BorderLayout();
-								editorInfoJPanel.setLayout(editorInfoJPanelLayout);
-								EditorInfoScrollPane.setViewportView(editorInfoJPanel);
-								editorInfoJPanel.setPreferredSize(new java.awt.Dimension(326, 617));
-								{
-									jPanel1 = new JPanel();
-									editorInfoJPanel.add(jPanel1, BorderLayout.NORTH);
-									jPanel1.setPreferredSize(new java.awt.Dimension(326, 327));
-									{
-										suggestionBoxLabelJPanel = new JPanel();
-										jPanel1.add(suggestionBoxLabelJPanel);
-										suggestionBoxLabelJPanel.setPreferredSize(new java.awt.Dimension(314, 22));
-										{
-											suggestionLabel = new JLabel();
-											suggestionBoxLabelJPanel.add(suggestionLabel);
-											suggestionLabel.setText("Suggestion / Instructions:");
-										}
-									}
-									{
-										suggestionPane = new JScrollPane();
-										jPanel1.add(suggestionPane);
-										suggestionPane.setPreferredSize(new java.awt.Dimension(317, 134));
-										{
-											suggestionBox = new JTextPane();
-											suggestionPane.setViewportView(suggestionBox);
-											suggestionBox.setText("Edit the sentence in the top window to the left by trying to rewrite it without the highlighted words. Try to add some of the 'elements to add' from the window below.\n" +
-													"Things highlighted to remove include (delimited by \"|\"): | Noun, plural | | , |\n" +
-													"Your percentage of letters is too low. Consider using less: | \" |");
-											suggestionBox.setPreferredSize(new java.awt.Dimension(318, 130));
-										}
-									}
-									{
-										elementsToAddBoxLabelJPanel = new JPanel();
-										jPanel1.add(elementsToAddBoxLabelJPanel);
-										elementsToAddBoxLabelJPanel.setPreferredSize(new java.awt.Dimension(314, 24));
-										{
-											elementsToAddLabel = new JLabel();
-											elementsToAddBoxLabelJPanel.add(elementsToAddLabel);
-											elementsToAddLabel.setText("Elements to (try to) add:");
-										}
-									}
-									{
-										elementsToAddScrollPane = new JScrollPane();
-										jPanel1.add(elementsToAddScrollPane);
-										elementsToAddScrollPane.setPreferredSize(new java.awt.Dimension(313, 119));
-										elementsToAddScrollPane.setSize(306, 157);
-										{
-											elementsToAddPane = new JTextPane();
-											elementsToAddScrollPane.setViewportView(elementsToAddPane);
-											elementsToAddPane.setText("i, in, and, her");
-											elementsToAddPane.setPreferredSize(new java.awt.Dimension(321, 115));
-										}
-									}
-								}
-								{
-									updaterJPanel = new JPanel();
-									editorInfoJPanel.add(updaterJPanel, BorderLayout.SOUTH);
-									BorderLayout updaterJPanelLayout = new BorderLayout();
-									updaterJPanel.setLayout(updaterJPanelLayout);
-									updaterJPanel.setPreferredSize(new java.awt.Dimension(311, 288));
-									{
-										valueBoxPanel = new JPanel();
-										updaterJPanel.add(valueBoxPanel, BorderLayout.EAST);
-										valueBoxPanel.setPreferredSize(new java.awt.Dimension(131, 76));
-										{
-											presentValueField = new JTextField();
-											valueBoxPanel.add(presentValueField);
-											presentValueField.setText("null");
-											presentValueField.setPreferredSize(new java.awt.Dimension(76, 27));
-										}
-										{
-											targetValueField = new JTextField();
-											valueBoxPanel.add(targetValueField);
-											targetValueField.setText("null");
-											targetValueField.setPreferredSize(new java.awt.Dimension(76, 27));
-										}
-									}
-									{
-										valueLabelJPanel = new JPanel();
-										FlowLayout valueLabelJPanelLayout = new FlowLayout();
-										valueLabelJPanel.setLayout(valueLabelJPanelLayout);
-										updaterJPanel.add(valueLabelJPanel, BorderLayout.WEST);
-										valueLabelJPanel.setPreferredSize(new java.awt.Dimension(180, 76));
-										{
-											presentValueLabel = new JLabel();
-											valueLabelJPanel.add(presentValueLabel);
-											presentValueLabel.setText("Present Value:");
-										}
-										{
-											dummyPanelUpdatorLeftSide = new JPanel();
-											valueLabelJPanel.add(dummyPanelUpdatorLeftSide);
-											dummyPanelUpdatorLeftSide.setPreferredSize(new java.awt.Dimension(154, 8));
-										}
-										{
-											targetValueLabel = new JLabel();
-											valueLabelJPanel.add(targetValueLabel);
-											targetValueLabel.setText("Target Value:");
-										}
-									}
-									{
-										featureNameJPanel = new JPanel();
-										FlowLayout featureNameJPanelLayout = new FlowLayout();
-										featureNameJPanel.setLayout(featureNameJPanelLayout);
-										updaterJPanel.add(featureNameJPanel, BorderLayout.NORTH);
-										featureNameJPanel.setPreferredSize(new java.awt.Dimension(326, 25));
-										{
-											featureNameLabel = new JLabel();
-											FlowLayout featureNameLabelLayout = new FlowLayout();
-											featureNameLabel.setLayout(null);
-											featureNameJPanel.add(featureNameLabel);
-											featureNameLabel.setText("Feature Name:");
-										}
-									}
-									{
-										jPanel2 = new JPanel();
-										updaterJPanel.add(jPanel2, BorderLayout.SOUTH);
-										jPanel2.setPreferredSize(new java.awt.Dimension(326, 187));
-										{
-											suggestionListLabel = new JLabel();
-											jPanel2.add(suggestionListLabel);
-											suggestionListLabel.setText("Clickable Feature List");
-											suggestionListLabel.setPreferredSize(new java.awt.Dimension(146, 16));
-										}
-										{
-											suggestionListPane = new JScrollPane();
-											jPanel2.add(suggestionListPane);
-											suggestionListPane.setPreferredSize(new java.awt.Dimension(315, 155));
-											{
-												TableModel suggestionTableModel = 
-														new DefaultTableModel(
-																new String[][] { { "One", "Two" }, { "Three", "Four" } },
-																new String[] { "Column 1", "Column 2" });
-												suggestionTable = new JTable();
-												suggestionListPane.setViewportView(suggestionTable);
-												suggestionTable.setModel(suggestionTableModel);
-											}
-										}
-									}
-								}
-							}
-						}
-						{
 							editorInteractionScrollPane = new JScrollPane();
 							editorTab.add(editorInteractionScrollPane, BorderLayout.SOUTH);
 							editorInteractionScrollPane.setPreferredSize(new java.awt.Dimension(999, 84));
@@ -1327,7 +1186,7 @@ public class GUIMain extends javax.swing.JFrame {
 									}
 									{
 										editorProgressBar = new JProgressBar();
-										editorInteractionWestPanel.add(editorProgressBar, BorderLayout.SOUTH);
+										editorInteractionWestPanel.add(editorProgressBar, BorderLayout.NORTH);
 										editorProgressBar.setPreferredSize(new java.awt.Dimension(352, 20));
 									}
 								}
@@ -1409,6 +1268,178 @@ public class GUIMain extends javax.swing.JFrame {
 								EditorTabDriver.eits = EditorTabDriver.eitsList.get(0);
 								eits.editorBox.setEnabled(false);
 								editTP.addTab("Original",eits.editBoxPanel);
+							}
+						}
+						{
+							EditorInfoScrollPane = new JScrollPane();
+							editorTab.add(EditorInfoScrollPane, BorderLayout.EAST);
+							EditorInfoScrollPane.setPreferredSize(new java.awt.Dimension(365, 612));
+							{
+								editorInfoJPanel = new JPanel();
+								BorderLayout editorInfoJPanelLayout = new BorderLayout();
+								editorInfoJPanel.setLayout(editorInfoJPanelLayout);
+								EditorInfoScrollPane.setViewportView(editorInfoJPanel);
+								editorInfoJPanel.setPreferredSize(new java.awt.Dimension(326, 617));
+								{
+									updaterJPanel = new JPanel();
+									editorInfoJPanel.add(updaterJPanel, BorderLayout.SOUTH);
+									BorderLayout updaterJPanelLayout = new BorderLayout();
+									updaterJPanel.setLayout(updaterJPanelLayout);
+									updaterJPanel.setPreferredSize(new java.awt.Dimension(346, 126));
+									{
+										//	valueBoxPanel = new JPanel();
+										//updaterJPanel.add(valueBoxPanel, BorderLayout.EAST);
+										//valueBoxPanel.setPreferredSize(new java.awt.Dimension(131, 76));
+										{
+											//presentValueField = new JTextField();
+											//valueBoxPanel.add(presentValueField);
+											//presentValueField.setText("null");
+											//presentValueField.setPreferredSize(new java.awt.Dimension(76, 27));
+										}
+										{
+											//targetValueField = new JTextField();
+											//valueBoxPanel.add(targetValueField);
+											//targetValueField.setText("null");
+											//targetValueField.setPreferredSize(new java.awt.Dimension(76, 27));
+										}
+									}
+									{
+										//valueLabelJPanel = new JPanel();
+										//FlowLayout valueLabelJPanelLayout = new FlowLayout();
+										//valueLabelJPanel.setLayout(valueLabelJPanelLayout);
+										//updaterJPanel.add(valueLabelJPanel, BorderLayout.WEST);
+										//valueLabelJPanel.setPreferredSize(new java.awt.Dimension(180, 76));
+										{
+											//presentValueLabel = new JLabel();
+											//	valueLabelJPanel.add(presentValueLabel);
+											//	presentValueLabel.setText("Present Value:");
+										}
+										{
+											//dummyPanelUpdatorLeftSide = new JPanel();
+											//valueLabelJPanel.add(dummyPanelUpdatorLeftSide);
+											//dummyPanelUpdatorLeftSide.setPreferredSize(new java.awt.Dimension(154, 8));
+										}
+										{
+											//targetValueLabel = new JLabel();
+											//valueLabelJPanel.add(targetValueLabel);
+											//targetValueLabel.setText("Target Value:");
+										}
+									}
+									
+									{
+										jPanel2 = new JPanel();
+										updaterJPanel.add(jPanel2, BorderLayout.SOUTH);
+										jPanel2.setPreferredSize(new java.awt.Dimension(346, 113));
+										{
+											//	suggestionListLabel = new JLabel();
+											//jPanel2.add(suggestionListLabel);
+											//suggestionListLabel.setText("Clickable Feature List");
+											//suggestionListLabel.setPreferredSize(new java.awt.Dimension(146, 16));
+										}
+										{
+											//suggestionListPane = new JScrollPane();
+											//jPanel2.add(suggestionListPane);
+											//	suggestionListPane.setPreferredSize(new java.awt.Dimension(315, 155));
+											/*{
+												TableModel suggestionTableModel = 
+														new DefaultTableModel(
+																new String[][] { { "One", "Two" }, { "Three", "Four" } },
+																new String[] { "Column 1", "Column 2" });
+												suggestionTable = new JTable();
+												suggestionListPane.setViewportView(suggestionTable);
+												suggestionTable.setModel(suggestionTableModel);
+											}*/
+										}
+									}
+								}
+								{
+									jPanel1 = new JPanel();
+									editorInfoJPanel.add(jPanel1, BorderLayout.NORTH);
+									jPanel1.setPreferredSize(new java.awt.Dimension(346, 495));
+									{
+										suggestionBoxLabelJPanel = new JPanel();
+										jPanel1.add(suggestionBoxLabelJPanel);
+										suggestionBoxLabelJPanel.setPreferredSize(new java.awt.Dimension(314, 22));
+										{
+											suggestionLabel = new JLabel();
+											suggestionBoxLabelJPanel.add(suggestionLabel);
+											suggestionLabel.setText("Suggestion / Instructions:");
+										}
+									}
+									{
+										suggestionPane = new JScrollPane();
+										jPanel1.add(suggestionPane);
+										suggestionPane.setPreferredSize(new java.awt.Dimension(317, 134));
+										{
+											suggestionBox = new JTextPane();
+											suggestionPane.setViewportView(suggestionBox);
+											suggestionBox.setText("Edit the sentence in the top window to the left by trying to rewrite it without the highlighted words. Try to add some of the 'elements to add' from the window below.\n" +
+													"Things highlighted to remove include (delimited by \"|\"): | Noun, plural | | , |\n" +
+															"Your percentage of letters is too low. Consider using less: | \" |");
+											suggestionBox.setPreferredSize(new java.awt.Dimension(318, 130));
+										}
+									}
+									{
+										elementsToAddBoxLabelJPanel = new JPanel();
+										jPanel1.add(elementsToAddBoxLabelJPanel);
+										elementsToAddBoxLabelJPanel.setPreferredSize(new java.awt.Dimension(314, 24));
+										{
+											elementsToAddLabel = new JLabel();
+											elementsToAddBoxLabelJPanel.add(elementsToAddLabel);
+											elementsToAddLabel.setText("Elements to (try to) add:");
+										}
+										{
+											jPanel4 = new JPanel();
+											elementsToAddBoxLabelJPanel.add(jPanel4);
+											jPanel4.setPreferredSize(new java.awt.Dimension(8, 28));
+										}
+										{
+											jPanel5 = new JPanel();
+											elementsToAddBoxLabelJPanel.add(jPanel5);
+											jPanel5.setPreferredSize(new java.awt.Dimension(6, 10));
+										}
+										{
+											jLabel1 = new JLabel();
+											elementsToAddBoxLabelJPanel.add(jLabel1);
+											jLabel1.setText("Elements to (try to) remove:");
+													jLabel1.setPreferredSize(new java.awt.Dimension(145, 14));
+										}
+									}
+									{
+										elementsToAddScrollPane = new JScrollPane();
+										jPanel1.add(elementsToAddScrollPane);
+										elementsToAddScrollPane.setPreferredSize(new java.awt.Dimension(123, 255));
+										elementsToAddScrollPane.setSize(306, 157);
+										{
+											elementsToAddPane = new JTextPane();
+											elementsToAddScrollPane.setViewportView(elementsToAddPane);
+											elementsToAddPane.setText("This is where the words that you want to try to add to your document will be displayed.");
+											elementsToAddPane.setPreferredSize(new java.awt.Dimension(121, 169));
+										}
+									}
+									{
+										jPanel3 = new JPanel();
+										jPanel1.add(jPanel3);
+										jPanel3.setPreferredSize(new java.awt.Dimension(16, 140));
+									}
+									{
+										elementsToRemoveScrollPane = new JScrollPane();
+										jPanel1.add(elementsToRemoveScrollPane);
+										elementsToRemoveScrollPane.setPreferredSize(new java.awt.Dimension(128, 256));
+										{
+											elementsToRemovePane = new JTextPane();
+											elementsToRemoveScrollPane.setViewportView(elementsToRemovePane);
+											
+											elementsToRemovePane.setText("This is where the words that you want to try to remove from your document will be displayed.");
+											elementsToRemovePane.setPreferredSize(new java.awt.Dimension(126, 248));
+										}
+									}
+									{
+										spacer1 = new JPanel();
+										jPanel1.add(spacer1);
+										spacer1.setPreferredSize(new java.awt.Dimension(10, 50));
+									}
+								}
 							}
 						}
 					}
@@ -1495,7 +1526,7 @@ public class GUIMain extends javax.swing.JFrame {
 			DocsTabDriver.initListeners(this);
 			FeaturesTabDriver.initListeners(this);
 			ClassTabDriver.initListeners(this);
-			EditorTabDriver.initListeners(this);
+				EditorTabDriver.initListeners(this);
 			EditorTabDriver.initEditorInnerTabListeners(this);
 			ClusterViewerDriver.initListeners(this);
 			

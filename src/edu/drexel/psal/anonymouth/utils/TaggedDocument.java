@@ -19,6 +19,7 @@ import com.jgaap.JGAAPConstants;
 import edu.drexel.psal.anonymouth.gooie.ErrorHandler;
 import edu.drexel.psal.anonymouth.projectDev.DataAnalyzer;
 import edu.drexel.psal.jstylo.generics.Logger;
+import edu.drexel.psal.jstylo.generics.Logger.LogOut;
 import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.TaggedWord;
 import edu.stanford.nlp.process.Tokenizer;
@@ -104,7 +105,7 @@ public class TaggedDocument {
 		taggedSentences = new ArrayList<TaggedSentence>(PROBABLE_NUM_SENTENCES);
 		//currentLiveTaggedSentences = new ArrayList<TaggedSentence>(5); 
 		makeAndTagSentences(untaggedDocument, true);
-		consolidateFeatures(taggedSentences);
+		//consolidateFeatures(taggedSentences);
 		//setHashMaps();
 		//setWordsToAddRemove();
 	}
@@ -119,12 +120,12 @@ public class TaggedDocument {
 		this.documentTitle = docTitle;
 		this.documentAuthor = author;
 		this.ID = documentTitle+"_"+documentAuthor;
-		Logger.logln("TaggedDocument ID: "+ID);
+		//Logger.logln("TaggedDocument ID: "+ID);
 	//	currentLiveTaggedSentences = new ArrayList<TaggedSentence>(5); 
 		jigsaw = new SentenceTools();
 		taggedSentences = new ArrayList<TaggedSentence>(PROBABLE_NUM_SENTENCES);
 		makeAndTagSentences(untaggedDocument, true);
-		consolidateFeatures(taggedSentences);
+		//consolidateFeatures(taggedSentences);
 		//setHashMaps();
 		//setWordsToAddRemove();
 		//Logger.logln("Top 100 wordsToRemove: "+wordsToRemove.toString());
@@ -263,7 +264,7 @@ public class TaggedDocument {
 			toke = tlp.getTokenizerFactory().getTokenizer(new StringReader(tempSent));
 			sentenceTokenized = toke.tokenize();
 			taggedSentence.setTaggedSentence(Tagger.mt.tagSentence(sentenceTokenized));
-			
+			consolidateFeatures(taggedSentence);
 			taggedSentences.add(taggedSentence); 
 			
 		}
@@ -306,7 +307,6 @@ public class TaggedDocument {
 	 * @return
 	 */
 	public String getNextSentence(){
-		//currentLiveTaggedSentences.clear(); // we don't want XXX unlive XXX <-(I think you meant to say 'dead') sentences here.
 		if(sentNumber <totalSentences-1){
 			sentNumber++;
 			//for(int i=0;i<currentLiveTaggedSentences.size();i++)
@@ -410,9 +410,25 @@ public class TaggedDocument {
 	 * @param newSentence The post-editing version of the sentence(s)
 	 */
 	private void updateReferences(TaggedSentence oldSentence, TaggedSentence newSentence){
+		Logger.logln("Old Sentence: "+oldSentence.toString()+"\nNew Sentence: "+newSentence.toString());
 		SparseReferences updatedValues = newSentence.getOldToNewDeltas(oldSentence);
+		Logger.logln(updatedValues.toString());
 		for(Reference ref:updatedValues.references){
-			DataAnalyzer.topAttributes[ref.index].setToModifyValue((DataAnalyzer.topAttributes[ref.index].getToModifyValue() + ref.value));
+			Logger.logln("Attribute: "+DataAnalyzer.topAttributes[ref.index].getFullName()+" pre-update value: "+DataAnalyzer.topAttributes[ref.index].getToModifyValue());
+			if(DataAnalyzer.topAttributes[ref.index].getFullName().contains("Percentage")){
+				//then it is a percentage.
+				Logger.logln("Attribute: "+DataAnalyzer.topAttributes[ref.index].getFullName()+"Is a percentage! ERROR!",Logger.LogOut.STDERR);
+			}
+			else if(DataAnalyzer.topAttributes[ref.index].getFullName().contains("Percentage")){
+				//then it is an average
+				Logger.logln("Attribute: "+DataAnalyzer.topAttributes[ref.index].getFullName()+"Is an average!ERROR!",Logger.LogOut.STDERR);
+			}
+			else{
+				DataAnalyzer.topAttributes[ref.index].setToModifyValue((DataAnalyzer.topAttributes[ref.index].getToModifyValue() + ref.value));
+				//Logger.logln("Updated attribute: "+DataAnalyzer.topAttributes[ref.index].getFullName());
+			}
+				
+			Logger.logln("Attribute: "+DataAnalyzer.topAttributes[ref.index].getFullName()+" post-update value: "+DataAnalyzer.topAttributes[ref.index].getToModifyValue());
 		}
 	}
 	
@@ -433,22 +449,22 @@ public class TaggedDocument {
 */	
 	
 	/**
-	 * 
+	 * accepts a list of TaggedSentences and returns a single TaggedSentence, preserving all original Word objects
 	 * @param taggedList takes a list of tagged sentences.
 	 * @return returns a single tagged sentences with the properties of all the sentences in the list.
 	 */
 	private TaggedSentence concatSentences(ArrayList<TaggedSentence> taggedList){
-		TaggedSentence newSent=new TaggedSentence(taggedList.get(0).getUntagged());//+taggedList.get(1).getUntagged());
-		newSent.setTaggedSentence(taggedList.get(0).tagged);
-		for (int i=1;i<taggedList.size();i++){
-			newSent.untagged=newSent.getUntagged()+taggedList.get(i).getUntagged();
-			for(int j = 0; j<taggedList.get(i).tagged.size();j++){
-				newSent.tagged.add(taggedList.get(i).tagged.get(j));
-			}
+		TaggedSentence toReturn =new TaggedSentence(taggedList.get(0));
+		int taggedListSize = taggedList.size();
+		int i, j;
+		for (i=1;i<taggedListSize;i++){
+				toReturn.wordsInSentence.addAll(taggedList.get(i).wordsInSentence);
+				toReturn.untagged += taggedList.get(i).untagged;
 		}
-		
-		return newSent;
+		return toReturn;
 	}
+	
+	
 	public int getSentNumber(){
 		return sentNumber;
 	}
@@ -675,8 +691,6 @@ public class TaggedDocument {
 		ArrayList<TaggedSentence> taggedSentsToAdd = makeAndTagSentences(sentsToAdd,false);
 		currentLiveTaggedSentences=taggedSentences.get(sentNumber);
 		removeTaggedSentence(sentNumber);
-		
-		updateReferences(currentLiveTaggedSentences,concatSentences(taggedSentsToAdd));
 		addTaggedSentence(taggedSentsToAdd.get(0),sentNumber);
 		
 		//call compare
@@ -687,6 +701,7 @@ public class TaggedDocument {
 			addTaggedSentence(taggedSentsToAdd.get(i),sentNumber);
 			totalSentences++;
 		}
+		updateReferences(currentLiveTaggedSentences,concatSentences(taggedSentsToAdd));
 		return 1;
 		
 	}
@@ -720,6 +735,11 @@ public class TaggedDocument {
 		System.out.println(testDoc.toString());			
 		//System.out.println(testDoc.getFunctionWords());
 		
+	}
+
+	public String getCurrentLiveTaggedSentence() {
+		// TODO Auto-generated method stub
+		return currentLiveTaggedSentences.untagged;
 	}
 	
 }

@@ -14,8 +14,11 @@ import edu.drexel.psal.anonymouth.suggestors.TheOracle;
 import edu.drexel.psal.anonymouth.utils.ConsolidationStation;
 import edu.drexel.psal.anonymouth.utils.DocumentParser;
 import edu.drexel.psal.anonymouth.utils.DocumentTagger;
+import edu.drexel.psal.anonymouth.utils.FunctionWord;
 import edu.drexel.psal.anonymouth.utils.SentenceTools;
 import edu.drexel.psal.anonymouth.utils.TaggedDocument;
+import edu.drexel.psal.anonymouth.utils.TaggedSentence;
+import edu.drexel.psal.anonymouth.utils.Word;
 import edu.drexel.psal.jstylo.generics.FeatureDriver;
 import edu.drexel.psal.jstylo.generics.Logger;
 import edu.drexel.psal.jstylo.generics.WekaInstancesBuilder;
@@ -44,6 +47,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 
 import javax.swing.DefaultComboBoxModel;
@@ -95,9 +99,6 @@ public class EditorTabDriver {
 	
 	protected static SentenceTools sentenceTools;
 	
-	//public static DocumentTagger otherSampleTagger = new DocumentTagger();
-	//public static DocumentTagger authorSampleTagger = new DocumentTagger();
-	//public static DocumentTagger toModifyTagger = new DocumentTagger();
 	private static int highlightSelectionBoxSelectionNumber;
 	public static boolean isUsingNineFeatures = false;
 	protected static boolean hasBeenInitialized = false;
@@ -147,9 +148,17 @@ public class EditorTabDriver {
 	protected static DocumentParser docParser;
 	protected static ConsolidationStation consolidator;
 
+	protected static ArrayList<String> topToRemove;
+	protected static ArrayList<String> topToAdd;
+	
 	protected static Highlighter editTracker;
+	protected static Highlighter removeTracker;
 	protected static Highlighter.HighlightPainter painter;
+	protected static Highlighter.HighlightPainter painter2;
+	protected static Highlighter.HighlightPainter underlinePainter;
 	private static final Color HILIT_COLOR = Color.yellow;
+	
+	private static int numberTimesFixTabs;
 	
 	private final static String helpMessege="Edit the sentence in this box.\n" +
 			"Go to the next/previous sentences by clicking the corresponding buttons.\n" +
@@ -166,7 +175,7 @@ public class EditorTabDriver {
 	 * Highlights the sentence that is currently in the editor box in the main document
 	 * no return
 	 */
-	protected static void trackEditSentence(){
+	protected static void trackEditSentence(GUIMain main){
 		editTracker = new DefaultHighlighter();
 		painter = new DefaultHighlighter.DefaultHighlightPainter(HILIT_COLOR);
 		int startHighlight=0, endHighlight=0;
@@ -176,6 +185,7 @@ public class EditorTabDriver {
 		String newText=ConsolidationStation.toModifyTaggedDocs.get(0).getUntaggedDocument();
 		eits.editorBox.setText(newText);
 		boolean fixTabs=false;
+		numberTimesFixTabs=0;
 		for (int i=0;i<sentNum+1;i++){
 			if(i<sentNum){
 				startHighlight+=sentences.get(i).length();
@@ -186,6 +196,7 @@ public class EditorTabDriver {
 			if (fixTabs){
 				fixTabs=false;
 				startHighlight-=1;
+				numberTimesFixTabs++;
 			}
 			if(sentences.get(i).startsWith("\n")||sentences.get(i).startsWith("\n")||sentences.get(i).startsWith("\r")){
 				fixTabs=true;
@@ -193,18 +204,163 @@ public class EditorTabDriver {
 				//startHighlight++;
 			}
 		}
+		topToRemove=ConsolidationStation.getPriorityWords(ConsolidationStation.toModifyTaggedDocs, true, .2);
+		topToAdd=ConsolidationStation.getPriorityWords(ConsolidationStation.authorSampleTaggedDocs, false, .015);
+		
+		//TaggedDocument taggedDoc=ConsolidationStation.toModifyTaggedDocs.get(0);
+		int lenPrevSentences=0;
+		String sentence=sentences.get(sentNum);
+		
+		//removeTracker = new DefaultHighlighter();
+		painter2 = new DefaultHighlighter.DefaultHighlightPainter(new Color(255,0,0,128));
+
+		startHighlight=startHighlight;
+		
+		ArrayList<ArrayList<Integer>> indexArray=new ArrayList<ArrayList<Integer>>();
+		ArrayList<Integer> tempArray;
+		int indexOfTemp;
+		boolean added=false;
+		String setString="",tempString;
+		int arrSize=topToRemove.size(),fromIndex=0;
+		for(int i=0;i<arrSize;i++){//loops through top to remove list
+			setString+=topToRemove.get(i)+"\n";//sets the string to return
+			Scanner parser=new Scanner(sentence);
+			fromIndex=0;
+			while(parser.hasNext()){//finds if the given word to remove is in the current sentence
+				//loops through current sentence
+				tempString=parser.next();
+				if(tempString.matches(".*([\\.,!?])+")){
+					tempString=tempString.substring(0,tempString.length()-1);
+					//Logger.logln("replaced a period in: "+tempString);
+				}
+				if(tempString.equals(topToRemove.get(i))){
+					tempArray=new ArrayList<Integer>(2);
+					
+					indexOfTemp=sentence.indexOf(tempString,fromIndex);
+					tempArray.add(indexOfTemp+startHighlight);//-numberTimesFixTabs
+					tempArray.add(indexOfTemp+tempString.length()+startHighlight);
+					//Logger.logln("fromIndex: "+fromIndex+" startHighlight: "+startHighlight);
+					//Logger.logln("Word: "+tempString+" start: "+tempArray.get(0)+" end: "+tempArray.get(1),Logger.LogOut.STDERR);
+					added=false;
+					for(int j=0;j<indexArray.size();j++){
+						if(indexArray.get(j).get(0)>tempArray.get(0)){
+							indexArray.add(j,tempArray);
+							added=true;
+							break;
+						}
+						if(indexArray.get(j).get(0)==tempArray.get(0)){
+							added=true;
+							break;
+						}
+					}
+					if(!added)
+						indexArray.add(tempArray);
+					//fromIndex=tempArray.get(1);
+				}
+				fromIndex+=tempString.length();
+				
+			}
+		}
+		
+		main.elementsToRemovePane.setText(setString);
+		main.elementsToRemovePane.setCaretPosition(0);
+		setString="";
+		arrSize=topToAdd.size();
+		for(int i=0;i<arrSize;i++){
+			setString+=topToAdd.get(i)+"\n";
+		}
+		main.elementsToAddPane.setText(setString);
+		main.elementsToAddPane.setCaretPosition(0);
 		
 		editTracker.removeAllHighlights();
 		eits.editorBox.repaint();
-		
+		int innerArrSize,outerArrSize=indexArray.size(), currentStart,currentEnd;
+		currentStart=startHighlight;
+		Logger.logln("indexArr "+indexArray.toString(),Logger.LogOut.STDERR);
 		try {
-			editTracker.addHighlight(startHighlight+1,endHighlight, painter);
+			for(int i=0;i<outerArrSize;i++){
+				currentEnd=indexArray.get(i).get(0);
+				//Logger.logln("before first addhighlight: currentStart: "+currentStart+" currentEnd: "+currentEnd);
+				//if(currentStart<currentEnd)
+					editTracker.addHighlight(currentStart,currentEnd, painter);
+				currentStart=currentEnd;
+				currentEnd=indexArray.get(i).get(1);
+				//Logger.logln("currentEnd: "+currentEnd+" currentStart: "+currentStart);
+				//if(currentStart<currentEnd)
+					editTracker.addHighlight(currentStart, currentEnd, painter2);
+				currentStart=currentEnd;
+				//Logger.logln("currentEnd: "+currentEnd+" currentStart: "+currentStart);
+			}
+			editTracker.addHighlight(currentStart,endHighlight, painter);
 		} catch (BadLocationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			Logger.logln("Error highlighting the block");
 		}
 	}
+	
+	/*private static void updateAddRemoveBoxes(GUIMain main){
+		
+		//Logger.logln("About to call ConsolidationStation.getPriorityWords for toRemove words",LogOut.STDERR);
+		ArrayList<String> topToRemove=ConsolidationStation.getPriorityWords(ConsolidationStation.toModifyTaggedDocs, true, .2);
+		//Logger.logln("JUST CALLED ConsolidationStation.getPriorityWords for toRemove words",LogOut.STDERR);
+		//Logger.logln("About to call ConsolidationStation.getPriorityWords for toAdd words",LogOut.STDERR);
+		int sizeAuthorTagged=ConsolidationStation.authorSampleTaggedDocs.size();
+		/*ArrayList<TaggedDocument> tempArrTagged=new ArrayList<TaggedDocument>(ConsolidationStation.otherSampleTaggedDocs.size()+sizeAuthorTagged);
+		tempArrTagged=ConsolidationStation.otherSampleTaggedDocs;
+		for(int i=0;i<sizeAuthorTagged;i++){
+			tempArrTagged.add(ConsolidationStation.authorSampleTaggedDocs.get(i));
+		}*/
+	
+		/*ArrayList<String> topToAdd=ConsolidationStation.getPriorityWords(ConsolidationStation.authorSampleTaggedDocs, false, .015);
+		//TODO: maybe for priority words, use authorSampleDocs as well???
+		//Logger.logln("JUST CALLED ConsolidationStation.getPriorityWords for toAdd words",LogOut.STDERR);
+		TaggedDocument taggedDoc=ConsolidationStation.toModifyTaggedDocs.get(0);
+		int lenPrevSentences=0,sentNumber=taggedDoc.getSentNumber();
+		String sentence=taggedDoc.getUntaggedSentences().get(sentNumber);
+		
+		for(int i=0;i<sentNumber;i++){
+			lenPrevSentences+=taggedDoc.getUntaggedSentences().get(i).length();
+		}
+		//removeTracker = new DefaultHighlighter();
+		painter2 = new DefaultHighlighter.DefaultHighlightPainter(Color.red);
+		//eits.editorBox.setHighlighter(removeTracker);
+		
+		
+		int indexOfTemp;
+		String setString="",tempString;
+		int arrSize=topToRemove.size();
+		for(int i=0;i<arrSize;i++){
+			setString+=topToRemove.get(i)+"\n";//sets the string to return
+			Scanner parser=new Scanner(sentence);
+			while(parser.hasNext()){//finds if the given word to remove is in the current sentence
+				tempString=parser.next();
+				if(topToRemove.get(i).equals(tempString)){
+					indexOfTemp=sentence.indexOf(tempString);
+					try {
+						editTracker.addHighlight(lenPrevSentences+indexOfTemp-numberTimesFixTabs,lenPrevSentences+indexOfTemp+tempString.length()-numberTimesFixTabs, painter2);
+					} catch (BadLocationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		//main.elementsToRemovePane.get
+		
+		main.elementsToRemovePane.setText(setString);
+		main.elementsToRemovePane.setCaretPosition(0);
+		setString="";
+		arrSize=topToAdd.size();
+		for(int i=0;i<arrSize;i++){
+			setString+=topToAdd.get(i)+"\n";
+		}
+		//System.out.println("NEW toAdd words:\n"+setString);
+		//Scanner in = new Scanner(System.in);
+		//in.nextLine();
+		main.elementsToAddPane.setText(setString);
+		main.elementsToAddPane.setCaretPosition(0);
+	}*/
 	
 	public static String getHelpMessege(){
 		return helpMessege;
@@ -277,7 +433,7 @@ public class EditorTabDriver {
 					eits.resultsTable.setOpaque(false);
 					//main.editTP.setEnabled(false);
 					highlightedObjects.clear();
-					main.suggestionTable.clearSelection();
+					//main.suggestionTable.clearSelection();
 					okayToSelectSuggestion = false;
 					wizard.setNumFeaturesToReturn(wekaIsRunningAnswer);
 					cpb.setText("Initializing... Done");
@@ -304,7 +460,8 @@ public class EditorTabDriver {
 					else{
 						eits.sentenceEditPane.setEditable(true);
 						eits.sentenceEditPane.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getNextSentence());
-						trackEditSentence();
+						trackEditSentence(main);
+						
 					}
 				}
 				else{
@@ -314,9 +471,10 @@ public class EditorTabDriver {
 						String tempSent=ConsolidationStation.toModifyTaggedDocs.get(0).getNextSentence();
 						if(tempSent!=null)
 							eits.getSentenceEditPane().setText(tempSent);
-						trackEditSentence();
+						trackEditSentence(main);
 					}
 				}
+				//updateAddRemoveBoxes(main);
 			}
 			
 		});
@@ -333,7 +491,7 @@ public class EditorTabDriver {
 					else{
 						eits.sentenceEditPane.setEditable(true);
 						eits.sentenceEditPane.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getNextSentence());
-						trackEditSentence();
+						trackEditSentence(main);
 					}
 				}
 				else{
@@ -343,9 +501,10 @@ public class EditorTabDriver {
 						String tempSent=ConsolidationStation.toModifyTaggedDocs.get(0).getLastSentence();
 						if(tempSent!=null)
 							eits.getSentenceEditPane().setText(tempSent);
-						trackEditSentence();
+						trackEditSentence(main);
 					}
 				}
+			//	updateAddRemoveBoxes(main);
 				
 			}
 			
@@ -362,7 +521,7 @@ public class EditorTabDriver {
 					else{
 						eits.sentenceEditPane.setEditable(true);
 						eits.sentenceEditPane.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getNextSentence());
-						trackEditSentence();
+						trackEditSentence(main);
 					}
 				}
 				else{
@@ -370,9 +529,10 @@ public class EditorTabDriver {
 					String tempSent=ConsolidationStation.toModifyTaggedDocs.get(0).addNextSentence(eits.getSentenceEditPane().getText());
 					//ConsolidationStation.toModifyTaggedDocs.get(0).removeAndReplace(eits.getSentenceEditPane().getText());
 					eits.getSentenceEditPane().setText(tempSent);
-					trackEditSentence();
+					trackEditSentence(main);
 					
 				}
+				//updateAddRemoveBoxes(main);
 			}
 			
 		});
@@ -387,6 +547,7 @@ public class EditorTabDriver {
 			}
 			
 		});	
+		
 		/*
 		main.clearHighlightingButton.addActionListener(new ActionListener(){
 
@@ -518,7 +679,7 @@ public class EditorTabDriver {
 		});
 	*/
 		
-		main.suggestionTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+		/*main.suggestionTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 			
 			@Override
 			public void valueChanged(ListSelectionEvent selection) {
@@ -548,7 +709,7 @@ public class EditorTabDriver {
 				}
 			}
 			
-		});
+		});*/
 		/*
 		main.verboseButton.addActionListener(new ActionListener(){
 
@@ -680,7 +841,7 @@ public class EditorTabDriver {
 		if(isUsingNineFeatures == true)
 			return 9;
 		else{
-			Logger.logln("Asking user for desired number of features to return suggestions for.");
+			/*Logger.logln("Asking user for desired number of features to return suggestions for.");
 			JOptionPane theMessage = new JOptionPane();
 			JTextField jtf = new JTextField();
 			if(numSuggestions != -1)
@@ -733,9 +894,9 @@ public class EditorTabDriver {
 								JOptionPane.ERROR_MESSAGE,
 								GUIMain.iconNO);
 				return -1;
-			}
-			numSuggestions = inputNum;
-			return inputNum;
+			}/**/
+			numSuggestions = 200;
+			return numSuggestions;
 		}
 	}	
 		
@@ -779,8 +940,11 @@ public class EditorTabDriver {
 				main.processButton.setEnabled(true);
 				eits.editorBox.setEnabled(false);
 				ConsolidationStation.toModifyTaggedDocs.get(0).setSentenceCounter(-1);
+				eits.sentenceEditPane.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getNextSentence());
 				eits.sentenceEditPane.setEnabled(true);
-				eits.sentenceEditPane.setText(helpMessege);
+				//eits.sentenceEditPane.setText(helpMessege);
+				eits.sentenceEditPane.setEditable(true);
+				trackEditSentence(main);
 				Logger.logln(ConsolidationStation.toModifyTaggedDocs.get(0).getUntaggedDocument());
 				eits.editorBox.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getUntaggedDocument());
 				nextTabIndex++;
@@ -813,6 +977,10 @@ public class EditorTabDriver {
 		main.processButton.setEnabled(true);
 		main.processButton.setSelected(true);
 		main.suggestionBox.setText("");
+		
+		main.elementsToAddPane.setText("");
+		main.elementsToRemovePane.setText("");//not sure if needed to reset..
+		
 		EditorTabDriver.hasBeenInitialized = false;
 		EditorTabDriver.hasCurrentAttrib = false;
 		EditorTabDriver.isWorkingOnUpdating = false;
@@ -834,6 +1002,97 @@ public class EditorTabDriver {
 	}
 	
 	public static void initEditorInnerTabListeners(final GUIMain main){
+		
+		
+		eits.shuffleButton.setEnabled(true);
+		eits.restoreSentenceButton.setEnabled(true);
+		
+		eits.shuffleButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Logger.logln("Shuffle button pressed by User.");
+				//shuffle current sentence
+				if(!eits.sentenceEditPane.getText().startsWith(helpMessege)&&!eits.sentenceEditPane.getText().equals("Please press the Process button now.")){
+					if(eits.sentenceEditPane.getText().matches(".*([?!]+)|.*([.]){1}\\s*")){//EOS "([?!]+)|([.]){1}\\s*"
+						ConsolidationStation.toModifyTaggedDocs.get(0).removeAndReplace(eits.sentenceEditPane.getText());
+					}
+					TaggedSentence currentSentence=ConsolidationStation.toModifyTaggedDocs.get(0).getTaggedSentences().get(ConsolidationStation.toModifyTaggedDocs.get(0).getSentNumber());
+					ArrayList<String> untaggedWords=new ArrayList<String>(currentSentence.size());
+					ArrayList<Word> wordArr=currentSentence.getWordsInSentence();
+					for(Word word:wordArr){//if theres an EOS char then the sentence should be saved
+						System.out.println("Word: "+word.getUntagged());
+						if(word.getUntagged().matches("[\\w&&[^\\d]]*")){
+							//if(!ConsolidationStation.functionWords.searchListFor(word.getUntagged())){//TODO: make sure this works
+							//if(!topToRemove.contains(word.getUntagged())){
+								untaggedWords.add(word.getUntagged());//This excludes ALL function words and punctuation
+								//System.out.println(word.getUntagged());
+							//}
+							//else if((word.getUntagged())){
+								
+							//}
+						}
+					}
+					//does the shuffling
+					int sizeOfWordList=untaggedWords.size(),randNum;
+					String toReturn="",temp;
+					for(int i=0;i<sizeOfWordList;i++){
+						randNum=(int) ((Math.random())*(untaggedWords.size()-1)+.5);
+						temp=untaggedWords.remove(randNum);
+						toReturn+=temp+" ";
+						//Logger.logln(toReturn);
+					}
+					eits.sentenceEditPane.setText(toReturn);
+				}
+			}
+			
+		});	
+		eits.restoreSentenceButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Logger.logln("Previous sentence restored.");
+				if(!eits.sentenceEditPane.getText().startsWith(helpMessege)&&!eits.sentenceEditPane.getText().equals("Please press the Process button now.")){
+					eits.sentenceEditPane.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getUntaggedSentences().get(ConsolidationStation.toModifyTaggedDocs.get(0).getSentNumber()));
+					//eits.sentenceEditPane.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getCurrentLiveTaggedSentence());
+				}
+			}
+			
+		});	
+		eits.removeWordsButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Logger.logln("Previous sentence restored.");
+				if(!eits.sentenceEditPane.getText().startsWith(helpMessege)&&!eits.sentenceEditPane.getText().equals("Please press the Process button now.")){
+					if(eits.sentenceEditPane.getText().matches(".*([?!]+)|.*([.]){1}\\s*")){//EOS "([?!]+)|([.]){1}\\s*"
+						ConsolidationStation.toModifyTaggedDocs.get(0).removeAndReplace(eits.sentenceEditPane.getText());
+					}
+					TaggedSentence currentSentence=ConsolidationStation.toModifyTaggedDocs.get(0).getTaggedSentences().get(ConsolidationStation.toModifyTaggedDocs.get(0).getSentNumber());
+					ArrayList<String> untaggedWords=new ArrayList<String>(currentSentence.size());
+					ArrayList<Word> wordArr=currentSentence.getWordsInSentence();
+					for(Word word:wordArr){//if theres an EOS char then the sentence should be saved
+						System.out.println("Word: "+word.getUntagged());
+						//if(word.getUntagged().matches("[\\w&&[^\\d]]*")){
+							//if(!ConsolidationStation.functionWords.searchListFor(word.getUntagged())){//TODO: make sure this works
+							if(!topToRemove.contains(word.getUntagged())){
+								untaggedWords.add(word.getUntagged());//This excludes ALL function words and punctuation
+								//System.out.println(word.getUntagged());
+							}
+						//}
+					}
+					int sizeOfWordList=untaggedWords.size();
+					String toReturn="";
+					for(int i=0;i<sizeOfWordList;i++){
+						toReturn+=untaggedWords.get(i)+" ";
+						//Logger.logln(toReturn);
+					}
+					eits.sentenceEditPane.setText(toReturn);
+				}
+			}
+			
+		});	
+		
 		eits.editorBox.addMouseListener(new MouseListener(){
 
 			@Override

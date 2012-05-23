@@ -65,8 +65,6 @@ public class Attribute {
 	
 	private double targetClusterMax;
 	
-	private double percentChangeNeeded;
-	
 	/**
 	 * Constructor for Attribute class.
 	 * @param indexNumber the attributes index number (this may not be used anymore, though it is still being set)
@@ -168,18 +166,11 @@ public class Attribute {
 	}
 	
 	/**
-	 * Sets this attributes (features) target value, and sets the percentChangeNeeded for each feature (with sign)
+	 * Sets this attributes (features) target value
 	 * @param targetValue
 	 */
 	public void setTargetValue(double targetValue){
 		this.targetValue = targetValue;
-		double temp;
-		if(toModifyValue != 0){
-			temp = (toModifyValue - this.targetValue)/toModifyValue;// signedness matters, don't take abs. value
-		}
-		else
-			temp = Math.ceil(this.targetValue); // if value doesnt exist in document, set percent change needed to the ceil value of the  target value (e.g. add 5 occurrences of 'if': 500%)
-		percentChangeNeeded = temp*100;
 	}
 	
 	/**
@@ -401,9 +392,23 @@ public class Attribute {
 			return -1;
 	}
 	
+	/**
+	 * returns the percent change needed for the feature contained by this Attribute. Signed, so a negative number indicates the feature needs to be removed, 
+	 * and vice versa. Percent change needed is calculated at the time of function call, so the returned value will always be the most recent.
+	 * @return
+	 */
 	public double getPercentChangeNeeded(){
-		return percentChangeNeeded;
+		double temp = 0;
+		if(toModifyValue != 0){
+			temp = (toModifyValue - targetValue)/toModifyValue;// signedness matters, don't take abs. value
+		}
+		else
+			temp = Math.ceil(this.targetValue); // if value doesnt exist in document, set percent change needed to the ceil value of the  target value (e.g. add 5 occurrences of 'if': 500%)
+			// XXX NOTE: I am rounding this up because if the feature doesn't exist, and it should be present, it seems that it would be
+			// fairly important to add. However, taking the actual percent change that it would need is impossible (div. by zero)...
+		return temp*100; 
 	}
+
 	
 	
 	public void setAuthorConfidence(double authorConfidence){
@@ -436,6 +441,8 @@ public class Attribute {
 			return 0;
 		
 	}
+
+
 	
 
 }

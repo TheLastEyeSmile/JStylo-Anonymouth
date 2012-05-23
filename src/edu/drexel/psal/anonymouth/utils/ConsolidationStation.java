@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Scanner;
+import java.util.Set;
 import java.util.concurrent.locks.Lock;
 
 import edu.drexel.psal.anonymouth.projectDev.Attribute;
@@ -21,7 +23,6 @@ import edu.stanford.nlp.ling.TaggedWord;
  */
 public class ConsolidationStation {
 	
-	public static Attribute[] attribs;
 	static HashMap<String,ArrayList<TreeData>> parsed;
 	static ArrayList<Triple> toAdd=new ArrayList<Triple>(400);
 	static ArrayList<Triple> toRemove=new ArrayList<Triple>(400);
@@ -29,6 +30,7 @@ public class ConsolidationStation {
 	public static ArrayList<TaggedDocument> authorSampleTaggedDocs;
 	public static ArrayList<TaggedDocument> toModifyTaggedDocs;//init in editor Tab Driver
 	private static boolean allDocsTagged = false;
+	public static FunctionWord functionWords=new FunctionWord();
 	
 	private HashMap<String,Word>wordsToAdd;
 	private HashMap<String,Word>newWordsToAdd;
@@ -41,7 +43,6 @@ public class ConsolidationStation {
 	 * @param parsed
 	 */
 	public ConsolidationStation(Attribute[] attribs){
-		this.attribs = attribs;
 		this.parsed = parsed;
 		toAdd = new ArrayList<Triple>(400);
 		toRemove = new ArrayList<Triple>(400);
@@ -49,6 +50,7 @@ public class ConsolidationStation {
 		newWordsToAdd=new HashMap<String,Word>();
 		wordsInDocToMod=new HashMap<String,Word>();
 		wordsToRemove=new HashMap<String,Word>();
+		
 	}
 	
 	
@@ -73,22 +75,27 @@ public class ConsolidationStation {
 		for(Word word:taggedSent.wordsInSentence){
 			String wordString=word.word;
 			int strSize=wordString.length(), tempNumber;
-			int attribLen=attribs.length;
+			int attribLen=DataAnalyzer.lengthTopAttributes;
 			//for (Attribute attrib:attribs){
 			for(int i=0;i<attribLen;i++){
-				String stringInBrace=attribs[i].getStringInBraces();
+				String stringInBrace=DataAnalyzer.topAttributes[i].getStringInBraces();
 				int toAddLength=stringInBrace.length();
-				if(toAddLength<=strSize){//checks for a possible match
+				if(toAddLength==0){
+					//Logger.logln("THIS IS BAD",Logger.LogOut.STDERR);
+				}
+				else if(toAddLength<=strSize){//checks for a possible match
 					tempNumber=0;
-					for(int j=0;j<strSize;j++){
-						if(wordString.subSequence(j, j+toAddLength).equals(stringInBrace)){
+					for(int j=0;j<strSize-toAddLength;j++){
+						if(wordString.substring(j, j+toAddLength).equals(stringInBrace)){
 							tempNumber++;
 						}
 					}
 					if(tempNumber>0){
 						//add the feature to the word and have it appearing tempNumber times.
+						//Logger.logln("AddNewReference from ConsolStation.featurePacker");
+						//Logger.logln("Value i: "+i+" Value indexOf Attrib: "+DataAnalyzer.topAttributes[i].getIndexNumber()+" Attribute: "+DataAnalyzer.topAttributes[i].getFullName()+" the word: "+wordString);
 						word.featuresFound.addNewReference(i, tempNumber);
-						Logger.logln("Added a feature: "+word.featuresFound.toString());
+						//Logger.logln("Added a feature: "+word.featuresFound.toString());
 					}
 				}
 			}
@@ -110,34 +117,73 @@ public class ConsolidationStation {
 	 */
 	public static ArrayList<String> getPriorityWords(ArrayList<TaggedDocument> docsToConsider, boolean findTopToRemove, double percentToReturn){
 		int totalWords = 0;
+		ArrayList<Word> words = new ArrayList<Word>(totalWords);
 		for(TaggedDocument td:docsToConsider){
 			totalWords += td.getWordCount();
+			words.addAll(td.getWords());
 		}
 		int numToReturn = (int)(totalWords*percentToReturn);
 		ArrayList<String> toReturn = new ArrayList<String>(numToReturn);
-		ArrayList<Word> words = new ArrayList<Word>(totalWords);
-		for(TaggedDocument td: docsToConsider){
-			words.addAll(td.getWords());
-		}
-		int countedNumWords = words.size();
-		if(countedNumWords != totalWords)
-			Logger.logln("ERROR! getPriorityWords calculated a different number of words than it counted: calculated = "+totalWords+" counted = "+countedNumWords,LogOut.STDERR);
+		words = removeDuplicateWords(words);
+		
 		Collections.sort(words);// sort the words in INCREASING anonymityIndex
-		if(findTopToRemove){ // then start from index 0, and go up to index (numToReturn-1) words (inclusive)
+		
+		int mergedNumWords = words.size();
+		if (mergedNumWords <= numToReturn){
+			Logger.logln("The number of priority words to return is greater than the number of words available. Only returning what is available");
+			numToReturn = mergedNumWords;
+		}
+		Word tempWord;
+		if(findTopToRemove){ // then start from index 0, and go up to index (numToReturn-1) words (inclusive)]
 			for(int i = 0; i<numToReturn; i++){
-				toReturn.add(words.get(i).word);
+				if((tempWord=words.get(i)).getAnonymityIndex()<0)
+					toReturn.add(tempWord.word);//+" ("+tempWord.getAnonymityIndex()+")");
+				else 
+					break;
 			}
 		}
 		else{ // start at the END of the list, and go down to (END-numToReturn) (inclusive)
-			int startIndex = countedNumWords - 1;
+			int startIndex = mergedNumWords - 1;
 			int stopIndex = startIndex - numToReturn;
 			for(int i = startIndex; i> stopIndex; i--){
-				toReturn.add(words.get(i).word);
-			}
-			
+				if((tempWord=words.get(i)).getAnonymityIndex()>0)
+					toReturn.add(tempWord.word);//+" ("+tempWord.getAnonymityIndex()+")");
+				else 
+					break;
+			}	
 		}
-		
 		return toReturn;
+	}
+	
+	
+	public static ArrayList<Word> removeDuplicateWords(ArrayList<Word> unMerged){
+		HashMap<String,Word> mergingMap = new HashMap<String,Word>((unMerged.size()));//Guessing there will be at least an average of 3 duplicate words per word -> 1/3 of the size is needed
+		for(Word w: unMerged){
+			if(mergingMap.containsKey(w.word) == true){
+				//Word temp = mergingMap.get(w.word);
+				//temp.mergeWords(w);
+				//mergingMap.put(w.word,temp);
+				if(w.equals(mergingMap.get(w.word))){
+					//check is sparse ref the same
+					if(!w.featuresFound.equals(mergingMap.get(w.word).featuresFound)){
+						Logger.logln("The featuresFound in the words are not equal.",Logger.LogOut.STDERR);
+					}
+				}
+				else{
+					Logger.logln("Problem in mergeWords--Words objects not equal",Logger.LogOut.STDERR);
+				}
+				
+			}
+			else{
+				mergingMap.put(w.word,new Word(w));
+			}
+		}
+		Set<String> mergedWordKeys = mergingMap.keySet();
+		ArrayList<Word> mergedWords = new ArrayList<Word>(mergedWordKeys.size());
+		for(String s: mergedWordKeys){
+			mergedWords.add(mergingMap.get(s));
+		}
+		return mergedWords;
 	}
 	
 	

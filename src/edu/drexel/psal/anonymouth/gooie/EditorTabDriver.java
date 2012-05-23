@@ -99,9 +99,6 @@ public class EditorTabDriver {
 	
 	protected static SentenceTools sentenceTools;
 	
-	//public static DocumentTagger otherSampleTagger = new DocumentTagger();
-	//public static DocumentTagger authorSampleTagger = new DocumentTagger();
-	//public static DocumentTagger toModifyTagger = new DocumentTagger();
 	private static int highlightSelectionBoxSelectionNumber;
 	public static boolean isUsingNineFeatures = false;
 	protected static boolean hasBeenInitialized = false;
@@ -151,6 +148,9 @@ public class EditorTabDriver {
 	protected static DocumentParser docParser;
 	protected static ConsolidationStation consolidator;
 
+	protected static ArrayList<String> topToRemove;
+	protected static ArrayList<String> topToAdd;
+	
 	protected static Highlighter editTracker;
 	protected static Highlighter removeTracker;
 	protected static Highlighter.HighlightPainter painter;
@@ -175,7 +175,7 @@ public class EditorTabDriver {
 	 * Highlights the sentence that is currently in the editor box in the main document
 	 * no return
 	 */
-	protected static void trackEditSentence(GUIMain main){//TODO: figure out all the pretty colors
+	protected static void trackEditSentence(GUIMain main){
 		editTracker = new DefaultHighlighter();
 		painter = new DefaultHighlighter.DefaultHighlightPainter(HILIT_COLOR);
 		int startHighlight=0, endHighlight=0;
@@ -204,8 +204,8 @@ public class EditorTabDriver {
 				//startHighlight++;
 			}
 		}
-		ArrayList<String> topToRemove=ConsolidationStation.getPriorityWords(ConsolidationStation.toModifyTaggedDocs, true, .2);
-		ArrayList<String> topToAdd=ConsolidationStation.getPriorityWords(ConsolidationStation.authorSampleTaggedDocs, false, .015);
+		topToRemove=ConsolidationStation.getPriorityWords(ConsolidationStation.toModifyTaggedDocs, true, .2);
+		topToAdd=ConsolidationStation.getPriorityWords(ConsolidationStation.authorSampleTaggedDocs, false, .015);
 		
 		//TaggedDocument taggedDoc=ConsolidationStation.toModifyTaggedDocs.get(0);
 		int lenPrevSentences=0;
@@ -219,30 +219,46 @@ public class EditorTabDriver {
 		ArrayList<ArrayList<Integer>> indexArray=new ArrayList<ArrayList<Integer>>();
 		ArrayList<Integer> tempArray;
 		int indexOfTemp;
+		boolean added=false;
 		String setString="",tempString;
-		int arrSize=topToRemove.size();
-		for(int i=0;i<arrSize;i++){
+		int arrSize=topToRemove.size(),fromIndex=0;
+		for(int i=0;i<arrSize;i++){//loops through top to remove list
 			setString+=topToRemove.get(i)+"\n";//sets the string to return
 			Scanner parser=new Scanner(sentence);
+			fromIndex=0;
 			while(parser.hasNext()){//finds if the given word to remove is in the current sentence
+				//loops through current sentence
 				tempString=parser.next();
-				if(topToRemove.get(i).equals(tempString)){
+				if(tempString.matches(".*([\\.,!?])+")){
+					tempString=tempString.substring(0,tempString.length()-1);
+					//Logger.logln("replaced a period in: "+tempString);
+				}
+				if(tempString.equals(topToRemove.get(i))){
 					tempArray=new ArrayList<Integer>(2);
-					indexOfTemp=sentence.indexOf(tempString);
+					
+					indexOfTemp=sentence.indexOf(tempString,fromIndex);
 					tempArray.add(indexOfTemp+startHighlight);//-numberTimesFixTabs
 					tempArray.add(indexOfTemp+tempString.length()+startHighlight);
-					if(indexArray.size()==0)
-						indexArray.add(tempArray);
-					else{
-						for(int j=0;j<indexArray.size();j++){
-							if(indexArray.get(j).get(0)>tempArray.get(0)){
-								indexArray.add(j,tempArray);
-								break;
-							}
+					//Logger.logln("fromIndex: "+fromIndex+" startHighlight: "+startHighlight);
+					//Logger.logln("Word: "+tempString+" start: "+tempArray.get(0)+" end: "+tempArray.get(1),Logger.LogOut.STDERR);
+					added=false;
+					for(int j=0;j<indexArray.size();j++){
+						if(indexArray.get(j).get(0)>tempArray.get(0)){
+							indexArray.add(j,tempArray);
+							added=true;
+							break;
 						}
-						indexArray.add(tempArray);
+						if(indexArray.get(j).get(0)==tempArray.get(0)){
+							added=true;
+							break;
+						}
 					}
+					if(!added)
+						indexArray.add(tempArray);
+					//fromIndex=tempArray.get(1);
 				}
+				fromIndex+=tempString.length();
+				
 			}
 		}
 		
@@ -260,16 +276,17 @@ public class EditorTabDriver {
 		eits.editorBox.repaint();
 		int innerArrSize,outerArrSize=indexArray.size(), currentStart,currentEnd;
 		currentStart=startHighlight;
+		Logger.logln("indexArr "+indexArray.toString(),Logger.LogOut.STDERR);
 		try {
 			for(int i=0;i<outerArrSize;i++){
-				innerArrSize=indexArray.get(i).size();
 				currentEnd=indexArray.get(i).get(0);
-				if(currentStart<currentEnd)
+				//Logger.logln("before first addhighlight: currentStart: "+currentStart+" currentEnd: "+currentEnd);
+				//if(currentStart<currentEnd)
 					editTracker.addHighlight(currentStart,currentEnd, painter);
 				currentStart=currentEnd;
 				currentEnd=indexArray.get(i).get(1);
 				//Logger.logln("currentEnd: "+currentEnd+" currentStart: "+currentStart);
-				if(currentStart<currentEnd)
+				//if(currentStart<currentEnd)
 					editTracker.addHighlight(currentStart, currentEnd, painter2);
 				currentStart=currentEnd;
 				//Logger.logln("currentEnd: "+currentEnd+" currentStart: "+currentStart);
@@ -997,13 +1014,23 @@ public class EditorTabDriver {
 				Logger.logln("Shuffle button pressed by User.");
 				//shuffle current sentence
 				if(!eits.sentenceEditPane.getText().startsWith(helpMessege)&&!eits.sentenceEditPane.getText().equals("Please press the Process button now.")){
+					if(eits.sentenceEditPane.getText().matches(".*([?!]+)|.*([.]){1}\\s*")){//EOS "([?!]+)|([.]){1}\\s*"
+						ConsolidationStation.toModifyTaggedDocs.get(0).removeAndReplace(eits.sentenceEditPane.getText());
+					}
 					TaggedSentence currentSentence=ConsolidationStation.toModifyTaggedDocs.get(0).getTaggedSentences().get(ConsolidationStation.toModifyTaggedDocs.get(0).getSentNumber());
 					ArrayList<String> untaggedWords=new ArrayList<String>(currentSentence.size());
 					ArrayList<Word> wordArr=currentSentence.getWordsInSentence();
-					for(Word word:wordArr){
+					for(Word word:wordArr){//if theres an EOS char then the sentence should be saved
 						System.out.println("Word: "+word.getUntagged());
-						if(!ConsolidationStation.functionWords.searchListFor(word.getUntagged())){//TODO: make sure this works
-							untaggedWords.add(word.getUntagged());//This excludes ALL function words
+						if(word.getUntagged().matches("[\\w&&[^\\d]]*")){
+							//if(!ConsolidationStation.functionWords.searchListFor(word.getUntagged())){//TODO: make sure this works
+							//if(!topToRemove.contains(word.getUntagged())){
+								untaggedWords.add(word.getUntagged());//This excludes ALL function words and punctuation
+								//System.out.println(word.getUntagged());
+							//}
+							//else if((word.getUntagged())){
+								
+							//}
 						}
 					}
 					//does the shuffling
@@ -1027,7 +1054,40 @@ public class EditorTabDriver {
 				Logger.logln("Previous sentence restored.");
 				if(!eits.sentenceEditPane.getText().startsWith(helpMessege)&&!eits.sentenceEditPane.getText().equals("Please press the Process button now.")){
 					eits.sentenceEditPane.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getUntaggedSentences().get(ConsolidationStation.toModifyTaggedDocs.get(0).getSentNumber()));
+					//eits.sentenceEditPane.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getCurrentLiveTaggedSentence());
+				}
+			}
 			
+		});	
+		eits.removeWordsButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Logger.logln("Previous sentence restored.");
+				if(!eits.sentenceEditPane.getText().startsWith(helpMessege)&&!eits.sentenceEditPane.getText().equals("Please press the Process button now.")){
+					if(eits.sentenceEditPane.getText().matches(".*([?!]+)|.*([.]){1}\\s*")){//EOS "([?!]+)|([.]){1}\\s*"
+						ConsolidationStation.toModifyTaggedDocs.get(0).removeAndReplace(eits.sentenceEditPane.getText());
+					}
+					TaggedSentence currentSentence=ConsolidationStation.toModifyTaggedDocs.get(0).getTaggedSentences().get(ConsolidationStation.toModifyTaggedDocs.get(0).getSentNumber());
+					ArrayList<String> untaggedWords=new ArrayList<String>(currentSentence.size());
+					ArrayList<Word> wordArr=currentSentence.getWordsInSentence();
+					for(Word word:wordArr){//if theres an EOS char then the sentence should be saved
+						System.out.println("Word: "+word.getUntagged());
+						//if(word.getUntagged().matches("[\\w&&[^\\d]]*")){
+							//if(!ConsolidationStation.functionWords.searchListFor(word.getUntagged())){//TODO: make sure this works
+							if(!topToRemove.contains(word.getUntagged())){
+								untaggedWords.add(word.getUntagged());//This excludes ALL function words and punctuation
+								//System.out.println(word.getUntagged());
+							}
+						//}
+					}
+					int sizeOfWordList=untaggedWords.size();
+					String toReturn="";
+					for(int i=0;i<sizeOfWordList;i++){
+						toReturn+=untaggedWords.get(i)+" ";
+						//Logger.logln(toReturn);
+					}
+					eits.sentenceEditPane.setText(toReturn);
 				}
 			}
 			

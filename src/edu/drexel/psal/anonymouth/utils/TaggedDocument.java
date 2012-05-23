@@ -410,12 +410,11 @@ public class TaggedDocument {
 	 * @param newSentence The post-editing version of the sentence(s)
 	 */
 	private void updateReferences(TaggedSentence oldSentence, TaggedSentence newSentence){
-		//Logger.logln("Old Sentence: "+oldSentence.toString());
-		//Logger.logln("New Sentence: "+newSentence.toString());
+		Logger.logln("Old Sentence: "+oldSentence.toString()+"\nNew Sentence: "+newSentence.toString());
 		SparseReferences updatedValues = newSentence.getOldToNewDeltas(oldSentence);
-		//Logger.logln(updatedValues.toString());
+		Logger.logln(updatedValues.toString());
 		for(Reference ref:updatedValues.references){
-			//Logger.logln("Attribute: "+DataAnalyzer.topAttributes[ref.index].getFullName()+" pre-update value: "+DataAnalyzer.topAttributes[ref.index].getToModifyValue());
+			Logger.logln("Attribute: "+DataAnalyzer.topAttributes[ref.index].getFullName()+" pre-update value: "+DataAnalyzer.topAttributes[ref.index].getToModifyValue());
 			if(DataAnalyzer.topAttributes[ref.index].getFullName().contains("Percentage")){
 				//then it is a percentage.
 				Logger.logln("Attribute: "+DataAnalyzer.topAttributes[ref.index].getFullName()+"Is a percentage! ERROR!",Logger.LogOut.STDERR);
@@ -429,7 +428,7 @@ public class TaggedDocument {
 				//Logger.logln("Updated attribute: "+DataAnalyzer.topAttributes[ref.index].getFullName());
 			}
 				
-			//Logger.logln("Attribute: "+DataAnalyzer.topAttributes[ref.index].getFullName()+" post-update value: "+DataAnalyzer.topAttributes[ref.index].getToModifyValue());
+			Logger.logln("Attribute: "+DataAnalyzer.topAttributes[ref.index].getFullName()+" post-update value: "+DataAnalyzer.topAttributes[ref.index].getToModifyValue());
 		}
 	}
 	
@@ -736,6 +735,11 @@ public class TaggedDocument {
 		System.out.println(testDoc.toString());			
 		//System.out.println(testDoc.getFunctionWords());
 		
+	}
+
+	public String getCurrentLiveTaggedSentence() {
+		// TODO Auto-generated method stub
+		return currentLiveTaggedSentences.untagged;
 	}
 	
 }

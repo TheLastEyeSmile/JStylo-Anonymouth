@@ -135,6 +135,8 @@ public class GUIMain extends javax.swing.JFrame {
 	protected JScrollPane featuresCanonConfigJScrollPane;
 	protected JList featuresCullJList;
 	protected DefaultComboBoxModel featuresCullJListModel;
+	private JTextPane addToSentencePane;
+	private JScrollPane addToSentenceScrollPane;
 	private JPanel spacer1;
 	private JPanel jPanel5;
 	private JPanel jPanel4;
@@ -1329,7 +1331,7 @@ public class GUIMain extends javax.swing.JFrame {
 									{
 										jPanel2 = new JPanel();
 										updaterJPanel.add(jPanel2, BorderLayout.SOUTH);
-										jPanel2.setPreferredSize(new java.awt.Dimension(346, 113));
+										jPanel2.setPreferredSize(new java.awt.Dimension(346, 39));
 										{
 											//	suggestionListLabel = new JLabel();
 											//jPanel2.add(suggestionListLabel);
@@ -1351,11 +1353,22 @@ public class GUIMain extends javax.swing.JFrame {
 											}*/
 										}
 									}
+									{
+										addToSentenceScrollPane = new JScrollPane();
+										updaterJPanel.add(addToSentenceScrollPane, BorderLayout.NORTH);
+										addToSentenceScrollPane.setPreferredSize(new java.awt.Dimension(346, 49));
+										{
+											addToSentencePane = new JTextPane();
+											addToSentenceScrollPane.setViewportView(addToSentencePane);
+											addToSentencePane.setText("This is where the words to Add to the curent sentence will go.");
+											addToSentencePane.setPreferredSize(new java.awt.Dimension(344, 23));
+										}
+									}
 								}
 								{
 									jPanel1 = new JPanel();
 									editorInfoJPanel.add(jPanel1, BorderLayout.NORTH);
-									jPanel1.setPreferredSize(new java.awt.Dimension(346, 495));
+									jPanel1.setPreferredSize(new java.awt.Dimension(346, 485));
 									{
 										suggestionBoxLabelJPanel = new JPanel();
 										jPanel1.add(suggestionBoxLabelJPanel);
@@ -1369,14 +1382,14 @@ public class GUIMain extends javax.swing.JFrame {
 									{
 										suggestionPane = new JScrollPane();
 										jPanel1.add(suggestionPane);
-										suggestionPane.setPreferredSize(new java.awt.Dimension(317, 134));
+										suggestionPane.setPreferredSize(new java.awt.Dimension(317, 104));
 										{
 											suggestionBox = new JTextPane();
 											suggestionPane.setViewportView(suggestionBox);
 											suggestionBox.setText("Edit the sentence in the top window to the left by trying to rewrite it without the highlighted words. Try to add some of the 'elements to add' from the window below.\n" +
 													"Things highlighted to remove include (delimited by \"|\"): | Noun, plural | | , |\n" +
 															"Your percentage of letters is too low. Consider using less: | \" |");
-											suggestionBox.setPreferredSize(new java.awt.Dimension(318, 130));
+											suggestionBox.setPreferredSize(new java.awt.Dimension(315, 114));
 										}
 									}
 									{
@@ -1408,13 +1421,13 @@ public class GUIMain extends javax.swing.JFrame {
 									{
 										elementsToAddScrollPane = new JScrollPane();
 										jPanel1.add(elementsToAddScrollPane);
-										elementsToAddScrollPane.setPreferredSize(new java.awt.Dimension(123, 255));
+										elementsToAddScrollPane.setPreferredSize(new java.awt.Dimension(123, 281));
 										elementsToAddScrollPane.setSize(306, 157);
 										{
 											elementsToAddPane = new JTextPane();
 											elementsToAddScrollPane.setViewportView(elementsToAddPane);
 											elementsToAddPane.setText("This is where the words that you want to try to add to your document will be displayed.");
-											elementsToAddPane.setPreferredSize(new java.awt.Dimension(121, 169));
+											elementsToAddPane.setPreferredSize(new java.awt.Dimension(121, 271));
 										}
 									}
 									{
@@ -1425,7 +1438,7 @@ public class GUIMain extends javax.swing.JFrame {
 									{
 										elementsToRemoveScrollPane = new JScrollPane();
 										jPanel1.add(elementsToRemoveScrollPane);
-										elementsToRemoveScrollPane.setPreferredSize(new java.awt.Dimension(128, 256));
+										elementsToRemoveScrollPane.setPreferredSize(new java.awt.Dimension(128, 282));
 										{
 											elementsToRemovePane = new JTextPane();
 											elementsToRemoveScrollPane.setViewportView(elementsToRemovePane);

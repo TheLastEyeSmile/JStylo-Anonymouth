@@ -218,6 +218,7 @@ public class EditorTabDriver {
 		
 		ArrayList<ArrayList<Integer>> indexArray=new ArrayList<ArrayList<Integer>>();
 		ArrayList<Integer> tempArray;
+		//ArrayList<String> toRemoveInSentence;
 		int indexOfTemp;
 		boolean added=false;
 		String setString="",tempString;
@@ -257,7 +258,7 @@ public class EditorTabDriver {
 				
 			}
 		}
-		
+		findSynonyms();
 		main.elementsToRemovePane.setText(setString);
 		main.elementsToRemovePane.setCaretPosition(0);
 		setString="";
@@ -293,6 +294,17 @@ public class EditorTabDriver {
 			e.printStackTrace();
 			Logger.logln("Error highlighting the block");
 		}
+	}
+	/**
+	 * Finds the synonyms of the words to remove in the words to add list
+	 * 
+	 */
+	protected static void findSynonyms(){
+		String[] tempArr;
+		for(String str:topToRemove){
+			tempArr=DictionaryBinding.getSynonyms(str);
+		}
+		
 	}
 	
 	/*private static void updateAddRemoveBoxes(GUIMain main){

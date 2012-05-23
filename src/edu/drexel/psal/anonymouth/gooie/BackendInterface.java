@@ -458,6 +458,8 @@ public class BackendInterface {
 			
 			boolean loadIfExists = false;
 			
+			DictionaryBinding.init();//initializes the dictionary for wordNEt
+			
 			DocumentTagger docTagger = new DocumentTagger();
 			ArrayList<List<Document>> allDocs = magician.getDocumentSets();
 			try{

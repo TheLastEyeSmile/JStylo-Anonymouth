@@ -36,10 +36,12 @@ public class DictionaryBinding {
 	protected static boolean isFirstGramSearch = true;
 	protected static ArrayList<String> allWords = new ArrayList<String>();
 	
-	
+	public static void init(){
+		System.setProperty("wordnet.database.dir","./src"+JGAAPConstants.JGAAP_RESOURCE_PACKAGE+"wordnet");
+	}
 	public static void initDictListeners(final DictionaryConsole dc){
 		
-		System.setProperty("wordnet.database.dir","./src"+JGAAPConstants.JGAAP_RESOURCE_PACKAGE+"wordnet");
+		init();
 		
 		
 		dc.notFound.addActionListener(new ActionListener(){
@@ -235,6 +237,40 @@ public class DictionaryBinding {
 			i++;
 		}
 		return true;
+	}
+	
+	public static String[] getSynonyms(String wordToFind){
+		wordSynSetResult = "";
+		wordToFind=wordToFind.trim().toLowerCase();
+		WordNetDatabase wnd = WordNetDatabase.getFileInstance();
+		Synset[] testSet = wnd.getSynsets(wordToFind);
+		int synNumber =1;
+		int i;
+		String [] wfs;
+		for(i = 0; i< testSet.length; i++){
+			wfs = testSet[i].getWordForms();
+			
+			//String [] use = testSet[i].getUsageExamples();
+			int j;
+			for(j=0; j< wfs.length;j++){
+				try{
+					//wordSynSetResult = wordSynSetResult+"Synonym number ("+(j+1)+"): "+wfs[j]+"  => usage (if specified): "+use[j]+"\n";
+					if(!wordToFind.contains(wfs[j].toLowerCase())){
+						wordSynSetResult = wordSynSetResult+"("+synNumber+"): "+wfs[j]+"\n";
+						Logger.logln("Results for: "+wordToFind+"\n"+wordSynSetResult);
+						synNumber++;
+					}
+				}
+				catch(ArrayIndexOutOfBoundsException e){
+					e.printStackTrace();
+					Logger.logln("Caught an exception...");					
+				}
+			}
+			//wordSynSetResult = wordSynSetResult+"\n";
+			return wfs;
+		}
+		return null;//BIG PROBLEM
+		
 	}
 
 }

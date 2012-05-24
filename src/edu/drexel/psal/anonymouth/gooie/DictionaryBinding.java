@@ -257,7 +257,7 @@ public class DictionaryBinding {
 					//wordSynSetResult = wordSynSetResult+"Synonym number ("+(j+1)+"): "+wfs[j]+"  => usage (if specified): "+use[j]+"\n";
 					if(!wordToFind.contains(wfs[j].toLowerCase())){
 						wordSynSetResult = wordSynSetResult+"("+synNumber+"): "+wfs[j]+"\n";
-						Logger.logln("Results for: "+wordToFind+"\n"+wordSynSetResult);
+						//Logger.logln("Results for: "+wordToFind+"\n"+wordSynSetResult);
 						synNumber++;
 					}
 				}

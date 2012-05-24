@@ -135,7 +135,9 @@ public class GUIMain extends javax.swing.JFrame {
 	protected JScrollPane featuresCanonConfigJScrollPane;
 	protected JList featuresCullJList;
 	protected DefaultComboBoxModel featuresCullJListModel;
-	private JTextPane addToSentencePane;
+	private JPanel spacer2;
+	private JLabel synonymsLabel;
+	protected JTextPane addToSentencePane;
 	private JScrollPane addToSentenceScrollPane;
 	private JPanel spacer1;
 	private JPanel jPanel5;
@@ -1151,6 +1153,16 @@ public class GUIMain extends javax.swing.JFrame {
 				}
 				
 				//editor
+				/* ============
+				 * Cluster tab
+				 * ============
+				 */
+				
+				//editorTab = new JPanel(new BorderLayout(cellPadding,cellPadding));
+				//mainJTabbedPane.addTab("Clusters",editorTab);
+				//clusterTab = new JTabbedPane();
+				//getContentPane().add(clusterTab, BorderLayout.NORTH);
+				//clusterTab.setPreferredSize(new java.awt.Dimension(900, 578));
 				{
 					theEditorScrollPane = new JScrollPane();
 					mainJTabbedPane.addTab("Editor", null, theEditorScrollPane, null);
@@ -1159,7 +1171,7 @@ public class GUIMain extends javax.swing.JFrame {
 					theEditorScrollPane.setSize(900, 600);
 					theEditorScrollPane.setPreferredSize(new java.awt.Dimension(953, 670));
 					{
-
+						
 						editorTab = new JPanel(new BorderLayout(cellPadding,cellPadding));
 						BorderLayout editorTabLayout = new BorderLayout();
 						editorTab.setLayout(editorTabLayout);
@@ -1264,7 +1276,7 @@ public class GUIMain extends javax.swing.JFrame {
 							editorTab.add(editTP, BorderLayout.CENTER);
 							editTP.setPreferredSize(new java.awt.Dimension(634, 612));
 							{
-
+								
 								EditorInnerTabSpawner eits = (new EditorInnerTabSpawner()).spawnTab();
 								EditorTabDriver.eitsList.add(0,eits);
 								EditorTabDriver.eits = EditorTabDriver.eitsList.get(0);
@@ -1275,7 +1287,7 @@ public class GUIMain extends javax.swing.JFrame {
 						{
 							EditorInfoScrollPane = new JScrollPane();
 							editorTab.add(EditorInfoScrollPane, BorderLayout.EAST);
-							EditorInfoScrollPane.setPreferredSize(new java.awt.Dimension(365, 612));
+							EditorInfoScrollPane.setPreferredSize(new java.awt.Dimension(365, 616));
 							{
 								editorInfoJPanel = new JPanel();
 								BorderLayout editorInfoJPanelLayout = new BorderLayout();
@@ -1287,7 +1299,7 @@ public class GUIMain extends javax.swing.JFrame {
 									editorInfoJPanel.add(updaterJPanel, BorderLayout.SOUTH);
 									BorderLayout updaterJPanelLayout = new BorderLayout();
 									updaterJPanel.setLayout(updaterJPanelLayout);
-									updaterJPanel.setPreferredSize(new java.awt.Dimension(346, 126));
+									updaterJPanel.setPreferredSize(new java.awt.Dimension(346, 156));
 									{
 										//	valueBoxPanel = new JPanel();
 										//updaterJPanel.add(valueBoxPanel, BorderLayout.EAST);
@@ -1330,8 +1342,13 @@ public class GUIMain extends javax.swing.JFrame {
 									
 									{
 										jPanel2 = new JPanel();
-										updaterJPanel.add(jPanel2, BorderLayout.SOUTH);
-										jPanel2.setPreferredSize(new java.awt.Dimension(346, 39));
+										updaterJPanel.add(jPanel2, BorderLayout.NORTH);
+										jPanel2.setPreferredSize(new java.awt.Dimension(346, 23));
+										{
+											synonymsLabel = new JLabel();
+											jPanel2.add(synonymsLabel);
+											synonymsLabel.setText("Synonyms of Red Words in the Current Sentence: ");
+										}
 										{
 											//	suggestionListLabel = new JLabel();
 											//jPanel2.add(suggestionListLabel);
@@ -1355,20 +1372,25 @@ public class GUIMain extends javax.swing.JFrame {
 									}
 									{
 										addToSentenceScrollPane = new JScrollPane();
-										updaterJPanel.add(addToSentenceScrollPane, BorderLayout.NORTH);
-										addToSentenceScrollPane.setPreferredSize(new java.awt.Dimension(346, 49));
+										updaterJPanel.add(addToSentenceScrollPane, BorderLayout.CENTER);
+										addToSentenceScrollPane.setPreferredSize(new java.awt.Dimension(346, 65));
 										{
 											addToSentencePane = new JTextPane();
 											addToSentenceScrollPane.setViewportView(addToSentencePane);
 											addToSentencePane.setText("This is where the words to Add to the curent sentence will go.");
-											addToSentencePane.setPreferredSize(new java.awt.Dimension(344, 23));
+											addToSentencePane.setPreferredSize(new java.awt.Dimension(344, 95));
 										}
+									}
+									{
+										spacer2 = new JPanel();
+										updaterJPanel.add(spacer2, BorderLayout.SOUTH);
+										spacer2.setPreferredSize(new java.awt.Dimension(346, 32));
 									}
 								}
 								{
 									jPanel1 = new JPanel();
 									editorInfoJPanel.add(jPanel1, BorderLayout.NORTH);
-									jPanel1.setPreferredSize(new java.awt.Dimension(346, 485));
+									jPanel1.setPreferredSize(new java.awt.Dimension(346, 463));
 									{
 										suggestionBoxLabelJPanel = new JPanel();
 										jPanel1.add(suggestionBoxLabelJPanel);
@@ -1427,7 +1449,7 @@ public class GUIMain extends javax.swing.JFrame {
 											elementsToAddPane = new JTextPane();
 											elementsToAddScrollPane.setViewportView(elementsToAddPane);
 											elementsToAddPane.setText("This is where the words that you want to try to add to your document will be displayed.");
-											elementsToAddPane.setPreferredSize(new java.awt.Dimension(121, 271));
+													elementsToAddPane.setPreferredSize(new java.awt.Dimension(121, 271));
 										}
 									}
 									{
@@ -1444,7 +1466,7 @@ public class GUIMain extends javax.swing.JFrame {
 											elementsToRemoveScrollPane.setViewportView(elementsToRemovePane);
 											
 											elementsToRemovePane.setText("This is where the words that you want to try to remove from your document will be displayed.");
-											elementsToRemovePane.setPreferredSize(new java.awt.Dimension(126, 248));
+													elementsToRemovePane.setPreferredSize(new java.awt.Dimension(126, 278));
 										}
 									}
 									{
@@ -1457,16 +1479,6 @@ public class GUIMain extends javax.swing.JFrame {
 						}
 					}
 				}
-				/* ============
-				 * Cluster tab
-				 * ============
-				 */
-				
-				//editorTab = new JPanel(new BorderLayout(cellPadding,cellPadding));
-				//mainJTabbedPane.addTab("Clusters",editorTab);
-				//clusterTab = new JTabbedPane();
-				//getContentPane().add(clusterTab, BorderLayout.NORTH);
-				//clusterTab.setPreferredSize(new java.awt.Dimension(900, 578));
 				{
 					theScrollPane = new JScrollPane();
 					mainJTabbedPane.addTab("Clusters", null, theScrollPane, null);
@@ -1523,10 +1535,10 @@ public class GUIMain extends javax.swing.JFrame {
 							legend.setPreferredSize(new Dimension(800,50));
 							holderPanel.add(legend);
 							
-								
-							}
+							
 						}
 					}
+				}
 				}
 			
 				

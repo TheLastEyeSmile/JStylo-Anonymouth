@@ -147,15 +147,20 @@ public class EditorTabDriver {
 	public static HashMap<Integer,Integer> suggestionToAttributeMap;
 	protected static DocumentParser docParser;
 	protected static ConsolidationStation consolidator;
+	
+	private static String cleanWordRegex=".*([\\.,!?])+";//REFINE THIS??
 
 	protected static ArrayList<String> topToRemove;
 	protected static ArrayList<String> topToAdd;
 	
 	protected static Highlighter editTracker;
 	protected static Highlighter removeTracker;
+	protected static Highlighter addTracker;
 	protected static Highlighter.HighlightPainter painter;
 	protected static Highlighter.HighlightPainter painter2;
-	protected static Highlighter.HighlightPainter underlinePainter;
+	protected static Highlighter.HighlightPainter painter4;
+	protected static Highlighter.HighlightPainter painter3;
+
 	private static final Color HILIT_COLOR = Color.yellow;
 	
 	private static int numberTimesFixTabs;
@@ -205,7 +210,7 @@ public class EditorTabDriver {
 			}
 		}
 		topToRemove=ConsolidationStation.getPriorityWords(ConsolidationStation.toModifyTaggedDocs, true, .2);
-		topToAdd=ConsolidationStation.getPriorityWords(ConsolidationStation.authorSampleTaggedDocs, false, .015);
+		topToAdd=ConsolidationStation.getPriorityWords(ConsolidationStation.authorSampleTaggedDocs, false, .02);
 		
 		//TaggedDocument taggedDoc=ConsolidationStation.toModifyTaggedDocs.get(0);
 		int lenPrevSentences=0;
@@ -230,7 +235,7 @@ public class EditorTabDriver {
 			while(parser.hasNext()){//finds if the given word to remove is in the current sentence
 				//loops through current sentence
 				tempString=parser.next();
-				if(tempString.matches(".*([\\.,!?])+")){//TODO: refine this.
+				if(tempString.matches(cleanWordRegex)){//TODO: refine this.
 					tempString=tempString.substring(0,tempString.length()-1);
 					//Logger.logln("replaced a period in: "+tempString);
 				}
@@ -258,16 +263,10 @@ public class EditorTabDriver {
 				
 			}
 		}
-		findSynonyms();
+		
 		main.elementsToRemovePane.setText(setString);
 		main.elementsToRemovePane.setCaretPosition(0);
-		setString="";
-		arrSize=topToAdd.size();
-		for(int i=0;i<arrSize;i++){
-			setString+=topToAdd.get(i)+"\n";
-		}
-		main.elementsToAddPane.setText(setString);
-		main.elementsToAddPane.setCaretPosition(0);
+		findSynonyms(main,sentence);
 		
 		editTracker.removeAllHighlights();
 		eits.editorBox.repaint();
@@ -299,77 +298,89 @@ public class EditorTabDriver {
 	 * Finds the synonyms of the words to remove in the words to add list
 	 * 
 	 */
-	protected static void findSynonyms(){
+	protected static void findSynonyms(GUIMain main,String currentSent){
 		String[] tempArr;
+		addTracker = new DefaultHighlighter();
+		painter3 = new DefaultHighlighter.DefaultHighlightPainter(new Color(0,0,255,128));
+		String setString,tempStr,synSetString = "";
+		main.addToSentencePane.setHighlighter(addTracker);
+		addTracker.removeAllHighlights();
+		
+		main.elementsToAddPane.repaint();
+		
+		setString="";
+		int arrSize=topToAdd.size(), index;
+		for(int i=0;i<arrSize;i++){//Sets the topToAddElements box
+			setString+=topToAdd.get(i)+"\n";
+		}
+		main.elementsToAddPane.setText(setString);
+		main.elementsToAddPane.setCaretPosition(0);
+		synSetString="";
+		boolean inSent;
+		Scanner parser;
+		HashMap<String,Integer> indexMap=new HashMap<String,Integer>();
 		for(String str:topToRemove){
 			tempArr=DictionaryBinding.getSynonyms(str);
+			if(tempArr!=null){
+				//inSent=currentSent.contains(str);
+				inSent=checkSentFor(currentSent,str);
+				
+				if(inSent)
+					synSetString+=str+"=>";
+				for(int i=0;i<tempArr.length;i++){
+					tempStr=tempArr[i];
+					if(inSent){
+						synSetString+=tempStr+", ";
+						for(String addString:topToAdd){
+							if(addString.equalsIgnoreCase(tempStr)){
+								index=synSetString.indexOf(tempStr);
+								indexMap.put(tempStr, index);
+							}
+						}
+					}
+				}
+				if(inSent)
+					synSetString=synSetString.substring(0, synSetString.length()-2)+"\n";
+			}
 		}
+		
+		main.addToSentencePane.setText(synSetString);
+		main.addToSentencePane.setCaretPosition(0);
+		
+		Iterator iter=indexMap.keySet().iterator();
+		String key;
+		
+		while(iter.hasNext()){
+			key=(String) iter.next();
+			index=indexMap.get(key);
+			try {
+				addTracker.addHighlight(index, index+key.length(), painter3);
+			} catch (BadLocationException e) {
+				Logger.logln("Problem highlighting the words To add list");
+				e.printStackTrace();
+			}
+		}
+		
 		
 	}
 	
-	/*private static void updateAddRemoveBoxes(GUIMain main){
-		
-		//Logger.logln("About to call ConsolidationStation.getPriorityWords for toRemove words",LogOut.STDERR);
-		ArrayList<String> topToRemove=ConsolidationStation.getPriorityWords(ConsolidationStation.toModifyTaggedDocs, true, .2);
-		//Logger.logln("JUST CALLED ConsolidationStation.getPriorityWords for toRemove words",LogOut.STDERR);
-		//Logger.logln("About to call ConsolidationStation.getPriorityWords for toAdd words",LogOut.STDERR);
-		int sizeAuthorTagged=ConsolidationStation.authorSampleTaggedDocs.size();
-		/*ArrayList<TaggedDocument> tempArrTagged=new ArrayList<TaggedDocument>(ConsolidationStation.otherSampleTaggedDocs.size()+sizeAuthorTagged);
-		tempArrTagged=ConsolidationStation.otherSampleTaggedDocs;
-		for(int i=0;i<sizeAuthorTagged;i++){
-			tempArrTagged.add(ConsolidationStation.authorSampleTaggedDocs.get(i));
-		}*/
-	
-		/*ArrayList<String> topToAdd=ConsolidationStation.getPriorityWords(ConsolidationStation.authorSampleTaggedDocs, false, .015);
-		//TODO: maybe for priority words, use authorSampleDocs as well???
-		//Logger.logln("JUST CALLED ConsolidationStation.getPriorityWords for toAdd words",LogOut.STDERR);
-		TaggedDocument taggedDoc=ConsolidationStation.toModifyTaggedDocs.get(0);
-		int lenPrevSentences=0,sentNumber=taggedDoc.getSentNumber();
-		String sentence=taggedDoc.getUntaggedSentences().get(sentNumber);
-		
-		for(int i=0;i<sentNumber;i++){
-			lenPrevSentences+=taggedDoc.getUntaggedSentences().get(i).length();
-		}
-		//removeTracker = new DefaultHighlighter();
-		painter2 = new DefaultHighlighter.DefaultHighlightPainter(Color.red);
-		//eits.editorBox.setHighlighter(removeTracker);
-		
-		
-		int indexOfTemp;
-		String setString="",tempString;
-		int arrSize=topToRemove.size();
-		for(int i=0;i<arrSize;i++){
-			setString+=topToRemove.get(i)+"\n";//sets the string to return
-			Scanner parser=new Scanner(sentence);
-			while(parser.hasNext()){//finds if the given word to remove is in the current sentence
-				tempString=parser.next();
-				if(topToRemove.get(i).equals(tempString)){
-					indexOfTemp=sentence.indexOf(tempString);
-					try {
-						editTracker.addHighlight(lenPrevSentences+indexOfTemp-numberTimesFixTabs,lenPrevSentences+indexOfTemp+tempString.length()-numberTimesFixTabs, painter2);
-					} catch (BadLocationException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
+	private static boolean checkSentFor(String currentSent, String str) {
+		// TODO Auto-generated method stub
+		Scanner parser=new Scanner(currentSent);
+		boolean inSent=false;
+		String tempStr;
+		while(parser.hasNext()){
+			tempStr=parser.next();
+			if(tempStr.matches(cleanWordRegex))
+				tempStr=tempStr.substring(0,tempStr.length()-1);
+			if(tempStr.equalsIgnoreCase(str)){
+				inSent=true;
+				break;
 			}
 		}
-		//main.elementsToRemovePane.get
-		
-		main.elementsToRemovePane.setText(setString);
-		main.elementsToRemovePane.setCaretPosition(0);
-		setString="";
-		arrSize=topToAdd.size();
-		for(int i=0;i<arrSize;i++){
-			setString+=topToAdd.get(i)+"\n";
-		}
-		//System.out.println("NEW toAdd words:\n"+setString);
-		//Scanner in = new Scanner(System.in);
-		//in.nextLine();
-		main.elementsToAddPane.setText(setString);
-		main.elementsToAddPane.setCaretPosition(0);
-	}*/
-	
+		return inSent;
+	}
+
 	public static String getHelpMessege(){
 		return helpMessege;
 	}

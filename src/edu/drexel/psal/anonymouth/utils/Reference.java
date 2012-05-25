@@ -1,5 +1,6 @@
 package edu.drexel.psal.anonymouth.utils;
 
+import edu.drexel.psal.anonymouth.projectDev.DataAnalyzer;
 import edu.drexel.psal.jstylo.generics.Logger;
 import edu.drexel.psal.jstylo.generics.Logger.LogOut;
 
@@ -86,6 +87,6 @@ public class Reference {
 	 * returns a string: "[index => value]"
 	 */
 	public String toString(){
-		return "["+index+" => "+value+"]";
+		return "["+index+" => "+value+" percentChange: "+DataAnalyzer.topAttributes[index].getPercentChangeNeeded()+"]";
 	}
 }

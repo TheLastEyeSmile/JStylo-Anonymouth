@@ -122,6 +122,10 @@ public class ConsolidationStation {
 			totalWords += td.getWordCount();
 			words.addAll(td.getWords());
 		}
+		System.out.println("-----------------------Printing word list-------------------------");
+		for(Word w:words){
+			System.out.println(w.toString());
+		}
 		int numToReturn = (int)(totalWords*percentToReturn);
 		ArrayList<String> toReturn = new ArrayList<String>(numToReturn);
 		words = removeDuplicateWords(words);
@@ -137,7 +141,7 @@ public class ConsolidationStation {
 		if(findTopToRemove){ // then start from index 0, and go up to index (numToReturn-1) words (inclusive)]
 			for(int i = 0; i<numToReturn; i++){
 				if((tempWord=words.get(i)).getAnonymityIndex()<0)
-					toReturn.add(tempWord.word);//+" ("+tempWord.getAnonymityIndex()+")");
+					toReturn.add(tempWord.word+" ("+tempWord.getAnonymityIndex()+")");
 				else 
 					break;
 			}
@@ -147,7 +151,7 @@ public class ConsolidationStation {
 			int stopIndex = startIndex - numToReturn;
 			for(int i = startIndex; i> stopIndex; i--){
 				if((tempWord=words.get(i)).getAnonymityIndex()>0)
-					toReturn.add(tempWord.word);//+" ("+tempWord.getAnonymityIndex()+")");
+					toReturn.add(tempWord.word+" ("+tempWord.getAnonymityIndex()+")");
 				else 
 					break;
 			}	

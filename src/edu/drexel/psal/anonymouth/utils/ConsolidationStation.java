@@ -122,10 +122,11 @@ public class ConsolidationStation {
 			totalWords += td.getWordCount();
 			words.addAll(td.getWords());
 		}
-		System.out.println("-----------------------Printing word list-------------------------");
+		/*System.out.println("-----------------------Printing word list-------------------------");
 		for(Word w:words){
 			System.out.println(w.toString());
-		}
+		}*/
+		
 		int numToReturn = (int)(totalWords*percentToReturn);
 		ArrayList<String> toReturn = new ArrayList<String>(numToReturn);
 		words = removeDuplicateWords(words);

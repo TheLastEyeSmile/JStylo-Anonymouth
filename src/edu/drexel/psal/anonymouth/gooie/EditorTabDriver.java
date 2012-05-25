@@ -35,6 +35,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.beans.PropertyChangeListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -50,6 +51,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.Action;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -63,6 +65,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.ListModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.CaretEvent;
@@ -386,6 +389,71 @@ public class EditorTabDriver {
 	}
 	
 	protected static void initListeners(final GUIMain main){
+		
+		Action refresh = new Action() {
+		    public void actionPerformed(ActionEvent e) {
+		    	if(!eits.sentenceEditPane.isEditable()){
+					if(!eits.sentenceEditPane.getText().equals(helpMessege)){
+						spawnNew(main);
+					}
+					else{
+						eits.sentenceEditPane.setEditable(true);
+						//eits.sentenceEditPane.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getNextSentence());
+						trackEditSentence(main);
+						
+					}
+				}
+				else{
+					Logger.logln("next sentence button pressed.");
+					if(ConsolidationStation.toModifyTaggedDocs.get(0).removeAndReplace(eits.getSentenceEditPane().getText())!=-1){
+						//sentenceTools.replaceCurrentSentence(eits.getSentenceEditPane().getText());
+						trackEditSentence(main);
+					}
+				}
+		    }
+
+			@Override
+			public void addPropertyChangeListener(
+					PropertyChangeListener listener) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public Object getValue(String key) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public boolean isEnabled() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public void putValue(String key, Object value) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void removePropertyChangeListener(
+					PropertyChangeListener listener) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void setEnabled(boolean b) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		main.theEditorScrollPane.getInputMap().put(KeyStroke.getKeyStroke("F2"),
+		                            "refresh");
+		main.theEditorScrollPane.getActionMap().put("refresh",
+		                             refresh);
 		
 		
 		main.processButton.setToolTipText("Click this first to run and to get the results of the initial classification of your document.");

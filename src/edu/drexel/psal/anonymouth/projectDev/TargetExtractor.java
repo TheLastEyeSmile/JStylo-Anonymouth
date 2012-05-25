@@ -660,7 +660,7 @@ public class TargetExtractor {
 		
 		for(i = 0; i < numClusters; i++){
 			preferences[i][0] =(Double)(double) i;
-			preferences[i][1] = (dists[i])*(sizes[i]/sizeAvg); //  (average distance * distance)*(cluster size/ average cluster size)
+			preferences[i][1] = (dists[i])*(sizes[i]/sizeAvg); //  ( distance)*(cluster size/ average cluster size)
 			
 		}
 		

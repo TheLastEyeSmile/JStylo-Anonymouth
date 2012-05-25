@@ -27,6 +27,8 @@ public class Attribute {
 	
 	private double targetValue;
 	
+	private int requiredDirectionOfChange; // 0 for no change, -1 to decrease, 1 to increase;
+	
 	private double targetCentroid;
 	
 	private double targetAvgAbsDev;
@@ -64,6 +66,10 @@ public class Attribute {
 	private double targetClusterMin;
 	
 	private double targetClusterMax;
+	
+	private boolean hasReachedTargetFlag = false;
+	
+	private boolean directionSet = false;
 	
 	/**
 	 * Constructor for Attribute class.
@@ -170,7 +176,17 @@ public class Attribute {
 	 * @param targetValue
 	 */
 	public void setTargetValue(double targetValue){
-		this.targetValue = targetValue;
+		if(!directionSet){
+			this.targetValue = targetValue;
+			if(this.targetValue > toModifyValue)
+				requiredDirectionOfChange = 1;
+			else if (this.targetValue == toModifyValue)
+				requiredDirectionOfChange = 0;
+			else
+				requiredDirectionOfChange = -1;
+			directionSet = true;
+		}
+		
 	}
 	
 	/**
@@ -319,6 +335,8 @@ public class Attribute {
 	 */
 	public void setToModifyValue(double toModifyValue){
 		this.toModifyValue = toModifyValue;
+		if(this.toModifyValue >= targetValue)
+			hasReachedTargetFlag = true;	
 	}
 	
 	/**
@@ -399,8 +417,22 @@ public class Attribute {
 	 */
 	public double getPercentChangeNeeded(){
 		double temp = 0;
+		double minimumPercentChangeUnit = 0;
+		double halfOfMin;
+		double theModulus;
 		if(toModifyValue != 0){
+			minimumPercentChangeUnit = 100/toModifyValue;
+			halfOfMin =minimumPercentChangeUnit / 2;
 			temp = (toModifyValue - targetValue)/toModifyValue;// signedness matters, don't take abs. value
+			theModulus = temp % minimumPercentChangeUnit;
+			if ((temp*requiredDirectionOfChange  < 0)  && (Math.abs(temp) <minimumPercentChangeUnit)  ) // if the required direction of change is not the same sign (or 0) as temp,
+				// and the percent change needed is less than a minimumPercentChangeUnit,  (i.e., if it wants to move you backward past the target value), temp = 0
+				temp = 0;
+			else if ( (theModulus/2) < halfOfMin) //  otherwise, if percent change needed is less than halfway between a minimumPercentChangeUnit,
+				temp = temp - theModulus; // round down to the closest minimumPercentChangeUnit
+			else // otherwise, if percent change needed is greater than or exactly halfway between a minimumPercentChangeUnit,
+				temp = temp + (minimumPercentChangeUnit - theModulus); // round up to the next highest minimumPercentChangeUnit
+				
 		}
 		else
 			temp = Math.ceil(this.targetValue); // if value doesnt exist in document, set percent change needed to the ceil value of the  target value (e.g. add 5 occurrences of 'if': 500%)
@@ -409,6 +441,7 @@ public class Attribute {
 		return temp*100; 
 	}
 
+		
 	
 	
 	public void setAuthorConfidence(double authorConfidence){

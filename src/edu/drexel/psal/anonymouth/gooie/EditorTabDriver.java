@@ -212,7 +212,7 @@ public class EditorTabDriver {
 				//startHighlight++;
 			}
 		}
-		topToRemove=ConsolidationStation.getPriorityWords(ConsolidationStation.toModifyTaggedDocs, true, .2);
+		topToRemove=ConsolidationStation.getPriorityWords(ConsolidationStation.toModifyTaggedDocs, true, .2);//this aint working
 		topToAdd=ConsolidationStation.getPriorityWords(ConsolidationStation.authorSampleTaggedDocs, false, .02);
 		
 		//TaggedDocument taggedDoc=ConsolidationStation.toModifyTaggedDocs.get(0);
@@ -239,8 +239,9 @@ public class EditorTabDriver {
 				//loops through current sentence
 				tempString=parser.next();
 				if(tempString.matches(cleanWordRegex)){//TODO: refine this.
+					
 					tempString=tempString.substring(0,tempString.length()-1);
-					//Logger.logln("replaced a period in: "+tempString);
+					Logger.logln("replaced a period in: "+tempString);
 				}
 				if(tempString.equals(topToRemove.get(i))){
 					tempArray=new ArrayList<Integer>(2);

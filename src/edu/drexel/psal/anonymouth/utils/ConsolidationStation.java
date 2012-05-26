@@ -122,8 +122,8 @@ public class ConsolidationStation {
 			totalWords += td.getWordCount();
 			words.addAll(td.getWords());
 		}
-		/*System.out.println("-----------------------Printing word list-------------------------");
-		for(Word w:words){
+		//System.out.println("-----------------------Printing word list-------------------------");
+		/*for(Word w:words){
 			System.out.println(w.toString());
 		}*/
 		
@@ -141,6 +141,7 @@ public class ConsolidationStation {
 		Word tempWord;
 		if(findTopToRemove){ // then start from index 0, and go up to index (numToReturn-1) words (inclusive)]
 			for(int i = 0; i<numToReturn; i++){
+				System.out.println(words.get(i).word+" "+words.get(i).getAnonymityIndex()); 	
 				if((tempWord=words.get(i)).getAnonymityIndex()<0)
 					toReturn.add(tempWord.word+" ("+tempWord.getAnonymityIndex()+")");
 				else 
@@ -148,15 +149,19 @@ public class ConsolidationStation {
 			}
 		}
 		else{ // start at the END of the list, and go down to (END-numToReturn) (inclusive)
+			System.out.println("GOt here");
 			int startIndex = mergedNumWords - 1;
 			int stopIndex = startIndex - numToReturn;
 			for(int i = startIndex; i> stopIndex; i--){
+				//System.out.println("Got here..");
+				//System.out.println(words.get(i).word+" "+words.get(i).getAnonymityIndex());
 				if((tempWord=words.get(i)).getAnonymityIndex()>0)
 					toReturn.add(tempWord.word+" ("+tempWord.getAnonymityIndex()+")");
 				else 
 					break;
 			}	
 		}
+		System.out.println(toReturn);
 		return toReturn;
 	}
 	

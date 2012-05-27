@@ -11,6 +11,7 @@ import java.util.*;
 
 import com.jgaap.generics.*;
 
+import edu.drexel.psal.jstylo.analyzers.writeprints.WriteprintsAnalyzer;
 import edu.drexel.psal.jstylo.eventDrivers.CharCounterEventDriver;
 import edu.drexel.psal.jstylo.eventDrivers.LetterCounterEventDriver;
 import edu.drexel.psal.jstylo.eventDrivers.SentenceCounterEventDriver;
@@ -299,9 +300,15 @@ public class WekaInstancesBuilder {
 		featureClassAttrsFirstIndex[i] = vectorSize;
 		vectorSize += 1; // one more for authorName
 
+		MultiplePrintStream log = WriteprintsAnalyzer.getLogger();
+		
 		// generate training instances
+		//log.println("Creating training instances:"); //TODO remove
+		//log.println("============================"); //TODO remove
 		Instance inst;
 		for (i=0; i<numOfVectors; i++) {
+			//log.println("Instance " + (i + 1) + " of " + numOfVectors + ":"); //TODO remove
+			//log.println("-----------------------------------------------"); //TODO remove
 			// initialize instance
 			if (isSparse) inst = new SparseInstance(vectorSize);
 			else inst = new Instance(vectorSize);
@@ -313,10 +320,12 @@ public class WekaInstancesBuilder {
 			// update values
 			int index = (hasDocNames ? 1 : 0);
 			for (j=0; j<numOfFeatureClasses; j++) {
+				//System.out.print("> Feature " + (j+1) + " of " + numOfFeatureClasses + ": "); //TODO remove
 				Set<Event> events = allEvents.get(j);
 
+				long start = System.currentTimeMillis(); //TODO remove
 				if (cfd.featureDriverAt(j).isCalcHist()) {
-
+					//log.print("class (e.g. " + (Attribute) attributeList.elementAt(index) + ") - "); //TODO remove
 					// extract absolute frequency from histogram
 					EventHistogram currHist = knownEventHists.get(i).get(j);
 					for (Event e: events) {
@@ -324,8 +333,9 @@ public class WekaInstancesBuilder {
 								(Attribute) attributeList.elementAt(index++),
 								currHist.getAbsoluteFrequency(e));				// use absolute values, normalize later
 					}
+					
 				} else {
-
+					//log.print("single value (" + (Attribute) attributeList.elementAt(index) + ") - "); //TODO remove
 					// extract numeric value from original sole event
 					//System.out.println(">>>>     parsing double for " + known.get(i).get(j).eventAt(0).toString());
 					double value = Double.parseDouble(known.get(i).get(j).eventAt(0).toString().replaceAll(".*\\{", "").replaceAll("\\}", ""));
@@ -333,6 +343,7 @@ public class WekaInstancesBuilder {
 							(Attribute) attributeList.elementAt(index++),
 							value);	
 				}
+				//log.println((System.currentTimeMillis() - start) + "ms"); //TODO remove
 			}
 
 			// update author

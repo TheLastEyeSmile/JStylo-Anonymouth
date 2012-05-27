@@ -150,20 +150,35 @@ public class WriteprintsAnalyzer extends Analyzer {
 		testAuthorData.clear();
 		
 		// initialize features, basis and writeprint matrices
+		boolean authorHasInstances;
 		Attribute classAttribute = trainingSet.classAttribute();
 		int numAuthors = classAttribute.numValues();
 		String authorName;
 		AuthorWPData authorData;
 		int authorsInRow = 5;
 		// training set
+		int numTrainInstances = trainingSet.numInstances();
 		log.println("Initializing training authors data:");
 		for (int i = 0; i < numAuthors; i++) {
 			authorName = classAttribute.value(i);
 			authorData = new AuthorWPData(authorName);
 			log.print(authorName + "  ");
-			authorData.initFeatureMatrix(trainingSet, averageFeatureVectors);
-			trainAuthorData.add(authorData);
-			authorData.initBasisAndWriteprintMatrices();
+			// check whether this training author has any instances
+			authorHasInstances = false;
+			for (int j = 0; j < numTrainInstances; j++) {
+				if (trainingSet.instance(j).stringValue(classAttribute).equals(authorName)) {
+					authorHasInstances = true;
+					break;
+				}
+			}
+			if (!authorHasInstances) {
+				log.print("(no data)  ");
+			}
+			else {
+				authorData.initFeatureMatrix(trainingSet, averageFeatureVectors);
+				trainAuthorData.add(authorData);
+				authorData.initBasisAndWriteprintMatrices();
+			}
 			if ((i + 1) % authorsInRow == 0)
 				log.println();
 		}
@@ -194,9 +209,22 @@ public class WriteprintsAnalyzer extends Analyzer {
 				authorName = classAttribute.value(i);
 				authorData = new AuthorWPData(authorName);
 				log.print(authorName + "  ");
-				authorData.initFeatureMatrix(testSet, averageFeatureVectors);
-				testAuthorData.add(authorData);
-				authorData.initBasisAndWriteprintMatrices();
+				// check whether this test author has any instances
+				authorHasInstances = false;
+				for (int j = 0; j < numTestInstances; j++) {
+					if (testSet.instance(j).stringValue(classAttribute).equals(authorName)) {
+						authorHasInstances = true;
+						break;
+					}
+				}
+				if (!authorHasInstances) {
+					log.print("(no data)  ");
+				}
+				else {
+					authorData.initFeatureMatrix(testSet, averageFeatureVectors);
+					testAuthorData.add(authorData);
+					authorData.initBasisAndWriteprintMatrices();
+				}
 				if ((i + 1) % authorsInRow == 0)
 					log.println();
 			}
@@ -291,37 +319,38 @@ public class WriteprintsAnalyzer extends Analyzer {
 		double total = 0;
 		double max;
 		String selected;
-		for (int i = 0; i + half < folds; i ++) {
-			log.println("Running experiment " + (i + 1) + " out of " + (folds - half));
-			
-			log.println("Training fold indices: " + i + " - " + (i + half - 1));
-			boolean separator = i > 0 && (i + half) < (folds - 1);
-			log.println("Test fold indices:     " +
-					(i > 0 ?
-							(0 == (i - 1) ? 0 : (0 + " - " + (i - 1) + ", "))
-							: "") +
-					(separator ? ", " : "") +
-					((i + half == folds - 1) ? (i + half)
-							: (i + half) + " - " + (folds - 1)));
-			
+		for (int i = 0; i < folds; i ++) {
+			log.println("Running experiment " + (i + 1) + " out of " + folds);			
 			// initialize
 			train = new Instances(data,0);
 			test = new Instances(data,0);
 			
+			log.print("> Training folds: ");
 			// prepare training set
 			for (int j = i; j < i + half; j++) {
+				log.print(j % folds + " ");
 				tmp = foldData[j % folds];
 				tmpSize = tmp.numInstances();
 				for (int k = 0; k < tmpSize; k++)
 					train.add(tmp.instance(k));
 			}
+			log.println();
+			//train = randData.trainCV(folds, i);
+			log.print("> Test folds: ");
 			// prepare test set
 			for (int j = i + half; j < i + folds; j++) {
+				log.print(j % folds + " ");
 				tmp = foldData[j % folds];
 				tmpSize = tmp.numInstances();
 				for (int k = 0; k < tmpSize; k++)
 					test.add(tmp.instance(k));
 			}
+			log.println();
+			//test = randData.testCV(folds, i);
+			
+			// write to files
+			//WekaInstancesBuilder.writeSetToARFF("./train_" + i + ".arff", train);
+			//WekaInstancesBuilder.writeSetToARFF("./test_" + i + ".arff", test);
 			
 			// classify
 			results = classify(train, test, null);
@@ -344,7 +373,7 @@ public class WriteprintsAnalyzer extends Analyzer {
 			log.printf("- Accuracy for experiment %d: %.2f\n", (i + 1), success);
 			total += success;
 		}
-		total /= (folds - half);
+		total /= folds;
 		log.println("========================");
 		log.printf("Total Accuracy: %.2f\n", total);
 		log.println(">>> runCrossValidation finished");

@@ -180,8 +180,10 @@ public class Attribute {
 			this.targetValue = targetValue;
 			if(this.targetValue > toModifyValue)
 				requiredDirectionOfChange = 1;
-			else if (this.targetValue == toModifyValue)
+			else if (this.targetValue == toModifyValue){
 				requiredDirectionOfChange = 0;
+				hasReachedTargetFlag = true;
+			}
 			else
 				requiredDirectionOfChange = -1;
 			directionSet = true;
@@ -335,8 +337,10 @@ public class Attribute {
 	 */
 	public void setToModifyValue(double toModifyValue){
 		this.toModifyValue = toModifyValue;
-		if(this.toModifyValue >= targetValue)
+		if((this.toModifyValue >= targetValue) && (requiredDirectionOfChange > 0))
 			hasReachedTargetFlag = true;	
+		else if ((this.toModifyValue <= targetValue) && (requiredDirectionOfChange < 0))
+			hasReachedTargetFlag = true;
 	}
 	
 	/**
@@ -421,9 +425,9 @@ public class Attribute {
 		double halfOfMin;
 		double theModulus;
 		if(toModifyValue != 0){
-			minimumPercentChangeUnit = 100/toModifyValue;
+			minimumPercentChangeUnit = ((100/toModifyValue)/100);
 			halfOfMin =minimumPercentChangeUnit / 2;
-			temp = (targetValue-toModifyValue)/toModifyValue;// signedness matters, don't take abs. value
+			temp = (targetValue - toModifyValue)/toModifyValue;// signedness matters, don't take abs. value
 			theModulus = temp % minimumPercentChangeUnit;
 			if ((temp*requiredDirectionOfChange  < 0)  && (Math.abs(temp) <minimumPercentChangeUnit)  ) // if the required direction of change is not the same sign (or 0) as temp,
 				// and the percent change needed is less than a minimumPercentChangeUnit,  (i.e., if it wants to move you backward past the target value), temp = 0

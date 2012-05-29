@@ -423,7 +423,7 @@ public class Attribute {
 		if(toModifyValue != 0){
 			minimumPercentChangeUnit = 100/toModifyValue;
 			halfOfMin =minimumPercentChangeUnit / 2;
-			temp = (toModifyValue - targetValue)/toModifyValue;// signedness matters, don't take abs. value
+			temp = (targetValue-toModifyValue)/toModifyValue;// signedness matters, don't take abs. value
 			theModulus = temp % minimumPercentChangeUnit;
 			if ((temp*requiredDirectionOfChange  < 0)  && (Math.abs(temp) <minimumPercentChangeUnit)  ) // if the required direction of change is not the same sign (or 0) as temp,
 				// and the percent change needed is less than a minimumPercentChangeUnit,  (i.e., if it wants to move you backward past the target value), temp = 0

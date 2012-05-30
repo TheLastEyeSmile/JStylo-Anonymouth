@@ -430,6 +430,7 @@ public class BackendInterface {
 			
 			main.nextSentenceButton.setEnabled(false);
 			main.lastSentenceButton.setEnabled(false);
+			main.refreshButtonEditor.setEnabled(false);
 			main.addSentence.setEnabled(false);
 			// XXX for AFTER everything is done
 				
@@ -455,6 +456,7 @@ public class BackendInterface {
 			eits.sentenceEditPane.setEditable(false);
 			main.nextSentenceButton.setEnabled(false);
 			main.lastSentenceButton.setEnabled(false);//changed this and ^ values.
+			main.refreshButtonEditor.setEnabled(false);
 			
 			boolean loadIfExists = false;
 			
@@ -477,6 +479,7 @@ public class BackendInterface {
 			main.editorProgressBar.setIndeterminate(false);	
 			main.nextSentenceButton.setEnabled(true);
 			main.lastSentenceButton.setEnabled(true);
+			main.refreshButtonEditor.setEnabled(true);
 			main.addSentence.setEnabled(true);
 			cpb.setText("User Editing... Waiting to\"Re-process\"");
 			

@@ -143,7 +143,7 @@ public class ConsolidationStation {
 			for(int i = 0; i<numToReturn; i++){
 				System.out.println(words.get(i).word+" "+words.get(i).getAnonymityIndex()); 	
 				if((tempWord=words.get(i)).getAnonymityIndex()<0)
-					toReturn.add(tempWord.word+" ("+tempWord.getAnonymityIndex()+")");
+					toReturn.add(tempWord.word);//+" ("+tempWord.getAnonymityIndex()+")");
 				else 
 					break;
 			}
@@ -156,7 +156,7 @@ public class ConsolidationStation {
 				//System.out.println("Got here..");
 				//System.out.println(words.get(i).word+" "+words.get(i).getAnonymityIndex());
 				if((tempWord=words.get(i)).getAnonymityIndex()>0)
-					toReturn.add(tempWord.word+" ("+tempWord.getAnonymityIndex()+")");
+					toReturn.add(tempWord.word);//+" ("+tempWord.getAnonymityIndex()+")");
 				else 
 					break;
 			}	

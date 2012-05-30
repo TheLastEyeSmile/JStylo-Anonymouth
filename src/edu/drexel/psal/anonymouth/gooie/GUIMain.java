@@ -135,6 +135,7 @@ public class GUIMain extends javax.swing.JFrame {
 	protected JScrollPane featuresCanonConfigJScrollPane;
 	protected JList featuresCullJList;
 	protected DefaultComboBoxModel featuresCullJListModel;
+	protected JButton refreshButtonEditor;
 	private JPanel spacer2;
 	private JLabel synonymsLabel;
 	protected JTextPane addToSentencePane;
@@ -1246,6 +1247,11 @@ public class GUIMain extends javax.swing.JFrame {
 											lastSentenceButton.setText("Last Sentence");
 										}
 										{
+											refreshButtonEditor = new JButton();
+											editorTopRowButtonsPanel.add(refreshButtonEditor);
+											refreshButtonEditor.setText("Refresh");
+										}
+										{
 											nextSentenceButton = new JButton();
 											editorTopRowButtonsPanel.add(nextSentenceButton);
 											nextSentenceButton.setText("Next Sentence");
@@ -1254,7 +1260,7 @@ public class GUIMain extends javax.swing.JFrame {
 											addSentence = new JButton();
 											editorTopRowButtonsPanel.add(addSentence);
 											addSentence.setText("Append Next Sentence");
-											addSentence.setPreferredSize(new java.awt.Dimension(150, 23));
+											addSentence.setPreferredSize(new java.awt.Dimension(146, 23));
 										}
 										{
 											buttonBufferJPanel = new JPanel();
@@ -1495,7 +1501,6 @@ public class GUIMain extends javax.swing.JFrame {
 						holderPanel.setLayout(holderPanelLayout);
 						{
 							topPanel = new JPanel();
-							holderPanel.add(topPanel);
 							{
 								reClusterAllButton = new JButton();
 								topPanel.add(reClusterAllButton);
@@ -1511,6 +1516,7 @@ public class GUIMain extends javax.swing.JFrame {
 							}
 							secondPanel = new JPanel();
 							holderPanel.add(secondPanel);
+							holderPanel.add(topPanel);
 							/*
 							{
 								ComboBoxModel clusterConfigurationBoxModel = 

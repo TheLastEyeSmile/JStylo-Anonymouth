@@ -566,7 +566,28 @@ public class EditorTabDriver {
 			}
 			
 		});
-		
+		main.refreshButtonEditor.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0){
+				if(!eits.sentenceEditPane.isEditable()){
+					if(!eits.sentenceEditPane.getText().equals(helpMessege)){
+						spawnNew(main);
+					}
+					else{
+						eits.sentenceEditPane.setEditable(true);
+						eits.sentenceEditPane.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getNextSentence());
+						trackEditSentence(main);
+					}
+				}
+				else{
+					Logger.logln("Refresh button pressed.");
+					if(ConsolidationStation.toModifyTaggedDocs.get(0).removeAndReplace(eits.getSentenceEditPane().getText())!=-1){
+						trackEditSentence(main);
+					}
+				}
+			}			
+			
+		});
 		main.lastSentenceButton.addActionListener(new ActionListener(){
 			
 			@Override
@@ -983,7 +1004,7 @@ public class EditorTabDriver {
 								GUIMain.iconNO);
 				return -1;
 			}/**/
-			numSuggestions = 200;
+			numSuggestions = 400;
 			return numSuggestions;
 		}
 	}	

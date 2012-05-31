@@ -323,7 +323,7 @@ public class EditorTabDriver {
 		boolean inSent;
 		Scanner parser;
 		HashMap<String,Integer> indexMap=new HashMap<String,Integer>();
-		for(String str:topToRemove){
+		/*for(String str:topToRemove){
 			tempArr=DictionaryBinding.getSynonyms(str);
 			if(tempArr!=null){
 				//inSent=currentSent.contains(str);
@@ -331,7 +331,7 @@ public class EditorTabDriver {
 				
 				if(inSent)
 					synSetString+=str+"=>";
-				for(int i=0;i<tempArr.length;i++){
+				for(int i=0;i<tempArr.length;i++){//looks through synonyms
 					tempStr=tempArr[i];
 					if(inSent){
 						synSetString+=tempStr+", ";
@@ -346,8 +346,50 @@ public class EditorTabDriver {
 				if(inSent)
 					synSetString=synSetString.substring(0, synSetString.length()-2)+"\n";
 			}
+		}*/
+		Scanner sentParser=new Scanner(currentSent);
+		String wordToSearch, wordSynMatch;
+		HashMap<String,String>wordsWithSynonyms=new HashMap<String,String>();
+		boolean added=false;
+		synSetString="";
+		while(sentParser.hasNext()){
+			wordToSearch=sentParser.next();
+			tempArr=DictionaryBinding.getSynonyms(wordToSearch);
+			wordSynMatch="";
+			
+			if(!wordsWithSynonyms.containsKey(wordToSearch)){
+				if(tempArr!=null){
+					for(int i=0;i<tempArr.length;i++){//looks through synonyms
+						tempStr=tempArr[i];
+						wordSynMatch+=tempStr+", ";
+						added=false;
+						for(String addString:topToAdd){
+							if(addString.equalsIgnoreCase(tempStr)){//there is a match in topToAdd!
+								if(!synSetString.contains(wordToSearch))
+									synSetString+=wordToSearch+" => ";
+								synSetString+=addString+", ";
+								//index=synSetString.indexOf(tempStr);
+								//indexMap.put(tempStr, index);
+								added=true;
+							}
+						}
+						
+						if(added){
+							//do something if the word was added like print to the box.
+							synSetString+=synSetString.substring(0, synSetString.length()-2)+"\n";
+						}
+					}
+					wordsWithSynonyms.put(wordToSearch, wordSynMatch.substring(0, wordSynMatch.length()-2));
+					
+				}
+			}
 		}
-		
+		for(String wordToRem:topToRemove){//adds ALL the synonyms in the wordsToRemove
+			if(wordsWithSynonyms.containsKey(wordToRem)){
+				tempStr=wordsWithSynonyms.get(wordToRem);
+				synSetString+=wordToRem+" => "+tempStr+"\n";
+			}
+		}
 		main.addToSentencePane.setText(synSetString);
 		main.addToSentencePane.setCaretPosition(0);
 		
@@ -1004,7 +1046,7 @@ public class EditorTabDriver {
 								GUIMain.iconNO);
 				return -1;
 			}/**/
-			numSuggestions = 400;
+			numSuggestions = 200;
 			return numSuggestions;
 		}
 	}	

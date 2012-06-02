@@ -164,22 +164,25 @@ public class AuthorWPData {
 		int numFeatures = featureMatrix.getColumnDimension();
 		
 		// (1) calculate the covariance matrix
-		// -----------------------------------
+		// -----------------------------------		
 		// calculate X, the (#features)x(#instances) matrix
 		Matrix X = featureMatrix.transpose();
-		// calculate MU, the (#features)x(#instances) matrix of feature means
-		// where each cell i,j equals mean(feature_i)
-		double[][] MU_matrix_values = new double[numFeatures][1];
-		for (int i = 0; i < numFeatures; i++)
-			MU_matrix_values[i][0] = featureAverages[i];
-		double[][] I_values = new double[1][numInstances];
-		for (int i = 0; i < numInstances; i++)
-			I_values[0][i] = 1;
-		Matrix MU = new Matrix(MU_matrix_values).times(new Matrix(I_values));
-		// calculate X - MU
-		Matrix X_minus_MU = X.minus(MU);
-		// finally, calculate the covariance matrix
-		Matrix COV = X_minus_MU.times(X_minus_MU.transpose());//.times(1 / ((double) numFeatures));
+		// calculate the (#features)x(#features) unbiased estimator of the covariance matrix
+		// http://en.wikipedia.org/wiki/Estimation_of_covariance_matrices
+		double[] mu = featureAverages;
+		Matrix COV = new Matrix(new double[numFeatures][numFeatures]);
+		double tmp;
+		for (int i = 0; i < numFeatures; i++) {
+			for (int j = 0; j < numFeatures; j++) {
+				tmp = 0;
+				// sum over all instances
+				for (int d = 0; d < numInstances; d++) {
+					tmp += (X.get(i,d) - mu[i]) * (X.get(j,d) - mu[j]) /
+							(numInstances > 1 ? (numInstances - 1) : 1);
+				}
+				COV.set(i,j,tmp);
+			}
+		}
 		
 		// (2)	calculate eigenvalues followed by eigenvectors - the basis matrix,
 		// and calculate the principal component matrix - the author's writeprint
@@ -207,6 +210,7 @@ public class AuthorWPData {
 	 */
 	public static Matrix generatePattern(AuthorWPData basisAuthor, AuthorWPData targetAuthor) {
 		Matrix targetValuesTransposed = targetAuthor.featureMatrix.transpose();
+		//Matrix targetValues = targetAuthor.featureMatrix;
 		Matrix basisTransposed = basisAuthor.basisMatrix.transpose();
 		return basisTransposed.times(targetValuesTransposed);
 	}

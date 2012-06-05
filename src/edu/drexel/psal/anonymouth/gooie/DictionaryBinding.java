@@ -1,6 +1,13 @@
 package edu.drexel.psal.anonymouth.gooie;
 
 import edu.drexel.psal.jstylo.generics.Logger;
+
+import com.wintertree.wthes.CompressedThesaurus;
+import com.wintertree.wthes.LicenseKey;
+import com.wintertree.wthes.TextThesaurus;
+import com.wintertree.wthes.Thesaurus;
+import com.wintertree.wthes.ThesaurusSession;
+
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.WordNetDatabase;
 
@@ -15,11 +22,17 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.StringTokenizer;
 
 import javax.swing.JOptionPane;
 
 import com.jgaap.JGAAPConstants;
+import com.wintertree.wthes.CompressedThesaurus;
+import com.wintertree.wthes.LicenseKey;
+import com.wintertree.wthes.TextThesaurus;
+import com.wintertree.wthes.Thesaurus;
+import com.wintertree.wthes.ThesaurusSession;
 
 /**
  * Provides the support needed for the DictionaryConsole to function - hense, its name. 
@@ -240,7 +253,49 @@ public class DictionaryBinding {
 	}
 	
 	public static String[] getSynonyms(String wordToFind){
-		wordSynSetResult = "";
+		try {
+            LicenseKey.setKey(0x0271E8A6);  // substitute your license key
+            Thesaurus thesauri[] = new Thesaurus[2];
+            String thesPath = "runtime/thes";
+            thesauri[0] = new TextThesaurus(thesPath + "/userthes.tth");
+            thesauri[1] = new CompressedThesaurus(thesPath + "/thesgplgam4.cth");
+            ThesaurusSession wthes = new ThesaurusSession();
+            wthes.setThesauri(thesauri);
+            
+            ArrayList<ArrayList<String>> categorySyns= new ArrayList<ArrayList<String>>();
+            
+             for (Enumeration catNames = wthes.categoryNames(wordToFind);
+              catNames.hasMoreElements();) {
+                String category = (String)catNames.nextElement();
+                ArrayList<String> category1=new ArrayList<String>();
+                for (Enumeration synonyms = wthes.synonyms(category);synonyms.hasMoreElements();) {
+                    String syn = (String)synonyms.nextElement();
+                    category1.add(syn);
+                }
+                categorySyns.add(category1);
+                //System.out.println(args[i]);
+            }
+           // System.out.println(categorySyns);
+             int size=0;
+            for(ArrayList<String> arr:categorySyns){
+            	size+=arr.size();
+            }
+            String[] synArr=new String[size];
+            int i=0;
+            for(ArrayList<String> arr:categorySyns){
+            	for(String s:arr){
+            		synArr[i]=s;
+            		i++;
+            	}
+            }
+            return synArr;
+        }
+        catch (Exception e) {
+            System.err.println(e);
+            e.printStackTrace();
+        }
+		return null;
+		/*wordSynSetResult = "";
 		wordToFind=wordToFind.trim().toLowerCase();
 		WordNetDatabase wnd = WordNetDatabase.getFileInstance();
 		Synset[] testSet = wnd.getSynsets(wordToFind);
@@ -270,7 +325,14 @@ public class DictionaryBinding {
 			return wfs;
 		}
 		return null;//BIG PROBLEM
-		
+		*/
 	}
 
+	 public static void main(String args[]) {
+		 String [] temp=getSynonyms("company");
+		 for(String s:temp){
+			 System.out.println(s);
+		 }
+	 }
+	
 }

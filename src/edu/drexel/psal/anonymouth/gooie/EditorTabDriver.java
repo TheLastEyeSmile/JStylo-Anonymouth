@@ -276,7 +276,7 @@ public class EditorTabDriver {
 		eits.editorBox.repaint();
 		int innerArrSize,outerArrSize=indexArray.size(), currentStart,currentEnd;
 		currentStart=startHighlight;
-		Logger.logln("indexArr "+indexArray.toString(),Logger.LogOut.STDERR);
+		//Logger.logln("indexArr "+indexArray.toString(),Logger.LogOut.STDERR);
 		try {
 			for(int i=0;i<outerArrSize;i++){
 				currentEnd=indexArray.get(i).get(0);
@@ -352,25 +352,29 @@ public class EditorTabDriver {
 		HashMap<String,String>wordsWithSynonyms=new HashMap<String,String>();
 		boolean added=false;
 		synSetString="";
-		while(sentParser.hasNext()){
+		while(sentParser.hasNext()){//loops through every word in the sentence
 			wordToSearch=sentParser.next();
 			tempArr=DictionaryBinding.getSynonyms(wordToSearch);
 			wordSynMatch="";
 			
-			if(!wordsWithSynonyms.containsKey(wordToSearch)){
+			if(!wordsWithSynonyms.containsKey(wordToSearch.toLowerCase().trim())){
 				if(tempArr!=null){
 					for(int i=0;i<tempArr.length;i++){//looks through synonyms
 						tempStr=tempArr[i];
 						wordSynMatch+=tempStr+", ";
 						added=false;
-						for(String addString:topToAdd){
-							if(addString.equalsIgnoreCase(tempStr)){//there is a match in topToAdd!
+						for(String addString:topToAdd){//loops through the toAdd list
+							if(addString.trim().equalsIgnoreCase(tempStr.trim())){//there is a match in topToAdd!
 								if(!synSetString.contains(wordToSearch))
 									synSetString+=wordToSearch+" => ";
+								else{
+									Logger.logln("Did not add this again: "+wordToSearch);
+								}
 								synSetString+=addString+", ";
 								//index=synSetString.indexOf(tempStr);
 								//indexMap.put(tempStr, index);
 								added=true;
+								break;
 							}
 						}
 						
@@ -379,8 +383,10 @@ public class EditorTabDriver {
 							synSetString+=synSetString.substring(0, synSetString.length()-2)+"\n";
 						}
 					}
-					wordsWithSynonyms.put(wordToSearch, wordSynMatch.substring(0, wordSynMatch.length()-2));
-					
+					if(wordSynMatch.length()>2)
+						wordsWithSynonyms.put(wordToSearch.toLowerCase().trim(), wordSynMatch.substring(0, wordSynMatch.length()-2));
+					else
+						wordsWithSynonyms.put(wordToSearch.toLowerCase().trim(), "NO Synonyms");
 				}
 			}
 		}

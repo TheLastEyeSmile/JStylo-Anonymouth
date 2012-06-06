@@ -361,7 +361,7 @@ public class EditorTabDriver {
 				if(tempArr!=null){
 					for(int i=0;i<tempArr.length;i++){//looks through synonyms
 						tempStr=tempArr[i];
-						wordSynMatch+=tempStr+", ";
+						wordSynMatch+=tempStr+" ";
 						added=false;
 						for(String addString:topToAdd){//loops through the toAdd list
 							if(addString.trim().equalsIgnoreCase(tempStr.trim())){//there is a match in topToAdd!
@@ -370,7 +370,7 @@ public class EditorTabDriver {
 								else{
 									Logger.logln("Did not add this again: "+wordToSearch);
 								}
-								synSetString+=addString+", ";
+								synSetString=synSetString+addString+", ";
 								//index=synSetString.indexOf(tempStr);
 								//indexMap.put(tempStr, index);
 								added=true;
@@ -380,20 +380,34 @@ public class EditorTabDriver {
 						
 						if(added){
 							//do something if the word was added like print to the box.
-							synSetString+=synSetString.substring(0, synSetString.length()-2)+"\n";
+							synSetString=synSetString.substring(0, synSetString.length()-2)+"\n";
 						}
 					}
 					if(wordSynMatch.length()>2)
-						wordsWithSynonyms.put(wordToSearch.toLowerCase().trim(), wordSynMatch.substring(0, wordSynMatch.length()-2));
+						wordsWithSynonyms.put(wordToSearch.toLowerCase().trim(), wordSynMatch.substring(0, wordSynMatch.length()-1));
 					else
 						wordsWithSynonyms.put(wordToSearch.toLowerCase().trim(), "NO Synonyms");
 				}
 			}
 		}
+		String tempStrToAdd;
+		Word possibleToAdd;
+		double topAnon=0;
 		for(String wordToRem:topToRemove){//adds ALL the synonyms in the wordsToRemove
 			if(wordsWithSynonyms.containsKey(wordToRem)){
 				tempStr=wordsWithSynonyms.get(wordToRem);
-				synSetString+=wordToRem+" => "+tempStr+"\n";
+				tempStrToAdd="";
+				parser=new Scanner(tempStr);
+				topAnon=0;
+				while(parser.hasNext()){
+					possibleToAdd=new Word(parser.next().trim());
+					ConsolidationStation.setWordFeatures(possibleToAdd);
+					if(possibleToAdd.getAnonymityIndex()>topAnon){
+						tempStrToAdd=possibleToAdd.getUntagged()+", ";//changed for test
+						topAnon=possibleToAdd.getAnonymityIndex();
+					}
+				}
+				synSetString+=wordToRem+" => "+tempStrToAdd+"\n";
 			}
 		}
 		main.addToSentencePane.setText(synSetString);

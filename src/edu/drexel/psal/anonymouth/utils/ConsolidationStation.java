@@ -73,34 +73,39 @@ public class ConsolidationStation {
 	 */
 	public static TaggedSentence featurePacker(TaggedSentence taggedSent){
 		for(Word word:taggedSent.wordsInSentence){
-			String wordString=word.word;
-			int strSize=wordString.length(), tempNumber;
-			int attribLen=DataAnalyzer.lengthTopAttributes;
-			//for (Attribute attrib:attribs){
-			for(int i=0;i<attribLen;i++){
-				String stringInBrace=DataAnalyzer.topAttributes[i].getStringInBraces();
-				int toAddLength=stringInBrace.length();
-				if(toAddLength==0){
-					//Logger.logln("THIS IS BAD",Logger.LogOut.STDERR);
+			setWordFeatures(word);
+		}
+		return taggedSent;
+	}
+	
+	
+	public static void setWordFeatures(Word word){
+		String wordString=word.word;
+		int strSize=wordString.length(), tempNumber;
+		int attribLen=DataAnalyzer.lengthTopAttributes;
+		//for (Attribute attrib:attribs){
+		for(int i=0;i<attribLen;i++){
+			String stringInBrace=DataAnalyzer.topAttributes[i].getStringInBraces();
+			int toAddLength=stringInBrace.length();
+			if(toAddLength==0){
+				//Logger.logln("THIS IS BAD",Logger.LogOut.STDERR);
+			}
+			else if(toAddLength<=strSize){//checks for a possible match
+				tempNumber=0;
+				for(int j=0;j<strSize-toAddLength;j++){
+					if(wordString.substring(j, j+toAddLength).equals(stringInBrace)){
+						tempNumber++;
+					}
 				}
-				else if(toAddLength<=strSize){//checks for a possible match
-					tempNumber=0;
-					for(int j=0;j<strSize-toAddLength;j++){
-						if(wordString.substring(j, j+toAddLength).equals(stringInBrace)){
-							tempNumber++;
-						}
-					}
-					if(tempNumber>0){
-						//add the feature to the word and have it appearing tempNumber times.
-						//Logger.logln("AddNewReference from ConsolStation.featurePacker");
-						//Logger.logln("Value i: "+i+" Value indexOf Attrib: "+DataAnalyzer.topAttributes[i].getIndexNumber()+" Attribute: "+DataAnalyzer.topAttributes[i].getFullName()+" the word: "+wordString);
-						word.featuresFound.addNewReference(i, tempNumber);
-						//Logger.logln("Added a feature: "+word.featuresFound.toString());
-					}
+				if(tempNumber>0){
+					//add the feature to the word and have it appearing tempNumber times.
+					//Logger.logln("AddNewReference from ConsolStation.featurePacker");
+					//Logger.logln("Value i: "+i+" Value indexOf Attrib: "+DataAnalyzer.topAttributes[i].getIndexNumber()+" Attribute: "+DataAnalyzer.topAttributes[i].getFullName()+" the word: "+wordString);
+					word.featuresFound.addNewReference(i, tempNumber);
+					//Logger.logln("Added a feature: "+word.featuresFound.toString());
 				}
 			}
 		}
-		return taggedSent;
 	}
 	
 	/**

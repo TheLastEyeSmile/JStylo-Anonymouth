@@ -16,6 +16,7 @@ import edu.drexel.psal.anonymouth.utils.DocumentParser;
 import edu.drexel.psal.anonymouth.utils.DocumentTagger;
 import edu.drexel.psal.anonymouth.utils.FunctionWord;
 import edu.drexel.psal.anonymouth.utils.SentenceTools;
+import edu.drexel.psal.anonymouth.utils.SynonymReplaceTest;
 import edu.drexel.psal.anonymouth.utils.TaggedDocument;
 import edu.drexel.psal.anonymouth.utils.TaggedSentence;
 import edu.drexel.psal.anonymouth.utils.Word;
@@ -241,7 +242,7 @@ public class EditorTabDriver {
 				if(tempString.matches(cleanWordRegex)){//TODO: refine this.
 					
 					tempString=tempString.substring(0,tempString.length()-1);
-					Logger.logln("replaced a period in: "+tempString);
+					//Logger.logln("replaced a period in: "+tempString);
 				}
 				if(tempString.equals(topToRemove.get(i))){
 					tempArray=new ArrayList<Integer>(2);
@@ -303,6 +304,7 @@ public class EditorTabDriver {
 	 * 
 	 */
 	protected static void findSynonyms(GUIMain main,String currentSent){
+		/*
 		String[] tempArr;
 		addTracker = new DefaultHighlighter();
 		painter3 = new DefaultHighlighter.DefaultHighlightPainter(new Color(0,0,255,128));
@@ -346,7 +348,7 @@ public class EditorTabDriver {
 				if(inSent)
 					synSetString=synSetString.substring(0, synSetString.length()-2)+"\n";
 			}
-		}*/
+		}*//*
 		Scanner sentParser=new Scanner(currentSent);
 		String wordToSearch, wordSynMatch;
 		HashMap<String,String>wordsWithSynonyms=new HashMap<String,String>();
@@ -427,8 +429,10 @@ public class EditorTabDriver {
 			}
 		}
 		
-		
+		*/
+		SynonymReplaceTest.replaceWords(eits);
 	}
+	
 	
 	private static boolean checkSentFor(String currentSent, String str) {
 		// TODO Auto-generated method stub

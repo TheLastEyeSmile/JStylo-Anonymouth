@@ -151,6 +151,15 @@ public class DocsTabDriver {
 
 				JFileChooser open = new JFileChooser();
 				open.setMultiSelectionEnabled(true);
+				File dir;
+				try {
+					dir = new File(new File(".").getCanonicalPath());
+					open.setCurrentDirectory(dir);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 				open.addChoosableFileFilter(new ExtFilter("Text files (*.txt)", "txt"));
 				int answer = open.showOpenDialog(main);
 
@@ -261,6 +270,14 @@ public class DocsTabDriver {
 					Logger.logln("'Add Document(s)...' button clicked under the 'User Sample Documents' section on the documents tab.");
 	
 					JFileChooser open = new JFileChooser();
+					File dir;
+					try {
+						dir = new File(new File(".").getCanonicalPath());
+						open.setCurrentDirectory(dir);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					open.setMultiSelectionEnabled(true);
 					open.addChoosableFileFilter(new ExtFilter("Text files (*.txt)", "txt"));
 					int answer = open.showOpenDialog(main);
@@ -439,6 +456,14 @@ public class DocsTabDriver {
 					}
 					JFileChooser open = new JFileChooser();
 					open.setMultiSelectionEnabled(true);
+					File dir;
+					try {
+						dir = new File(new File(".").getCanonicalPath());
+						open.setCurrentDirectory(dir);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					open.addChoosableFileFilter(new ExtFilter("Text files (*.txt)", "txt"));
 					open.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 					int answer = open.showOpenDialog(main);

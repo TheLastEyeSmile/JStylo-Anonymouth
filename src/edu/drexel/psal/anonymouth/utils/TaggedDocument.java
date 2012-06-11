@@ -45,7 +45,7 @@ public class TaggedDocument {
 	protected TaggedSentence currentLiveTaggedSentences;
 	protected ArrayList<TaggedSentence> taggedSentences;
 	//protected ArrayList<String> untaggedSentences;
-	private static final Pattern EOS_chars = Pattern.compile("([?!]+)|([.]){1}\\s*");
+	private static final Pattern EOS_chars = Pattern.compile("(([?!]+)|([.]){1})\\s*");
 	
 	protected String documentTitle = "None";
 	protected String documentAuthor = "None";

@@ -1,5 +1,6 @@
 package edu.drexel.psal.anonymouth.gooie;
 
+import edu.drexel.psal.anonymouth.utils.POS;
 import edu.drexel.psal.jstylo.generics.Logger;
 
 import com.wintertree.wthes.CompressedThesaurus;
@@ -23,6 +24,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 
 import javax.swing.JOptionPane;
@@ -252,7 +254,7 @@ public class DictionaryBinding {
 		return true;
 	}
 	
-	public static String[] getSynonyms(String wordToFind){
+	public static String[] getSynonyms(String wordToFind, String pos){
 		try {
             LicenseKey.setKey(0x0271E8A6);  // substitute your license key
             Thesaurus thesauri[] = new Thesaurus[2];
@@ -261,18 +263,28 @@ public class DictionaryBinding {
             thesauri[1] = new CompressedThesaurus(thesPath + "/thesgplgam4.cth");
             ThesaurusSession wthes = new ThesaurusSession();
             wthes.setThesauri(thesauri);
-            
+            Scanner spliter;
+            ArrayList<String> category1;
+            pos=POS.tagToString(pos);
             ArrayList<ArrayList<String>> categorySyns= new ArrayList<ArrayList<String>>();
             
-             for (Enumeration catNames = wthes.categoryNames(wordToFind);
-              catNames.hasMoreElements();) {
+             for (Enumeration catNames = wthes.categoryNames(wordToFind);catNames.hasMoreElements();) {
                 String category = (String)catNames.nextElement();
-                ArrayList<String> category1=new ArrayList<String>();
-                for (Enumeration synonyms = wthes.synonyms(category);synonyms.hasMoreElements();) {
-                    String syn = (String)synonyms.nextElement();
-                    category1.add(syn);
-                }
-                categorySyns.add(category1);
+                Logger.logln("Category: "+category);
+                spliter=new Scanner(category);
+                spliter.next();
+                String temp=spliter.next();
+                if(temp.substring(1,temp.length()-1).equals(pos.toLowerCase().trim())){
+                	category1=new ArrayList<String>();
+                	for (Enumeration synonyms = wthes.synonyms(category);synonyms.hasMoreElements();) {
+		            	
+		                String syn = (String)synonyms.nextElement();
+		                Logger.logln("Syn: "+syn);
+		                category1.add(syn);
+		            }
+                	 categorySyns.add(category1);
+             	}
+                
                 //System.out.println(args[i]);
             }
            // System.out.println(categorySyns);
@@ -329,7 +341,7 @@ public class DictionaryBinding {
 	}
 
 	 public static void main(String args[]) {
-		 String [] temp=getSynonyms("company");
+		 String [] temp=getSynonyms("walk", "verb");
 		 for(String s:temp){
 			 System.out.println(s);
 		 }

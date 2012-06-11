@@ -1,5 +1,6 @@
 package edu.drexel.psal.anonymouth.utils;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import edu.drexel.psal.anonymouth.gooie.DictionaryBinding;
@@ -14,13 +15,17 @@ public class SynonymReplaceTest {
 	 */
 	public static void replaceWords(EditorInnerTabSpawner eits){
 		String currentSent=eits.getSentenceEditPane().getText();
-		String newSentence="";
-		Scanner parser=new Scanner(currentSent);
+		String newSentence=" ";
+		TaggedSentence taggedSent=ConsolidationStation.toModifyTaggedDocs.get(0).taggedSentences.get(ConsolidationStation.toModifyTaggedDocs.get(0).getSentNumber());
+		ArrayList<Word> words=taggedSent.getWordsInSentence();
+		//Scanner parser=new Scanner(currentSent);
 		String currentWord, synonyms[];
 		Word currentSynonym,topSynonym;
-		while(parser.hasNext()){//loops through every word in the sentence
-			currentWord=parser.next();
-			synonyms=DictionaryBinding.getSynonyms(currentWord);
+		//while(parser.hasNext()){//loops through every word in the sentence
+		for(Word w:words){
+			//currentWord=parser.next();
+			currentWord=w.getUntagged();
+			synonyms=DictionaryBinding.getSynonyms(currentWord,w.partOfSpeech.get(0));
 			topSynonym=new Word(currentWord);
 			//Double d=topSynonym.getAnonymityIndex();
 			ConsolidationStation.setWordFeatures(topSynonym);

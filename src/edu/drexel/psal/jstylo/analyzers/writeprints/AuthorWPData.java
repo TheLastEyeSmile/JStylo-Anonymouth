@@ -187,8 +187,8 @@ public class AuthorWPData {
 		// (2)	calculate eigenvalues followed by eigenvectors - the basis matrix,
 		// and calculate the principal component matrix - the author's writeprint
 		// ----------------------------------------------------------------------
-		EigenvalueDecomposition eigenvalues = COV.eig();
-		basisMatrix = eigenvalues.getV();
+		EigenvalueDecomposition eig = COV.eig();
+		basisMatrix = eig.getV();
 		writeprint = basisMatrix.transpose().times(X); // was: times(X_minux_MU) instead of times(X)
 		WriteprintsAnalyzer.log.print("(basis: " + basisMatrix.getRowDimension() +
 				"x" + basisMatrix.getColumnDimension() +

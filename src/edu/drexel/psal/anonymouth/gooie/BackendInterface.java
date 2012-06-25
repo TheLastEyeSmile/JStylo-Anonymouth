@@ -304,7 +304,7 @@ public class BackendInterface {
 				//main.getResultsTable().getColumnModel().getColumn(resultsMaxIndex).setCellRenderer(new MyTableRenderer());
 				
 			}
-			else{
+			else{//This reprocesses
 				Logger.logln("Process button pressed to re-process document to modify.");
 				tempDoc = getDocFromCurrentTab();
 				if(tempDoc.equals("") == true){

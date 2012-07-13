@@ -42,7 +42,7 @@ public class ConsolidationStation {
 	 * @param attribs
 	 * @param parsed
 	 */
-	public ConsolidationStation(Attribute[] attribs){
+	public ConsolidationStation(){
 		this.parsed = parsed;
 		toAdd = new ArrayList<Triple>(400);
 		toRemove = new ArrayList<Triple>(400);

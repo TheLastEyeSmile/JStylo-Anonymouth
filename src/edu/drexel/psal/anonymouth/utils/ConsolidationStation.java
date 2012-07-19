@@ -205,6 +205,7 @@ public class ConsolidationStation {
 	public static Word getWordFromString(String str){
 		Word newWord=new Word(str);
 		for (int i=0;i<toAdd.size();i++){//toaddList loop
+			Logger.logln("TOADD: "+toAdd.get(i).getStringInBraces());
 			int toAddLength=toAdd.get(i).getStringInBraces().length();
 			if(toAddLength<=str.length()){//checks if it can be a possible match
 				int tempNumber=0;
@@ -219,6 +220,7 @@ public class ConsolidationStation {
 			}
 		}
 		for (int i=0;i<toRemove.size();i++){//toaddList loop
+			Logger.logln("TOREMOVE: "+toRemove.get(i).getStringInBraces());
 			int toAddLength=toRemove.get(i).getStringInBraces().length();
 			if(toAddLength<=str.length()){//checks if it can be a possible match
 				int tempNumber=0;

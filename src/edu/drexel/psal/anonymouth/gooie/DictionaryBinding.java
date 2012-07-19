@@ -255,59 +255,7 @@ public class DictionaryBinding {
 	}
 	
 	public static String[] getSynonyms(String wordToFind, String pos){
-		try {
-            LicenseKey.setKey(0x0271E8A6);  // substitute your license key
-            Thesaurus thesauri[] = new Thesaurus[2];
-            String thesPath = "runtime/thes";
-            thesauri[0] = new TextThesaurus(thesPath + "/userthes.tth");
-            thesauri[1] = new CompressedThesaurus(thesPath + "/thesgplgam4.cth");
-            ThesaurusSession wthes = new ThesaurusSession();
-            wthes.setThesauri(thesauri);
-            Scanner spliter;
-            ArrayList<String> category1;
-            pos=POS.tagToString(pos);
-            ArrayList<ArrayList<String>> categorySyns= new ArrayList<ArrayList<String>>();
-            
-             for (Enumeration catNames = wthes.categoryNames(wordToFind);catNames.hasMoreElements();) {
-                String category = (String)catNames.nextElement();
-                Logger.logln("Category: "+category);
-                spliter=new Scanner(category);
-                spliter.next();
-                String temp=spliter.next();
-                if(temp.substring(1,temp.length()-1).equals(pos.toLowerCase().trim())){
-                	category1=new ArrayList<String>();
-                	for (Enumeration synonyms = wthes.synonyms(category);synonyms.hasMoreElements();) {
-		            	
-		                String syn = (String)synonyms.nextElement();
-		                Logger.logln("Syn: "+syn);
-		                category1.add(syn);
-		            }
-                	 categorySyns.add(category1);
-             	}
-                
-                //System.out.println(args[i]);
-            }
-           // System.out.println(categorySyns);
-             int size=0;
-            for(ArrayList<String> arr:categorySyns){
-            	size+=arr.size();
-            }
-            String[] synArr=new String[size];
-            int i=0;
-            for(ArrayList<String> arr:categorySyns){
-            	for(String s:arr){
-            		synArr[i]=s;
-            		i++;
-            	}
-            }
-            return synArr;
-        }
-        catch (Exception e) {
-            System.err.println(e);
-            e.printStackTrace();
-        }
-		return null;
-		/*wordSynSetResult = "";
+		wordSynSetResult = "";
 		wordToFind=wordToFind.trim().toLowerCase();
 		WordNetDatabase wnd = WordNetDatabase.getFileInstance();
 		Synset[] testSet = wnd.getSynsets(wordToFind);
@@ -337,7 +285,7 @@ public class DictionaryBinding {
 			return wfs;
 		}
 		return null;//BIG PROBLEM
-		*/
+		
 	}
 
 	 public static void main(String args[]) {

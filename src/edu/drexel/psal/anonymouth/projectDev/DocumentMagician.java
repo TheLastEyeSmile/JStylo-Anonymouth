@@ -330,7 +330,7 @@ public class DocumentMagician {
 	public void initialDocToData(ProblemSet pSet,CumulativeFeatureDriver cfd, Classifier classifier ){//,List<Map<String,Document>> forTraining, List<Document> forTesting){
 		Logger.logln("Entered initialDocToData in DocumentMagician");
 		theClassifier = classifier;
-		System.out.println(pSet.toString());
+		//System.out.println(pSet.toString());
 		ProblemSet pSetCopy = new ProblemSet(pSet);
 		trainSet = pSetCopy.getAllTrainDocs();
 		

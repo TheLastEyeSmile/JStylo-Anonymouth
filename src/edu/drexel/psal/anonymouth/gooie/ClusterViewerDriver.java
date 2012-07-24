@@ -113,6 +113,7 @@ public class ClusterViewerDriver {
 						Logger.logln("Cluster Group number '"+trueIndex+"' selected: "+stringRepresentation[selectedIndex]);
 						Logger.logln("Cluster Group chosen by Anonymouth: "+stringRepresentation[1]);
 						DataAnalyzer.selectedTargets = intRepresentation[trueIndex];
+						Logger.logln("INTREP: "+intRepresentation[trueIndex]);//added this.
 						EditorTabDriver.wizard.setSelectedTargets();
 						EditorTabDriver.signalTargetsSelected(main, true);
 						main.mainJTabbedPane.getComponentAt(3).setEnabled(true);

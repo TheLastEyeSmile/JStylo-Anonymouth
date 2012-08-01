@@ -30,12 +30,13 @@ import java.util.StringTokenizer;
 import javax.swing.JOptionPane;
 
 import com.jgaap.JGAAPConstants;
+/*
 import com.wintertree.wthes.CompressedThesaurus;
 import com.wintertree.wthes.LicenseKey;
 import com.wintertree.wthes.TextThesaurus;
 import com.wintertree.wthes.Thesaurus;
 import com.wintertree.wthes.ThesaurusSession;
-
+*/
 /**
  * Provides the support needed for the DictionaryConsole to function - hense, its name. 
  * @author Andrew W.E. McDonald

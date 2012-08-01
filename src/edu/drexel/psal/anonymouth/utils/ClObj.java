@@ -50,13 +50,7 @@ public class ClObj {
         if (ps==null){
             System.out.println("THIS IS NULL OH NO");
         }
-        else
-            //try{
-            Logger.logln("Document: "+ps.getTestDocs().get(0).stringify());
-           // }
-           // catch (Exception e){
-//                e.printStackTrace();
-            //}
+        
         wizard=new DataAnalyzer(ps,user);
         magician=new DocumentMagician(false);
 
@@ -64,7 +58,7 @@ public class ClObj {
         
 //        BackendInterface.preTargetSelectionProcessing(null,wizard,magician,null);
         magician.setModifiedDocument(doc);
-        classifier=new SMO();
+       // classifier=new SMO();
         
         CumulativeFeatureDriver cfd=makeCFD();
         try{
@@ -84,6 +78,7 @@ public class ClObj {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
+        magician.runWeka(user);
         wizard.selectedTargets=CLUSTERGROUP;
         wizard.setSelectedTargets();
     }
@@ -151,11 +146,11 @@ public class ClObj {
         //returns the classification as a json object {you:#,next:#}
 
         String toReturn="{\"you\":\"";
-        /*try{
+        try{
             //wizard.runInitial(magician, main.cfd, main.classifiers.get(0));
-
-            Tagger.initTagger();
-            // ClusterViewerDriver.initializeClusterViewer(main, true);
+        	wizard.reRunModified(magician);
+           // Tagger.initTagger();
+           
             magician.runWeka();
         }
         catch(Exception e){

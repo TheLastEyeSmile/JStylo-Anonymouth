@@ -315,15 +315,15 @@ public class DocumentMagician {
 	 * against all sample documents (user's samples, and 'other' samples)
 	 * @throws Exception
 	 */
-	public synchronized void runWeka(){
+	public synchronized void runWeka(String user){
 		Logger.logln("Called runWeka");
 		WekaAnalyzer waz = new WekaAnalyzer(theClassifier);
 		if(classifier_saved == false){
-			wekaResultMap = waz.classify("trained_classifiers/Andrew_test.model", false,authorAndTrainDat,toModifyDat,toModifySet);// ?
+			wekaResultMap = waz.classify("trained_classifiers/"+user+"_test.model", false,authorAndTrainDat,toModifyDat,toModifySet);// ?
 			classifier_saved = true;
 		}
 		else{
-			wekaResultMap = waz.classify("trained_classifiers/Andrew_test.model", true,authorAndTrainDat,toModifyDat,toModifySet);// ?
+			wekaResultMap = waz.classify("trained_classifiers/"+user+"_test.model", true,authorAndTrainDat,toModifyDat,toModifySet);// ?
 		}
 		Logger.logln("Weka Done");
 	}

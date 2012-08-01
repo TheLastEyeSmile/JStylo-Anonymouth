@@ -210,7 +210,7 @@ public class BackendInterface {
 		}
 	}
 */	
-	protected static void preTargetSelectionProcessing(GUIMain main,DataAnalyzer wizard, DocumentMagician magician,ClassifyingProgressBar cpb){
+	public static void preTargetSelectionProcessing(GUIMain main,DataAnalyzer wizard, DocumentMagician magician,ClassifyingProgressBar cpb){
 		//Logger
 		(new Thread(bei.new PreTargetSelectionProcessing(main,wizard,magician,cpb))).start();
 		
@@ -230,9 +230,9 @@ public class BackendInterface {
 			//System.out.println("Entered EditTabProcessButtonClicked - NOTHING ELSE SHOULD HAPPEN UNTIL NEXT MESSAGE FROM THIS CLASS.");
 			this.wizard = wizard;
 			this.magician = magician;
-			this.cpb = cpb;
-			selectedIndex = main.editTP.getSelectedIndex();
-			this.eits = EditorTabDriver.eitsList.get(selectedIndex);
+//			this.cpb = cpb;
+//			selectedIndex = main.editTP.getSelectedIndex();
+//			this.eits = EditorTabDriver.eitsList.get(selectedIndex);
 		}
 		
 		public String getDocFromCurrentTab(){
@@ -241,7 +241,7 @@ public class BackendInterface {
 		
 		public void run(){
 			try{
-				eits.editorBox.setEnabled(false);
+//				eits.editorBox.setEnabled(false);
 				DocumentMagician.numProcessRequests++;
 			//System.out.println("Still in EditTabProcessButtonClicked...STARTING RUN METHOD.");
 			//main.featureNameLabel.setText("Feature Name: ");
@@ -252,10 +252,10 @@ public class BackendInterface {
 			//main.resultsTablePane.setEnabled(false);
 			String tempDoc = "";
 			if(EditorTabDriver.isFirstRun == true){
-				eits.sentenceEditPane.setEditable(false);
-				eits.sentenceEditPane.setEnabled(false);
-				ConsolidationStation.functionWords.run();
-				tempDoc = getDocFromCurrentTab();
+//				eits.sentenceEditPane.setEditable(false);
+//				eits.sentenceEditPane.setEnabled(false);
+//				ConsolidationStation.functionWords.run();
+//				tempDoc = getDocFromCurrentTab();
 				//eits.editorBox.setText("ThisWorked!");
 				//Scanner in = new Scanner(System.in);
 				//in.next();
@@ -266,12 +266,12 @@ public class BackendInterface {
 				
 				Logger.logln("Process button pressed for first time (initial run) in editor tab");
 				
-				cpb.setText("Extracting and Clustering Features...");
+//				cpb.setText("Extracting and Clustering Features...");
 				try{
 					wizard.runInitial(magician,main.cfd, main.classifiers.get(0));
-					cpb.setText("Extracting and Clustering Features... Done");
-					cpb.setText("Initializing Tagger...");
-					
+//					cpb.setText("Extracting and Clustering Features... Done");
+//					cpb.setText("Initializing Tagger...");
+//					
 					//ConsolidationStation.attribs=wizard.getAttributes();//not the best maybe??	
 					//ConsolidationStation.getStringsFromAttribs();
 					Tagger.initTagger();

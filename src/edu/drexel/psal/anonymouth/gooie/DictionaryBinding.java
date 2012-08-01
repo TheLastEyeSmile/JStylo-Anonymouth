@@ -2,13 +2,13 @@ package edu.drexel.psal.anonymouth.gooie;
 
 import edu.drexel.psal.anonymouth.utils.POS;
 import edu.drexel.psal.jstylo.generics.Logger;
-
+/*
 import com.wintertree.wthes.CompressedThesaurus;
 import com.wintertree.wthes.LicenseKey;
 import com.wintertree.wthes.TextThesaurus;
 import com.wintertree.wthes.Thesaurus;
 import com.wintertree.wthes.ThesaurusSession;
-
+*/
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.WordNetDatabase;
 

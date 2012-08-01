@@ -58,15 +58,14 @@ public class ClObj {
         
 //        BackendInterface.preTargetSelectionProcessing(null,wizard,magician,null);
         magician.setModifiedDocument(doc);
-       // classifier=new SMO();
-        
+        classifier=new SMO();
         CumulativeFeatureDriver cfd=makeCFD();
-        try{
-//            magician.initialDocToData(ps,cfd,classifier);
+       /* try{
+        	magician.initialDocToData(ps,cfd,classifier);
         }
         catch(Exception e){
             e.printStackTrace();
-        }
+        }*/
 
 //       TaggedDocument taggedDocument = new TaggedDocument();//eits.editorBox.getText();
 //        ConsolidationStation.toModifyTaggedDocs=new ArrayList<TaggedDocument>();
@@ -95,12 +94,13 @@ public class ClObj {
             ProblemSet ps=new ProblemSet(path);
             ps.setTrainCorpusName("Authors");
 
-            
+            ps.setDummyAuthor("*"+user+"*");
             for(Document d:ps.getAllTrainDocs()){
             	d.load();
             }
-            
-            ps.getTestDocs().get(0).load();
+            for(Document d:ps.getTestDocs()){
+            	d.load();
+        	}	
 //            ArrayList<String> allTestDocPaths = new ArrayList<String>();
 //            for (Document doc:ps.getTestDocs())
 //                allTestDocPaths.add(doc.getFilePath());
@@ -151,12 +151,12 @@ public class ClObj {
         	wizard.reRunModified(magician);
            // Tagger.initTagger();
            
-            magician.runWeka();
+            magician.runWeka(user);
         }
         catch(Exception e){
             e.printStackTrace();
         }
-*/
+
         Map<String,Map<String,Double>> wekaResults = magician.getWekaResultList();
 
         magician.setModifiedDocument(doc);

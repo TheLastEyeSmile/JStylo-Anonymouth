@@ -2,7 +2,17 @@ package edu.drexel.psal.anonymouth.gooie;
 
 import edu.drexel.psal.anonymouth.utils.POS;
 import edu.drexel.psal.jstylo.generics.Logger;
+<<<<<<< HEAD
 
+=======
+/*
+import com.wintertree.wthes.CompressedThesaurus;
+import com.wintertree.wthes.LicenseKey;
+import com.wintertree.wthes.TextThesaurus;
+import com.wintertree.wthes.Thesaurus;
+import com.wintertree.wthes.ThesaurusSession;
+*/
+>>>>>>> refs/remotes/origin/Andrew_McDonald
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.WordNetDatabase;
 
@@ -24,8 +34,18 @@ import java.util.StringTokenizer;
 import javax.swing.JOptionPane;
 
 import com.jgaap.JGAAPConstants;
+<<<<<<< HEAD
 
 
+=======
+/*
+import com.wintertree.wthes.CompressedThesaurus;
+import com.wintertree.wthes.LicenseKey;
+import com.wintertree.wthes.TextThesaurus;
+import com.wintertree.wthes.Thesaurus;
+import com.wintertree.wthes.ThesaurusSession;
+*/
+>>>>>>> refs/remotes/origin/Andrew_McDonald
 /**
  * Provides the support needed for the DictionaryConsole to function - hense, its name. 
  * @author Andrew W.E. McDonald

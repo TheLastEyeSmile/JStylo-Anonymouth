@@ -53,6 +53,8 @@ public class DocumentMagician {
 	
 	public static int numSampleAuthors;
 	
+	private boolean classifier_saved = false;
+	
 	private List<Document> trainSet;
 	
 	private List<Document> toModifySet;
@@ -313,10 +315,16 @@ public class DocumentMagician {
 	 * against all sample documents (user's samples, and 'other' samples)
 	 * @throws Exception
 	 */
-	public synchronized void runWeka() throws Exception{
+	public synchronized void runWeka(){
 		Logger.logln("Called runWeka");
 		WekaAnalyzer waz = new WekaAnalyzer(theClassifier);
-		wekaResultMap = waz.classify(authorAndTrainDat,toModifyDat,toModifySet);// ?
+		if(classifier_saved == false){
+			wekaResultMap = waz.classify("trained_classifiers/Andrew_test.model", false,authorAndTrainDat,toModifyDat,toModifySet);// ?
+			classifier_saved = true;
+		}
+		else{
+			wekaResultMap = waz.classify("trained_classifiers/Andrew_test.model", true,authorAndTrainDat,toModifyDat,toModifySet);// ?
+		}
 		Logger.logln("Weka Done");
 	}
 		

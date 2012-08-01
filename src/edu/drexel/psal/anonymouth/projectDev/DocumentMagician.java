@@ -20,6 +20,7 @@ import edu.drexel.psal.jstylo.generics.*;
 import edu.drexel.psal.jstylo.generics.Logger.LogOut;
 
 import edu.drexel.psal.jstylo.analyzers.WekaAnalyzer;
+import edu.drexel.psal.anonymouth.projectDev.InstanceConstructor;
 import edu.drexel.psal.anonymouth.utils.DocumentParser;
 import edu.drexel.psal.anonymouth.utils.DocumentTagger;
 
@@ -315,15 +316,16 @@ public class DocumentMagician {
 	 * against all sample documents (user's samples, and 'other' samples)
 	 * @throws Exception
 	 */
-	public synchronized void runWeka(String user){
+	public synchronized void runWeka(String path){
 		Logger.logln("Called runWeka");
 		WekaAnalyzer waz = new WekaAnalyzer(theClassifier);
+		//wekaResultMap = waz.classify(authorAndTrainDat,toModifyDat,toModifySet);
 		if(classifier_saved == false){
-			wekaResultMap = waz.classify("trained_classifiers/"+user+"_test.model", false,authorAndTrainDat,toModifyDat,toModifySet);// ?
+			wekaResultMap = waz.classify(path, false,authorAndTrainDat,toModifyDat,toModifySet);// ?
 			classifier_saved = true;
 		}
 		else{
-			wekaResultMap = waz.classify("trained_classifiers/"+user+"_test.model", true,authorAndTrainDat,toModifyDat,toModifySet);// ?
+			wekaResultMap = waz.classify(path, true,authorAndTrainDat,toModifyDat,toModifySet);// ?
 		}
 		Logger.logln("Weka Done");
 	}

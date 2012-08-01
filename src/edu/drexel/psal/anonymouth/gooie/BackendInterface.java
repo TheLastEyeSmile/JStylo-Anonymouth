@@ -285,7 +285,7 @@ public class BackendInterface {
 					ClusterViewerDriver.initializeClusterViewer(main,true);
 					cpb.setText("Initialize Cluster Viewer... Done");
 					cpb.setText("Classifying Documents...");
-					magician.runWeka(ThePresident.sessionName);
+					magician.runWeka("trained_classifiers/Andrew_test.model");
 					cpb.setText("Classifying Documents... Done");
 					//ConsolidationStation.attribs=wizard.getAttributes();//not the best maybe??	
 					//ConsolidationStation.getStringsFromAttribs();//moving this...
@@ -326,7 +326,7 @@ public class BackendInterface {
 						ClusterViewerDriver.initializeClusterViewer(main,false);
 						cpb.setText("Initialize Cluster Viewer... Done");
 						cpb.setText("Classifying Documents...");
-						magician.runWeka(ThePresident.sessionName);
+						magician.runWeka("trained_classifiers/Andrew_test.model");
 						cpb.setText("Classifying Documents... Done");
 					} catch (Exception e) {
 						e.printStackTrace();

@@ -87,4 +87,10 @@ public class MultiplePrintStream {
 			if (ps != null)
 				ps.printf(s, args);
 	}
+	
+	public void close() {
+		for (PrintStream ps: psArr)
+			if (ps != null)
+				ps.close();
+	}
 }

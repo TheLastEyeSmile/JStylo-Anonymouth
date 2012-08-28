@@ -13,6 +13,7 @@ import com.jgaap.JGAAPConstants;
 
 import edu.stanford.nlp.ling.TaggedWord;
 import edu.drexel.psal.anonymouth.projectDev.Attribute;
+import edu.drexel.psal.anonymouth.projectDev.DataAnalyzer;
 import edu.drexel.psal.anonymouth.utils.POS.TheTags;
 
 import edu.drexel.psal.anonymouth.utils.*;
@@ -31,40 +32,18 @@ import edu.stanford.nlp.trees.TreebankLanguagePack;
  * @author Andrew W.E. McDonald
  */
 
-public class TaggedSentence {
+public class TaggedSentence implements Comparable<TaggedSentence>{
+	
+	protected SparseReferences sentenceLevelFeaturesFound;
 
 	protected String untagged;
 	protected ArrayList<Word> wordsInSentence;
-	//protected ArrayList<TaggedWord> tagged=new ArrayList<TaggedWord>();
-	//protected Iterator<TaggedWord> tagIter;
-	//private TaggedWord taggedWord;
-	//protected ArrayList<String> wordsToReturn;
+	
 	private int PROBABLE_MAX = 3;
 	
 	protected ArrayList<TENSE> tense = new ArrayList<TENSE>(PROBABLE_MAX);
 	protected ArrayList<POV> pointOfView = new ArrayList<POV>(PROBABLE_MAX);
 	protected ArrayList<CONJ> conj = new ArrayList<CONJ>(PROBABLE_MAX);
-	/*
-	protected ArrayList<String> functionWords=new ArrayList<String>(PROBABLE_MAX);//not sure if should have put PROBABLE_MAX
-	protected ArrayList<String> misspelledWords=new ArrayList<String>(PROBABLE_MAX);
-	protected ArrayList<String> punctuation =new ArrayList<String>(PROBABLE_MAX);
-	protected ArrayList<String> specialChars =new ArrayList<String>(PROBABLE_MAX);
-	protected ArrayList<String> digits =new ArrayList<String>(PROBABLE_MAX);
-	protected ArrayList<Integer> wordLengths=new ArrayList<Integer>(PROBABLE_MAX);
-	
-	/*protected HashMap<String,Integer>  words=new HashMap<String,Integer>();
-	protected HashMap<String,Integer>  wordBigrams=new HashMap<String,Integer>();
-	protected HashMap<String,Integer>  wordTrigrams=new HashMap<String,Integer>();
-	
-	protected HashMap<String,Integer>  POS=new HashMap<String,Integer>();
-	protected HashMap<String,Integer>  POSBigrams=new HashMap<String,Integer>();
-	protected HashMap<String,Integer>  POSTrigrams=new HashMap<String,Integer>();
-	
-	protected HashMap<String,Integer> letters=new HashMap<String,Integer>();
-	protected HashMap<String,Integer>  letterBigrams=new HashMap<String,Integer>();
-	protected HashMap<String,Integer>  letterTrigrams=new HashMap<String,Integer>();
-*/	
-	//protected HashMap<String,Word> wordListMap=new HashMap<String,Word>(); 
 	
 	private static final Pattern punctuationRegex=Pattern.compile("[.?!,\'\";:]{1}");
 	private static final Pattern specialCharsRegex=Pattern.compile("[~@#$%^&*-_=+><\\\\[\\\\]{}/\\|]+");
@@ -78,21 +57,20 @@ public class TaggedSentence {
 	private String[] firstPersonPronouns={"I","me","my","mine","we","us","our","ours"};
 	private String[] secondPersonPronouns={"you","your","yours"};
 	
+	
+	/**
+	 * Constructor -- accepts an untagged string.
+	 * @param untagged
+	 */
 	public TaggedSentence(String untagged){
 		wordsInSentence = new ArrayList<Word>();
 		this.untagged = untagged;
 	}
-	/*
-	public TaggedSentence(String untagged, ArrayList<TaggedWord> tagged){
-		wordsInSentence = new ArrayList<Word>(tagged.size());
-		this.untagged = untagged;
-		this.tagged = tagged;
-		
-		//setGrammarStats();
-	//	Logger.logln("WordList"+wordList.toString());
-	}
-	*/
 	
+	/**
+	 * Constructor -- accepts a TaggedSentence object. (Don't use this. This may be bad.)
+	 * @param taggedSentence
+	 */
 	public TaggedSentence(TaggedSentence taggedSentence) {//TODO make sure this doesnt need new objects.
 		this.untagged=taggedSentence.untagged;
 		this.wordsInSentence=taggedSentence.wordsInSentence;
@@ -119,12 +97,6 @@ public class TaggedSentence {
 		
 		return true;
 	}
-/*
-	public HashMap<String, Word> getWordList(){
-		return wordListMap;
-	}
-	*/
-	
 	
 	/**
 	 * Retrieves all Reference objects associated with each word in the sentence, and merges them into a single instance of SparseReferences
@@ -132,10 +104,13 @@ public class TaggedSentence {
 	 */
 	public SparseReferences getReferences(){
 		int numWords = this.size();
-		SparseReferences allRefs = new SparseReferences(numWords*5); // just a guess - I don't think well have more than 5 distinct features per word (as an average)
+		SparseReferences allRefs = new SparseReferences((numWords*5)+sentenceLevelFeaturesFound.length()); // just a guess - I don't think well have more than 5 distinct features per word (as an average)
+		// merge all "word level" features
 		for(Word w: wordsInSentence){
-			allRefs.merge(w.featuresFound);
+			allRefs.merge(w.wordLevelFeaturesFound);
 		}
+		// merge all "sentence level" features
+		allRefs.merge(sentenceLevelFeaturesFound);
 		return allRefs;
 	}
 	
@@ -151,6 +126,20 @@ public class TaggedSentence {
 	}
 	
 	/**
+	 * Allows comparing two TaggedSentence objects based upon anonymity index
+	 */
+	public int compareTo( TaggedSentence notThisSent){
+		double thisAnonIndex = this.getSentenceAnonymityIndex();
+		double thatAnonIndex = notThisSent.getSentenceAnonymityIndex();
+		if(thisAnonIndex< thatAnonIndex)
+			return -1;
+		else if (thisAnonIndex == thatAnonIndex)
+			return 0;
+		else
+			return 1;	
+	}
+	
+	/**
 	 * returns a SparseReference object containing the index of each attribute who's value needs to be updated, along with the amount
 	 * it must be changed by (if positive, the present value should increase, if negative, it should decrease. Therefore, you only need to 
 	 * add the 'value' of each Reference to the 'index'th Attribute's presentValue in the Attribute[] array.  
@@ -161,8 +150,36 @@ public class TaggedSentence {
 	 * @return
 	 */
 	public SparseReferences getOldToNewDeltas(TaggedSentence oldOne){
+		// urgent -- add support for sent level feats
 		SparseReferences oldRefs = oldOne.getReferences();
 		return this.getReferences().leftMinusRight(oldRefs); 	
+	}
+	
+	
+	/**
+	 * Computes the AnonymityIndex of this sentence: SUM ((#appearancesOfFeature[i]/numFeaturesFoundInWord)*(infoGainOfFeature[i])*(%changeNeededOfFeature[i])). 
+	 * 
+	 * This is only done directly for sentence level features (word bigrams, trigrams, punctuation, etc.)
+	 * 
+	 * The individual anonymity indices of all words within the sentence are also added to the sum computed above, which is what gets returned
+	 * 
+	 * @return sentenceAnonymityIndex
+	 */
+	public double getSentenceAnonymityIndex(){
+		double sentenceAnonymityIndex=0;
+		double numFeatures = sentenceLevelFeaturesFound.length();
+		int i;
+		// Compute each "sentence level" feature's contribution to the anonymity index
+		for (i=0;i<numFeatures;i++){
+			Reference tempFeature = sentenceLevelFeaturesFound.references.get(i);
+			double value=tempFeature.value;
+			sentenceAnonymityIndex += (value/numFeatures)*(DataAnalyzer.topAttributes[tempFeature.index].getInfoGain())*(DataAnalyzer.topAttributes[tempFeature.index].getPercentChangeNeeded());
+		}
+		int numWords = wordsInSentence.size();
+		// then add the contribution of each individual word
+		for(i = 0; i < numWords; i++)
+			sentenceAnonymityIndex += wordsInSentence.get(i).getAnonymityIndex();
+		return sentenceAnonymityIndex;
 	}
 	
 	public ArrayList<TENSE> getTense(){

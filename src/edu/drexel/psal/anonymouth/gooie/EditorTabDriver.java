@@ -149,7 +149,6 @@ public class EditorTabDriver {
 	public static Attribute[] attribs;
 	public static HashMap<FeatureList,Integer> attributesMappedByName;
 	public static HashMap<Integer,Integer> suggestionToAttributeMap;
-	protected static DocumentParser docParser;
 	protected static ConsolidationStation consolidator;
 	
 	private static String cleanWordRegex=".*([\\.,!?])+";//REFINE THIS??
@@ -213,7 +212,7 @@ public class EditorTabDriver {
 				//startHighlight++;
 			}
 		}
-		topToRemove=ConsolidationStation.getPriorityWords(ConsolidationStation.toModifyTaggedDocs, true, .2);//this aint working
+		topToRemove=ConsolidationStation.getPriorityWords(ConsolidationStation.toModifyTaggedDocs, true, .2);
 		topToAdd=ConsolidationStation.getPriorityWords(ConsolidationStation.authorSampleTaggedDocs, false, .02);
 		
 		//TaggedDocument taggedDoc=ConsolidationStation.toModifyTaggedDocs.get(0);
@@ -234,6 +233,7 @@ public class EditorTabDriver {
 		int arrSize=topToRemove.size(),fromIndex=0;
 		for(int i=0;i<arrSize;i++){//loops through top to remove list
 			setString+=topToRemove.get(i)+"\n";//sets the string to return
+	/*
 			Scanner parser=new Scanner(sentence);
 			fromIndex=0;
 			while(parser.hasNext()){//finds if the given word to remove is in the current sentence
@@ -267,6 +267,7 @@ public class EditorTabDriver {
 				fromIndex+=tempString.length()+1;
 				
 			}
+			*/
 		}
 		
 		main.elementsToRemovePane.setText(setString);
@@ -559,7 +560,6 @@ public class EditorTabDriver {
 					wizard = new DataAnalyzer(main.ps,ThePresident.sessionName);
 					magician = new DocumentMagician(false);
 					theMirror = new TheMirror();
-					docParser = new DocumentParser();
 					//consolidator=new ConsolidationStation(wizard.getAttributes());
 					main.mainJTabbedPane.getComponentAt(4).setEnabled(false);
 					
@@ -1016,60 +1016,6 @@ public class EditorTabDriver {
 		if(isUsingNineFeatures == true)
 			return 9;
 		else{
-			/*Logger.logln("Asking user for desired number of features to return suggestions for.");
-			JOptionPane theMessage = new JOptionPane();
-			JTextField jtf = new JTextField();
-			if(numSuggestions != -1)
-				jtf.setText(Integer.toString(numSuggestions));
-			else
-				jtf.setText(Integer.toString(sizeOfCfd));
-			jtf.setSelectionStart(0);
-			jtf.setSelectionEnd(jtf.getText().length());
-			int maxReturned;
-			if(isCalcHist == true)
-				maxReturned = 500;
-			else
-				maxReturned = sizeOfCfd;
-			Object[] actualMessage = {"Please enter the desired number of features to consider\n" +
-					"while coming up with suggestions:\n" +
-					"(maximum : "+maxReturned+")\n\n", jtf,
-					"\n\nNote:\nDepending on the features and classifier selected,\n" +
-							"It may take a few mintues (or more) to classify your document.\n" +
-							"If you would rather try a different classifier and/or choose\n" +
-			"different features, click 'Cancel'."};
-			theMessage.setMessage(actualMessage);	
-			theMessage.setIcon(ThePresident.LOGO);
-			theMessage.setMessageType(JOptionPane.INFORMATION_MESSAGE);
-			Object[] twoChoices = new Object[]{"cancel","proceed"};
-			theMessage.setOptions(twoChoices);
-			JDialog JDLog;
-			JDLog = theMessage.createDialog("How Many Suggestions Would You Like?");
-			JDLog.setVisible(true);
-			theMessage.setInitialSelectionValue("proceed");
-
-			int theSelection = getSelection(theMessage);
-			if(theSelection == 0)
-				return -1;
-			String strSuggestions = jtf.getText();
-			int inputNum;
-			try{
-				inputNum = Integer.valueOf(strSuggestions);
-				if(inputNum == 0)
-					inputNum = -1;
-				if(inputNum>maxReturned)
-					throw new Exception();
-			}
-			catch(Exception e){
-				inputNum = -1;
-				Logger.logln("Invalid Selection.");
-				JOptionPane.showMessageDialog(null, 
-						"Please enter a single number greater than '0', and less than or equal to "+maxReturned+".\n" +
-								"Keep in mind that you cannot return more suggestions than there are features.\n", 
-								"Invalid Number",
-								JOptionPane.ERROR_MESSAGE,
-								GUIMain.iconNO);
-				return -1;
-			}/**/
 			numSuggestions = 200;
 			return numSuggestions;
 		}

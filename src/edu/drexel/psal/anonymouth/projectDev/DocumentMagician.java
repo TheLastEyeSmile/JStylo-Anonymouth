@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import weka.classifiers.Classifier;
+import weka.classifiers.functions.SMO;
 import weka.core.Instances;
 import edu.drexel.psal.anonymouth.gooie.EditorTabDriver;
 import edu.drexel.psal.anonymouth.gooie.ThePresident;
@@ -53,7 +54,9 @@ public class DocumentMagician {
 	
 	public static int numSampleAuthors;
 	
-	private boolean classifier_saved = false;
+	public static boolean classifier_saved = false;
+	
+	public static String classifier_path = "";
 	
 	private List<Document> trainSet;
 	
@@ -319,11 +322,11 @@ public class DocumentMagician {
 		Logger.logln("Called runWeka");
 		WekaAnalyzer waz = new WekaAnalyzer(theClassifier);
 		if(classifier_saved == false){
-			wekaResultMap = waz.classify("trained_classifiers/Andrew_test.model", false,authorAndTrainDat,toModifyDat,toModifySet);// ?
+			wekaResultMap = waz.classify(classifier_path, false,authorAndTrainDat,toModifyDat,toModifySet);// ?
 			classifier_saved = true;
 		}
 		else{
-			wekaResultMap = waz.classify("trained_classifiers/Andrew_test.model", true,authorAndTrainDat,toModifyDat,toModifySet);// ?
+			wekaResultMap = waz.classify(classifier_path, true,authorAndTrainDat,toModifyDat,toModifySet);// ?
 		}
 		Logger.logln("Weka Done");
 	}

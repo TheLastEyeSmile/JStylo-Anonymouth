@@ -3,7 +3,6 @@ package edu.drexel.psal.jstylo.eventDrivers;
 import java.io.*;
 import java.util.*;
 
-import com.jgaap.eventDrivers.NaiveWordEventDriver;
 import com.jgaap.generics.*;
 
 public class WordLengthEventDriver extends EventDriver {
@@ -28,10 +27,10 @@ public class WordLengthEventDriver extends EventDriver {
 	@Override
 	public EventSet createEventSet(Document doc) {
 		EventSet es = new EventSet(doc.getAuthor());
-		EventSet words = new NaiveWordEventDriver().createEventSet(doc);
-		for (Event e: words) {
-			es.addEvent(new Event("" + e.getEvent().length()));
-		}
+
+		Scanner scan = new Scanner(new StringReader(doc.stringify()));
+		while (scan.hasNext())
+			es.addEvent(new Event(""+scan.next().length()));
 		
 		return es;
 	}

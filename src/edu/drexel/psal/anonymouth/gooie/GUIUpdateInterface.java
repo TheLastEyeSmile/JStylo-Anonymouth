@@ -27,7 +27,7 @@ public class GUIUpdateInterface {
 	// about dialog
 	// ============
 	
-	protected static String version = "0.0.3";
+	protected static String version = "0.0.4";
 /*
 	protected static void showAbout(GUIMain main) {
 		ImageIcon logo = new ImageIcon("./Anonymouth_LOGO.png", "Anonymouth Logo");
@@ -99,7 +99,7 @@ public class GUIUpdateInterface {
 		userSampleTableModel.setRowCount(0);
 		List<Document> userSampleDocs = main.ps.getTrainDocs(ProblemSet.getDummyAuthor());
 		for (int i=0; i<userSampleDocs.size(); i++)
-			userSampleTableModel.addRow(new Object[]{
+			userSampleTableModel.addRow(new Object[]{// todo this is where it fails (from the note in DocsTabDriver).. it fails with a "NullPointerException".... (when "create new problem set" is clicked when there isn't a problem set there. [ i.e. as soon as Anonymouth starts up]) 
 					userSampleDocs.get(i).getTitle(),
 					userSampleDocs.get(i).getFilePath()
 			});

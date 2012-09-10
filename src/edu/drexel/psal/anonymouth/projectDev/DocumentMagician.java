@@ -321,6 +321,8 @@ public class DocumentMagician {
 	public synchronized void runWeka(){
 		Logger.logln("Called runWeka");
 		WekaAnalyzer waz = new WekaAnalyzer(theClassifier);
+		// hack this is just for testing purposes
+		classifier_path = "trained_classifiers/"+ThePresident.sessionName;
 		if(classifier_saved == false){
 			wekaResultMap = waz.classify(classifier_path, false,authorAndTrainDat,toModifyDat,toModifySet);// ?
 			classifier_saved = true;

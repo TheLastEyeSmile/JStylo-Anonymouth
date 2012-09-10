@@ -63,7 +63,8 @@ public class TaggedSentence implements Comparable<TaggedSentence>{
 	 * @param untagged
 	 */
 	public TaggedSentence(String untagged){
-		wordsInSentence = new ArrayList<Word>();
+		sentenceLevelFeaturesFound = new SparseReferences(10); // probably won't find more than 10 features in the sentence.
+		wordsInSentence = new ArrayList<Word>(10);
 		this.untagged = untagged;
 	}
 	
@@ -76,6 +77,18 @@ public class TaggedSentence implements Comparable<TaggedSentence>{
 		this.wordsInSentence=taggedSentence.wordsInSentence;
 		
 	}
+	
+	/**
+	 * Tags the untagged sentence in this TaggedSentence, and finds the features present in it. 
+	 * For use when <i>not</i> storing TaggedSentence in a TaggedDocument
+	 */
+	public void tagAndGetFeatures(){
+		toke = tlp.getTokenizerFactory().getTokenizer(new StringReader(untagged));
+		sentenceTokenized = toke.tokenize();
+		setTaggedSentence(Tagger.mt.tagSentence(sentenceTokenized));
+		ConsolidationStation.featurePacker(this);
+	}
+	
 
 	/**
 	 * Set's the TaggedSentence which is an ArrayList of Word objects

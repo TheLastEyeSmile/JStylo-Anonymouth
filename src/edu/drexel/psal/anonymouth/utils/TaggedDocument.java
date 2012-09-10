@@ -134,7 +134,7 @@ public class TaggedDocument {
 	}
 	
 	/**
-	 * consolidates features for an ArrayList of TaggedSentences
+	 * consolidates features for an ArrayList of TaggedSentences (does both word level and sentence level features)
 	 * @param alts
 	 */
 	public void consolidateFeatures(ArrayList<TaggedSentence> alts){
@@ -364,6 +364,14 @@ public class TaggedDocument {
 		return sentNumber;
 	}
 	
+	/**
+	 * returns the size of the ArrayList holding the TaggedSentences (i.e. the number of sentences in the document)
+	 * @return
+	 */
+	public int getNumSentences(){
+		return taggedSentences.size();
+	}
+	
 		
 	public static void setSentenceCounter(int sentNumber){//is this needed?
 		TaggedDocument.sentNumber = sentNumber;
@@ -382,7 +390,7 @@ public class TaggedDocument {
 	/**
 	 * 
 	 * @param sentsToAdd a String representing the sentence(s) from the editBox
-	 * @return 1 for everything worked as expected. 0 for user deleted a sentence. -1 for user submitted an incomplete sentence
+	 * @return 1 if everything worked as expected. 0 if user deleted a sentence. -1 if user submitted an incomplete sentence
 	 */
 	public int removeAndReplace(String sentsToAdd){//, int indexToRemove, int placeToAdd){
 		if(sentsToAdd.matches("\\s*")){//checks to see if the user deleted the current sentence
@@ -433,6 +441,8 @@ public class TaggedDocument {
 	public ArrayList<TaggedSentence> getTaggedSentences(){
 		return taggedSentences;
 	}
+	
+	
 	public String getUntaggedDocument(){
 		String str = "";
 		for (int i=0;i<totalSentences;i++){

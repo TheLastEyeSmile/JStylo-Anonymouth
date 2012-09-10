@@ -19,6 +19,7 @@ import edu.drexel.psal.anonymouth.utils.SentenceTools;
 import edu.drexel.psal.anonymouth.utils.SynonymReplaceTest;
 import edu.drexel.psal.anonymouth.utils.TaggedDocument;
 import edu.drexel.psal.anonymouth.utils.TaggedSentence;
+import edu.drexel.psal.anonymouth.utils.TranslatedSentenceReader;
 import edu.drexel.psal.anonymouth.utils.Word;
 import edu.drexel.psal.jstylo.generics.FeatureDriver;
 import edu.drexel.psal.jstylo.generics.Logger;
@@ -610,11 +611,19 @@ public class EditorTabDriver {
 				if(!eits.sentenceEditPane.isEditable()){
 					if(!eits.sentenceEditPane.getText().equals(helpMessege)){
 						spawnNew(main);
+						TranslatedSentenceReader tsr = new TranslatedSentenceReader();
+						ArrayList<ArrayList<String>> replacements = tsr.getReplacements("f");
+						ConsolidationStation.anonymizeDocument(ConsolidationStation.toModifyTaggedDocs.get(0),replacements, true);
+						eits.editorBox.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getUntaggedDocument());
 					}
 					else{
 						eits.sentenceEditPane.setEditable(true);
-						eits.sentenceEditPane.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getNextSentence());
-						trackEditSentence(main);
+						TranslatedSentenceReader tsr = new TranslatedSentenceReader();
+						ArrayList<ArrayList<String>> replacements = tsr.getReplacements("a");
+						ConsolidationStation.anonymizeDocument(ConsolidationStation.toModifyTaggedDocs.get(0),replacements, false);
+						eits.editorBox.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getUntaggedDocument());
+						//eits.sentenceEditPane.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getNextSentence());
+						//trackEditSentence(main);
 						
 					}
 				}
@@ -1059,6 +1068,7 @@ public class EditorTabDriver {
 				main.editTP.setSelectedIndex(nextTabIndex);
 				initEditorInnerTabListeners(main);
 				main.processButton.setEnabled(true);
+				/* todo I commented this block out to test the translated sentence functionality -- AweM
 				eits.editorBox.setEnabled(false);
 				ConsolidationStation.toModifyTaggedDocs.get(0).setSentenceCounter(-1);
 				eits.sentenceEditPane.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getNextSentence());
@@ -1068,6 +1078,7 @@ public class EditorTabDriver {
 				trackEditSentence(main);
 				Logger.logln(ConsolidationStation.toModifyTaggedDocs.get(0).getUntaggedDocument());
 				eits.editorBox.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getUntaggedDocument());
+				*/
 				nextTabIndex++;
 			}
 			else

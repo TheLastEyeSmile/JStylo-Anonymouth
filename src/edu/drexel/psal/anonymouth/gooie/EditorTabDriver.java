@@ -612,7 +612,7 @@ public class EditorTabDriver {
 					if(!eits.sentenceEditPane.getText().equals(helpMessege)){
 						spawnNew(main);
 						TranslatedSentenceReader tsr = new TranslatedSentenceReader();
-						ArrayList<ArrayList<String>> replacements = tsr.getReplacements("f");
+						ArrayList<ArrayList<String>> replacements = tsr.getReplacements("s");
 						ConsolidationStation.anonymizeDocument(ConsolidationStation.toModifyTaggedDocs.get(0),replacements, true);
 						eits.editorBox.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getUntaggedDocument());
 					}

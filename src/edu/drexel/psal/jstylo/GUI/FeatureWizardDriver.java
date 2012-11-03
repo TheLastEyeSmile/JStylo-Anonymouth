@@ -869,7 +869,9 @@ public class FeatureWizardDriver {
 		"edu.drexel.psal.jstylo.canonicizers.RemoveFirstNLines",
 		"edu.drexel.psal.jstylo.canonicizers.StripEdgesPunctuation",
 		"edu.drexel.psal.jstylo.canonicizers.WordEndsPunctSeparator",
-		"edu.drexel.psal.jstylo.canonicizers.StripSpaces"
+		"edu.drexel.psal.jstylo.canonicizers.StripSpaces",
+		"edu.drexel.psal.jstylo.canonicizers.ApplySpecialKeys",
+		"edu.drexel.psal.jstylo.canonicizers.RemoveSpecialKeys"
 	};
 	
 	// event drivers

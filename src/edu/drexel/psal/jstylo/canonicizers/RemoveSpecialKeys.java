@@ -10,9 +10,9 @@ import com.jgaap.generics.Canonicizer;
  */
 public class RemoveSpecialKeys extends Canonicizer {
 
-	private static String SPECIAL_KEYS_PATH =
+	protected static String SPECIAL_KEYS_PATH =
 			"edu/drexel/psal/resources/special_keys.txt";
-	private static SortedMap<String,String> map = null;
+	protected static SortedMap<String,String> map = null;
 	
 	/*
 	 * Constructors
@@ -38,7 +38,7 @@ public class RemoveSpecialKeys extends Canonicizer {
 	
     @Override
     public String displayName(){
-    	return "Remove special keys.";
+    	return "Remove special keys";
     }
     
     @Override

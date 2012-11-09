@@ -563,8 +563,13 @@ public class WekaInstancesBuilder {
 				// use dummy author name
 				inst.setValue((Attribute) attributeList.lastElement(), ProblemSet.getDummyAuthor());
 			} else {
-				// arbitrarily set the author name to that of the first training instance
-				inst.setValue((Attribute) attributeList.lastElement(), trainingSet.instance(0).stringValue(trainingSet.classAttribute()));
+				// set the author name to that of the document, or if not set,
+				// to the author of the first training instance
+				String name = unknownDocs.get(i).getAuthor();
+				if (name == null)
+					name = trainingSet.instance(0)
+					.stringValue(trainingSet.classAttribute());
+				inst.setValue((Attribute) attributeList.lastElement(), name);
 			}
 
 			testSet.add(inst);

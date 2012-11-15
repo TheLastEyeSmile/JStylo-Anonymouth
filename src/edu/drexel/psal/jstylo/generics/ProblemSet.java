@@ -143,7 +143,7 @@ public class ProblemSet {
 	 * @throws IOException
 	 */
 	public void writeToXML(String filename) throws IOException {
-		PrintWriter pw = new PrintWriter(filename);
+		PrintWriter pw = new PrintWriter(new FileWriter(filename), true);
 		writeXMLString(pw);
 		pw.close();
 	}

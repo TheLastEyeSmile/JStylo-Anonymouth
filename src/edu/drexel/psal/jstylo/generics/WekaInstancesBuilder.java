@@ -189,8 +189,10 @@ public class WekaInstancesBuilder {
 		
 		// create event sets for known documents
 		known = new ArrayList<List<EventSet>>(knownDocs.size());
-		for (i=0; i<knownDocs.size(); i++)
+		for (i=0; i<knownDocs.size(); i++){
+			
 			known.add(cfd.createEventSets(knownDocs.get(i)));
+		}
 
 		// apply event cullers
 		known = CumulativeEventCuller.cull(known, cfd);

@@ -695,6 +695,7 @@ public class ProblemSet {
 			//get a new instance of parser
 			SAXParser sp = spf.newSAXParser();
 			//parse the file and also register this class for call backs
+			System.out.println("filename->"+filename);
 			sp.parse(filename, this);
 		}
 		

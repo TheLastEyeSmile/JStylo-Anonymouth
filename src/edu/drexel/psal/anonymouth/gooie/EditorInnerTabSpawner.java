@@ -6,11 +6,15 @@ import edu.drexel.psal.jstylo.generics.ProblemSet;
 import edu.drexel.psal.jstylo.generics.WekaInstancesBuilder;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
@@ -30,7 +34,9 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JTree;
 import javax.swing.LayoutStyle;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -68,8 +74,12 @@ public class EditorInnerTabSpawner {
 			protected JPanel sentenceAndDocumentPanel;
 			protected JPanel sentenceLabelPanel;
 			protected JScrollPane sentencePane;
+			protected JPanel sentenceButtonPanel;
+			protected JPanel translationButtonPanel;
 			protected JButton removeWordsButton;
 			protected JButton shuffleButton;
+			protected JButton SaveChangesButton;
+			protected JButton copyToSentenceButton;
 			private JPanel spacer1;
 			protected JButton restoreSentenceButton;
 			protected JLabel classificationLabel;
@@ -90,6 +100,9 @@ public class EditorInnerTabSpawner {
 			protected JLabel sentenceBoxLabel;
 			protected JPanel sentencePanel;
 			protected JPanel sentenceAndSentenceLabelPanel;
+			protected JLabel translationsBoxLabel;
+			protected JScrollPane translationPane;
+			protected JTextPane translationEditPane;
 			private boolean tabMade = false;
 			protected int resultsMaxIndex;
 			protected String chosenAuthor;
@@ -118,8 +131,8 @@ public class EditorInnerTabSpawner {
 					editBoxPanel = new JPanel();
                     BorderLayout thisLayout = new BorderLayout();
                     editBoxPanel.setLayout(thisLayout);
-                    editBoxPanel.setPreferredSize(new java.awt.Dimension(744, 563));
-                    editBoxPanel.setMaximumSize(new java.awt.Dimension(1000,563));
+                    editBoxPanel.setPreferredSize(new java.awt.Dimension(744, 569));
+                    editBoxPanel.setMaximumSize(new java.awt.Dimension(1000, 569));
                     {
                         sentenceAndDocumentPanel = new JPanel();
                         BorderLayout sentenceAndDocumentPanelLayout = new BorderLayout();
@@ -128,33 +141,212 @@ public class EditorInnerTabSpawner {
                         sentenceAndDocumentPanel.setPreferredSize(new java.awt.Dimension(744, 435));
                         {
                             sentenceAndSentenceLabelPanel = new JPanel();
-                            BorderLayout sentenceAndSentenceLabelPanelLayout = new BorderLayout();
+                            GridBagLayout sentenceAndSentenceLabelPanelLayout = new GridBagLayout();
                             sentenceAndSentenceLabelPanel.setLayout(sentenceAndSentenceLabelPanelLayout);
                             sentenceAndDocumentPanel.add(sentenceAndSentenceLabelPanel, BorderLayout.NORTH);
-                            sentenceAndSentenceLabelPanel.setPreferredSize(new java.awt.Dimension(744, 115));
+                            sentenceAndSentenceLabelPanel.setPreferredSize(new java.awt.Dimension(744, 140));
+                            GridBagConstraints c = new GridBagConstraints();
+                            int totalHeight = 6; // this is dependent on how many components need to fit on one column
+                            {
+	                            sentenceBoxLabel = new JLabel();
+	                            sentenceBoxLabel.setText("Sentence:");
+	                    		sentenceBoxLabel.setPreferredSize(new java.awt.Dimension(70, 60));
+	                    		c.gridx = 0;
+	                    		c.gridheight = totalHeight/2;
+	                    		c.gridy = 0;
+	                            c.gridwidth = 1;
+	                            sentenceAndSentenceLabelPanel.add(sentenceBoxLabel, c);
+                            }
+                            {
+	                            translationsBoxLabel = new JLabel();
+	                            translationsBoxLabel.setText("Translation:");
+	                            translationsBoxLabel.setPreferredSize(new java.awt.Dimension(70, 60));
+	                    		c.gridx = 0;
+	                    		c.gridheight = totalHeight/2;
+	                    		c.gridy = 3;
+	                            c.gridwidth = 1;
+	                            sentenceAndSentenceLabelPanel.add(translationsBoxLabel, c);
+                            }
+                            Font editBoxFont = new Font("Verdana", Font.PLAIN, 10);
+                            {
+	                            sentencePane = new JScrollPane();
+	                            sentencePane.setPreferredSize(new java.awt.Dimension(650, 60));
+	                            sentenceEditPane = new JTextPane();
+	                            sentencePane.setViewportView(sentenceEditPane);
+	                            sentenceEditPane.setText("Current Sentence.");
+	                            sentenceEditPane.setFont(editBoxFont);
+	                            sentenceEditPane.setEditable(true);
+	                            sentenceEditPane.setPreferredSize(new java.awt.Dimension(650, 60));
+	                            c.gridx = 1;
+	                            c.gridheight = totalHeight/2;
+	                    		c.gridy = 0;
+	                            c.gridwidth = 5;
+	                            sentenceAndSentenceLabelPanel.add(sentencePane, c);
+                            }
+                            {
+	                            translationPane = new JScrollPane();
+	                            translationPane.setPreferredSize(new java.awt.Dimension(650, 60));
+	                            translationEditPane = new JTextPane();
+	                            translationPane.setViewportView(translationEditPane);
+	                            translationEditPane.setText("Current Translation.");
+	                            translationEditPane.setFont(editBoxFont);
+	                            translationEditPane.setEditable(true);
+	                            translationEditPane.setPreferredSize(new java.awt.Dimension(650, 60));
+	                            c.gridx = 1;
+	                            c.gridheight = totalHeight/2;
+	                    		c.gridy = 3;
+	                            c.gridwidth = 5;
+	                            sentenceAndSentenceLabelPanel.add(translationPane, c);
+                            }
+                            {
+                            	sentenceButtonPanel = new JPanel();
+                            	sentenceButtonPanel.setPreferredSize(new java.awt.Dimension(140, 60));
+                            	//sentenceButtonPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 1, Color.DARK_GRAY));
+                            	sentenceButtonPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+                            	GridBagLayout layout = new GridBagLayout();
+                            	sentenceButtonPanel.setLayout(layout);
+                            	c.gridx = 6;
+                            	c.gridheight = 3;
+                            	c.gridy = 0;
+	                            c.gridwidth = 1;
+                            	sentenceAndSentenceLabelPanel.add(sentenceButtonPanel, c);
+                            	
+	                        	 {
+	                             	JLabel sentOptionsLabel = new JLabel("Sentence Options:");
+	                             	sentOptionsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+	                             	sentOptionsLabel.setFont(new Font("Ariel", Font.BOLD, 11));
+	                             	sentOptionsLabel.setPreferredSize(new java.awt.Dimension(130, 18));
+	                             	c.gridx = 0;
+	                             	c.gridheight = 1;
+	                             	c.gridy = 0;
+	 	                            c.gridwidth = 1;
+	 	                           sentenceButtonPanel.add(sentOptionsLabel, c);
+	                             }
+	                             {
+	                             	restoreSentenceButton = new JButton();
+	             					restoreSentenceButton.setText("Restore");
+	             					restoreSentenceButton.setToolTipText("Restores the sentence in the \"Current Sentence Box\"" +
+	             														" back to what is highlighted in the document below, reverting any changes.");
+	             					restoreSentenceButton.setPreferredSize(new java.awt.Dimension(130, 18));
+	                             	c.gridx = 0;
+	                             	c.gridheight = 1;
+	                             	c.gridy = 1;
+	 	                            c.gridwidth = 1;
+	 	                           sentenceButtonPanel.add(restoreSentenceButton, c);
+	                             }
+	                             {
+	                             	SaveChangesButton = new JButton();
+	                             	SaveChangesButton.setText("Save Changes");
+	                             	SaveChangesButton.setToolTipText("Saves what is in the \"Current Sentence Box\" to the document below.");
+	                             	SaveChangesButton.setPreferredSize(new java.awt.Dimension(130, 18));
+	                             	c.gridx = 0;
+	                             	c.gridheight = 1;
+	 	                    		c.gridy = 2;
+	 	                            c.gridwidth = 1;
+	 	                           sentenceButtonPanel.add(SaveChangesButton, c);
+	                             }
+                            }
+                            {
+                            	translationButtonPanel = new JPanel();
+                            	translationButtonPanel.setPreferredSize(new java.awt.Dimension(140, 60));
+                            	//translationButtonPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 1, Color.DARK_GRAY));
+                            	translationButtonPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+                            	GridBagLayout layout = new GridBagLayout();
+                            	translationButtonPanel.setLayout(layout);
+                            	c.gridx = 6;
+                            	c.gridheight = 3;
+                            	c.gridy = 3;
+	                            c.gridwidth = 1;
+                            	sentenceAndSentenceLabelPanel.add(translationButtonPanel, c);
+                            	
+                            	{
+    	                            JLabel transOptionsLabel = new JLabel("Translation Options:");
+    	                            transOptionsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+    	                            transOptionsLabel.setFont(new Font("Ariel", Font.BOLD, 11));
+    	                            transOptionsLabel.setPreferredSize(new java.awt.Dimension(130, 18));
+    	                        	c.gridx = 0;
+    	                        	c.gridheight = 1;
+    	                        	c.gridy = 0;
+    	                            c.gridwidth = 1;
+    	                            translationButtonPanel.add(transOptionsLabel, c);
+                                }
+                                {
+                                	copyToSentenceButton = new JButton();
+                                	copyToSentenceButton.setText("Copy To Sentence");
+                                	copyToSentenceButton.setToolTipText("Copies the translation in the \"Translation Box\"" +
+                														" to the \"Current Sentence Box\". Press the \"Restore\" button to undo this.");
+                                	copyToSentenceButton.setPreferredSize(new java.awt.Dimension(130, 18));
+                                	c.gridx = 0;
+                                	c.gridheight = 1;
+                                	c.gridy = 1;
+    	                            c.gridwidth = 1;
+    	                            translationButtonPanel.add(copyToSentenceButton, c);
+                                }
+                                {
+                                	JLabel filler = new JLabel();
+                                	filler.setPreferredSize(new java.awt.Dimension(130, 18));
+                                	c.gridx = 0;
+                                	c.gridheight = 1;
+                                	c.gridy = 2;
+    	                            c.gridwidth = 1;
+    	                            translationButtonPanel.add(filler, c);
+                                }
+                            }
+                            /*{
+                            	c.gridx = 4;
+	                    		c.gridy = 2;
+	                            c.gridwidth = 1;
+                            	sentenceAndSentenceLabelPanel.add(getRemoveWordsButton());
+                            }*/
+
+                            /*
+                            button = new JButton("5");
+                            c.fill = GridBagConstraints.HORIZONTAL;
+                            c.ipady = 0;       //reset to default
+                            c.weighty = 1.0;   //request any extra vertical space
+                            c.anchor = GridBagConstraints.PAGE_END; //bottom of space
+                            c.insets = new Insets(10,0,0,0);  //top padding
+                            c.gridx = 0;       //aligned with button 2
+                            c.gridwidth = 1;   //2 columns wide
+                            c.gridy = 0;       //third row
+                            pane.add(button, c);
                             {
                                 sentencePanel = new JPanel();
                                 BorderLayout sentencePanelLayout = new BorderLayout();
                                 sentencePanel.setLayout(sentencePanelLayout);
                                 sentenceAndSentenceLabelPanel.add(sentencePanel, BorderLayout.SOUTH);
-                                sentencePanel.setPreferredSize(new java.awt.Dimension(744, 86));
+                                sentencePanel.setPreferredSize(new java.awt.Dimension(744, 70));
                                 {
                                     sentencePane = new JScrollPane();
-                                    sentencePanel.add(sentencePane, BorderLayout.CENTER);
-                                    sentencePane.setPreferredSize(new java.awt.Dimension(744, 74));
+                                    sentencePanel.add(sentencePane, BorderLayout.WEST);
+                                    sentencePane.setPreferredSize(new java.awt.Dimension(744, 30));
                                     {
-                                    	StyleContext sc = new StyleContext();
-                                        final DefaultStyledDocument doc = new DefaultStyledDocument(sc);
-                                        sentenceEditPane = new JTextPane(doc);
+                                    	//StyleContext sc = new StyleContext();
+                                        //final DefaultStyledDocument doc = new DefaultStyledDocument(sc);
+                                        sentenceEditPane = new JTextPane();
                                         sentencePane.setViewportView(sentenceEditPane);
                                         //makes font size 24
-                                        Style defaultStyle = sc.getStyle(StyleContext.DEFAULT_STYLE);
-                                        Style editBoxStyle = sc.addStyle("EditBoxStyle", defaultStyle);
-                                        StyleConstants.setFontSize(editBoxStyle, 14);
-                                        sentenceEditPane.setText("Please press the Process button now.");
-                                        sentenceEditPane.setEditable(false);
-                                        sentenceEditPane.setPreferredSize(new java.awt.Dimension(740, 82));
-                                        doc.setLogicalStyle(0, editBoxStyle);
+                                        //Style defaultStyle = sc.getStyle(StyleContext.DEFAULT_STYLE);
+                                        //Style editBoxStyle = sc.addStyle("EditBoxStyle", defaultStyle);
+                                        //StyleConstants.setFontSize(editBoxStyle, 14);
+                                        sentenceEditPane.setText("Current Sentence.");
+                                        Font font = new Font("Verdana", Font.PLAIN, 10);
+                                        sentenceEditPane.setFont(font);
+                                        sentenceEditPane.setEditable(true);
+                                        sentenceEditPane.setPreferredSize(new java.awt.Dimension(740, 30));
+                                        //doc.setLogicalStyle(0, editBoxStyle);
+                                    }
+                                    translationPane = new JScrollPane();
+                                    sentencePanel.add(translationPane, BorderLayout.SOUTH);
+                                    translationPane.setPreferredSize(new java.awt.Dimension(744, 30));
+                                    {
+                                        translationEditPane = new JTextPane();
+                                        translationPane.setViewportView(translationEditPane);
+                                        translationEditPane.setText("Current Translation.");
+                                        Font font = new Font("Verdana", Font.PLAIN, 10);
+                                        translationEditPane.setFont(font);
+                                        translationEditPane.setEditable(true);
+                                        translationEditPane.setPreferredSize(new java.awt.Dimension(740, 30));
                                     }
                                 }
                             }
@@ -172,14 +364,14 @@ public class EditorInnerTabSpawner {
                             		sentenceBoxLabel.setText("Sentence You are Currently Editing:");
                             		sentenceBoxLabel.setPreferredSize(new java.awt.Dimension(196, 15));
                             	}
-                            }
+                            }*/
                         }
                         {
                             editBoxAndEditLabelPanel = new JPanel();
                             BorderLayout editBoxAndEditLabelPanelLayout = new BorderLayout();
                             editBoxAndEditLabelPanel.setLayout(editBoxAndEditLabelPanelLayout);
                             sentenceAndDocumentPanel.add(editBoxAndEditLabelPanel, BorderLayout.SOUTH);
-                            editBoxAndEditLabelPanel.setPreferredSize(new java.awt.Dimension(744, 316));
+                            editBoxAndEditLabelPanel.setPreferredSize(new java.awt.Dimension(744, 300));
                             {
                                 editBoxLabelPanel = new JPanel();
                                 editBoxAndEditLabelPanel.add(editBoxLabelPanel, BorderLayout.NORTH);
@@ -195,15 +387,16 @@ public class EditorInnerTabSpawner {
                                 BorderLayout editorBoxPanelLayout = new BorderLayout();
                                 editorBoxPanel.setLayout(editorBoxPanelLayout);
                                 editBoxAndEditLabelPanel.add(editorBoxPanel, BorderLayout.SOUTH);
-                                editorBoxPanel.setPreferredSize(new java.awt.Dimension(744, 289));
+                                editorBoxPanel.setPreferredSize(new java.awt.Dimension(744, 270));
                                 {
                                     editBox = new JScrollPane();
                                     editorBoxPanel.add(editBox, BorderLayout.CENTER);
                                     {
                                         editorBox = new JTextPane();
+                                        editorBox.setPreferredSize(new java.awt.Dimension(744, 270));
                                         editBox.setViewportView(editorBox);
                                         editorBox.setText("This is where the latest version of your document will be.");
-                                        editorBox.setEditable(false);
+                                        editorBox.setEnabled(true);
                                     }
                                 }
                             }

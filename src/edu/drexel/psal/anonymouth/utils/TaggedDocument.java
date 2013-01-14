@@ -202,57 +202,58 @@ public class TaggedDocument {
 	 * returns the untagged sentences of the TaggedDocument
 	 * @return
 	 */
-	public ArrayList<String> getUntaggedSentences(){
+	public ArrayList<String> getUntaggedSentences()
+	{
 		ArrayList<String> sentences = new ArrayList<String>();
-		for (int i=0;i<taggedSentences.size();i++){
+		for (int i=0;i<taggedSentences.size();i++)
 			sentences.add(taggedSentences.get(i).getUntagged());
-		}
 		return sentences;
 	}
 	
 	
 	/**
-	 * gets the next sentence
-	 * @return
+	 * Gets the next sentence and alters the sentNumber to match
+	 * @return TaggedSentence - The next sentence
 	 */
-	public String getNextSentence(){
-		if(sentNumber <totalSentences-1){
+	public TaggedSentence getNextSentence()
+	{
+		if(sentNumber < totalSentences-1)
+		{
 			sentNumber++;
-			//for(int i=0;i<currentLiveTaggedSentences.size();i++)
-			if(sentNumber!=0)
-				Logger.logln(currentLiveTaggedSentences.untagged);
-			//Logger.logln(taggedSentences.get(sentNumber).tagged.toString());
-			return taggedSentences.get(sentNumber).getUntagged();
+			return taggedSentences.get(sentNumber);
 		}
-		else{
-			sentNumber=totalSentences-1;
-			//for(int i=0;i<currentLiveTaggedSentences.size();i++)
-			Logger.logln(currentLiveTaggedSentences.untagged);
-			return taggedSentences.get(sentNumber).getUntagged();
+		else
+		{
+			sentNumber = totalSentences-1;
+			return taggedSentences.get(sentNumber);
 		}
 	}
 	
+	/**
+	 * Gets the current sentence and alters the sentNumber to match
+	 * @return TaggedSentence - The current sentence
+	 */
+	public TaggedSentence getCurrentSentence()
+	{
+		return taggedSentences.get(sentNumber);
+	}
 	
 	/**
-	 * gets the previous sentence.
-	 * @return the string of the previous sentence 
+	 * Gets the previous sentence and alters the sentNumber to match
+	 * @return TaggedSentence - The previous sentence
 	 */
-	public String getLastSentence(){
-		//currentLiveTaggedSentences.clear(); // we don't want unlive sentences here. XXX Scroll up XXX
-		if(sentNumber >0){
-			//currentLiveTaggedSentences=new TaggedSentence(taggedSentences.get(sentNumber));
+	public TaggedSentence getPrevSentence()
+	{
+		if(sentNumber > 0)
+		{
 			sentNumber--;
-			//for(int i=0;i<currentLiveTaggedSentences.size();i++)
-			Logger.logln(currentLiveTaggedSentences.untagged);
-			return taggedSentences.get(sentNumber).getUntagged();
+			return taggedSentences.get(sentNumber);
 		}
-		else{
+		else
+		{
 			Logger.logln("Returned first sentence");
 			sentNumber=0;
-			//currentLiveTaggedSentences.add(taggedSentences.get(sentNumber));
-			//for(int i=0;i<currentLiveTaggedSentences.size();i++)
-			Logger.logln(currentLiveTaggedSentences.untagged);
-			return taggedSentences.get(0).getUntagged();
+			return taggedSentences.get(0);
 		}
 	}
 	

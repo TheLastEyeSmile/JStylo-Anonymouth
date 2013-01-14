@@ -241,7 +241,7 @@ public class BackendInterface {
 		
 		public void run(){
 			try{
-				eits.editorBox.setEnabled(false);
+				eits.editorBox.setEnabled(true);
 				DocumentMagician.numProcessRequests++;
 			//System.out.println("Still in EditTabProcessButtonClicked...STARTING RUN METHOD.");
 			//main.featureNameLabel.setText("Feature Name: ");
@@ -317,6 +317,7 @@ public class BackendInterface {
 				else{
 					magician.setModifiedDocument(tempDoc);
 					eits.editorBox.setEditable(false);
+					eits.editorBox.setEnabled(true);
 					
 					cpb.setText("Extracting and Clustering Features...");
 					try {
@@ -429,8 +430,8 @@ public class BackendInterface {
 			main.processButton.setSelected(false);
 			
 			main.nextSentenceButton.setEnabled(false);
-			main.lastSentenceButton.setEnabled(false);
-			main.refreshButtonEditor.setEnabled(false);
+			main.prevSentenceButton.setEnabled(false);
+			main.transButton.setEnabled(false);
 			main.addSentence.setEnabled(false);
 			// XXX for AFTER everything is done
 				
@@ -452,11 +453,11 @@ public class BackendInterface {
 				ConsolidationStation.toModifyTaggedDocs.get(0).makeAndTagSentences(eits.editorBox.getText(), false);
 			EditorTabDriver.isFirstRun = false;	
 			eits.getSentenceEditPane().setText(EditorTabDriver.getHelpMessege()+" ");//the space is to differentiate this from the messege in a new inner tab.
-			eits.sentenceEditPane.setEnabled(true);
+			eits.sentenceEditPane.setEnabled(false);
 			eits.sentenceEditPane.setEditable(false);
 			main.nextSentenceButton.setEnabled(false);
-			main.lastSentenceButton.setEnabled(false);//changed this and ^ values.
-			main.refreshButtonEditor.setEnabled(false);
+			main.prevSentenceButton.setEnabled(false);//changed this and ^ values.
+			main.transButton.setEnabled(false);
 			
 			boolean loadIfExists = false;
 			
@@ -478,9 +479,21 @@ public class BackendInterface {
 			Logger.logln("Finished in BackendInterface - postTargetSelection");
 			main.editorProgressBar.setIndeterminate(false);	
 			main.nextSentenceButton.setEnabled(true);
-			main.lastSentenceButton.setEnabled(true);
-			main.refreshButtonEditor.setEnabled(true);
+			main.prevSentenceButton.setEnabled(true);
+			main.transButton.setEnabled(true);
 			main.addSentence.setEnabled(true);
+			main.translationsTable.setEnabled(true);
+			eits.editorBox.setEnabled(true);
+			eits.resultsTable.setEnabled(true);
+			eits.sentenceEditPane.setEnabled(true);
+			eits.sentenceEditPane.setEditable(true);
+			eits.translationEditPane.setEnabled(true);
+			//eits.translationEditPane.setEditable(true);
+			eits.restoreSentenceButton.setEnabled(true);
+			eits.SaveChangesButton.setEnabled(true);
+			eits.copyToSentenceButton.setEnabled(true);
+			main.nextSentenceButton.doClick();
+			eits.editBox.getViewport().setViewPosition(new java.awt.Point(0, 0));
 			cpb.setText("User Editing... Waiting to\"Re-process\"");
 			
 		}

@@ -75,7 +75,7 @@ public class EditorInnerTabDriver {
 						editorBox = new JTextPane();
 						editBox.setViewportView(editorBox);
 						editorBox.setText("Your document will be here.");
-						editorBox.setEditable(false);
+						editorBox.setEditable(true);
 					}
 				}
 				{

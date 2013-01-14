@@ -38,6 +38,7 @@ public class TaggedSentence implements Comparable<TaggedSentence>{
 
 	protected String untagged;
 	protected ArrayList<Word> wordsInSentence;
+	protected ArrayList<TaggedSentence> translations = new ArrayList<TaggedSentence>();
 	
 	private int PROBABLE_MAX = 3;
 	
@@ -76,6 +77,16 @@ public class TaggedSentence implements Comparable<TaggedSentence>{
 		this.untagged=taggedSentence.untagged;
 		this.wordsInSentence=taggedSentence.wordsInSentence;
 		
+	}
+	
+	public ArrayList<TaggedSentence> getTranslations()
+	{
+		return translations;
+	}
+	
+	public boolean hasTranslations()
+	{
+		return (translations.size() > 0);
 	}
 	
 	/**

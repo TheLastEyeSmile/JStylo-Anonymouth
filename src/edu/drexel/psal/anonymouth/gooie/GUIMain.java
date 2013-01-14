@@ -20,9 +20,15 @@ import java.util.*;
 
 import edu.drexel.psal.JSANConstants;
 import edu.drexel.psal.jstylo.generics.*;
+import edu.drexel.psal.anonymouth.gooie.Translation;
+import edu.drexel.psal.anonymouth.utils.ConsolidationStation;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.*;
 import javax.swing.tree.*;
@@ -135,18 +141,6 @@ public class GUIMain extends javax.swing.JFrame {
 	protected JScrollPane featuresCanonConfigJScrollPane;
 	protected JList featuresCullJList;
 	protected DefaultComboBoxModel featuresCullJListModel;
-	protected JButton refreshButtonEditor;
-	private JPanel spacer2;
-	private JLabel synonymsLabel;
-	protected JTextPane addToSentencePane;
-	private JScrollPane addToSentenceScrollPane;
-	private JPanel spacer1;
-	private JPanel jPanel5;
-	private JPanel jPanel4;
-	private JPanel jPanel3;
-	protected JTextPane elementsToRemovePane;
-	private JScrollPane elementsToRemoveScrollPane;
-	protected JLabel jLabel1;
 
 	protected JScrollPane featuresCullListJScrollPane;
 	protected JScrollPane featuresCanonListJScrollPane;
@@ -206,14 +200,11 @@ public class GUIMain extends javax.swing.JFrame {
 	
 	// Editor tab
 	protected JScrollPane theEditorScrollPane;
-	protected JTextPane suggestionBox;
 	protected JTable suggestionTable;
 	protected JTextPane editorBox;
 	protected JTable resultsTable;
 	protected JLabel classificationLabel;
-	protected JLabel suggestionLabel;
 	protected JButton addSentence;
-	protected JTextPane elementsToAddPane;
 	protected JPanel editorRowTwoButtonBufferPanel;
 	protected JPanel buttonBufferJPanel;
 	protected JPanel editorBottomRowButtonPanel;
@@ -229,16 +220,49 @@ public class GUIMain extends javax.swing.JFrame {
 	protected JPanel valueLabelJPanel;
 	protected JPanel valueBoxPanel;
 	protected JPanel updaterJPanel;
-	protected JScrollPane elementsToAddScrollPane;
-	protected JScrollPane suggestionPane;
+	//-------------- HELP TAB PANE STUFF ---------
+	protected JTabbedPane editorHelpTabPane;
+	
+	protected JPanel editorHelpSugPanel;
+		protected JPanel elementsPanel;
+		protected JPanel elementsToAddPanel;
+		protected JLabel elementsToAddLabel;
+		protected JTextPane elementsToAddPane;
+		protected JScrollPane elementsToAddScrollPane;
+		protected JPanel elementsToRemovePanel;
+		protected JLabel elementsToRemoveLabel;
+		protected JTextPane elementsToRemovePane;
+		protected JScrollPane elementsToRemoveScrollPane;
+		
+	protected JPanel editorHelpTransPanel;
+		protected JPanel translationsPanel;
+		protected JLabel translationsLabel;
+		protected JTable translationsTable;
+		protected JScrollPane translationsScrollPane;
+		protected JComboBox translationsComboBox;
+	
+	protected JPanel editorHelpInfoPanel;
+		protected JPanel instructionsPanel;
+		protected JLabel instructionsLabel;
+		protected JTextPane instructionsPane;
+		protected JScrollPane instructionsScrollPane;
+		protected JPanel synonymsPanel;
+		protected JLabel synonymsLabel;
+		protected JTextPane synonymsPane;
+		protected JScrollPane synonymsScrollPane;
+	//--------------------------------------------
+	
 	protected JPanel editorInfoJPanel;
 	protected JScrollPane editorInteractionScrollPane;
 	protected JScrollPane EditorInfoScrollPane;
 	protected JTabbedPane editTP;
-	protected JLabel elementsToAddLabel;
+	
 	protected JScrollPane wordsToAddPane;
 	protected JButton nextSentenceButton;
-	protected JButton lastSentenceButton;
+	//protected JButton refreshButtonEditor;
+	//protected JButton lastSentenceButton;
+	protected JButton prevSentenceButton;
+	protected JButton transButton;
 	protected JTextField searchInputBox;
 	protected JComboBox highlightSelectionBox;
 	protected JLabel highlightLabel;
@@ -288,6 +312,8 @@ public class GUIMain extends javax.swing.JFrame {
 	protected static ImageIcon iconFINISHED;
 	public static ImageIcon icon;
 	
+	protected Translation GUITranslator = new Translation();
+	
 	/**
 	 * Auto-generated main method to display this JFrame
 	 */
@@ -334,7 +360,7 @@ public class GUIMain extends javax.swing.JFrame {
 	private void initGUI() {
 		try {
 			
-			setSize(1024, 768);
+			setExtendedState(MAXIMIZED_BOTH);
 			this.setTitle("Anonymouth");
 			this.setIconImage(new ImageIcon(getClass().getResource(JSANConstants.JSAN_GRAPHICS_PREFIX+"Anonymouth_LOGO.png")).getImage());
 			
@@ -1155,7 +1181,7 @@ public class GUIMain extends javax.swing.JFrame {
 				
 				//editor
 				/* ============
-				 * Cluster tab
+				 * Editor tab
 				 * ============
 				 */
 				
@@ -1242,19 +1268,25 @@ public class GUIMain extends javax.swing.JFrame {
 										editorButtonJPanel.add(editorTopRowButtonsPanel, BorderLayout.NORTH);
 										editorTopRowButtonsPanel.setPreferredSize(new java.awt.Dimension(647, 36));
 										{
-											lastSentenceButton = new JButton();
-											editorTopRowButtonsPanel.add(lastSentenceButton);
-											lastSentenceButton.setText("Last Sentence");
+											prevSentenceButton = new JButton();
+											editorTopRowButtonsPanel.add(prevSentenceButton);
+											prevSentenceButton.setText("Last");
 										}
 										{
-											refreshButtonEditor = new JButton();
+											/*refreshButtonEditor = new JButton();
 											editorTopRowButtonsPanel.add(refreshButtonEditor);
-											refreshButtonEditor.setText("Refresh");
+											refreshButtonEditor.setText("Refresh");*/
+											
 										}
 										{
 											nextSentenceButton = new JButton();
 											editorTopRowButtonsPanel.add(nextSentenceButton);
-											nextSentenceButton.setText("Next Sentence");
+											nextSentenceButton.setText("Next");
+										}
+										{
+											transButton = new JButton();
+											editorTopRowButtonsPanel.add(transButton);
+											transButton.setText("Translate");
 										}
 										{
 											addSentence = new JButton();
@@ -1286,11 +1318,12 @@ public class GUIMain extends javax.swing.JFrame {
 								EditorInnerTabSpawner eits = (new EditorInnerTabSpawner()).spawnTab();
 								EditorTabDriver.eitsList.add(0,eits);
 								EditorTabDriver.eits = EditorTabDriver.eitsList.get(0);
-								eits.editorBox.setEnabled(false);
+								eits.editorBox.setEnabled(true);
 								editTP.addTab("Original",eits.editBoxPanel);
 							}
 						}
 						{
+							/*
 							EditorInfoScrollPane = new JScrollPane();
 							editorTab.add(EditorInfoScrollPane, BorderLayout.EAST);
 							EditorInfoScrollPane.setPreferredSize(new java.awt.Dimension(365, 616));
@@ -1300,9 +1333,199 @@ public class GUIMain extends javax.swing.JFrame {
 								editorInfoJPanel.setLayout(editorInfoJPanelLayout);
 								EditorInfoScrollPane.setViewportView(editorInfoJPanel);
 								editorInfoJPanel.setPreferredSize(new java.awt.Dimension(326, 617));
-								{
+								*/
+							editorHelpTabPane = new JTabbedPane();
+							editorTab.add(editorHelpTabPane, BorderLayout.EAST);
+							editorHelpTabPane.setPreferredSize(new java.awt.Dimension(400, 620));
+							{
+								editorHelpInfoPanel = new JPanel();
+								BorderLayout infoLayout = new BorderLayout();
+								editorHelpInfoPanel.setLayout(infoLayout);
+								editorHelpInfoPanel.setPreferredSize(new java.awt.Dimension(320, 610));
+								editorHelpTabPane.addTab("Information", editorHelpInfoPanel);
+								{ //=========== Information Tab ====================
+									//---------- Instructions Panel ----------------------
+									instructionsPanel = new JPanel();
+									instructionsPanel.setPreferredSize(new java.awt.Dimension(310, 120));
+									editorHelpInfoPanel.add(instructionsPanel, BorderLayout.NORTH);
+									{
+										//---------- Instructions Label ----------------------
+										instructionsLabel = new JLabel("Instructions:");
+										instructionsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+										instructionsLabel.setPreferredSize(new java.awt.Dimension(310, 20));
+										instructionsPanel.add(instructionsLabel, BorderLayout.NORTH);
+										
+										//---------- Instructions Text Pane ----------------------
+										instructionsScrollPane = new JScrollPane();
+										instructionsScrollPane.setPreferredSize(new java.awt.Dimension(310, 100));
+										instructionsPane = new JTextPane();
+										instructionsPane.setPreferredSize(new java.awt.Dimension(300, 90));
+										instructionsPane.setText("Edit the sentence in the top window to the left by trying to rewrite it without the highlighted words. Try to add some of the 'elements to add' from the window below.\n" +
+												"Things highlighted to remove include (delimited by \"|\"): | Noun, plural | | , |\n" +
+														"Your percentage of letters is too low. Consider using less: | \" |");
+										instructionsScrollPane.setViewportView(instructionsPane);
+										instructionsPanel.add(instructionsScrollPane, BorderLayout.SOUTH);
+									}
+									
+									//---------- Synonyms Panel ----------------------
+									synonymsPanel = new JPanel();
+									synonymsPanel.setPreferredSize(new java.awt.Dimension(310, 150));
+									editorHelpInfoPanel.add(synonymsPanel, BorderLayout.SOUTH);
+									{
+										//---------- Synonyms Label ----------------------
+										synonymsLabel = new JLabel("Synonyms of Red Words in the Current Sentence: ");
+										synonymsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+										synonymsLabel.setPreferredSize(new java.awt.Dimension(310, 20));
+										synonymsPanel.add(synonymsLabel, BorderLayout.NORTH);
+										
+										//--------- Synonyms Text Pane -------------------
+										synonymsScrollPane = new JScrollPane();
+										synonymsScrollPane.setPreferredSize(new java.awt.Dimension(310, 120));
+										synonymsPane = new JTextPane();
+										synonymsPane.setText("This is where synonyms will go.");
+										synonymsPane.setPreferredSize(new java.awt.Dimension(300, 90));
+										synonymsScrollPane.setViewportView(synonymsPane);
+										synonymsPanel.add(synonymsScrollPane, BorderLayout.SOUTH);
+									}
+								} // =========== End Information Tab ==================
+								
+								editorHelpSugPanel = new JPanel();
+								editorHelpSugPanel.setPreferredSize(new java.awt.Dimension(320, 610));
+								BorderLayout sugLayout = new BorderLayout(); 
+								editorHelpSugPanel.setLayout(sugLayout);
+								editorHelpTabPane.addTab("Suggestions", editorHelpSugPanel);
+								{//================ Suggestions Tab =====================
+									//--------- Elements Panel ------------------
+									elementsPanel = new JPanel();
+									elementsPanel.setPreferredSize(new java.awt.Dimension(310, 300));
+									BorderLayout eleLayout = new BorderLayout(); 
+									elementsPanel.setLayout(eleLayout);
+									editorHelpSugPanel.add(elementsPanel, BorderLayout.SOUTH); // center of suggestions tab
+									{
+										//--------- Elements to Add Panel ------------------
+										elementsToAddPanel = new JPanel();
+										elementsToAddPanel.setPreferredSize(new java.awt.Dimension(150, 300));
+										BorderLayout eleALayout = new BorderLayout(); 
+										elementsToAddPanel.setLayout(eleALayout);
+										elementsPanel.add(elementsToAddPanel, BorderLayout.WEST); // west of the center
+										{
+											//--------- Elements to Add Label ------------------
+											elementsToAddLabel = new JLabel("Elements To Add:");
+											elementsToAddLabel.setHorizontalAlignment(SwingConstants.CENTER);
+											elementsToAddLabel.setPreferredSize(new java.awt.Dimension(150, 20));
+											elementsToAddPanel.add(elementsToAddLabel, BorderLayout.NORTH); // north of the west
+											
+											//--------- Elements to Add Text Pane ------------------
+											elementsToAddScrollPane = new JScrollPane();
+											elementsToAddScrollPane.setPreferredSize(new java.awt.Dimension(150, 280));
+											elementsToAddPane = new JTextPane();
+											elementsToAddScrollPane.setViewportView(elementsToAddPane);
+											elementsToAddPane.setText("This is where the words to Add to the curent sentence will go.");
+											elementsToAddPane.setPreferredSize(new java.awt.Dimension(150, 280));
+											elementsToAddPanel.add(elementsToAddScrollPane, BorderLayout.SOUTH); // south of the west
+										}
+										
+										//--------- Elements to Remove Panel ------------------
+										elementsToRemovePanel = new JPanel();
+										elementsToRemovePanel.setPreferredSize(new java.awt.Dimension(150, 300));
+										BorderLayout eleRLayout = new BorderLayout(); 
+										elementsToRemovePanel.setLayout(eleRLayout);
+										elementsPanel.add(elementsToRemovePanel, BorderLayout.EAST); // east of the center
+										{
+											//--------- Elements to Remove Label  ------------------
+											elementsToRemoveLabel = new JLabel("Elements To Remove:");
+											elementsToRemoveLabel.setHorizontalAlignment(SwingConstants.CENTER);
+											elementsToRemoveLabel.setPreferredSize(new java.awt.Dimension(150, 20));
+											elementsToRemovePanel.add(elementsToRemoveLabel, BorderLayout.NORTH); // north of the west
+											
+											//--------- Elements to Remove Text Pane ------------------
+											elementsToRemoveScrollPane = new JScrollPane();
+											elementsToRemoveScrollPane.setPreferredSize(new java.awt.Dimension(150, 280));
+											elementsToRemovePane = new JTextPane();
+											elementsToRemoveScrollPane.setViewportView(elementsToRemovePane);
+											elementsToRemovePane.setText("This is where the words to Remove from the curent sentence will go.");
+											elementsToRemovePane.setPreferredSize(new java.awt.Dimension(150, 280));
+											elementsToRemovePanel.add(elementsToRemoveScrollPane, BorderLayout.SOUTH); // south of the west
+										}
+									}
+								}//============ End Suggestions Tab =================
+								editorHelpTransPanel = new JPanel();
+								editorHelpTransPanel.setPreferredSize(new java.awt.Dimension(400, 610));
+								BorderLayout transLayout = new BorderLayout(); 
+								editorHelpTransPanel.setLayout(transLayout);
+								editorHelpTabPane.addTab("Translations", editorHelpTransPanel);
+								{//================= Translations Tab ==============
+									//--------- translationsPanel ------------------
+									translationsPanel = new JPanel();
+									translationsPanel.setPreferredSize(new java.awt.Dimension(390, 600));
+									editorHelpTransPanel.add(translationsPanel, BorderLayout.NORTH);
+									
+									//--------- translationsLabel ------------------
+									translationsLabel = new JLabel("Translations:");
+									translationsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+									translationsLabel.setPreferredSize(new java.awt.Dimension(380, 20));
+									translationsPanel.add(translationsLabel, BorderLayout.NORTH);
+									
+									//--------- TranslationTable and scroll pane ------------------
+									translationsTable = new JTable()
+									{	
+										//http://blog.marcnuri.com/blog/defaul/2007/03/15/JTable-Row-Alternate-Row-Background
+									    public Component prepareRenderer(TableCellRenderer renderer, int row, int column)
+									    {
+									        Component returnComp = super.prepareRenderer(renderer, row, column);
+									        Color alternateColor = new Color(252,242,206);
+									        Color whiteColor = Color.WHITE;
+									        if (!returnComp.getBackground().equals(getSelectionBackground())){
+									            Color bg = (row % 2 == 0 ? alternateColor : whiteColor);
+									            returnComp .setBackground(bg);
+									            bg = null;
+									        }
+									        return returnComp;
+									    }
+									};
+									translationsScrollPane = new JScrollPane();
+									translationsScrollPane.setPreferredSize(new java.awt.Dimension(380, 550));
+                                    translationsScrollPane.setViewportView(translationsTable);
+	                                
+	                              //--------- TranslationsTable model ------------------
+                                	String[][] tableFiller = new String[GUITranslator.getAllLangs().length][1];
+                                	for (int i = 0; i < GUITranslator.getAllLangs().length; i++)
+                                	{
+                                		String name = GUITranslator.getName(GUITranslator.getAllLangs()[i]);
+                                		String[] temp = {"", name};
+                                		tableFiller[i] = temp;
+                                	}
+                                	String[] tableHeaderFiller = {"Translation:", "Language:"};
+                                    DefaultTableModel translationTableModel = new DefaultTableModel(tableFiller, tableHeaderFiller)
+                                    {
+                                    	@Override
+                                        public boolean isCellEditable(int row, int column) {
+                                           //all cells false
+                                           return false;
+                                        }
+                                    };
+                                    ListSelectionListener selListener = new ListSelectionListener()
+                                    {
+                                    	public void valueChanged(ListSelectionEvent e) 
+                                    	{
+                                    		int row = translationsTable.getSelectedRow();
+                            				String sentence = ConsolidationStation.toModifyTaggedDocs.get(0).getCurrentSentence().getTranslations().get(row).getUntagged();
+                            				EditorTabDriver.eits.translationEditPane.setText(sentence);
+                                        }
+                                    };
+                                    translationsTable.getSelectionModel().addListSelectionListener(selListener);
+                                    //--------- TranslationsTable properties ------------------
+                                    translationsTable.setModel(translationTableModel);
+                                    translationsTable.setPreferredSize(null); // allows it to fit to the number and size of the entries
+                                    translationsTable.setRowHeight(20);
+                                    translationsTable.getColumnModel().getColumn(0).setPreferredWidth(300);
+                                    translationsTable.getColumnModel().getColumn(1).setPreferredWidth(80);
+                                    translationsPanel.add(translationsScrollPane, BorderLayout.SOUTH);
+								}//================= End Translations Tab ==============
+								
+								/*{
 									updaterJPanel = new JPanel();
-									editorInfoJPanel.add(updaterJPanel, BorderLayout.SOUTH);
+									editorHelpInfoPanel.add(updaterJPanel, BorderLayout.SOUTH);
 									BorderLayout updaterJPanelLayout = new BorderLayout();
 									updaterJPanel.setLayout(updaterJPanelLayout);
 									updaterJPanel.setPreferredSize(new java.awt.Dimension(346, 156));
@@ -1347,14 +1570,7 @@ public class GUIMain extends javax.swing.JFrame {
 									}
 									
 									{
-										jPanel2 = new JPanel();
-										updaterJPanel.add(jPanel2, BorderLayout.NORTH);
-										jPanel2.setPreferredSize(new java.awt.Dimension(346, 23));
-										{
-											synonymsLabel = new JLabel();
-											jPanel2.add(synonymsLabel);
-											synonymsLabel.setText("Synonyms of Red Words in the Current Sentence: ");
-										}
+										
 										{
 											//	suggestionListLabel = new JLabel();
 											//jPanel2.add(suggestionListLabel);
@@ -1365,7 +1581,7 @@ public class GUIMain extends javax.swing.JFrame {
 											//suggestionListPane = new JScrollPane();
 											//jPanel2.add(suggestionListPane);
 											//	suggestionListPane.setPreferredSize(new java.awt.Dimension(315, 155));
-											/*{
+											{
 												TableModel suggestionTableModel = 
 														new DefaultTableModel(
 																new String[][] { { "One", "Two" }, { "Three", "Four" } },
@@ -1373,114 +1589,18 @@ public class GUIMain extends javax.swing.JFrame {
 												suggestionTable = new JTable();
 												suggestionListPane.setViewportView(suggestionTable);
 												suggestionTable.setModel(suggestionTableModel);
-											}*/
+											}
 										}
 									}
 									{
-										addToSentenceScrollPane = new JScrollPane();
-										updaterJPanel.add(addToSentenceScrollPane, BorderLayout.CENTER);
-										addToSentenceScrollPane.setPreferredSize(new java.awt.Dimension(346, 65));
-										{
-											addToSentencePane = new JTextPane();
-											addToSentenceScrollPane.setViewportView(addToSentencePane);
-											addToSentencePane.setText("This is where the words to Add to the curent sentence will go.");
-											addToSentencePane.setPreferredSize(new java.awt.Dimension(344, 95));
-										}
+										
 									}
 									{
 										spacer2 = new JPanel();
 										updaterJPanel.add(spacer2, BorderLayout.SOUTH);
 										spacer2.setPreferredSize(new java.awt.Dimension(346, 32));
 									}
-								}
-								{
-									jPanel1 = new JPanel();
-									editorInfoJPanel.add(jPanel1, BorderLayout.NORTH);
-									jPanel1.setPreferredSize(new java.awt.Dimension(346, 463));
-									{
-										suggestionBoxLabelJPanel = new JPanel();
-										jPanel1.add(suggestionBoxLabelJPanel);
-										suggestionBoxLabelJPanel.setPreferredSize(new java.awt.Dimension(314, 22));
-										{
-											suggestionLabel = new JLabel();
-											suggestionBoxLabelJPanel.add(suggestionLabel);
-											suggestionLabel.setText("Suggestion / Instructions:");
-										}
-									}
-									{
-										suggestionPane = new JScrollPane();
-										jPanel1.add(suggestionPane);
-										suggestionPane.setPreferredSize(new java.awt.Dimension(317, 104));
-										{
-											suggestionBox = new JTextPane();
-											suggestionPane.setViewportView(suggestionBox);
-											suggestionBox.setText("Edit the sentence in the top window to the left by trying to rewrite it without the highlighted words. Try to add some of the 'elements to add' from the window below.\n" +
-													"Things highlighted to remove include (delimited by \"|\"): | Noun, plural | | , |\n" +
-															"Your percentage of letters is too low. Consider using less: | \" |");
-											suggestionBox.setPreferredSize(new java.awt.Dimension(315, 114));
-										}
-									}
-									{
-										elementsToAddBoxLabelJPanel = new JPanel();
-										jPanel1.add(elementsToAddBoxLabelJPanel);
-										elementsToAddBoxLabelJPanel.setPreferredSize(new java.awt.Dimension(314, 24));
-										{
-											elementsToAddLabel = new JLabel();
-											elementsToAddBoxLabelJPanel.add(elementsToAddLabel);
-											elementsToAddLabel.setText("Elements to (try to) add:");
-										}
-										{
-											jPanel4 = new JPanel();
-											elementsToAddBoxLabelJPanel.add(jPanel4);
-											jPanel4.setPreferredSize(new java.awt.Dimension(8, 28));
-										}
-										{
-											jPanel5 = new JPanel();
-											elementsToAddBoxLabelJPanel.add(jPanel5);
-											jPanel5.setPreferredSize(new java.awt.Dimension(6, 10));
-										}
-										{
-											jLabel1 = new JLabel();
-											elementsToAddBoxLabelJPanel.add(jLabel1);
-											jLabel1.setText("Elements to (try to) remove:");
-													jLabel1.setPreferredSize(new java.awt.Dimension(145, 14));
-										}
-									}
-									{
-										elementsToAddScrollPane = new JScrollPane();
-										jPanel1.add(elementsToAddScrollPane);
-										elementsToAddScrollPane.setPreferredSize(new java.awt.Dimension(123, 281));
-										elementsToAddScrollPane.setSize(306, 157);
-										{
-											elementsToAddPane = new JTextPane();
-											elementsToAddScrollPane.setViewportView(elementsToAddPane);
-											elementsToAddPane.setText("This is where the words that you want to try to add to your document will be displayed.");
-													elementsToAddPane.setPreferredSize(new java.awt.Dimension(121, 271));
-										}
-									}
-									{
-										jPanel3 = new JPanel();
-										jPanel1.add(jPanel3);
-										jPanel3.setPreferredSize(new java.awt.Dimension(16, 140));
-									}
-									{
-										elementsToRemoveScrollPane = new JScrollPane();
-										jPanel1.add(elementsToRemoveScrollPane);
-										elementsToRemoveScrollPane.setPreferredSize(new java.awt.Dimension(128, 282));
-										{
-											elementsToRemovePane = new JTextPane();
-											elementsToRemoveScrollPane.setViewportView(elementsToRemovePane);
-											
-											elementsToRemovePane.setText("This is where the words that you want to try to remove from your document will be displayed.");
-													elementsToRemovePane.setPreferredSize(new java.awt.Dimension(126, 278));
-										}
-									}
-									{
-										spacer1 = new JPanel();
-										jPanel1.add(spacer1);
-										spacer1.setPreferredSize(new java.awt.Dimension(10, 50));
-									}
-								}
+								}*/
 							}
 						}
 					}
@@ -1583,7 +1703,7 @@ public class GUIMain extends javax.swing.JFrame {
 	}
 	
 	public JButton getLastSentenceButton() {
-		return lastSentenceButton;
+		return prevSentenceButton;
 	}
 	
 	public JButton getNextSentenceButton() {

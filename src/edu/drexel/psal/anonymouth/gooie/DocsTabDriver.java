@@ -2,8 +2,10 @@ package edu.drexel.psal.anonymouth.gooie;
 
 import java.awt.Point;
 import java.awt.event.*;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
@@ -25,6 +27,19 @@ public class DocsTabDriver {
 	 * =======================
 	 */
 	
+	
+	protected static void setProbSetPathProperty(String path, GUIMain main)
+	{
+		// saves the path of the file chosen in the properties file
+		BufferedWriter writer;
+		try {
+			main.prop.setProperty("recentProbSet", "" + path);
+			writer = new BufferedWriter(new FileWriter(main.propFileName));
+			main.prop.store(writer, "User Preferences");
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
 	
 	/**
 	 * Initialize all documents tab listeners.
@@ -74,12 +89,16 @@ public class DocsTabDriver {
 							JOptionPane.YES_NO_CANCEL_OPTION);
 				}
 				if (answer == 0) {
-					JFileChooser load = new JFileChooser();
-					load.addChoosableFileFilter(new ExtFilter("XML files (*.xml)", "xml"));
-					answer = load.showOpenDialog(main);
+					main.load.addChoosableFileFilter(new ExtFilter("XML files (*.xml)", "xml"));
+					if (main.prop.getProperty("recentProbSet") != null)
+						main.load.setSelectedFile(new File(main.prop.getProperty("recentProbSet")));
+					answer = main.load.showDialog(main, "Load Problem Set");
 					
 					if (answer == JFileChooser.APPROVE_OPTION) {
-						String path = load.getSelectedFile().getAbsolutePath();
+						String path = main.load.getSelectedFile().getAbsolutePath();
+						
+						setProbSetPathProperty(path, main);
+						
 						Logger.logln("Trying to load problem set from "+path);
 						try {
 							main.ps = new ProblemSet(path);
@@ -107,13 +126,17 @@ public class DocsTabDriver {
 			public void actionPerformed(ActionEvent e) {
 				Logger.logln("'Save Problem Set' button clicked on the documents tab.");
 				
-				JFileChooser save = new JFileChooser();
-				save.addChoosableFileFilter(new ExtFilter("XML files (*.xml)", "xml"));
-				int answer = save.showSaveDialog(main);
+				main.save.addChoosableFileFilter(new ExtFilter("XML files (*.xml)", "xml"));
+				if (main.prop.getProperty("recentProbSet") != null)
+					main.save.setSelectedFile(new File(main.prop.getProperty("recentProbSet")));
+				int answer = main.save.showSaveDialog(main);
 				
 				if (answer == JFileChooser.APPROVE_OPTION) {
-					File f = save.getSelectedFile();
+					File f = main.save.getSelectedFile();
 					String path = f.getAbsolutePath();
+					
+					setProbSetPathProperty(path, main);
+					
 					if (!path.toLowerCase().endsWith(".xml"))
 						path += ".xml";
 					try {

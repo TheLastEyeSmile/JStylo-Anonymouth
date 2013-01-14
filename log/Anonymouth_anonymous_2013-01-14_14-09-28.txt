@@ -1,0 +1,130 @@
+Started log log/Anonymouth_anonymous_2013-01-14_14-09-28.txt
+===================================================
+14-09-28: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+14-09-28: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+14-09-28: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+14-09-28: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+14-09-28: Populating event drivers...
+14-09-28: adding event drivers under Basic
+14-09-28: adding event drivers under Part-Of-Speech
+14-09-28: adding event drivers under Grams
+14-09-28: adding event drivers under Dictionary
+14-09-28: adding event drivers under Counters
+14-09-28: adding event drivers under Readability Metrics
+14-09-28: adding event drivers under Misc.
+14-09-28: done!
+14-09-28: Populating canonicizers...
+14-09-28: done!
+14-09-28: Populating event cullers...
+14-09-28: done!
+14-09-28: EditorInnerTabSpawner spawning tab
+14-09-36: 'Load Problem Set' button clicked on the documents tab
+14-09-53: Trying to load problem set from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\problem_sets\anon_large.xml
+14-09-53: GUI Update: update documents tab with current problem set started
+14-09-54: 'Load Problem Set' button clicked on the documents tab
+14-10-12: Load problem set canceled
+14-10-13: 'New Problem Set' button clicked on the documents tab
+14-10-14: GUI Update: update documents tab with current problem set started
+14-10-17: 'Add Document(s)...' button clicked under the 'Test Documents' section on the documents tab.
+14-10-47: Trying to load test documents:
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_01.txt
+14-10-48: 'Preview Document' button clicked under the 'Test Documents' section on the documents tab.
+14-10-49: No test document is selected for preview
+14-10-50: 'Preview Document' button clicked under the 'Test Documents' section on the documents tab.
+14-10-53: 'Add Document(s)...' button clicked under the 'User Sample Documents' section on the documents tab.
+14-11-03: Trying to load User Sample documents:
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_02.txt
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_03.txt
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_04.txt
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_05.txt
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_06.txt
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_07.txt
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_08.txt
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_09.txt
+14-11-04: 'Add Document(s)...' button clicked under the 'Training Corpus' section on the documents tab.
+14-11-05: tried to add training documents without selecting an author
+14-11-05: no author entered prior to clicking 'Add Document(s)' button. Must select folder with documents - folder name will be set as author name.
+14-11-11: Trying to load training documents for author "no author entered":
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\f
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\g
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\h
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\k
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\m
+14-11-11: file 'no author entered' was not found. If name in single quotes is 'no author entered', this is not a problem.
+14-11-13: 'Next' button clicked on the documents tab.
+14-11-16: 'Back' button clicked in the features tab.
+14-11-17: 'Save Problem Set' button clicked on the documents tab.
+14-11-40: Saved problem set to C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1.xml:
+<?xml version="1.0"?>
+<problem-set>
+	<training name="Authors">
+		<author name="f">
+			<document title="f_01.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/f/f_01.txt</document>
+			<document title="f_02.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/f/f_02.txt</document>
+			<document title="f_03.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/f/f_03.txt</document>
+			<document title="f_04.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/f/f_04.txt</document>
+			<document title="f_05.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/f/f_05.txt</document>
+			<document title="f_06.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/f/f_06.txt</document>
+			<document title="f_07.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/f/f_07.txt</document>
+			<document title="f_08.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/f/f_08.txt</document>
+			<document title="f_09.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/f/f_09.txt</document>
+		</author>
+		<author name="g">
+			<document title="g_01.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/g/g_01.txt</document>
+			<document title="g_02.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/g/g_02.txt</document>
+			<document title="g_03.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/g/g_03.txt</document>
+			<document title="g_04.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/g/g_04.txt</document>
+			<document title="g_05.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/g/g_05.txt</document>
+			<document title="g_06.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/g/g_06.txt</document>
+			<document title="g_07.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/g/g_07.txt</document>
+			<document title="g_08.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/g/g_08.txt</document>
+		</author>
+		<author name="h">
+			<document title="h_01.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/h/h_01.txt</document>
+			<document title="h_02.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/h/h_02.txt</document>
+			<document title="h_03.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/h/h_03.txt</document>
+			<document title="h_04.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/h/h_04.txt</document>
+			<document title="h_05.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/h/h_05.txt</document>
+			<document title="h_06.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/h/h_06.txt</document>
+			<document title="h_07.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/h/h_07.txt</document>
+			<document title="h_08.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/h/h_08.txt</document>
+		</author>
+		<author name="k">
+			<document title="k_01.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/k/k_01.txt</document>
+			<document title="k_02.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/k/k_02.txt</document>
+			<document title="k_03.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/k/k_03.txt</document>
+			<document title="k_04.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/k/k_04.txt</document>
+			<document title="k_05.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/k/k_05.txt</document>
+			<document title="k_06.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/k/k_06.txt</document>
+			<document title="k_07.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/k/k_07.txt</document>
+			<document title="k_08.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/k/k_08.txt</document>
+			<document title="k_09.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/k/k_09.txt</document>
+		</author>
+		<author name="m">
+			<document title="m_01.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/m/m_01.txt</document>
+			<document title="m_02.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/m/m_02.txt</document>
+			<document title="m_03.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/m/m_03.txt</document>
+			<document title="m_04.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/m/m_04.txt</document>
+			<document title="m_05.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/m/m_05.txt</document>
+			<document title="m_06.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/m/m_06.txt</document>
+			<document title="m_07.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/m/m_07.txt</document>
+			<document title="m_08.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/m/m_08.txt</document>
+		</author>
+		<author name="~* you *~">
+			<document title="e_02.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/e/e_02.txt</document>
+			<document title="e_03.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/e/e_03.txt</document>
+			<document title="e_04.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/e/e_04.txt</document>
+			<document title="e_05.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/e/e_05.txt</document>
+			<document title="e_06.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/e/e_06.txt</document>
+			<document title="e_07.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/e/e_07.txt</document>
+			<document title="e_08.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/e/e_08.txt</document>
+			<document title="e_09.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/e/e_09.txt</document>
+		</author>
+	</training>
+	<test>
+		<document title="e_01.txt">C:/Users/Jeff/Desktop/PSAL/JSAN/JStylo-Anonymouth/jsan_resources/corpora/drexel_1/e/e_01.txt</document>
+	</test>
+</problem-set>
+14-11-42: 'Load Problem Set' button clicked on the documents tab
+14-11-46: Trying to load problem set from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1.xml
+14-11-46: GUI Update: update documents tab with current problem set started

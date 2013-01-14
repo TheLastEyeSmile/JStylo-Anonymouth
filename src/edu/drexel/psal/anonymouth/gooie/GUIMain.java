@@ -15,7 +15,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.beans.PropertyChangeListener;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 import edu.drexel.psal.JSANConstants;
@@ -95,6 +99,12 @@ public class GUIMain extends javax.swing.JFrame {
 	protected JPanel editorTab;
 	
 	// documents tab
+	protected String propFileName = "jsan_resources/anonymouth_prop.prop";
+	File propFile = new File(propFileName);
+	Properties prop = new Properties();
+	protected JFileChooser load = new JFileChooser();
+	protected JFileChooser save = new JFileChooser();
+	
 	protected JLabel testDocsJLabel;
 	protected JButton trainDocPreviewJButton;
 	protected JButton testDocPreviewJButton;
@@ -355,6 +365,20 @@ public class GUIMain extends javax.swing.JFrame {
 		classifiers = new ArrayList<Classifier>();
 		wib = new WekaInstancesBuilder(true);
 		results = new ArrayList<String>();
+		
+		BufferedReader propReader = null;
+		
+		if (!propFile.exists())
+		{
+			try {propFile.createNewFile();} 
+			catch (IOException e1) {e1.printStackTrace();}
+		}
+		
+		try {propReader = new BufferedReader (new FileReader(propFileName));} 
+		catch (FileNotFoundException e) {e.printStackTrace();}
+		
+		try {prop.load(propReader);}
+		catch (IOException e) {e.printStackTrace();}
 	}
 
 	private void initGUI() {

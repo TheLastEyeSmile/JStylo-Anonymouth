@@ -1,0 +1,22 @@
+Started log log/Anonymouth_anonymous_2013-01-14_13-04-09.txt
+===================================================
+13-04-09: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+13-04-09: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+13-04-09: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+13-04-09: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+13-04-09: Populating event drivers...
+13-04-09: adding event drivers under Basic
+13-04-09: adding event drivers under Part-Of-Speech
+13-04-09: adding event drivers under Grams
+13-04-09: adding event drivers under Dictionary
+13-04-09: adding event drivers under Counters
+13-04-09: adding event drivers under Readability Metrics
+13-04-09: adding event drivers under Misc.
+13-04-09: done!
+13-04-09: Populating canonicizers...
+13-04-09: done!
+13-04-09: Populating event cullers...
+13-04-09: done!
+13-04-09: EditorInnerTabSpawner spawning tab
+13-04-15: 'Load Problem Set' button clicked on the documents tab
+13-04-17: Load problem set canceled

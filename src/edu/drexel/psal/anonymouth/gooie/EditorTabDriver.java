@@ -569,11 +569,11 @@ public class EditorTabDriver {
 			@Override
 			public synchronized void actionPerformed(ActionEvent event) {
 				main.processButton.setEnabled(false);
-				main.nextSentenceButton.setEnabled(false);
-				main.prevSentenceButton.setEnabled(false);
-				main.transButton.setEnabled(false);
 				main.addSentence.setEnabled(false);
 				main.translationsTable.setEnabled(false);
+				eits.nextSentenceButton.setEnabled(false);
+				eits.prevSentenceButton.setEnabled(false);
+				eits.transButton.setEnabled(false);
 				eits.editorBox.setEnabled(false);
 				eits.sentenceEditPane.setEnabled(false);
 				eits.translationEditPane.setEnabled(false);
@@ -654,7 +654,7 @@ public class EditorTabDriver {
 			
 		});
 		
-		main.nextSentenceButton.addActionListener(new ActionListener(){
+		eits.nextSentenceButton.addActionListener(new ActionListener(){
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0)
@@ -698,7 +698,7 @@ public class EditorTabDriver {
 			}			
 			
 		});*/
-		main.prevSentenceButton.addActionListener(new ActionListener()
+		eits.prevSentenceButton.addActionListener(new ActionListener()
 		{
 			
 			@Override
@@ -722,7 +722,7 @@ public class EditorTabDriver {
 			
 		});
 		
-		main.transButton.addActionListener(new ActionListener()
+		eits.transButton.addActionListener(new ActionListener()
 		{
 			
 			@Override

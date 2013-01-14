@@ -209,6 +209,8 @@ public class GUIMain extends javax.swing.JFrame {
 	protected JButton classAboutJButton;
 	
 	// Editor tab
+	
+	
 	protected JScrollPane theEditorScrollPane;
 	protected JTable suggestionTable;
 	protected JTextPane editorBox;
@@ -268,11 +270,11 @@ public class GUIMain extends javax.swing.JFrame {
 	protected JTabbedPane editTP;
 	
 	protected JScrollPane wordsToAddPane;
-	protected JButton nextSentenceButton;
+	//protected JButton nextSentenceButton;
 	//protected JButton refreshButtonEditor;
 	//protected JButton lastSentenceButton;
-	protected JButton prevSentenceButton;
-	protected JButton transButton;
+	//protected JButton prevSentenceButton;
+	//protected JButton transButton;
 	protected JTextField searchInputBox;
 	protected JComboBox highlightSelectionBox;
 	protected JLabel highlightLabel;
@@ -1291,15 +1293,15 @@ public class GUIMain extends javax.swing.JFrame {
 										editorTopRowButtonsPanel = new JPanel();
 										editorButtonJPanel.add(editorTopRowButtonsPanel, BorderLayout.NORTH);
 										editorTopRowButtonsPanel.setPreferredSize(new java.awt.Dimension(647, 36));
-										{
+										/*{
 											prevSentenceButton = new JButton();
 											editorTopRowButtonsPanel.add(prevSentenceButton);
 											prevSentenceButton.setText("Last");
 										}
 										{
-											/*refreshButtonEditor = new JButton();
-											editorTopRowButtonsPanel.add(refreshButtonEditor);
-											refreshButtonEditor.setText("Refresh");*/
+											//refreshButtonEditor = new JButton();
+											//editorTopRowButtonsPanel.add(refreshButtonEditor);
+											//refreshButtonEditor.setText("Refresh");
 											
 										}
 										{
@@ -1311,7 +1313,7 @@ public class GUIMain extends javax.swing.JFrame {
 											transButton = new JButton();
 											editorTopRowButtonsPanel.add(transButton);
 											transButton.setText("Translate");
-										}
+										}*/
 										{
 											addSentence = new JButton();
 											editorTopRowButtonsPanel.add(addSentence);
@@ -1726,13 +1728,13 @@ public class GUIMain extends javax.swing.JFrame {
 		return searchInputBox;
 	}
 	
-	public JButton getLastSentenceButton() {
+	/*public JButton getLastSentenceButton() {
 		return prevSentenceButton;
 	}
 	
 	public JButton getNextSentenceButton() {
 		return nextSentenceButton;
-	}
+	}*/
 	
 	public JScrollPane getWordsToAddPane() {
 		return wordsToAddPane;

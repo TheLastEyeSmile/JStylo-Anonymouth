@@ -1,0 +1,47 @@
+Started log log/Anonymouth_anonymous_2013-01-14_14-21-58.txt
+===================================================
+14-21-59: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+14-21-59: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+14-21-59: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+14-21-59: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+14-21-59: Populating event drivers...
+14-21-59: adding event drivers under Basic
+14-21-59: adding event drivers under Part-Of-Speech
+14-21-59: adding event drivers under Grams
+14-21-59: adding event drivers under Dictionary
+14-21-59: adding event drivers under Counters
+14-21-59: adding event drivers under Readability Metrics
+14-21-59: adding event drivers under Misc.
+14-21-59: done!
+14-21-59: Populating canonicizers...
+14-21-59: done!
+14-21-59: Populating event cullers...
+14-21-59: done!
+14-21-59: EditorInnerTabSpawner spawning tab
+14-22-02: 'Load Problem Set' button clicked on the documents tab
+14-22-04: Trying to load problem set from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1.xml
+14-22-04: GUI Update: update documents tab with current problem set started
+14-22-09: 'New Problem Set' button clicked on the documents tab
+14-22-10: GUI Update: update documents tab with current problem set started
+14-22-14: 'Add Document(s)...' button clicked under the 'Test Documents' section on the documents tab.
+14-22-31: Trying to load test documents:
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\g\g_01.txt
+14-22-32: 'Add Document(s)...' button clicked under the 'User Sample Documents' section on the documents tab.
+14-22-39: Trying to load User Sample documents:
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\g\g_02.txt
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\g\g_03.txt
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\g\g_04.txt
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\g\g_05.txt
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\g\g_06.txt
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\g\g_07.txt
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\g\g_08.txt
+14-22-41: 'Add Document(s)...' button clicked under the 'Training Corpus' section on the documents tab.
+14-22-42: tried to add training documents without selecting an author
+14-22-42: no author entered prior to clicking 'Add Document(s)' button. Must select folder with documents - folder name will be set as author name.
+14-22-48: Trying to load training documents for author "no author entered":
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\h
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\k
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\m
+14-22-48: file 'no author entered' was not found. If name in single quotes is 'no author entered', this is not a problem.
+14-22-49: 'Save Problem Set' button clicked on the documents tab.
+14-23-04: Save problem set canceled

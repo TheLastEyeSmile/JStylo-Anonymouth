@@ -429,9 +429,9 @@ public class BackendInterface {
 			main.processButton.setSize(main.processButton.getSize().width+3,main.processButton.getSize().height);
 			main.processButton.setSelected(false);
 			
-			main.nextSentenceButton.setEnabled(false);
-			main.prevSentenceButton.setEnabled(false);
-			main.transButton.setEnabled(false);
+			eits.nextSentenceButton.setEnabled(false);
+			eits.prevSentenceButton.setEnabled(false);
+			eits.transButton.setEnabled(false);
 			main.addSentence.setEnabled(false);
 			// XXX for AFTER everything is done
 				
@@ -455,9 +455,9 @@ public class BackendInterface {
 			eits.getSentenceEditPane().setText(EditorTabDriver.getHelpMessege()+" ");//the space is to differentiate this from the messege in a new inner tab.
 			eits.sentenceEditPane.setEnabled(false);
 			eits.sentenceEditPane.setEditable(false);
-			main.nextSentenceButton.setEnabled(false);
-			main.prevSentenceButton.setEnabled(false);//changed this and ^ values.
-			main.transButton.setEnabled(false);
+			eits.nextSentenceButton.setEnabled(false);
+			eits.prevSentenceButton.setEnabled(false);//changed this and ^ values.
+			eits.transButton.setEnabled(false);
 			
 			boolean loadIfExists = false;
 			
@@ -478,9 +478,9 @@ public class BackendInterface {
 			
 			Logger.logln("Finished in BackendInterface - postTargetSelection");
 			main.editorProgressBar.setIndeterminate(false);	
-			main.nextSentenceButton.setEnabled(true);
-			main.prevSentenceButton.setEnabled(true);
-			main.transButton.setEnabled(true);
+			eits.nextSentenceButton.setEnabled(true);
+			eits.prevSentenceButton.setEnabled(true);
+			eits.transButton.setEnabled(true);
 			main.addSentence.setEnabled(true);
 			main.translationsTable.setEnabled(true);
 			eits.editorBox.setEnabled(true);
@@ -492,7 +492,7 @@ public class BackendInterface {
 			eits.restoreSentenceButton.setEnabled(true);
 			eits.SaveChangesButton.setEnabled(true);
 			eits.copyToSentenceButton.setEnabled(true);
-			main.nextSentenceButton.doClick();
+			eits.nextSentenceButton.doClick();
 			eits.editBox.getViewport().setViewPosition(new java.awt.Point(0, 0));
 			cpb.setText("User Editing... Waiting to\"Re-process\"");
 			

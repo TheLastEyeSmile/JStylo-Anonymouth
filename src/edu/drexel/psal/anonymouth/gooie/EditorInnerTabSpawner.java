@@ -404,14 +404,14 @@ public class EditorInnerTabSpawner {
                             }
                             {
                             	appendSentenceButton = new JButton();
-                            	appendSentenceButton.setText("Append Next Sentence");
+                            	appendSentenceButton.setText("Append Next");
                             	appendSentenceButton.setToolTipText("Appends the next sentence onto the current sentence.");
                             	appendSentenceButton.setPreferredSize(new java.awt.Dimension(x, y));
                             	DPConst.gridx = 0;
                             	DPConst.gridheight = 1;
                             	DPConst.gridy = 2;
                             	DPConst.gridwidth = 1;
-                            	documentOptionsPanel.add(transButton, DPConst);
+                            	documentOptionsPanel.add(appendSentenceButton, DPConst);
                             }
                             {
                             	dictButton = new JButton();
@@ -437,7 +437,7 @@ public class EditorInnerTabSpawner {
                             }
                             {
                             	JLabel filler = new JLabel();
-                            	filler.setPreferredSize(new java.awt.Dimension(x, 220));
+                            	filler.setPreferredSize(new java.awt.Dimension(x, 200));
                             	DPConst.gridx = 0;
                             	DPConst.gridheight = 1;
                             	DPConst.gridy = 5;

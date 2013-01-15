@@ -477,20 +477,7 @@ public class BackendInterface {
 			
 			Logger.logln("Finished in BackendInterface - postTargetSelection");
 			//main.editorProgressBar.setIndeterminate(false);	
-			eits.nextSentenceButton.setEnabled(true);
-			eits.prevSentenceButton.setEnabled(true);
-			eits.transButton.setEnabled(true);
-			eits.appendSentenceButton.setEnabled(true);
-			main.translationsTable.setEnabled(true);
-			eits.editorBox.setEnabled(true);
-			eits.resultsTable.setEnabled(true);
-			eits.sentenceEditPane.setEnabled(true);
-			eits.sentenceEditPane.setEditable(true);
-			eits.translationEditPane.setEnabled(true);
-			//eits.translationEditPane.setEditable(true);
-			eits.restoreSentenceButton.setEnabled(true);
-			eits.SaveChangesButton.setEnabled(true);
-			eits.copyToSentenceButton.setEnabled(true);
+			EditorTabDriver.setAllEITSEnabled(true, main);
 			eits.nextSentenceButton.doClick();
 			eits.editBox.getViewport().setViewPosition(new java.awt.Point(0, 0));
 			

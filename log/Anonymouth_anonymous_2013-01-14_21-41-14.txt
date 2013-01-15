@@ -1,0 +1,23 @@
+Started log log/Anonymouth_anonymous_2013-01-14_21-41-14.txt
+===================================================
+21-41-14: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+21-41-14: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+21-41-14: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+21-41-14: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+21-41-14: Populating event drivers...
+21-41-14: adding event drivers under Basic
+21-41-14: adding event drivers under Part-Of-Speech
+21-41-14: adding event drivers under Grams
+21-41-14: adding event drivers under Dictionary
+21-41-14: adding event drivers under Counters
+21-41-14: adding event drivers under Readability Metrics
+21-41-14: adding event drivers under Misc.
+21-41-14: done!
+21-41-14: Populating canonicizers...
+21-41-14: done!
+21-41-14: Populating event cullers...
+21-41-14: done!
+21-41-14: EditorInnerTabSpawner spawning tab
+21-45-58: dictionary button clicked.
+21-45-58: Dictionary GUI intializing
+21-46-07: Window close killed poor dictionary

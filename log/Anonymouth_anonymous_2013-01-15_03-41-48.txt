@@ -1,0 +1,32 @@
+Started log log/Anonymouth_anonymous_2013-01-15_03-41-48.txt
+===================================================
+03-41-48: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+03-41-48: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+03-41-48: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+03-41-49: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+03-41-49: Populating event drivers...
+03-41-49: adding event drivers under Basic
+03-41-49: adding event drivers under Part-Of-Speech
+03-41-49: adding event drivers under Grams
+03-41-49: adding event drivers under Dictionary
+03-41-49: adding event drivers under Counters
+03-41-49: adding event drivers under Readability Metrics
+03-41-49: adding event drivers under Misc.
+03-41-49: done!
+03-41-49: Populating canonicizers...
+03-41-49: done!
+03-41-49: Populating event cullers...
+03-41-49: done!
+03-41-49: EditorInnerTabSpawner spawning tab
+03-41-51: 'Load Problem Set' button clicked on the documents tab
+03-41-52: Trying to load problem set from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1.xml
+03-41-52: GUI Update: update documents tab with current problem set started
+03-41-53: 'Next' button clicked on the documents tab.
+03-41-55: Preset feature set selected in the features tab.
+03-41-55: loaded preset feature set: WritePrints (Limited)
+03-41-56: 'Next' button clicked in the features tab.
+03-41-59: 'Next' button clicked in the classifiers tab
+03-42-01: Classifier selected in the available classifiers tree in the classifiers tab: SMO
+03-42-02: 'Add' button clicked in the analysis tab.
+03-42-02: Classifier tree unselected in the classifiers tab.
+03-42-03: 'Next' button clicked in the classifiers tab

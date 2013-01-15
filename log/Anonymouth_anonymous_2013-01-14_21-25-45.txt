@@ -1,0 +1,28 @@
+Started log log/Anonymouth_anonymous_2013-01-14_21-25-45.txt
+===================================================
+21-25-45: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+21-25-45: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+21-25-45: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+21-25-45: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+21-25-45: Populating event drivers...
+21-25-45: adding event drivers under Basic
+21-25-45: adding event drivers under Part-Of-Speech
+21-25-45: adding event drivers under Grams
+21-25-45: adding event drivers under Dictionary
+21-25-45: adding event drivers under Counters
+21-25-45: adding event drivers under Readability Metrics
+21-25-45: adding event drivers under Misc.
+21-25-45: done!
+21-25-45: Populating canonicizers...
+21-25-45: done!
+21-25-45: Populating event cullers...
+21-25-45: done!
+21-25-45: EditorInnerTabSpawner spawning tab
+21-26-52: Intial processing starting...
+21-26-52: Created DataAnalyzer
+21-26-52: Created new DocumentMagician, is sparse?  ... false
+21-26-52: Numer of features to return: 200
+21-26-52: calling backendInterface for preTargetSelectionProcessing
+21-26-52: FINISHED INITIALIZING FUNCTION WORDS
+21-26-52: Process button pressed for first time (initial run) in editor tab
+21-26-58: Fatal error encountered, termination requested.

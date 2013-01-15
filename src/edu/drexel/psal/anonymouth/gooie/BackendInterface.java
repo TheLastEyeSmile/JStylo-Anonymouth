@@ -252,8 +252,6 @@ public class BackendInterface {
 			//main.resultsTablePane.setEnabled(false);
 			String tempDoc = "";
 			if(EditorTabDriver.isFirstRun == true){
-				eits.sentenceEditPane.setEditable(false);
-				eits.sentenceEditPane.setEnabled(false);
 				ConsolidationStation.functionWords.run();
 				tempDoc = getDocFromCurrentTab();
 				//eits.editorBox.setText("ThisWorked!");
@@ -425,7 +423,7 @@ public class BackendInterface {
 			// make highlight bar
 			//main.highlightSelectionBox.setModel(makeHighlightBarModel());
 			TheOracle.setTheDocument(eits.editorBox.getText());
-			eits.processButton.setText("Re-process");
+			//eits.processButton.setText("Re-process");
 			//eits.processButton.setToolTipText("Click this button once you have made all changes in order to see how they have affected the classification of your document.");
 			//eits.processButton.setSize(eits.processButton.getSize().width+3,eits.processButton.getSize().height);
 			eits.processButton.setSelected(false);
@@ -442,8 +440,6 @@ public class BackendInterface {
 			
 			//main.editorProgressBar.setIndeterminate(true);	
 			
-			eits.editBoxPanel.setEnabled(true);
-			eits.resultsTablePane.setEnabled(true);
 			eits.resultsTablePane.setOpaque(true);
 			EditorTabDriver.okayToSelectSuggestion = true;
 			if(EditorTabDriver.isFirstRun)
@@ -452,11 +448,6 @@ public class BackendInterface {
 				ConsolidationStation.toModifyTaggedDocs.get(0).makeAndTagSentences(eits.editorBox.getText(), false);
 			EditorTabDriver.isFirstRun = false;	
 			eits.getSentenceEditPane().setText(EditorTabDriver.getHelpMessege()+" ");//the space is to differentiate this from the messege in a new inner tab.
-			eits.sentenceEditPane.setEnabled(false);
-			eits.sentenceEditPane.setEditable(false);
-			eits.nextSentenceButton.setEnabled(false);
-			eits.prevSentenceButton.setEnabled(false);//changed this and ^ values.
-			eits.transButton.setEnabled(false);
 			
 			boolean loadIfExists = false;
 			

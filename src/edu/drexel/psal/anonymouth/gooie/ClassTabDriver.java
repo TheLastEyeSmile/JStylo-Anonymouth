@@ -251,6 +251,7 @@ public class ClassTabDriver {
 							EditorTabDriver.resetAll(main);
 						}
 					}
+					EditorTabDriver.eits.processButton.setEnabled(true);
 					main.mainJTabbedPane.setEnabledAt(3, true);
 					main.mainJTabbedPane.setSelectedIndex(3);
 					Document toModifyPreview = main.ps.testDocAt(0);

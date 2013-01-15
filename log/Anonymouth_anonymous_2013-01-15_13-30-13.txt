@@ -1,0 +1,31 @@
+Started log log/Anonymouth_anonymous_2013-01-15_13-30-13.txt
+===================================================
+13-30-13: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+13-30-13: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+13-30-13: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+13-30-13: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+13-30-13: Populating event drivers...
+13-30-13: adding event drivers under Basic
+13-30-13: adding event drivers under Part-Of-Speech
+13-30-13: adding event drivers under Grams
+13-30-13: adding event drivers under Dictionary
+13-30-13: adding event drivers under Counters
+13-30-13: adding event drivers under Readability Metrics
+13-30-13: adding event drivers under Misc.
+13-30-13: done!
+13-30-13: Populating canonicizers...
+13-30-13: done!
+13-30-13: Populating event cullers...
+13-30-13: done!
+13-30-14: EditorInnerTabSpawner spawning tab
+13-30-15: 'Load Problem Set' button clicked on the documents tab
+13-30-16: Trying to load problem set from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1.xml
+13-30-16: GUI Update: update documents tab with current problem set started
+13-30-17: 'Next' button clicked on the documents tab.
+13-30-19: Preset feature set selected in the features tab.
+13-30-19: loaded preset feature set: WritePrints (Limited)
+13-30-20: 'Next' button clicked in the features tab.
+13-30-21: Classifier selected in the available classifiers tree in the classifiers tab: SMO
+13-30-22: 'Add' button clicked in the analysis tab.
+13-30-22: Classifier tree unselected in the classifiers tab.
+13-30-23: 'Next' button clicked in the classifiers tab

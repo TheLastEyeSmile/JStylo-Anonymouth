@@ -1596,7 +1596,7 @@ public class GUIMain extends javax.swing.JFrame {
 												public void mouseEntered(MouseEvent e)
 												{
 													//sentenceEditorLabel.setBackground(Color.YELLOW);
-													descriptionPane.setText("The Classification Results Area displays who and how much Anonymouth thinks the different authors provided are the real one.");
+													descriptionPane.setText("The Classification Results Area displays who and how much Anonymouth thinks the different authors provided are the real one. This will be updated once the document has been processed.");
 													classificationResultsLabel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 													classificationResultsLabel.setBackground(Color.YELLOW);
 													EditorTabDriver.eits.resultsTableLabel.setBackground(Color.YELLOW);

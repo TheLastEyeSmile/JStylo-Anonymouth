@@ -592,8 +592,8 @@ public class EditorTabDriver {
 		
 		eits.processButton.addActionListener(new ActionListener() {
 			@Override
-			public synchronized void actionPerformed(ActionEvent event) {
-				
+			public synchronized void actionPerformed(ActionEvent event) 
+			{
 				main.mainJTabbedPane.setEnabledAt(4, true);
 				if(isFirstRun==true){
 					//sentenceTools = new SentenceTools();
@@ -642,7 +642,8 @@ public class EditorTabDriver {
 				for(i=0;i<3;i++)
 					main.holderPanel.add(firstThreePanels[i]);
 				int wekaIsRunningAnswer = wekaIsRunning();
-				if(wekaIsRunningAnswer != -1){
+				if(wekaIsRunningAnswer != -1)
+				{
 					//cpb.setText("Waiting for Number of Features Desired... OK");
 					//cpb.setText("Initializing...");
 					//cpb.run();
@@ -662,10 +663,7 @@ public class EditorTabDriver {
 				}
 				else
 					eits.processButton.setEnabled(true);
-
-				}	
-				
-			
+			}
 		});
 		
 		eits.nextSentenceButton.addActionListener(new ActionListener(){

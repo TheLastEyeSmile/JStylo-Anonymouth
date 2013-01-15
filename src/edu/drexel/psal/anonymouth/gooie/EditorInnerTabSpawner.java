@@ -447,6 +447,7 @@ public class EditorInnerTabSpawner {
                             {
                             	processButton = new JButton();
                             	processButton.setText("Process");
+                            	processButton.setEnabled(false);
                             	//processButton.setBackground(new Color(163, 255, 160)); //not working
                             	processButton.setToolTipText("Processes the document.");
                             	processButton.setPreferredSize(new java.awt.Dimension(x, y*2));

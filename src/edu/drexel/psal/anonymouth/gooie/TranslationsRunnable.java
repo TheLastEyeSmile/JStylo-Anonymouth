@@ -37,7 +37,7 @@ public class TranslationsRunnable extends EditorTabDriver implements Runnable
 		eits.transButton.setEnabled(b);
 		eits.prevSentenceButton.setEnabled(b);
 		//main.translationsComboBox.setEnabled(b);
-		main.processButton.setEnabled(b);
+		eits.processButton.setEnabled(b);
 	}
 	
 	/**
@@ -49,16 +49,17 @@ public class TranslationsRunnable extends EditorTabDriver implements Runnable
 		setAllEnabled(false); // disable everything to start so there are no interruptions
 		main.editorHelpTabPane.setSelectedIndex(2); // or whatever index "Translation" tab is at
 		
+		ProgressWindow window = new ProgressWindow("Translating...", main);
 		// set up the progress bar
-		main.editorProgressBar.setMinimum(0);
-		main.editorProgressBar.setMaximum(translator.getAllLangs().length);
-		main.editorProgressBar.setValue(0);
+		window.getProgressBar().setMinimum(0);
+		window.getProgressBar().setMaximum(translator.getAllLangs().length);
+		window.getProgressBar().setValue(0);
 		
 		// finish set up for translation
 		Date start = new Date();
 		//main.translationsComboBox.addItem("ORIGINAL - " + sentence.getUntagged().trim());
 		//main.translationsComboBox.setSelectedIndex(0);
-		main.editingProgressBarLabel.setText("Translating Sentence... 0 of " + translator.getAllLangs().length + " languages.");
+		window.setText("Translating Sentence... 0 of " + translator.getAllLangs().length + " languages.");
 		
 		// translate all languages and add them and their anonIndex to the ArrayLists
 		for (int i = 0; i < translator.getAllLangs().length; i++)
@@ -69,15 +70,17 @@ public class TranslationsRunnable extends EditorTabDriver implements Runnable
 			TaggedSentence taggedTrans = new TaggedSentence(translation);
 			sentence.getTranslations().add(taggedTrans);
 			main.translationsTable.setValueAt(sentence.getTranslations().get(i).getUntagged(), i, 0);
-			main.editorProgressBar.setValue(i+1);
-			main.editingProgressBarLabel.setText("Translating Sentence... " + (i+1) + " of " + translator.getAllLangs().length + " languages.");
+			window.getProgressBar().setValue(i+1);
+			window.setText("Translating Sentence... " + (i+1) + " of " + translator.getAllLangs().length + " languages.");
 		}
 		
 		// sorts the translations by anonIndex and populates the translation drop down.
 		//sentence.sortTranslations(); // sort by anonIndexs
 		Date end = new Date();
 		
-		main.editingProgressBarLabel.setText("Translated in " + ((end.getTime()-start.getTime())/1000.0) + " seconds.");
+		window.setText("Translated in " + ((end.getTime()-start.getTime())/1000.0) + " seconds.");
+		
+		window.closeWindow();
 		
 		setAllEnabled(true);
     }

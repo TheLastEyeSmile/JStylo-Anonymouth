@@ -55,6 +55,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.Timer;
 import javax.swing.Action;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -144,7 +145,7 @@ public class EditorTabDriver {
 	protected static String selectedFeature;
 	protected static boolean shouldReset = false;
 	protected static boolean isCalcHist = false;
-	protected static ClassifyingProgressBar cpb;
+	//protected static ClassifyingProgressBar cpb;
 	protected static ArrayList<FeatureList> noCalcHistFeatures;
 	protected static ArrayList<FeatureList> yesCalcHistFeatures;
 	protected static HighlightMapList[] highlightingOptions;
@@ -184,7 +185,7 @@ public class EditorTabDriver {
 	
 	protected static void signalTargetsSelected(GUIMain main, boolean goodToGo){
 		if(goodToGo == true)
-			BackendInterface.postTargetSelectionProcessing(main, wizard, magician, cpb);
+			BackendInterface.postTargetSelectionProcessing(main, wizard, magician);
 	}
 	
 	protected static void highlightSentence(TaggedSentence sentence)
@@ -495,6 +496,30 @@ public class EditorTabDriver {
 		return helpMessege;
 	}
 	
+	/**
+	 * Sets all the components within the editor inner tab spawner to disabled, except for the Process button.
+	 * @param b boolean determining if the components are enabled or disabled
+	 * @param main GUIMain object
+	 */
+	public static void setAllEITSEnabled(boolean b, GUIMain main)
+	{
+		//eits.processButton.setEnabled(b);
+		eits.appendSentenceButton.setEnabled(b);
+		eits.nextSentenceButton.setEnabled(b);
+		eits.prevSentenceButton.setEnabled(b);
+		eits.transButton.setEnabled(b);
+		eits.editorBox.setEnabled(b);
+		eits.sentenceEditPane.setEnabled(b);
+		eits.translationEditPane.setEnabled(b);
+		eits.resultsTable.setEnabled(b);
+		eits.restoreSentenceButton.setEnabled(b);
+		eits.SaveChangesButton.setEnabled(b);
+		eits.copyToSentenceButton.setEnabled(b);
+		eits.saveButton.setEnabled(b);
+		eits.dictButton.setEnabled(b);
+		main.editorHelpTabPane.setEnabled(b);
+	}
+	
 	protected static void initListeners(final GUIMain main){
 		
 		Action refresh = new Action() {
@@ -563,24 +588,13 @@ public class EditorTabDriver {
 		                             refresh);
 		
 		
-		main.processButton.setToolTipText("Click this first to run and to get the results of the initial classification of your document.");
+		//main.processButton.setToolTipText("Click this first to run and to get the results of the initial classification of your document.");
 		
-		main.processButton.addActionListener(new ActionListener() {
+		eits.processButton.addActionListener(new ActionListener() {
 			@Override
 			public synchronized void actionPerformed(ActionEvent event) {
-				main.processButton.setEnabled(false);
-				main.addSentence.setEnabled(false);
-				main.translationsTable.setEnabled(false);
-				eits.nextSentenceButton.setEnabled(false);
-				eits.prevSentenceButton.setEnabled(false);
-				eits.transButton.setEnabled(false);
-				eits.editorBox.setEnabled(false);
-				eits.sentenceEditPane.setEnabled(false);
-				eits.translationEditPane.setEnabled(false);
-				eits.resultsTable.setEnabled(false);
-				eits.restoreSentenceButton.setEnabled(false);
-				eits.SaveChangesButton.setEnabled(false);
-				eits.copyToSentenceButton.setEnabled(false);
+				
+				main.mainJTabbedPane.setEnabledAt(4, true);
 				if(isFirstRun==true){
 					//sentenceTools = new SentenceTools();
 					TaggedDocument taggedDocument = new TaggedDocument();//eits.editorBox.getText();
@@ -618,8 +632,8 @@ public class EditorTabDriver {
 				}
 				else
 					Logger.logln("Repeat processing starting....");
-				cpb = new ClassifyingProgressBar(main);
-				cpb.setText("Waiting for Number of Features Desired...");
+				//cpb = new ClassifyingProgressBar(main);
+				//cpb.setText("Waiting for Number of Features Desired...");
 				int i =0;
 				JPanel[] firstThreePanels = new JPanel[3];
 				for(i=0;i<3;i++)
@@ -629,9 +643,9 @@ public class EditorTabDriver {
 					main.holderPanel.add(firstThreePanels[i]);
 				int wekaIsRunningAnswer = wekaIsRunning();
 				if(wekaIsRunningAnswer != -1){
-					cpb.setText("Waiting for Number of Features Desired... OK");
-					cpb.setText("Initializing...");
-					cpb.run();
+					//cpb.setText("Waiting for Number of Features Desired... OK");
+					//cpb.setText("Initializing...");
+					//cpb.run();
 					eits.editorBox.getHighlighter().removeAllHighlights();
 					highlightedObjects.clear();
 					TheOracle.resetColorIndex();
@@ -642,12 +656,12 @@ public class EditorTabDriver {
 					//main.suggestionTable.clearSelection();
 					okayToSelectSuggestion = false;
 					wizard.setNumFeaturesToReturn(wekaIsRunningAnswer);
-					cpb.setText("Initializing... Done");
+					//cpb.setText("Initializing... Done");
 					Logger.logln("calling backendInterface for preTargetSelectionProcessing");
-					BackendInterface.preTargetSelectionProcessing(main,wizard,magician,cpb);
+					BackendInterface.preTargetSelectionProcessing(main,wizard,magician);
 				}
 				else
-					main.processButton.setEnabled(true);
+					eits.processButton.setEnabled(true);
 
 				}	
 				
@@ -748,7 +762,7 @@ public class EditorTabDriver {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				Logger.logln("Sentence at index " + ConsolidationStation.toModifyTaggedDocs.get(0).getSentNumber() + " restored.");
-				eits.sentenceEditPane.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getCurrentSentence().getUntagged());
+				eits.sentenceEditPane.setText(ConsolidationStation.toModifyTaggedDocs.get(0).getCurrentSentence().getUntagged().trim());
 			}
 			
 		});	
@@ -795,7 +809,7 @@ public class EditorTabDriver {
 		});
 		
 		
-		main.addSentence.addActionListener(new ActionListener(){
+		eits.appendSentenceButton.addActionListener(new ActionListener(){
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0){//FIX THIS
@@ -811,7 +825,7 @@ public class EditorTabDriver {
 				}
 				else{
 					Logger.logln("Add sentence button pressed.");
-					String tempSent=ConsolidationStation.toModifyTaggedDocs.get(0).addNextSentence(eits.getSentenceEditPane().getText());
+					String tempSent = ConsolidationStation.toModifyTaggedDocs.get(0).addNextSentence(eits.getSentenceEditPane().getText());
 					//ConsolidationStation.toModifyTaggedDocs.get(0).removeAndReplace(eits.getSentenceEditPane().getText());
 					eits.getSentenceEditPane().setText(tempSent);
 					trackEditSentence(main);
@@ -822,7 +836,7 @@ public class EditorTabDriver {
 			
 		});
 	
-		main.exitButton.addActionListener(new ActionListener(){
+		/*main.exitButton.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -831,7 +845,7 @@ public class EditorTabDriver {
 				System.exit(0);
 			}
 			
-		});	
+		});*/	
 		
 		/*
 		main.clearHighlightingButton.addActionListener(new ActionListener(){
@@ -1011,7 +1025,7 @@ public class EditorTabDriver {
 			
 		});
 		*/
-		main.dictButton.addActionListener(new ActionListener(){
+		eits.dictButton.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1031,7 +1045,7 @@ public class EditorTabDriver {
 			
 		});
 		
-		main.saveButton.addActionListener(new ActionListener(){
+		eits.saveButton.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1168,7 +1182,7 @@ public class EditorTabDriver {
 				main.editTP.addTab(nameFirstHalf+"->"+Integer.toString(numEdits), eitsList.get(nextTabIndex).editBoxPanel);
 				main.editTP.setSelectedIndex(nextTabIndex);
 				initEditorInnerTabListeners(main);
-				main.processButton.setEnabled(true);
+				eits.processButton.setEnabled(true);
 				/* todo I commented this block out to test the translated sentence functionality -- AweM
 				eits.editorBox.setEnabled(false);
 				ConsolidationStation.toModifyTaggedDocs.get(0).setSentenceCounter(-1);
@@ -1206,9 +1220,9 @@ public class EditorTabDriver {
 		main.featureNameLabel.setText("-");
 		main.presentValueField.setText(" - ");
 		main.targetValueField.setText(" - ");
-		main.processButton.setText("Process");
-		main.processButton.setEnabled(true);
-		main.processButton.setSelected(true);
+		eits.processButton.setText("Process");
+		eits.processButton.setEnabled(true);
+		eits.processButton.setSelected(true);
 		main.instructionsPane.setText("");
 		
 		main.elementsToAddPane.setText("");
@@ -1238,7 +1252,7 @@ public class EditorTabDriver {
 		
 		
 		//eits.shuffleButton.setEnabled(true);
-		eits.restoreSentenceButton.setEnabled(true);
+		//eits.restoreSentenceButton.setEnabled(true);
 		
 		/*eits.shuffleButton.addActionListener(new ActionListener(){
 
@@ -1514,14 +1528,15 @@ public class EditorTabDriver {
 	
 	*/
 	
-	 class ClassifyingProgressBar implements Runnable {
+	 /*class ProgressWindow implements Runnable {
 
 		GUIMain main;
 		
-		public ClassifyingProgressBar(GUIMain main){
+		public ProgressWindow(GUIMain main){
 			this.main = main;
 			new Thread(this,"ClassifyingProgressBar").start();
 		}
+
 
 		@Override
 		public void run() {
@@ -1537,7 +1552,7 @@ public class EditorTabDriver {
 		public void setText(String s){
 			main.editingProgressBarLabel.setText(s);
 		}
-	}
+	}*/
 			
 	 class SuggestionCalculator implements Runnable{
 		//TODO: need to process sentence to find most salient features
@@ -1627,7 +1642,7 @@ public class EditorTabDriver {
 			}
 			else
 				Logger.logln("Highlight map empty - nothing to highlight. Finished in SuggestionCalculator");
-			main.processButton.setEnabled(true);
+			eits.processButton.setEnabled(true);
 			EditorTabDriver.okayToSelectSuggestion = true;
 			//System.out.println("Should exit Suggestion Calculator.");
 		} 

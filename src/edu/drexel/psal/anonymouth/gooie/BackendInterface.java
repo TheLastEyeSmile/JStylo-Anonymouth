@@ -210,9 +210,9 @@ public class BackendInterface {
 		}
 	}
 */	
-	protected static void preTargetSelectionProcessing(GUIMain main,DataAnalyzer wizard, DocumentMagician magician,ClassifyingProgressBar cpb){
+	protected static void preTargetSelectionProcessing(GUIMain main,DataAnalyzer wizard, DocumentMagician magician){
 		//Logger
-		(new Thread(bei.new PreTargetSelectionProcessing(main,wizard,magician,cpb))).start();
+		(new Thread(bei.new PreTargetSelectionProcessing(main,wizard,magician))).start();
 		
 	}
 	
@@ -220,17 +220,17 @@ public class BackendInterface {
 		
 		private DataAnalyzer wizard;
 		private DocumentMagician magician;
-		private ClassifyingProgressBar cpb;
+		private ProgressWindow pw;
 		private EditorInnerTabSpawner eits;
 		private int selectedIndex;
 		
 		
-		public PreTargetSelectionProcessing(GUIMain main,DataAnalyzer wizard, DocumentMagician magician,ClassifyingProgressBar cpb){
+		public PreTargetSelectionProcessing(GUIMain main,DataAnalyzer wizard, DocumentMagician magician){
 			super(main);
 			//System.out.println("Entered EditTabProcessButtonClicked - NOTHING ELSE SHOULD HAPPEN UNTIL NEXT MESSAGE FROM THIS CLASS.");
 			this.wizard = wizard;
 			this.magician = magician;
-			this.cpb = cpb;
+			this.pw = new ProgressWindow("Processing...", main);
 			selectedIndex = main.editTP.getSelectedIndex();
 			this.eits = EditorTabDriver.eitsList.get(selectedIndex);
 		}
@@ -266,11 +266,11 @@ public class BackendInterface {
 				
 				Logger.logln("Process button pressed for first time (initial run) in editor tab");
 				
-				cpb.setText("Extracting and Clustering Features...");
+				pw.setText("Extracting and Clustering Features...");
 				try{
 					wizard.runInitial(magician,main.cfd, main.classifiers.get(0));
-					cpb.setText("Extracting and Clustering Features... Done");
-					cpb.setText("Initializing Tagger...");
+					pw.setText("Extracting and Clustering Features... Done");
+					pw.setText("Initializing Tagger...");
 					
 					//ConsolidationStation.attribs=wizard.getAttributes();//not the best maybe??	
 					//ConsolidationStation.getStringsFromAttribs();
@@ -281,12 +281,13 @@ public class BackendInterface {
 					
 					//ConsolidationStation.toModifyTaggedDocs = ;
 					
-					cpb.setText("Initialize Cluster Viewer...");
+					pw.setText("Initialize Cluster Viewer...");
 					ClusterViewerDriver.initializeClusterViewer(main,true);
-					cpb.setText("Initialize Cluster Viewer... Done");
-					cpb.setText("Classifying Documents...");
+					pw.setText("Initialize Cluster Viewer... Done");
+					pw.setText("Classifying Documents...");
 					magician.runWeka();
-					cpb.setText("Classifying Documents... Done");
+					pw.setText("Classifying Documents... Done");
+					pw.closeWindow();
 					//ConsolidationStation.attribs=wizard.getAttributes();//not the best maybe??	
 					//ConsolidationStation.getStringsFromAttribs();//moving this...
 				}
@@ -319,21 +320,21 @@ public class BackendInterface {
 					eits.editorBox.setEditable(false);
 					eits.editorBox.setEnabled(true);
 					
-					cpb.setText("Extracting and Clustering Features...");
+					pw.setText("Extracting and Clustering Features...");
 					try {
 						wizard.reRunModified(magician);
-						cpb.setText("Extracting and Clustering Features... Done");
-						cpb.setText("Initialize Cluster Viewer...");
+						pw.setText("Extracting and Clustering Features... Done");
+						pw.setText("Initialize Cluster Viewer...");
 						ClusterViewerDriver.initializeClusterViewer(main,false);
-						cpb.setText("Initialize Cluster Viewer... Done");
-						cpb.setText("Classifying Documents...");
+						pw.setText("Initialize Cluster Viewer... Done");
+						pw.setText("Classifying Documents...");
 						magician.runWeka();
-						cpb.setText("Classifying Documents... Done");
+						pw.setText("Classifying Documents... Done");
 					} catch (Exception e) {
 						e.printStackTrace();
 						ErrorHandler.fatalError();
 					}
-					cpb.setText("Setting Results...");
+					pw.setText("Setting Results...");
 					Map<String,Map<String,Double>> wekaResults = magician.getWekaResultList();
 					Logger.logln(" ****** WEKA RESULTS for session '"+ThePresident.sessionName+" process number : "+DocumentMagician.numProcessRequests);
 					Logger.logln(wekaResults.toString());
@@ -342,7 +343,7 @@ public class BackendInterface {
 					eits.resultsTable.setModel(makeResultsTable(wekaResults));
 					//main.getResultsTable().getColumnModel().getColumn(resultsMaxIndex).setCellRenderer(new MyTableRenderer());
 					//XXX STOP HERE
-					cpb.setText("Setting Results... Done");
+					pw.setText("Setting Results... Done");
 					
 					
 					//main.processButton.setText("Re-process");
@@ -360,7 +361,7 @@ public class BackendInterface {
 			else
 				eits.classificationLabel.setText("Your document appears as if '"+EditorTabDriver.chosenAuthor+"' wrote it!");
 			//eits.editorBox.setText(tempDoc);	
-			cpb.setText("Waiting for Target Selection...");
+			//cpb.setText("Waiting for Target Selection...");
 			}
 			catch (Exception e){
 				e.printStackTrace();
@@ -383,9 +384,9 @@ public class BackendInterface {
 	
 	
 	
-	protected static void postTargetSelectionProcessing(GUIMain main,DataAnalyzer wizard, DocumentMagician magician,ClassifyingProgressBar cpb){
+	protected static void postTargetSelectionProcessing(GUIMain main,DataAnalyzer wizard, DocumentMagician magician){
 		//Logger
-		(new Thread(bei.new PostTargetSelectionProcessing(main,wizard,magician,cpb))).start();
+		(new Thread(bei.new PostTargetSelectionProcessing(main,wizard,magician))).start();
 		
 	}
 	
@@ -393,23 +394,23 @@ public class BackendInterface {
 
 		private DataAnalyzer wizard;
 		private DocumentMagician magician;
-		private ClassifyingProgressBar cpb;
+		private ProgressWindow pw;
 		private EditorInnerTabSpawner eits;
 		private int selectedIndex;
 
 
-		public PostTargetSelectionProcessing(GUIMain main,DataAnalyzer wizard, DocumentMagician magician,ClassifyingProgressBar cpb){
+		public PostTargetSelectionProcessing(GUIMain main,DataAnalyzer wizard, DocumentMagician magician){
 			super(main);
 			//System.out.println("Entered EditTabProcessButtonClicked - NOTHING ELSE SHOULD HAPPEN UNTIL NEXT MESSAGE FROM THIS CLASS.");
 			this.wizard = wizard;
 			this.magician = magician;
-			this.cpb = cpb;
+			this.pw = new ProgressWindow("Processing...", main);
 			selectedIndex = main.editTP.getSelectedIndex();
 			this.eits = EditorTabDriver.eitsList.get(selectedIndex);
 		}
 
 		public void run(){
-			cpb.setText("Target Selected");
+			pw.setText("Target Selected");
 			TableCellRenderer renderer = new PredictionRenderer(eits);
 		    eits.resultsTable.setDefaultRenderer(Object.class, renderer);
 		    if(EditorTabDriver.isFirstRun == false)
@@ -424,24 +425,22 @@ public class BackendInterface {
 			// make highlight bar
 			//main.highlightSelectionBox.setModel(makeHighlightBarModel());
 			TheOracle.setTheDocument(eits.editorBox.getText());
-			main.processButton.setText("Re-process");
-			main.processButton.setToolTipText("Click this button once you have made all changes in order to see how they have affected the classification of your document.");
-			main.processButton.setSize(main.processButton.getSize().width+3,main.processButton.getSize().height);
-			main.processButton.setSelected(false);
+			eits.processButton.setText("Re-process");
+			//eits.processButton.setToolTipText("Click this button once you have made all changes in order to see how they have affected the classification of your document.");
+			//eits.processButton.setSize(eits.processButton.getSize().width+3,eits.processButton.getSize().height);
+			eits.processButton.setSelected(false);
 			
 			eits.nextSentenceButton.setEnabled(false);
 			eits.prevSentenceButton.setEnabled(false);
 			eits.transButton.setEnabled(false);
-			main.addSentence.setEnabled(false);
+			eits.appendSentenceButton.setEnabled(false);
 			// XXX for AFTER everything is done
 				
 			//main.highlightSelectionBox.setEnabled(true);
-			main.processButton.setSelected(false);
-			cpb.setText("Tagging all documents... Done");
+			eits.processButton.setSelected(false);
+			pw.setText("Tagging all documents... Done");
 			
-			cpb.stop();
-			
-			main.editorProgressBar.setIndeterminate(true);	
+			//main.editorProgressBar.setIndeterminate(true);	
 			
 			eits.editBoxPanel.setEnabled(true);
 			eits.resultsTablePane.setEnabled(true);
@@ -477,11 +476,11 @@ public class BackendInterface {
 			}
 			
 			Logger.logln("Finished in BackendInterface - postTargetSelection");
-			main.editorProgressBar.setIndeterminate(false);	
+			//main.editorProgressBar.setIndeterminate(false);	
 			eits.nextSentenceButton.setEnabled(true);
 			eits.prevSentenceButton.setEnabled(true);
 			eits.transButton.setEnabled(true);
-			main.addSentence.setEnabled(true);
+			eits.appendSentenceButton.setEnabled(true);
 			main.translationsTable.setEnabled(true);
 			eits.editorBox.setEnabled(true);
 			eits.resultsTable.setEnabled(true);
@@ -494,7 +493,9 @@ public class BackendInterface {
 			eits.copyToSentenceButton.setEnabled(true);
 			eits.nextSentenceButton.doClick();
 			eits.editBox.getViewport().setViewPosition(new java.awt.Point(0, 0));
-			cpb.setText("User Editing... Waiting to\"Re-process\"");
+			
+			pw.closeWindow();
+			//cpb.setText("User Editing... Waiting to\"Re-process\"");
 			
 		}
 		

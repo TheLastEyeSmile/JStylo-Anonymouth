@@ -216,7 +216,7 @@ public class GUIMain extends javax.swing.JFrame {
 	protected JTextPane editorBox;
 	protected JTable resultsTable;
 	protected JLabel classificationLabel;
-	protected JButton addSentence;
+	//protected JButton addSentence;
 	protected JPanel editorRowTwoButtonBufferPanel;
 	protected JPanel buttonBufferJPanel;
 	protected JPanel editorBottomRowButtonPanel;
@@ -280,19 +280,18 @@ public class GUIMain extends javax.swing.JFrame {
 	protected JLabel highlightLabel;
 	protected JPanel jPanel_IL3;
 	protected JButton clearHighlightingButton;
-	protected JProgressBar editorProgressBar;
-	protected JLabel editingProgressBarLabel;
+	//protected JProgressBar editorProgressBar;
+	//protected JLabel editingProgressBarLabel;
 	protected JLabel featureNameLabel;
 	protected JLabel targetValueLabel;
 	protected JLabel presentValueLabel;
 	protected JTextField targetValueField;
 	protected JTextField presentValueField;
 	protected JLabel suggestionListLabel;
-	protected JButton saveButton;
-	protected JButton exitButton;
-	protected JButton processButton;
+	//protected JButton saveButton;
+	//protected JButton exitButton;
 	protected JButton verboseButton;
-	protected JButton dictButton;
+	//protected JButton dictButton;
 	protected JLabel resultsTableLabel;
 	protected JScrollPane resultsTablePane;
 	protected JScrollPane editBox;
@@ -1230,7 +1229,7 @@ public class GUIMain extends javax.swing.JFrame {
 						editorTab.setLayout(editorTabLayout);
 						theEditorScrollPane.setViewportView(editorTab);
 						editorTab.setPreferredSize(new java.awt.Dimension(950, 654));
-						{
+						/*{
 							editorInteractionScrollPane = new JScrollPane();
 							editorTab.add(editorInteractionScrollPane, BorderLayout.SOUTH);
 							editorInteractionScrollPane.setPreferredSize(new java.awt.Dimension(999, 84));
@@ -1293,7 +1292,7 @@ public class GUIMain extends javax.swing.JFrame {
 										editorTopRowButtonsPanel = new JPanel();
 										editorButtonJPanel.add(editorTopRowButtonsPanel, BorderLayout.NORTH);
 										editorTopRowButtonsPanel.setPreferredSize(new java.awt.Dimension(647, 36));
-										/*{
+										{
 											prevSentenceButton = new JButton();
 											editorTopRowButtonsPanel.add(prevSentenceButton);
 											prevSentenceButton.setText("Last");
@@ -1313,7 +1312,7 @@ public class GUIMain extends javax.swing.JFrame {
 											transButton = new JButton();
 											editorTopRowButtonsPanel.add(transButton);
 											transButton.setText("Translate");
-										}*/
+										}
 										{
 											addSentence = new JButton();
 											editorTopRowButtonsPanel.add(addSentence);
@@ -1330,15 +1329,11 @@ public class GUIMain extends javax.swing.JFrame {
 											editorTopRowButtonsPanel.add(processButton);
 											processButton.setText("Process");
 											processButton.setPreferredSize(new java.awt.Dimension(118, 29));
-										}
-									}
-								}
-							}
-						}
+										}*/
 						{
 							editTP = new JTabbedPane();
 							editorTab.add(editTP, BorderLayout.CENTER);
-							editTP.setPreferredSize(new java.awt.Dimension(634, 612));
+							editTP.setPreferredSize(new java.awt.Dimension(870, 612));
 							{
 								
 								EditorInnerTabSpawner eits = (new EditorInnerTabSpawner()).spawnTab();
@@ -1476,14 +1471,14 @@ public class GUIMain extends javax.swing.JFrame {
 									}
 								}//============ End Suggestions Tab =================
 								editorHelpTransPanel = new JPanel();
-								editorHelpTransPanel.setPreferredSize(new java.awt.Dimension(400, 610));
+								editorHelpTransPanel.setPreferredSize(new java.awt.Dimension(400, 660));
 								BorderLayout transLayout = new BorderLayout(); 
 								editorHelpTransPanel.setLayout(transLayout);
 								editorHelpTabPane.addTab("Translations", editorHelpTransPanel);
 								{//================= Translations Tab ==============
 									//--------- translationsPanel ------------------
 									translationsPanel = new JPanel();
-									translationsPanel.setPreferredSize(new java.awt.Dimension(390, 600));
+									translationsPanel.setPreferredSize(new java.awt.Dimension(390, 650));
 									editorHelpTransPanel.add(translationsPanel, BorderLayout.NORTH);
 									
 									//--------- translationsLabel ------------------
@@ -1510,7 +1505,7 @@ public class GUIMain extends javax.swing.JFrame {
 									    }
 									};
 									translationsScrollPane = new JScrollPane();
-									translationsScrollPane.setPreferredSize(new java.awt.Dimension(380, 550));
+									translationsScrollPane.setPreferredSize(new java.awt.Dimension(380, 650));
                                     translationsScrollPane.setViewportView(translationsTable);
 	                                
 	                              //--------- TranslationsTable model ------------------
@@ -1543,7 +1538,7 @@ public class GUIMain extends javax.swing.JFrame {
                                     //--------- TranslationsTable properties ------------------
                                     translationsTable.setModel(translationTableModel);
                                     translationsTable.setPreferredSize(null); // allows it to fit to the number and size of the entries
-                                    translationsTable.setRowHeight(20);
+                                    translationsTable.setRowHeight(16);
                                     translationsTable.getColumnModel().getColumn(0).setPreferredWidth(300);
                                     translationsTable.getColumnModel().getColumn(1).setPreferredWidth(80);
                                     translationsPanel.add(translationsScrollPane, BorderLayout.SOUTH);
@@ -1691,13 +1686,11 @@ public class GUIMain extends javax.swing.JFrame {
 						}
 					}
 				}
-				}
-			
-				
-					// bottom toolbar buttons
-					// ======================
-				
-		
+			}
+			// final property settings
+			EditorTabDriver.setAllEITSEnabled(false, this);
+			mainJTabbedPane.setEnabledAt(3, false);
+			mainJTabbedPane.setEnabledAt(4, false);
 
 			// initialize listeners - except for EditorTabDriver!
 			DocsTabDriver.initListeners(this);

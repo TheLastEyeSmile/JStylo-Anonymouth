@@ -113,6 +113,10 @@ public class EditorInnerTabSpawner {
 			protected int resultsMaxIndex;
 			protected String chosenAuthor;
 			
+			protected JButton dictButton;
+			protected JButton appendSentenceButton;
+			protected JButton saveButton;
+			protected JButton processButton;
 			protected JButton nextSentenceButton;
 			protected JButton prevSentenceButton;
 			protected JButton transButton;
@@ -334,10 +338,10 @@ public class EditorInnerTabSpawner {
                         EBPConst.gridwidth = 1;
                         
                         editBoxPanel.add(documentPanel, EBPConst);
-                        documentPanel.setPreferredSize(new java.awt.Dimension(prefX, 300));
+                        documentPanel.setPreferredSize(new java.awt.Dimension(prefX, 400));
                         {//------- Document Label ---------------
                             editBoxLabel = new JLabel();
-                            editBoxLabel.setText("The Latest Version of Your \"Document to Anonymize\":");
+                            editBoxLabel.setText("Document:");
                             editBoxLabel.setHorizontalAlignment(SwingConstants.CENTER);
                             editBoxLabel.setPreferredSize(new java.awt.Dimension(prefX, 20));
                             DPConst.gridx = 0;
@@ -348,7 +352,7 @@ public class EditorInnerTabSpawner {
                         }
                         {//------- Document Text Area ---------------
                             editBox = new JScrollPane();
-                            editBox.setPreferredSize(new java.awt.Dimension(710, 270));
+                            editBox.setPreferredSize(new java.awt.Dimension(710, 370));
                             DPConst.gridx = 0;
                             DPConst.gridheight = 1;
                             DPConst.gridy = 1;
@@ -364,7 +368,7 @@ public class EditorInnerTabSpawner {
                         }
                         {//------- Document Options ---------------
 	                        documentOptionsPanel = new JPanel();
-	                        documentOptionsPanel.setPreferredSize(new java.awt.Dimension(140, 270));
+	                        documentOptionsPanel.setPreferredSize(new java.awt.Dimension(140, 370));
 	                    	//translationButtonPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 1, Color.DARK_GRAY));
 	                        documentOptionsPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 	                    	GridBagLayout DOPLayout = new GridBagLayout();
@@ -374,7 +378,7 @@ public class EditorInnerTabSpawner {
 	                    	DPConst.gridy = 1;
 	                    	DPConst.gridwidth = 1;
 	                    	int x = 130;
-	                    	int y = 18;
+	                    	int y = 20;
 	                    	documentPanel.add(documentOptionsPanel, DPConst);
                     		{
 	                            JLabel docOptionsLabel = new JLabel("Document Options:");
@@ -399,27 +403,73 @@ public class EditorInnerTabSpawner {
                             	documentOptionsPanel.add(transButton, DPConst);
                             }
                             {
-                            	JLabel filler = new JLabel();
-                            	filler.setPreferredSize(new java.awt.Dimension(x, 200));
+                            	appendSentenceButton = new JButton();
+                            	appendSentenceButton.setText("Append Next Sentence");
+                            	appendSentenceButton.setToolTipText("Appends the next sentence onto the current sentence.");
+                            	appendSentenceButton.setPreferredSize(new java.awt.Dimension(x, y));
                             	DPConst.gridx = 0;
                             	DPConst.gridheight = 1;
                             	DPConst.gridy = 2;
                             	DPConst.gridwidth = 1;
+                            	documentOptionsPanel.add(transButton, DPConst);
+                            }
+                            {
+                            	dictButton = new JButton();
+                            	dictButton.setText("Synonym Dictionary");
+                            	dictButton.setToolTipText("Phrase and Synonym Dictionary.");
+                            	dictButton.setPreferredSize(new java.awt.Dimension(x, y));
+                            	DPConst.gridx = 0;
+                            	DPConst.gridheight = 1;
+                            	DPConst.gridy = 3;
+                            	DPConst.gridwidth = 1;
+                            	documentOptionsPanel.add(dictButton, DPConst);
+                            }
+                            {
+                            	saveButton = new JButton();
+                            	saveButton.setText("Save To File");
+                            	saveButton.setToolTipText("Saves what is in the document view to it's source file.");
+                            	saveButton.setPreferredSize(new java.awt.Dimension(x, y));
+                            	DPConst.gridx = 0;
+                            	DPConst.gridheight = 1;
+                            	DPConst.gridy = 4;
+                            	DPConst.gridwidth = 1;
+                            	documentOptionsPanel.add(saveButton, DPConst);
+                            }
+                            {
+                            	JLabel filler = new JLabel();
+                            	filler.setPreferredSize(new java.awt.Dimension(x, 220));
+                            	DPConst.gridx = 0;
+                            	DPConst.gridheight = 1;
+                            	DPConst.gridy = 5;
+                            	DPConst.gridwidth = 1;
                             	documentOptionsPanel.add(filler, DPConst);
+                            }
+                            {
+                            	processButton = new JButton();
+                            	processButton.setText("Process");
+                            	//processButton.setBackground(new Color(163, 255, 160)); //not working
+                            	processButton.setToolTipText("Processes the document.");
+                            	processButton.setPreferredSize(new java.awt.Dimension(x, y*2));
+                            	DPConst.gridx = 0;
+                            	DPConst.gridheight = 1;
+                            	DPConst.gridy = 6;
+                            	DPConst.gridwidth = 1;
+                            	documentOptionsPanel.add(processButton, DPConst);
                             }
                             {
 	                            JPanel navPanel = new JPanel();
 	                            GridBagLayout NPLayout = new GridBagLayout();
 	                            navPanel.setLayout(NPLayout);
+	                            navPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.DARK_GRAY));
 	                            navPanel.setPreferredSize(new java.awt.Dimension(x, y));
 	                            DPConst.gridx = 0;
 	                            DPConst.gridheight = 1;
-	                            DPConst.gridy = 3;
+	                            DPConst.gridy = 7;
 	                            DPConst.gridwidth = 1;
 	                            documentOptionsPanel.add(navPanel, DPConst);
 	                            {
 	                    			prevSentenceButton = new JButton();
-	                    			prevSentenceButton.setPreferredSize(new java.awt.Dimension(x/2, y));
+	                    			prevSentenceButton.setPreferredSize(new java.awt.Dimension(x/2, y-1));
 	                    			prevSentenceButton.setHorizontalTextPosition(SwingConstants.CENTER);
 	                    			prevSentenceButton.setText("<");
 		                            DPConst.gridx = 0;
@@ -430,7 +480,7 @@ public class EditorInnerTabSpawner {
 	                            }
 	                            {
 	                            	nextSentenceButton = new JButton();
-	                            	nextSentenceButton.setPreferredSize(new java.awt.Dimension(x/2, y));
+	                            	nextSentenceButton.setPreferredSize(new java.awt.Dimension(x/2, y-1));
 	                            	nextSentenceButton.setHorizontalTextPosition(SwingConstants.CENTER);
 	                            	nextSentenceButton.setText(">");
 		                            DPConst.gridx = 1;

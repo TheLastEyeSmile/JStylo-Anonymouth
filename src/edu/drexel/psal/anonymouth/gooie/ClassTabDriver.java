@@ -231,21 +231,27 @@ public class ClassTabDriver {
 			public void actionPerformed(ActionEvent e) {
 				Logger.logln("'Next' button clicked in the classifiers tab");
 				
-				if (main.classifiers.isEmpty()) {
+				if (main.classifiers.isEmpty()) 
+				{
 					JOptionPane.showMessageDialog(main,
 							"You must add at least one classifier.",
 							"Error",
 							JOptionPane.ERROR_MESSAGE);
 					return;
-				} else {
-					if (EditorTabDriver.isFirstRun == false){
+				} 
+				else 
+				{
+					if (EditorTabDriver.isFirstRun == false)
+					{
 						int answer = JOptionPane.showConfirmDialog(main, "If you choose to continue, you will lose all unsaved data/work. Continue?","Reset?",JOptionPane.YES_NO_OPTION);
-						if(answer ==0){
-						EditorTabDriver.shouldReset = true;
-						EditorTabDriver.isFirstRun = true;
-						EditorTabDriver.resetAll(main);
+						if(answer ==0)
+						{
+							EditorTabDriver.shouldReset = true;
+							EditorTabDriver.isFirstRun = true;
+							EditorTabDriver.resetAll(main);
 						}
 					}
+					main.mainJTabbedPane.setEnabledAt(3, true);
 					main.mainJTabbedPane.setSelectedIndex(3);
 					Document toModifyPreview = main.ps.testDocAt(0);
 					try {

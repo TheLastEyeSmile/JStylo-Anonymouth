@@ -471,7 +471,7 @@ public class EditorInnerTabSpawner {
 	                    			prevSentenceButton = new JButton();
 	                    			prevSentenceButton.setPreferredSize(new java.awt.Dimension(x/2, y-1));
 	                    			prevSentenceButton.setHorizontalTextPosition(SwingConstants.CENTER);
-	                    			prevSentenceButton.setText("<");
+	                    			prevSentenceButton.setText("<--");
 		                            DPConst.gridx = 0;
 		                            DPConst.gridheight = 1;
 		                            DPConst.gridy = 0;
@@ -482,7 +482,7 @@ public class EditorInnerTabSpawner {
 	                            	nextSentenceButton = new JButton();
 	                            	nextSentenceButton.setPreferredSize(new java.awt.Dimension(x/2, y-1));
 	                            	nextSentenceButton.setHorizontalTextPosition(SwingConstants.CENTER);
-	                            	nextSentenceButton.setText(">");
+	                            	nextSentenceButton.setText("-->");
 		                            DPConst.gridx = 1;
 		                            DPConst.gridheight = 1;
 		                            DPConst.gridy = 0;

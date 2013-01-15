@@ -12,6 +12,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.beans.PropertyChangeListener;
@@ -28,6 +30,7 @@ import edu.drexel.psal.anonymouth.gooie.Translation;
 import edu.drexel.psal.anonymouth.utils.ConsolidationStation;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -254,6 +257,11 @@ public class GUIMain extends javax.swing.JFrame {
 		protected JComboBox translationsComboBox;
 	
 	protected JPanel editorHelpInfoPanel;
+		protected JLabel sentenceEditorLabel;
+		protected JLabel documentViewerLabel;
+		protected JLabel classificationResultsLabel;
+		protected JTextPane descriptionPane;
+		
 		protected JPanel instructionsPanel;
 		protected JLabel instructionsLabel;
 		protected JTextPane instructionsPane;
@@ -1356,24 +1364,287 @@ public class GUIMain extends javax.swing.JFrame {
 								editorInfoJPanel.setPreferredSize(new java.awt.Dimension(326, 617));
 								*/
 							editorHelpTabPane = new JTabbedPane();
+							editorHelpTabPane.setPreferredSize(new java.awt.Dimension(400, 670));
 							editorTab.add(editorHelpTabPane, BorderLayout.EAST);
-							editorHelpTabPane.setPreferredSize(new java.awt.Dimension(400, 620));
+							
+							// for word wrapping, generally width in style should be 100 less than width of component
+							String html1 = "<html><body style='width: ";
+					        String html2 = "px'>";
 							{
 								editorHelpInfoPanel = new JPanel();
-								BorderLayout infoLayout = new BorderLayout();
+								editorHelpInfoPanel.setPreferredSize(new java.awt.Dimension(390, 660));
+								
+								GridBagLayout infoLayout = new GridBagLayout();
 								editorHelpInfoPanel.setLayout(infoLayout);
-								editorHelpInfoPanel.setPreferredSize(new java.awt.Dimension(320, 610));
+								GridBagConstraints IPConst = new GridBagConstraints();
+								
 								editorHelpTabPane.addTab("Information", editorHelpInfoPanel);
 								{ //=========== Information Tab ====================
 									//---------- Instructions Panel ----------------------
 									instructionsPanel = new JPanel();
-									instructionsPanel.setPreferredSize(new java.awt.Dimension(310, 120));
-									editorHelpInfoPanel.add(instructionsPanel, BorderLayout.NORTH);
+									instructionsPanel.setPreferredSize(new java.awt.Dimension(390, 660));
+									
+									GridBagLayout instructionsLayout = new GridBagLayout();
+									editorHelpInfoPanel.setLayout(instructionsLayout);
+									
+									IPConst.gridx = 0;
+									IPConst.gridy = 0;
+									IPConst.gridheight = 1;
+									IPConst.gridwidth = 1;
+									editorHelpInfoPanel.add(instructionsPanel, IPConst);
+									Font titleFont = new Font("Ariel", Font.BOLD, 12);
+									Font answerFont = new Font("Ariel", Font.PLAIN, 11);
+									{// ---------- Question One ----------------------
+										JLabel questionOneTitle = new JLabel();
+										questionOneTitle.setText("What is this tab?");
+										questionOneTitle.setFont(titleFont);
+										questionOneTitle.setPreferredSize(new java.awt.Dimension(390, 20));
+										IPConst.gridx = 0;
+										IPConst.gridy = 0;
+										IPConst.gridheight = 1;
+										IPConst.gridwidth = 3;
+										instructionsPanel.add(questionOneTitle, IPConst);
+									}
 									{
-										//---------- Instructions Label ----------------------
+										JLabel questionOneAnswer = new JLabel();
+										String s = "This is the <b>\"Editor Tab.\"</b> Here is where you edit the document you wish to anonymize. The goal is to edit your document to a point where it is not recognized as your writing, and Anonymouth is here to help you acheive that.";
+										questionOneAnswer.setText(html1+"270"+html2+s);
+										questionOneAnswer.setFont(answerFont);
+										questionOneAnswer.setVerticalAlignment(SwingConstants.TOP);
+										
+										questionOneAnswer.setPreferredSize(new java.awt.Dimension(370, 60));
+										IPConst.gridx = 0;
+										IPConst.gridy = 1;
+										IPConst.gridheight = 1;
+										IPConst.gridwidth = 2;
+										instructionsPanel.add(questionOneAnswer, IPConst);
+									}
+									{// ---------- Question Two ----------------------
+										JLabel questionTwoTitle = new JLabel();
+										questionTwoTitle.setText("What should I do first?");
+										questionTwoTitle.setFont(titleFont);
+										questionTwoTitle.setPreferredSize(new java.awt.Dimension(390, 20));
+										IPConst.gridx = 0;
+										IPConst.gridy = 2;
+										IPConst.gridheight = 1;
+										IPConst.gridwidth = 3;
+										instructionsPanel.add(questionTwoTitle, IPConst);
+									}
+									{
+										JLabel questionTwoAnswer = new JLabel();
+										String s = "If you have not processed your document yet, do so now by pressing the <b>\"Process\"</b> button. This will let us figure out how anonymous your document currently is.";
+										questionTwoAnswer.setText(html1+"270"+html2+s);
+										questionTwoAnswer.setFont(answerFont);
+										questionTwoAnswer.setVerticalAlignment(SwingConstants.TOP);
+										
+										questionTwoAnswer.setPreferredSize(new java.awt.Dimension(370, 60));
+										IPConst.gridx = 0;
+										IPConst.gridy = 3;
+										IPConst.gridheight = 1;
+										IPConst.gridwidth = 2;
+										instructionsPanel.add(questionTwoAnswer, IPConst);
+									}
+									{// ---------- Question Three ----------------------
+										JLabel questionThreeTitle = new JLabel();
+										questionThreeTitle.setText("How do I go about editing my document?");
+										questionThreeTitle.setFont(titleFont);
+										questionThreeTitle.setPreferredSize(new java.awt.Dimension(390, 20));
+										IPConst.gridx = 0;
+										IPConst.gridy = 4;
+										IPConst.gridheight = 1;
+										IPConst.gridwidth = 3;
+										instructionsPanel.add(questionThreeTitle, IPConst);
+									}
+									{
+										JLabel questionThreeAnswer = new JLabel();
+										String s = "<p>After you've processed the document, the first sentence should be highlighted and will appear in the <b>\"Sentence\"</b> box."
+												+ " Edit each sentence one by one, saving your changes as you go. Use the arrow buttons for navigation.</p>"
+												+ "<br><p>Once you are satisfied with your changes, process the document to see how the anonymity has been affected.</p>";
+										questionThreeAnswer.setText(html1+"270"+html2+s);
+										questionThreeAnswer.setFont(answerFont);
+										questionThreeAnswer.setVerticalAlignment(SwingConstants.TOP);
+										
+										questionThreeAnswer.setPreferredSize(new java.awt.Dimension(370, 120));
+										IPConst.gridx = 0;
+										IPConst.gridy = 5;
+										IPConst.gridheight = 1;
+										IPConst.gridwidth = 2;
+										instructionsPanel.add(questionThreeAnswer, IPConst);
+									}
+									{// ---------- Editor Components ----------------------
+										JScrollPane editorCompScrollPane = new JScrollPane();
+										JPanel editorComponentsPanel = new JPanel();
+										editorCompScrollPane.setViewportView(editorComponentsPanel);
+										
+										GridBagLayout ECPLayout = new GridBagLayout();
+										editorComponentsPanel.setLayout(ECPLayout);
+										editorComponentsPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+										editorComponentsPanel.setBackground(new Color(252,242,206));
+										editorComponentsPanel.setPreferredSize(new java.awt.Dimension(390, 240));
+										IPConst.gridx = 0;
+										IPConst.gridy = 6;
+										IPConst.gridheight = 1;
+										IPConst.gridwidth = 3;
+										instructionsPanel.add(editorComponentsPanel, IPConst);
+										{
+											JLabel editorComponentsLabel = new JLabel();
+											editorComponentsLabel.setText("Document Components:");
+											editorComponentsLabel.setFont(titleFont);
+											editorComponentsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+											editorComponentsLabel.setPreferredSize(new java.awt.Dimension(350, 20));
+											IPConst.gridx = 0;
+											IPConst.gridy = 0;
+											IPConst.gridheight = 1;
+											IPConst.gridwidth = 1;
+											editorComponentsPanel.add(editorComponentsLabel, IPConst);
+										}
+										{// ---------- Sentence Editor ----------------------
+											MouseListener ml = new MouseListener()
+											{
+												public void mouseClicked(MouseEvent e){}
+												public void mouseReleased(MouseEvent e){}
+												public void mousePressed(MouseEvent e){}
+												
+												public void mouseEntered(MouseEvent e)
+												{
+													//sentenceEditorLabel.setBackground(Color.YELLOW);
+													descriptionPane.setText("The Sentence Editor Area is where you edit sentences to make it seem less likely that they were written by you. It also holds the Translation Box, which displays the currently selected translation.");
+													sentenceEditorLabel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+													sentenceEditorLabel.setBackground(Color.YELLOW);
+													EditorTabDriver.eits.sentenceEditingPanel.setBackground(Color.YELLOW);
+													EditorTabDriver.eits.sentenceBoxLabel.setBackground(Color.YELLOW);
+													EditorTabDriver.eits.translationsBoxLabel.setBackground(Color.YELLOW);
+												}
+												
+												public void mouseExited(MouseEvent e)
+												{
+													//sentenceEditorLabel.setBackground(null);
+													descriptionPane.setText("");
+													sentenceEditorLabel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+													sentenceEditorLabel.setBackground(null);
+													EditorTabDriver.eits.sentenceEditingPanel.setBackground(null);
+													EditorTabDriver.eits.sentenceBoxLabel.setBackground(null);
+													EditorTabDriver.eits.translationsBoxLabel.setBackground(null);
+												}
+											};
+											
+											sentenceEditorLabel = new JLabel();
+											sentenceEditorLabel.addMouseListener(ml);
+											sentenceEditorLabel.setHorizontalAlignment(SwingConstants.CENTER);
+											sentenceEditorLabel.setOpaque(true);
+											sentenceEditorLabel.setBackground(null);
+											sentenceEditorLabel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+											sentenceEditorLabel.setText("Sentence Editor");
+											sentenceEditorLabel.setFont(titleFont);
+											sentenceEditorLabel.setPreferredSize(new java.awt.Dimension(350, 40));
+											IPConst.gridx = 0;
+											IPConst.gridy = 1;
+											IPConst.gridheight = 1;
+											IPConst.gridwidth = 1;
+											editorComponentsPanel.add(sentenceEditorLabel, IPConst);
+										}
+										{// ---------- Document Viewer ----------------------
+											MouseListener ml = new MouseListener()
+											{
+												public void mouseClicked(MouseEvent e){}
+												public void mouseReleased(MouseEvent e){}
+												public void mousePressed(MouseEvent e){}
+												
+												public void mouseEntered(MouseEvent e)
+												{
+													//sentenceEditorLabel.setBackground(Color.YELLOW);
+													descriptionPane.setText("The Document Viewer Area displays the document to anonymize and holds various options dealing with the document.");
+													documentViewerLabel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+													documentViewerLabel.setBackground(Color.YELLOW);
+													EditorTabDriver.eits.documentPanel.setBackground(Color.YELLOW);
+													EditorTabDriver.eits.editBoxLabel.setBackground(Color.YELLOW);
+												}
+												
+												public void mouseExited(MouseEvent e)
+												{
+													//sentenceEditorLabel.setBackground(null);
+													descriptionPane.setText("");
+													documentViewerLabel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+													documentViewerLabel.setBackground(null);
+													EditorTabDriver.eits.documentPanel.setBackground(null);
+													EditorTabDriver.eits.editBoxLabel.setBackground(null);
+												}
+											};
+											
+											documentViewerLabel = new JLabel();
+											documentViewerLabel.addMouseListener(ml);
+											documentViewerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+											documentViewerLabel.setOpaque(true);
+											documentViewerLabel.setBackground(null);
+											documentViewerLabel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+											documentViewerLabel.setText("Document Viewer");
+											documentViewerLabel.setFont(titleFont);
+											documentViewerLabel.setPreferredSize(new java.awt.Dimension(350, 40));
+											IPConst.gridx = 0;
+											IPConst.gridy = 2;
+											IPConst.gridheight = 1;
+											IPConst.gridwidth = 1;
+											editorComponentsPanel.add(documentViewerLabel, IPConst);
+										}
+										{// ---------- Classification Results ----------------------
+											MouseListener ml = new MouseListener()
+											{
+												public void mouseClicked(MouseEvent e){}
+												public void mouseReleased(MouseEvent e){}
+												public void mousePressed(MouseEvent e){}
+												
+												public void mouseEntered(MouseEvent e)
+												{
+													//sentenceEditorLabel.setBackground(Color.YELLOW);
+													descriptionPane.setText("The Classification Results Area displays who and how much Anonymouth thinks the different authors provided are the real one.");
+													classificationResultsLabel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+													classificationResultsLabel.setBackground(Color.YELLOW);
+													EditorTabDriver.eits.resultsTableLabel.setBackground(Color.YELLOW);
+													EditorTabDriver.eits.resultsPanel.setBackground(Color.YELLOW);
+												}
+												
+												public void mouseExited(MouseEvent e)
+												{
+													//sentenceEditorLabel.setBackground(null);
+													descriptionPane.setText("");
+													classificationResultsLabel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+													classificationResultsLabel.setBackground(null);
+													EditorTabDriver.eits.resultsTableLabel.setBackground(null);
+													EditorTabDriver.eits.resultsPanel.setBackground(null);
+												}
+											};
+											
+											classificationResultsLabel = new JLabel();
+											classificationResultsLabel.addMouseListener(ml);
+											classificationResultsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+											classificationResultsLabel.setOpaque(true);
+											classificationResultsLabel.setBackground(null);
+											classificationResultsLabel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+											classificationResultsLabel.setText("Classification Results");
+											classificationResultsLabel.setFont(titleFont);
+											classificationResultsLabel.setPreferredSize(new java.awt.Dimension(350, 40));
+											IPConst.gridx = 0;
+											IPConst.gridy = 3;
+											IPConst.gridheight = 1;
+											IPConst.gridwidth = 1;
+											editorComponentsPanel.add(classificationResultsLabel, IPConst);
+										}
+										{
+											descriptionPane = new JTextPane();
+											descriptionPane.setFont(answerFont);
+											descriptionPane.setPreferredSize(new java.awt.Dimension(350, 80));
+											descriptionPane.setEditable(false);
+											IPConst.gridx = 0;
+											IPConst.gridy = 4;
+											IPConst.gridheight = 1;
+											IPConst.gridwidth = 1;
+											editorComponentsPanel.add(descriptionPane, IPConst);
+										}
+									}// ----------- END Editor Components ---------------------
+										/*//---------- Instructions Label ----------------------
 										instructionsLabel = new JLabel("Instructions:");
 										instructionsLabel.setHorizontalAlignment(SwingConstants.CENTER);
-										instructionsLabel.setPreferredSize(new java.awt.Dimension(310, 20));
+										instructionsLabel.setPreferredSize(new java.awt.Dimension(390, 20));
 										instructionsPanel.add(instructionsLabel, BorderLayout.NORTH);
 										
 										//---------- Instructions Text Pane ----------------------
@@ -1407,7 +1678,7 @@ public class GUIMain extends javax.swing.JFrame {
 										synonymsPane.setPreferredSize(new java.awt.Dimension(300, 90));
 										synonymsScrollPane.setViewportView(synonymsPane);
 										synonymsPanel.add(synonymsScrollPane, BorderLayout.SOUTH);
-									}
+									}*/
 								} // =========== End Information Tab ==================
 								
 								editorHelpSugPanel = new JPanel();
@@ -1689,7 +1960,7 @@ public class GUIMain extends javax.swing.JFrame {
 			}
 			// final property settings
 			EditorTabDriver.setAllEITSEnabled(false, this);
-			mainJTabbedPane.setEnabledAt(3, false);
+			//mainJTabbedPane.setEnabledAt(3, false);
 			mainJTabbedPane.setEnabledAt(4, false);
 
 			// initialize listeners - except for EditorTabDriver!

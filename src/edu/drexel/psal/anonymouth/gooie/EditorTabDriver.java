@@ -594,75 +594,79 @@ public class EditorTabDriver {
 			@Override
 			public synchronized void actionPerformed(ActionEvent event) 
 			{
-				main.mainJTabbedPane.setEnabledAt(4, true);
-				if(isFirstRun==true){
-					//sentenceTools = new SentenceTools();
-					TaggedDocument taggedDocument = new TaggedDocument();//eits.editorBox.getText();
-					ConsolidationStation.toModifyTaggedDocs=new ArrayList<TaggedDocument>();
-					ConsolidationStation.toModifyTaggedDocs.add(taggedDocument);
-					taggedDoc = ConsolidationStation.toModifyTaggedDocs.get(0);
-					//isFirstRun=false;
-					Logger.logln("Intial processing starting...");
-					int i =0;
-					sizeOfCfd = main.cfd.numOfFeatureDrivers();
-					featuresInCfd = new ArrayList<String>(sizeOfCfd);
-					noCalcHistFeatures = new ArrayList<FeatureList>(sizeOfCfd);
-					yesCalcHistFeatures = new ArrayList<FeatureList>(sizeOfCfd);
-					for(i =0; i<sizeOfCfd;i++){
-						String theName = main.cfd.featureDriverAt(i).getName();
-						theName = theName.replaceAll("[ -]","_").toUpperCase();
-						if(isCalcHist == false){
-							isCalcHist =main.cfd.featureDriverAt(i).isCalcHist();
-							yesCalcHistFeatures.add(FeatureList.valueOf(theName));
-						} else {
-						// these values will go in suggestion list... PLUS any 	
-							noCalcHistFeatures.add(FeatureList.valueOf(theName));
+				if (JOptionPane.showConfirmDialog(main,"Are you sure you're ready to process the document? \n\nThis will open a new tab for the processed document","Process?",
+						JOptionPane.YES_NO_OPTION) == 0)
+				{
+					main.mainJTabbedPane.setEnabledAt(4, true);
+					if(isFirstRun==true){
+						//sentenceTools = new SentenceTools();
+						TaggedDocument taggedDocument = new TaggedDocument();//eits.editorBox.getText();
+						ConsolidationStation.toModifyTaggedDocs=new ArrayList<TaggedDocument>();
+						ConsolidationStation.toModifyTaggedDocs.add(taggedDocument);
+						taggedDoc = ConsolidationStation.toModifyTaggedDocs.get(0);
+						//isFirstRun=false;
+						Logger.logln("Intial processing starting...");
+						int i =0;
+						sizeOfCfd = main.cfd.numOfFeatureDrivers();
+						featuresInCfd = new ArrayList<String>(sizeOfCfd);
+						noCalcHistFeatures = new ArrayList<FeatureList>(sizeOfCfd);
+						yesCalcHistFeatures = new ArrayList<FeatureList>(sizeOfCfd);
+						for(i =0; i<sizeOfCfd;i++){
+							String theName = main.cfd.featureDriverAt(i).getName();
+							theName = theName.replaceAll("[ -]","_").toUpperCase();
+							if(isCalcHist == false){
+								isCalcHist =main.cfd.featureDriverAt(i).isCalcHist();
+								yesCalcHistFeatures.add(FeatureList.valueOf(theName));
+							} else {
+							// these values will go in suggestion list... PLUS any 	
+								noCalcHistFeatures.add(FeatureList.valueOf(theName));
+							}
+							//System.out.println(theName);
+							featuresInCfd.add(i,theName);
+							
 						}
-						//System.out.println(theName);
-						featuresInCfd.add(i,theName);
+						//System.exit(89);
+						wizard = new DataAnalyzer(main.ps,ThePresident.sessionName);
+						magician = new DocumentMagician(false);
+						theMirror = new TheMirror();
+						//consolidator=new ConsolidationStation(wizard.getAttributes());
+						main.mainJTabbedPane.getComponentAt(4).setEnabled(false);
 						
 					}
-					//System.exit(89);
-					wizard = new DataAnalyzer(main.ps,ThePresident.sessionName);
-					magician = new DocumentMagician(false);
-					theMirror = new TheMirror();
-					//consolidator=new ConsolidationStation(wizard.getAttributes());
-					main.mainJTabbedPane.getComponentAt(4).setEnabled(false);
-					
+					else
+						Logger.logln("Repeat processing starting....");
+					//cpb = new ClassifyingProgressBar(main);
+					//cpb.setText("Waiting for Number of Features Desired...");
+					int i =0;
+					JPanel[] firstThreePanels = new JPanel[3];
+					for(i=0;i<3;i++)
+						firstThreePanels[i] = (JPanel) main.holderPanel.getComponent(i);
+					main.holderPanel.removeAll();
+					for(i=0;i<3;i++)
+						main.holderPanel.add(firstThreePanels[i]);
+					int wekaIsRunningAnswer = wekaIsRunning();
+					if(wekaIsRunningAnswer != -1)
+					{
+						//cpb.setText("Waiting for Number of Features Desired... OK");
+						//cpb.setText("Initializing...");
+						//cpb.run();
+						eits.editorBox.getHighlighter().removeAllHighlights();
+						highlightedObjects.clear();
+						TheOracle.resetColorIndex();
+						eits.resultsTablePane.setOpaque(false);
+						eits.resultsTable.setOpaque(false);
+						//main.editTP.setEnabled(false);
+						highlightedObjects.clear();
+						//main.suggestionTable.clearSelection();
+						okayToSelectSuggestion = false;
+						wizard.setNumFeaturesToReturn(wekaIsRunningAnswer);
+						//cpb.setText("Initializing... Done");
+						Logger.logln("calling backendInterface for preTargetSelectionProcessing");
+						BackendInterface.preTargetSelectionProcessing(main,wizard,magician);
+					}
+					else
+						eits.processButton.setEnabled(true);
 				}
-				else
-					Logger.logln("Repeat processing starting....");
-				//cpb = new ClassifyingProgressBar(main);
-				//cpb.setText("Waiting for Number of Features Desired...");
-				int i =0;
-				JPanel[] firstThreePanels = new JPanel[3];
-				for(i=0;i<3;i++)
-					firstThreePanels[i] = (JPanel) main.holderPanel.getComponent(i);
-				main.holderPanel.removeAll();
-				for(i=0;i<3;i++)
-					main.holderPanel.add(firstThreePanels[i]);
-				int wekaIsRunningAnswer = wekaIsRunning();
-				if(wekaIsRunningAnswer != -1)
-				{
-					//cpb.setText("Waiting for Number of Features Desired... OK");
-					//cpb.setText("Initializing...");
-					//cpb.run();
-					eits.editorBox.getHighlighter().removeAllHighlights();
-					highlightedObjects.clear();
-					TheOracle.resetColorIndex();
-					eits.resultsTablePane.setOpaque(false);
-					eits.resultsTable.setOpaque(false);
-					//main.editTP.setEnabled(false);
-					highlightedObjects.clear();
-					//main.suggestionTable.clearSelection();
-					okayToSelectSuggestion = false;
-					wizard.setNumFeaturesToReturn(wekaIsRunningAnswer);
-					//cpb.setText("Initializing... Done");
-					Logger.logln("calling backendInterface for preTargetSelectionProcessing");
-					BackendInterface.preTargetSelectionProcessing(main,wizard,magician);
-				}
-				else
-					eits.processButton.setEnabled(true);
 			}
 		});
 		

@@ -157,7 +157,8 @@ public class EditorInnerTabSpawner {
 				Logger.logln("EditorInnerTabSpawner spawning tab");
 				if(tabMade == false)
 				{
-					
+					Font normalFont = new Font("Ariel", Font.PLAIN, 11);
+					Font titleFont = new Font("Ariel", Font.BOLD, 11);
 					editBoxPanel = new JPanel();
 					
 					
@@ -182,6 +183,7 @@ public class EditorInnerTabSpawner {
                         {
                             sentenceBoxLabel = new JLabel();
                             sentenceBoxLabel.setText("Sentence:");
+                            sentenceBoxLabel.setFont(titleFont);
                     		sentenceBoxLabel.setPreferredSize(new java.awt.Dimension(70, 60));
                     		SEPConst.gridx = 0;
                     		SEPConst.gridheight = 1;
@@ -192,6 +194,7 @@ public class EditorInnerTabSpawner {
                         {
                             translationsBoxLabel = new JLabel();
                             translationsBoxLabel.setText("Translation:");
+                            translationsBoxLabel.setFont(titleFont);
                             translationsBoxLabel.setPreferredSize(new java.awt.Dimension(70, 60));
                             SEPConst.gridx = 0;
                             SEPConst.gridheight = 1;
@@ -199,14 +202,13 @@ public class EditorInnerTabSpawner {
                             SEPConst.gridwidth = 1;
                             sentenceEditingPanel.add(translationsBoxLabel, SEPConst);
                         }
-                        Font editBoxFont = new Font("Verdana", Font.PLAIN, 10);
                         {
                             sentencePane = new JScrollPane();
                             sentencePane.setPreferredSize(new java.awt.Dimension(640, 60));
                             sentenceEditPane = new JTextPane();
                             sentencePane.setViewportView(sentenceEditPane);
                             sentenceEditPane.setText("Current Sentence.");
-                            sentenceEditPane.setFont(editBoxFont);
+                            sentenceEditPane.setFont(normalFont);
                             sentenceEditPane.setEditable(true);
                             sentenceEditPane.setPreferredSize(new java.awt.Dimension(640, 60));
                             SEPConst.gridx = 1;
@@ -221,7 +223,7 @@ public class EditorInnerTabSpawner {
                             translationEditPane = new JTextPane();
                             translationPane.setViewportView(translationEditPane);
                             translationEditPane.setText("Current Translation.");
-                            translationEditPane.setFont(editBoxFont);
+                            translationEditPane.setFont(normalFont);
                             translationEditPane.setEditable(true);
                             translationEditPane.setPreferredSize(new java.awt.Dimension(640, 60));
                             SEPConst.gridx = 1;
@@ -246,7 +248,7 @@ public class EditorInnerTabSpawner {
                         	 {
                              	JLabel sentOptionsLabel = new JLabel("Sentence Options:");
                              	sentOptionsLabel.setHorizontalAlignment(SwingConstants.CENTER);
-                             	sentOptionsLabel.setFont(new Font("Ariel", Font.BOLD, 11));
+                             	sentOptionsLabel.setFont(titleFont);
                              	sentOptionsLabel.setPreferredSize(new java.awt.Dimension(130, 18));
                              	SEPConst.gridx = 0;
                              	SEPConst.gridheight = 1;
@@ -342,6 +344,7 @@ public class EditorInnerTabSpawner {
                         {//------- Document Label ---------------
                             editBoxLabel = new JLabel();
                             editBoxLabel.setText("Document:");
+                            editBoxLabel.setFont(titleFont);
                             editBoxLabel.setHorizontalAlignment(SwingConstants.CENTER);
                             editBoxLabel.setPreferredSize(new java.awt.Dimension(prefX, 20));
                             DPConst.gridx = 0;
@@ -362,6 +365,7 @@ public class EditorInnerTabSpawner {
                                 editorBox = new JTextPane();
                                 editBox.setViewportView(editorBox);
                                 editorBox.setText("This is where the latest version of your document will be.");
+                                editorBox.setFont(normalFont);
                                 editorBox.setEnabled(true);
                                 editorBox.setEditable(false);
                             }
@@ -508,7 +512,8 @@ public class EditorInnerTabSpawner {
                         editBoxPanel.add(resultsPanel, EBPConst);
                         resultsPanel.setPreferredSize(new java.awt.Dimension(prefX, 120));
                         {
-                        	resultsTableLabel = new JLabel("Below are the results of your document's classification");
+                        	resultsTableLabel = new JLabel("Classification Results:");
+                        	resultsTableLabel.setFont(titleFont);
                         	resultsTableLabel.setPreferredSize(new java.awt.Dimension(prefX, 20));
                         	resultsTableLabel.setHorizontalAlignment(SwingConstants.CENTER);
                         	RPConst.gridx = 0;
@@ -529,8 +534,8 @@ public class EditorInnerTabSpawner {
                             	
                                 TableModel resultsTableModel = 
 								new DefaultTableModel(
-                                                      new String[][] { { "One", "Two" }, { "Three", "Four" } },
-                                                      new String[] { "Column 1", "Column 2" });
+                                                      new String[][] { { "", "" }, { "", "" } },
+                                                      new String[] { "", "" });
                                 if (oldResultsTableModel!=null) {
                                 	resultsTableModel=oldResultsTableModel; 
                                 }
@@ -542,9 +547,9 @@ public class EditorInnerTabSpawner {
                             }
                         }
                         {
-                        	classificationLabel = new JLabel("Below are the results of your document's classification");
+                        	classificationLabel = new JLabel("");
                         	classificationLabel.setPreferredSize(new java.awt.Dimension(prefX, 20));
-                        	resultsTableLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                        	classificationLabel.setHorizontalAlignment(SwingConstants.CENTER);
                         	RPConst.gridx = 0;
                         	RPConst.gridheight = 1;
                         	RPConst.gridy = 2;

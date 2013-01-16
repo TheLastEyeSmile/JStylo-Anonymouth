@@ -190,7 +190,7 @@ public class EditorTabDriver {
 	
 	protected static void highlightSentence(TaggedSentence sentence)
 	{
-		String sent = sentence.getUntagged();
+		String sent = sentence.getUntagged().trim();
 		int start = 0;
 		int end = 0;
 		String document = ConsolidationStation.toModifyTaggedDocs.get(0).getUntaggedDocument();

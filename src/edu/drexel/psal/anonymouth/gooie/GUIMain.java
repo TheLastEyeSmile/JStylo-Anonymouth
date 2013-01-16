@@ -11,6 +11,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -30,8 +32,11 @@ import edu.drexel.psal.anonymouth.gooie.Translation;
 import edu.drexel.psal.anonymouth.utils.ConsolidationStation;
 
 import javax.swing.*;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
@@ -39,6 +44,8 @@ import javax.swing.event.TableModelListener;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.*;
 import javax.swing.tree.*;
+
+import net.infonode.gui.laf.InfoNodeLookAndFeel;
 
 import weka.classifiers.*;
 
@@ -72,6 +79,14 @@ public class GUIMain extends javax.swing.JFrame {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		/*InfoNodeLookAndFeel info = new InfoNodeLookAndFeel();
+		try {
+			UIManager.setLookAndFeel(info);
+		} catch (UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 	}
 
 
@@ -93,6 +108,14 @@ public class GUIMain extends javax.swing.JFrame {
 	protected String defaultTrainDocsTreeName = "Authors"; 
 	protected Font defaultLabelFont = new Font("Verdana",0,16);
 	protected static int cellPadding = 5;
+	
+	// possible color scheme
+	protected final Color lightblue = new Color(126, 181, 214);
+	protected final Color medblue = new Color(42, 117, 169);
+	protected final Color darkblue = new Color(39, 66, 87);
+	protected final Color lightbrown = new Color(223, 193, 132);
+	protected final Color medbrown = new Color(143, 96, 72);
+	protected final Color darkbrown = new Color(100, 68, 54);
 
 	// tabs
 	protected JTabbedPane mainJTabbedPane;
@@ -344,7 +367,7 @@ public class GUIMain extends javax.swing.JFrame {
 					icon = new ImageIcon(getClass().getResource(JSANConstants.JSAN_GRAPHICS_PREFIX+"Anonymouth_LOGO.png"),"logo");
 					iconNO = new ImageIcon(getClass().getResource(JSANConstants.JSAN_GRAPHICS_PREFIX+"Anonymouth_NO.png"), "my 'no' icon");
 					iconFINISHED = new ImageIcon(getClass().getResource(JSANConstants.JSAN_GRAPHICS_PREFIX+"Anonymouth_FINISHED.png"), "my 'finished' icon");
-					javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
+					//javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
 				} catch (Exception e) {
 					System.err.println("Look-and-Feel error!");
 				}
@@ -400,6 +423,19 @@ public class GUIMain extends javax.swing.JFrame {
 			
 			{
 				mainJTabbedPane = new JTabbedPane();
+				/*ChangeListener cl = new ChangeListener()
+				{
+					public void stateChanged(ChangeEvent e)
+					{
+						JTabbedPane pane = (JTabbedPane)e.getSource();
+						for (int i = 0; i < pane.getTabCount(); i++)
+						{
+							pane.setForegroundAt(i, Color.WHITE);
+						}
+						pane.setForegroundAt(pane.getSelectedIndex(), Color.BLACK);
+					}
+				};
+				mainJTabbedPane.addChangeListener(cl);*/
 				getContentPane().add(mainJTabbedPane, BorderLayout.CENTER);
 				
 				/* =============
@@ -1349,6 +1385,7 @@ public class GUIMain extends javax.swing.JFrame {
 								EditorTabDriver.eits = EditorTabDriver.eitsList.get(0);
 								eits.editorBox.setEnabled(true);
 								editTP.addTab("Original",eits.editBoxPanel);
+								editTP.setForegroundAt(editTP.getSelectedIndex(), Color.BLACK);
 							}
 						}
 						{
@@ -1959,9 +1996,27 @@ public class GUIMain extends javax.swing.JFrame {
 				}
 			}
 			// final property settings
+			
 			EditorTabDriver.setAllEITSEnabled(false, this);
 			//mainJTabbedPane.setEnabledAt(3, false);
-			mainJTabbedPane.setEnabledAt(4, false);
+			/*mainJTabbedPane.setEnabledAt(4, false);
+			mainJTabbedPane.setBackgroundAt(0, darkblue);
+			mainJTabbedPane.setBackgroundAt(1, darkblue);
+			mainJTabbedPane.setBackgroundAt(2, darkblue);
+			mainJTabbedPane.setBackgroundAt(3, darkblue);
+			mainJTabbedPane.setBackgroundAt(4, darkblue);
+			mainJTabbedPane.setForegroundAt(0, Color.WHITE);
+			mainJTabbedPane.setForegroundAt(1, Color.WHITE);
+			mainJTabbedPane.setForegroundAt(2, Color.WHITE);
+			mainJTabbedPane.setForegroundAt(3, Color.WHITE);
+			mainJTabbedPane.setForegroundAt(4, Color.WHITE);
+			mainJTabbedPane.setForegroundAt(mainJTabbedPane.getSelectedIndex(), Color.BLACK);
+			//editorTab.setBackground(lightbrown);
+			getContentPane().setBackground(Color.WHITE);*/
+			
+			
+			
+			
 
 			// initialize listeners - except for EditorTabDriver!
 			DocsTabDriver.initListeners(this);

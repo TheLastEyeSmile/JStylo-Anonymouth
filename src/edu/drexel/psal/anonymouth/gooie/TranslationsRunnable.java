@@ -51,6 +51,7 @@ public class TranslationsRunnable extends EditorTabDriver implements Runnable
 		
 		ProgressWindow window = new ProgressWindow("Translating...", main);
 		// set up the progress bar
+		window.getProgressBar().setIndeterminate(false);
 		window.getProgressBar().setMinimum(0);
 		window.getProgressBar().setMaximum(translator.getAllLangs().length);
 		window.getProgressBar().setValue(0);

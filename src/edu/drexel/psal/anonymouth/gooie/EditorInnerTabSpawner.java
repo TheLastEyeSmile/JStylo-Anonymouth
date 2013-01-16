@@ -171,6 +171,7 @@ public class EditorInnerTabSpawner {
                     editBoxPanel.setPreferredSize(new java.awt.Dimension(prefX, prefY));
                     {
                         sentenceEditingPanel = new JPanel();
+                        sentenceEditingPanel.setPreferredSize(new java.awt.Dimension(prefX, 140));
                         GridBagLayout SEPLayout = new GridBagLayout();
                         sentenceEditingPanel.setLayout(SEPLayout);
                         GridBagConstraints SEPConst = new GridBagConstraints();
@@ -179,7 +180,6 @@ public class EditorInnerTabSpawner {
                         EBPConst.gridy = 0;
                         EBPConst.gridwidth = 1;
                         editBoxPanel.add(sentenceEditingPanel, EBPConst);
-                        sentenceEditingPanel.setPreferredSize(new java.awt.Dimension(prefX, 140));
                         {
                             sentenceBoxLabel = new JLabel();
                             sentenceBoxLabel.setText("Sentence:");
@@ -234,6 +234,7 @@ public class EditorInnerTabSpawner {
                         }
                         {
                         	sentenceOptionsPanel = new JPanel();
+                        	sentenceOptionsPanel.setBackground(new Color(252,242,206));
                         	sentenceOptionsPanel.setPreferredSize(new java.awt.Dimension(140, 60));
                         	//sentenceButtonPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 1, Color.DARK_GRAY));
                         	sentenceOptionsPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
@@ -282,6 +283,7 @@ public class EditorInnerTabSpawner {
                         }
                         {
                         	translationOptionsPanel = new JPanel();
+                        	translationOptionsPanel.setBackground(new Color(252,242,206));
                         	translationOptionsPanel.setPreferredSize(new java.awt.Dimension(140, 60));
                         	//translationButtonPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 1, Color.DARK_GRAY));
                         	translationOptionsPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
@@ -372,6 +374,7 @@ public class EditorInnerTabSpawner {
                         }
                         {//------- Document Options ---------------
 	                        documentOptionsPanel = new JPanel();
+	                        documentOptionsPanel.setBackground(new Color(252,242,206));
 	                        documentOptionsPanel.setPreferredSize(new java.awt.Dimension(140, 370));
 	                    	//translationButtonPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 1, Color.DARK_GRAY));
 	                        documentOptionsPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));

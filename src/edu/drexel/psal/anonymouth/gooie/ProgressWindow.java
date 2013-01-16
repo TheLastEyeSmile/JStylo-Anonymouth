@@ -31,7 +31,7 @@ public class ProgressWindow extends JFrame
 	private void init(GUIMain main)
 	{
 		this.main = main;
-		main.setEnabled(false);
+		//main.setEnabled(false);
 		this.setVisible(true);
 		
 		GridBagLayout layout = new GridBagLayout();
@@ -39,6 +39,7 @@ public class ProgressWindow extends JFrame
 		GridBagConstraints constraints = new GridBagConstraints();
 		
 		progressLabel = new JLabel();
+		progressLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		progressLabel.setPreferredSize(new java.awt.Dimension(300, 50));
 		constraints.gridx = 0;
 		constraints.gridy = 0;
@@ -71,7 +72,7 @@ public class ProgressWindow extends JFrame
 	
 	public void closeWindow() 
 	{
-		main.setEnabled(true);
+		//main.setEnabled(true);
         WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
         Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
 	}

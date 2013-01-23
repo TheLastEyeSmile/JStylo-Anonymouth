@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -82,6 +84,23 @@ public class TaggedSentence implements Comparable<TaggedSentence>{
 	public ArrayList<TaggedSentence> getTranslations()
 	{
 		return translations;
+	}
+	
+	public void sortTranslations(){
+		int numTranslations = translations.size();
+		double[][]  toSort = new double[translations.size()][2]; // [Anonymity Index][index of specific translation] => will sort by col 1 (AI)
+		int i;
+		for(i = 0; i < numTranslations; i++){
+			toSort[i][0] = translations.get(i).getSentenceAnonymityIndex();
+			toSort[i][1] = (double) i;
+		}
+		
+		Arrays.sort(toSort, new Comparator<double[]>(){
+			public int compare(final double[] first, final double[] second){
+				return ((-1)*((Double)first[0]).compareTo(((Double)second[0]))); // multiplying by -1 will sort from greatest to least, which saves work.
+			}
+		});
+		
 	}
 	
 	public boolean hasTranslations()

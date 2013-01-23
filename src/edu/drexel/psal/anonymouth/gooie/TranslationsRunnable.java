@@ -77,7 +77,7 @@ public class TranslationsRunnable extends EditorTabDriver implements Runnable
 		}
 		
 		// sorts the translations by anonIndex and populates the translation drop down.
-		//sentence.sortTranslations(); // sort by anonIndexs
+		sentence.sortTranslations(); // sort by anonIndexs
 		Date end = new Date();
 		
 		window.setText("Translated in " + ((end.getTime()-start.getTime())/1000.0) + " seconds.");

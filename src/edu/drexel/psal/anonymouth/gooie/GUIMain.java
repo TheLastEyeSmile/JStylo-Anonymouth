@@ -45,8 +45,6 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.*;
 import javax.swing.tree.*;
 
-import net.infonode.gui.laf.InfoNodeLookAndFeel;
-
 import weka.classifiers.*;
 
 import edu.drexel.psal.jstylo.analyzers.WekaAnalyzer;

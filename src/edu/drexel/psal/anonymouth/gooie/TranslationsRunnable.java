@@ -69,6 +69,7 @@ public class TranslationsRunnable extends EditorTabDriver implements Runnable
 			
 			String translation = translator.getTranslation(sentence.getUntagged().trim(), lang);
 			TaggedSentence taggedTrans = new TaggedSentence(translation);
+			taggedTrans.tagAndGetFeatures();
 			sentence.getTranslations().add(taggedTrans);
 			main.translationsTable.setValueAt(sentence.getTranslations().get(i).getUntagged(), i, 0);
 			window.getProgressBar().setValue(i+1);

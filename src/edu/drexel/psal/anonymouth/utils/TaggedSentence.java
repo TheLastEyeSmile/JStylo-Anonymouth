@@ -101,6 +101,12 @@ public class TaggedSentence implements Comparable<TaggedSentence>{
 			}
 		});
 		
+		ArrayList<TaggedSentence> sorted = new ArrayList<TaggedSentence>(numTranslations);
+		for(i = 0; i<numTranslations; i++){
+				sorted.add(i,translations.get((int)toSort[i][1]));
+		}
+		
+		translations = sorted; // set translations to be the same list of translated sentences, but now in order of Anonymity Index
 	}
 	
 	public boolean hasTranslations()

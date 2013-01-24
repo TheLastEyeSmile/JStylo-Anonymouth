@@ -24,6 +24,16 @@ public class ClusterViewerDriver {
 	private static String[] stringRepresentation;
 	protected static JPanel[] namePanels;
 	
+	public static int[][] getIntRep()
+	{
+		return intRepresentation;
+	}
+	
+	public static String[] getStringRep()
+	{
+		return stringRepresentation;
+	}
+	
 	public static boolean setClusterGroup(){
 		Logger.logln("Cluster group array retrieved from ClusterAnalyzer and brought to ClusterViewerDriver");
 		if(clusterGroupReady){
@@ -38,15 +48,15 @@ public class ClusterViewerDriver {
 	public static void initializeClusterViewer(GUIMain main, boolean showMessage){
 		int i = 0;
 		Logger.logln("Initializing ClusterViewer");
-		main.mainJTabbedPane.getComponentAt(4).setEnabled(true);
-		main.mainJTabbedPane.getComponentAt(3).setEnabled(false);
+		//main.mainJTabbedPane.getComponentAt(4).setEnabled(true);
+		//main.mainJTabbedPane.getComponentAt(3).setEnabled(false);
 		int numPanels = ClusterViewer.allPanels.length;
 		for(i=5; i< numPanels;i++){
 			if(i== 19 || i == 20)
 				continue;
-			main.holderPanel.add(namePanels[i]);
+			EditorTabDriver.eits.holderPanel.add(namePanels[i]);
 			ClusterViewer.allPanels[i].setPreferredSize(new Dimension(800,50));
-			main.holderPanel.add(ClusterViewer.allPanels[i]);
+			EditorTabDriver.eits.holderPanel.add(ClusterViewer.allPanels[i]);
 		}
 		
 		boolean cgIsSet = setClusterGroup();
@@ -63,16 +73,17 @@ public class ClusterViewerDriver {
 		
 		//ComboBoxModel clusterGroupChoices = new DefaultComboBoxModel(stringRepresentation);
 		//main.clusterConfigurationBox.setModel(clusterGroupChoices);
-		main.mainJTabbedPane.setSelectedIndex(4);
+		//main.mainJTabbedPane.setSelectedIndex(4);
 		int[] theOne = intRepresentation[0];
 		ClusterViewer.selectedClustersByFeature = theOne;
 		lenJPanels = ClusterViewer.allPanels.length;
 		for(i=0;i<lenJPanels;i++)
 			ClusterViewer.allPanels[i].repaint();
-		if(showMessage == true)
+		/*if(showMessage == true)
 			JOptionPane.showMessageDialog(main, "The red dot is where each of your features are now.\nThe center of the " +
 					"green oval is where they will be after you are done editing.\nAccept these targets if they all look reasonably " +
 					"far away from the purple ovals. If not, get new green ovals.","Target Selection",JOptionPane.INFORMATION_MESSAGE,GUIMain.icon);
+		*/
 	}
 		
 	
@@ -98,7 +109,7 @@ public class ClusterViewerDriver {
 			
 		});	
 		*/
-		main.selectClusterConfiguration.addActionListener(new ActionListener(){
+		EditorTabDriver.eits.selectClusterConfiguration.addActionListener(new ActionListener(){
 			
 			public void actionPerformed(ActionEvent e){
 				int selectedIndex = 1; //main.clusterConfigurationBox.getSelectedIndex();
@@ -116,8 +127,8 @@ public class ClusterViewerDriver {
 						Logger.logln("INTREP: "+intRepresentation[trueIndex]);//added this.
 						EditorTabDriver.wizard.setSelectedTargets();
 						EditorTabDriver.signalTargetsSelected(main, true);
-						main.mainJTabbedPane.getComponentAt(3).setEnabled(true);
-						main.mainJTabbedPane.setSelectedIndex(3);
+						//main.mainJTabbedPane.getComponentAt(3).setEnabled(true);
+						//main.mainJTabbedPane.setSelectedIndex(3);
 					}
 				}
 				
@@ -125,7 +136,7 @@ public class ClusterViewerDriver {
 			
 		});
 		
-		main.refreshButton.addActionListener(new ActionListener(){
+		EditorTabDriver.eits.refreshButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				for(int i=0;i<lenJPanels;i++)
 					ClusterViewer.allPanels[i].repaint();
@@ -134,7 +145,7 @@ public class ClusterViewerDriver {
 			
 		});
 		
-		main.reClusterAllButton.addActionListener(new ActionListener(){
+		EditorTabDriver.eits.reClusterAllButton.addActionListener(new ActionListener(){
 			
 			public void actionPerformed(ActionEvent e){
 				int sureness = JOptionPane.showConfirmDialog(main, "Are you sure you want to re-cluster all features?");

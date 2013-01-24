@@ -49,28 +49,28 @@ public class DocsTabDriver {
 		// ===========
 		
 		// new problem set button
-		main.newProblemSetJButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Logger.logln("'New Problem Set' button clicked on the documents tab");
-				
-				int answer = 0;
-				// ask if current problem set is not empty
-				if (main.ps != null && (main.ps.hasAuthors() || main.ps.hasTestDocs())) {
-					answer = JOptionPane.showConfirmDialog(null,
-							"New Problem Set will override current. Continue?",
-							"Create New Problem Set",
-							JOptionPane.WARNING_MESSAGE,
-							JOptionPane.YES_NO_CANCEL_OPTION);
-				}
-				if (answer == 0) {					
-					main.ps = new ProblemSet();
-					main.ps.setTrainCorpusName(main.defaultTrainDocsTreeName);
-					GUIUpdateInterface.updateProblemSet(main);// todo This needs to be fixed.. someone screwed it up.. (see function for where it fails -- there's a note)
-				}
-			}
-		});
+//		main.newProblemSetJButton.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				Logger.logln("'New Problem Set' button clicked on the documents tab");
+//				
+//				int answer = 0;
+//				// ask if current problem set is not empty
+//				if (main.ps != null && (main.ps.hasAuthors() || main.ps.hasTestDocs())) {
+//					answer = JOptionPane.showConfirmDialog(null,
+//							"New Problem Set will override current. Continue?",
+//							"Create New Problem Set",
+//							JOptionPane.WARNING_MESSAGE,
+//							JOptionPane.YES_NO_CANCEL_OPTION);
+//				}
+//				if (answer == 0) {					
+//					main.ps = new ProblemSet();
+//					main.ps.setTrainCorpusName(main.defaultTrainDocsTreeName);
+//					GUIUpdateInterface.updateProblemSet(main);// todo This needs to be fixed.. someone screwed it up.. (see function for where it fails -- there's a note)
+//				}
+//			}
+//		});
 		
 		// load problem set button
 		main.loadProblemSetJButton.addActionListener(new ActionListener() {
@@ -169,7 +169,8 @@ public class DocsTabDriver {
 		main.addTestDocJButton.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) 
+			{
 				Logger.logln("'Add Document(s)...' button clicked under the 'Test Documents' section on the documents tab.");
 
 				JFileChooser open = new JFileChooser();
@@ -206,7 +207,6 @@ public class DocsTabDriver {
 					}
 					
 					GUIUpdateInterface.updateTestDocTable(main);
-					GUIUpdateInterface.clearDocPreview(main);
 
 				} else {
 					Logger.logln("Load test documents canceled");
@@ -218,32 +218,41 @@ public class DocsTabDriver {
 		main.removeTestDocJButton.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) 
+			{
 				Logger.logln("'Remove Document(s)...' button clicked under the 'Test Documents' section on the documents tab.");
 				
-				if (main.testDocsJTable.getSelectedRowCount() == 0) {
+				if (main.mainDocList.isSelectionEmpty()) 
+				{
 					Logger.logln("Failed removing test documents - no documents are selected",LogOut.STDERR);
 					JOptionPane.showMessageDialog(null,
 							"You must select test documents to remove.",
 							"Remove Test Documents Failure",
 							JOptionPane.WARNING_MESSAGE);
-				} else {
+				} 
+				else 
+				{
 					int answer = JOptionPane.showConfirmDialog(null,
 							"Are you sure you want to remove the selected test documents?",
 							"Remove Test Documents Confirmation",
 							JOptionPane.YES_NO_OPTION);
 					
-					if (answer == 0) {
-						int[] rows = main.testDocsJTable.getSelectedRows();
+					if (answer == 0) 
+					{
+						DefaultListModel dlm = (DefaultListModel)main.mainDocList.getModel();
+						int[] rows = main.mainDocList.getSelectedIndices();
 						String msg = "Removed test documents:\n";
-						for (int i=rows.length-1; i>=0; i--) {
+						for (int i=rows.length-1; i>=0; i--) 
+						{
 							msg += "\t\t> "+main.ps.testDocAt(rows[i]).getTitle()+"\n";
 							main.ps.removeTestDocAt(rows[i]);
 						}
 						Logger.log(msg);
+						
 						GUIUpdateInterface.updateTestDocTable(main);
-						GUIUpdateInterface.clearDocPreview(main);
-					} else {
+					} 
+					else 
+					{
 						Logger.logln("Removing test documents canceled");
 					}
 				}
@@ -251,37 +260,37 @@ public class DocsTabDriver {
 		});
 		
 		// preview test document button
-		main.testDocPreviewJButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Logger.logln("'Preview Document' button clicked under the 'Test Documents' section on the documents tab.");
-				
-				int row = main.testDocsJTable.getSelectedRow();
-				if (row == -1) {
-					JOptionPane.showMessageDialog(null,
-							"You must select a test document in order to show its preview.",
-							"Show Test Document Preview Error",
-							JOptionPane.ERROR_MESSAGE);
-					Logger.logln("No test document is selected for preview",LogOut.STDERR);
-				} else {
-					Document doc = main.ps.testDocAt(row);
-					try {
-						doc.load();
-						main.docPreviewNameJLabel.setText("- "+doc.getTitle());
-						main.docPreviewJTextPane.setText(doc.stringify());
-					} catch (Exception exc) {
-						JOptionPane.showMessageDialog(null,
-								"Failed opening test document for preview:\n"+doc.getFilePath(),
-								"Show Test Document Preview Error",
-								JOptionPane.ERROR_MESSAGE);
-						Logger.logln("Failed opening test document for preview",LogOut.STDERR);
-						Logger.logln(exc.toString(),LogOut.STDERR);
-						GUIUpdateInterface.clearDocPreview(main);
-					}
-				}
-			}
-		});
+//		main.testDocPreviewJButton.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				Logger.logln("'Preview Document' button clicked under the 'Test Documents' section on the documents tab.");
+//				
+//				int row = main.testDocsJTable.getSelectedRow();
+//				if (row == -1) {
+//					JOptionPane.showMessageDialog(null,
+//							"You must select a test document in order to show its preview.",
+//							"Show Test Document Preview Error",
+//							JOptionPane.ERROR_MESSAGE);
+//					Logger.logln("No test document is selected for preview",LogOut.STDERR);
+//				} else {
+//					Document doc = main.ps.testDocAt(row);
+//					try {
+//						doc.load();
+//						main.docPreviewNameJLabel.setText("- "+doc.getTitle());
+//						main.docPreviewJTextPane.setText(doc.stringify());
+//					} catch (Exception exc) {
+//						JOptionPane.showMessageDialog(null,
+//								"Failed opening test document for preview:\n"+doc.getFilePath(),
+//								"Show Test Document Preview Error",
+//								JOptionPane.ERROR_MESSAGE);
+//						Logger.logln("Failed opening test document for preview",LogOut.STDERR);
+//						Logger.logln(exc.toString(),LogOut.STDERR);
+//						GUIUpdateInterface.clearDocPreview(main);
+//					}
+//				}
+//			}
+//		});
 		
 		
 		/////////////////// userSampleDocuments
@@ -291,7 +300,7 @@ public class DocsTabDriver {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					Logger.logln("'Add Document(s)...' button clicked under the 'User Sample Documents' section on the documents tab.");
-	
+					
 					JFileChooser open = new JFileChooser();
 					File dir;
 					try {
@@ -323,12 +332,10 @@ public class DocsTabDriver {
 							path = file.getAbsolutePath();
 							if (allUserSampleDocPaths.contains(path))
 								continue;
-							main.ps.addTrainDoc(ProblemSet.getDummyAuthor(),new Document(path,ProblemSet.getDummyAuthor(),file.getName()));
+							main.ps.addTrainDoc(ProblemSet.getDummyAuthor(), new Document(path,ProblemSet.getDummyAuthor(),file.getName()));
 						}
 						
 						GUIUpdateInterface.updateUserSampleDocTable(main);
-						GUIUpdateInterface.clearDocPreview(main);
-	
 					} else {
 						Logger.logln("Load user sample documents canceled");
 					}
@@ -342,7 +349,7 @@ public class DocsTabDriver {
 				public void actionPerformed(ActionEvent e) {
 					Logger.logln("'Remove Document(s)...' button clicked under the 'User Sample Documents' section on the documents tab.");
 					
-					if (main.userSampleDocsJTable.getSelectedRowCount() == 0) {
+					if (main.sampleDocsList.isSelectionEmpty()) {
 						Logger.logln("Failed removing user sample documents - no documents are selected",LogOut.STDERR);
 						JOptionPane.showMessageDialog(null,
 								"You must select documents to remove.",
@@ -355,15 +362,16 @@ public class DocsTabDriver {
 								JOptionPane.YES_NO_OPTION);
 						
 						if (answer == 0) {
-							int[] rows = main.userSampleDocsJTable.getSelectedRows();
+							DefaultListModel dlm = (DefaultListModel)main.sampleDocsList.getModel();
+							int[] rows = main.sampleDocsList.getSelectedIndices();
 							String msg = "Removed test documents:\n";
 							for (int i=rows.length-1; i>=0; i--) {
 								msg += "\t\t> "+main.ps.trainDocAt(ProblemSet.getDummyAuthor(),rows[i]).getTitle()+"\n";
 								main.ps.removeTrainDocAt(ProblemSet.getDummyAuthor(),rows[i]);
 							}
 							Logger.log(msg);
+							
 							GUIUpdateInterface.updateUserSampleDocTable(main);
-							GUIUpdateInterface.clearDocPreview(main);
 						} else {
 							Logger.logln("Removing user sample documents canceled");
 						}
@@ -372,37 +380,37 @@ public class DocsTabDriver {
 			});
 			
 			// preview userSample document button
-			main.userSampleDocPreviewJButton.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					Logger.logln("'Preview Document' button clicked under the 'User Sample Documents' section on the documents tab.");
-					
-					int row = main.userSampleDocsJTable.getSelectedRow();
-					if (row == -1) {
-						JOptionPane.showMessageDialog(null,
-								"You must select a document in order to show its preview.",
-								"Show Document Preview Error",
-								JOptionPane.ERROR_MESSAGE);
-						Logger.logln("No user sample document is selected for preview",LogOut.STDERR);
-					} else {
-						Document doc = main.ps.trainDocAt(ProblemSet.getDummyAuthor(),row);
-						try {
-							doc.load();
-							main.docPreviewNameJLabel.setText("- "+doc.getTitle());
-							main.docPreviewJTextPane.setText(doc.stringify());
-						} catch (Exception exc) {
-							JOptionPane.showMessageDialog(null,
-									"Failed opening document for preview:\n"+doc.getFilePath(),
-									"Show Document Preview Error",
-									JOptionPane.ERROR_MESSAGE);
-							Logger.logln("Failed opening user sample document for preview",LogOut.STDERR);
-							Logger.logln(exc.toString(),LogOut.STDERR);
-							GUIUpdateInterface.clearDocPreview(main);
-						}
-					}
-				}
-			});
+//			main.userSampleDocPreviewJButton.addActionListener(new ActionListener() {
+//				
+//				@Override
+//				public void actionPerformed(ActionEvent e) {
+//					Logger.logln("'Preview Document' button clicked under the 'User Sample Documents' section on the documents tab.");
+//					
+//					int row = main.userSampleDocsJTable.getSelectedRow();
+//					if (row == -1) {
+//						JOptionPane.showMessageDialog(null,
+//								"You must select a document in order to show its preview.",
+//								"Show Document Preview Error",
+//								JOptionPane.ERROR_MESSAGE);
+//						Logger.logln("No user sample document is selected for preview",LogOut.STDERR);
+//					} else {
+//						Document doc = main.ps.trainDocAt(ProblemSet.getDummyAuthor(),row);
+//						try {
+//							doc.load();
+//							main.docPreviewNameJLabel.setText("- "+doc.getTitle());
+//							main.docPreviewJTextPane.setText(doc.stringify());
+//						} catch (Exception exc) {
+//							JOptionPane.showMessageDialog(null,
+//									"Failed opening document for preview:\n"+doc.getFilePath(),
+//									"Show Document Preview Error",
+//									JOptionPane.ERROR_MESSAGE);
+//							Logger.logln("Failed opening user sample document for preview",LogOut.STDERR);
+//							Logger.logln(exc.toString(),LogOut.STDERR);
+//							GUIUpdateInterface.clearDocPreview(main);
+//						}
+//					}
+//				}
+//			});
 
 		// training documents
 		// ==================
@@ -411,40 +419,48 @@ public class DocsTabDriver {
 		// -- none --
 		
 		// add author button
-		main.addAuthorJButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Logger.logln("'Add Author...' button clicked under the 'Training Corpus' section on the documents tab.");
-
-				String answer = JOptionPane.showInputDialog(null,
-						"Enter new author name:",
-						"",
-						JOptionPane.OK_CANCEL_OPTION);
-				if (answer == null) {
-					Logger.logln("Aborted adding new author");
-				}
-				else if (answer.isEmpty()) {
-					JOptionPane.showMessageDialog(null,
-							"New author name must be a non-empty string.",
-							"Add New Author Error",
-							JOptionPane.ERROR_MESSAGE);
-					Logger.logln("tried to add new author with an empty string", LogOut.STDERR);
-				} else {
-					if (main.ps.getAuthorMap().keySet().contains(answer)) {
-						JOptionPane.showMessageDialog(null,
-								"Author \""+answer+"\" already exists.",
-								"Add New Author Error",
-								JOptionPane.ERROR_MESSAGE);
-						Logger.logln("tried to add author that already exists: "+answer, LogOut.STDERR);
-					} else {
-						main.ps.addTrainDocs(answer, new ArrayList<Document>());
-						GUIUpdateInterface.updateTrainDocTree(main);
-						Logger.logln("Added new author: "+answer);
-					}
-				}
-			}
-		});
+//		main.addAuthorJButton.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) 
+//			{
+//				Logger.logln("'Add Author...' button clicked under the 'Training Corpus' section on the documents tab.");
+//
+//				String answer = JOptionPane.showInputDialog(null,
+//						"Enter new author name:",
+//						"",
+//						JOptionPane.OK_CANCEL_OPTION);
+//				if (answer == null) 
+//				{
+//					Logger.logln("Aborted adding new author");
+//				}
+//				else if (answer.isEmpty()) 
+//				{
+//					JOptionPane.showMessageDialog(null,
+//							"New author name must be a non-empty string.",
+//							"Add New Author Error",
+//							JOptionPane.ERROR_MESSAGE);
+//					Logger.logln("tried to add new author with an empty string", LogOut.STDERR);
+//				} 
+//				else 
+//				{
+//					if (main.ps.getAuthorMap().keySet().contains(answer)) 
+//					{
+//						JOptionPane.showMessageDialog(null,
+//								"Author \""+answer+"\" already exists.",
+//								"Add New Author Error",
+//								JOptionPane.ERROR_MESSAGE);
+//						Logger.logln("tried to add author that already exists: "+answer, LogOut.STDERR);
+//					} 
+//					else 
+//					{
+//						main.ps.addTrainDocs(answer, new ArrayList<Document>());
+//						GUIUpdateInterface.updateTrainDocTree(main);
+//						Logger.logln("Added new author: "+answer);
+//					}
+//				}
+//			}
+//		});
 		
 		// add training documents button
 		main.addTrainDocsJButton.addActionListener(new ActionListener() {
@@ -506,7 +522,10 @@ public class DocsTabDriver {
 						ArrayList<String> allTestDocPaths = new ArrayList<String>();
 						try{
 							for (Document doc: main.ps.getTrainDocs(author))
+							{
 								allTrainDocPaths.add(doc.getFilePath());
+								Logger.logln("Added to Train Docs: " + doc.getFilePath());
+							}
 						} catch(NullPointerException npe){
 							Logger.logln("file '"+author+"' was not found. If name in single quotes is 'no author entered', this is not a problem.", LogOut.STDERR);
 						}
@@ -583,72 +602,72 @@ public class DocsTabDriver {
 		});
 		
 		// edit corpus name button
-		main.trainNameJButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Logger.logln("'Edit Name...' button clicked under the 'Training Corpus' section on the documents tab.");
-				
-				String answer = JOptionPane.showInputDialog(null,
-						"Edit corpus name:",
-						main.ps.getTrainCorpusName());
-				if (answer == null) {
-					Logger.logln("Aborted editing corpus name");
-				} else if (answer.isEmpty()) {
-					JOptionPane.showMessageDialog(null,
-							"Training corpus name must be a non-empty string.",
-							"Edit Training Corpus Name Error",
-							JOptionPane.ERROR_MESSAGE);
-					Logger.logln("tried to change training corpus name to an empty string", LogOut.STDERR);
-				} else {
-					main.ps.setTrainCorpusName(answer);
-					GUIUpdateInterface.updateTrainDocTree(main);
-				}
-			}
-		});
+//		main.trainNameJButton.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				Logger.logln("'Edit Name...' button clicked under the 'Training Corpus' section on the documents tab.");
+//				
+//				String answer = JOptionPane.showInputDialog(null,
+//						"Edit corpus name:",
+//						main.ps.getTrainCorpusName());
+//				if (answer == null) {
+//					Logger.logln("Aborted editing corpus name");
+//				} else if (answer.isEmpty()) {
+//					JOptionPane.showMessageDialog(null,
+//							"Training corpus name must be a non-empty string.",
+//							"Edit Training Corpus Name Error",
+//							JOptionPane.ERROR_MESSAGE);
+//					Logger.logln("tried to change training corpus name to an empty string", LogOut.STDERR);
+//				} else {
+//					main.ps.setTrainCorpusName(answer);
+//					GUIUpdateInterface.updateTrainDocTree(main);
+//				}
+//			}
+//		});
 
 		
 		// remove author button
-		main.removeAuthorJButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Logger.logln("'Remove Author(s)' button clicked under the 'Training Corpus' section on the documents tab.");
-				
-				TreePath[] paths = main.trainCorpusJTree.getSelectionPaths();
-				List<DefaultMutableTreeNode> selectedAuthors = new ArrayList<DefaultMutableTreeNode>();
-				if (paths != null)
-					for (TreePath path: paths)
-						if (path.getPath().length == 2)
-							selectedAuthors.add((DefaultMutableTreeNode)path.getPath()[1]);
-
-				if (selectedAuthors.isEmpty()) {
-					Logger.logln("Failed removing authors - no authors are selected",LogOut.STDERR);
-					JOptionPane.showMessageDialog(null,
-							"You must select authors to remove.",
-							"Remove Authors Failure",
-							JOptionPane.WARNING_MESSAGE);
-				} else {
-					int answer = JOptionPane.showConfirmDialog(null,
-							"Are you sure you want to remove the selected authors?",
-							"Remove Authors Confirmation",
-							JOptionPane.YES_NO_OPTION);
-
-					if (answer == 0) {
-						String msg = "Removed authors:\n";
-						for (DefaultMutableTreeNode author: selectedAuthors) {
-							main.ps.removeAuthor(author.toString());
-							msg += "\t\t> "+author.toString()+"\n";
-						}
-						Logger.log(msg);
-						GUIUpdateInterface.updateTrainDocTree(main);
-						GUIUpdateInterface.clearDocPreview(main);
-					} else {
-						Logger.logln("Removing authors canceled");
-					}
-				}
-			}
-		});
+//		main.removeAuthorJButton.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				Logger.logln("'Remove Author(s)' button clicked under the 'Training Corpus' section on the documents tab.");
+//				
+//				TreePath[] paths = main.trainCorpusJTree.getSelectionPaths();
+//				List<DefaultMutableTreeNode> selectedAuthors = new ArrayList<DefaultMutableTreeNode>();
+//				if (paths != null)
+//					for (TreePath path: paths)
+//						if (path.getPath().length == 2)
+//							selectedAuthors.add((DefaultMutableTreeNode)path.getPath()[1]);
+//
+//				if (selectedAuthors.isEmpty()) {
+//					Logger.logln("Failed removing authors - no authors are selected",LogOut.STDERR);
+//					JOptionPane.showMessageDialog(null,
+//							"You must select authors to remove.",
+//							"Remove Authors Failure",
+//							JOptionPane.WARNING_MESSAGE);
+//				} else {
+//					int answer = JOptionPane.showConfirmDialog(null,
+//							"Are you sure you want to remove the selected authors?",
+//							"Remove Authors Confirmation",
+//							JOptionPane.YES_NO_OPTION);
+//
+//					if (answer == 0) {
+//						String msg = "Removed authors:\n";
+//						for (DefaultMutableTreeNode author: selectedAuthors) {
+//							main.ps.removeAuthor(author.toString());
+//							msg += "\t\t> "+author.toString()+"\n";
+//						}
+//						Logger.log(msg);
+//						GUIUpdateInterface.updateTrainDocTree(main);
+//						GUIUpdateInterface.clearDocPreview(main);
+//					} else {
+//						Logger.logln("Removing authors canceled");
+//					}
+//				}
+//			}
+//		});
 
 		
 		// remove training documents button
@@ -687,7 +706,7 @@ public class DocsTabDriver {
 						}
 						Logger.log(msg);
 						GUIUpdateInterface.updateTrainDocTree(main);
-						GUIUpdateInterface.clearDocPreview(main);
+						//GUIUpdateInterface.clearDocPreview(main);
 					} else {
 						Logger.logln("Removing training documents canceled");
 					}
@@ -697,53 +716,53 @@ public class DocsTabDriver {
 
 		
 		// preview training document button
-		main.trainDocPreviewJButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Logger.logln("'Preview Document' button clicked under the 'Training Corpus' section on the documents tab.");
-				
-				TreePath path = main.trainCorpusJTree.getSelectionPath();
-				if (path == null || path.getPathCount() != 3) {
-					JOptionPane.showMessageDialog(null,
-							"You must select a training document in order to show its preview.",
-							"Show Training Document Preview Error",
-							JOptionPane.ERROR_MESSAGE);
-					Logger.logln("No training document is selected for preview",LogOut.STDERR);
-				} else {
-					String docTitle = path.getPath()[2].toString();
-					Document doc = main.ps.trainDocAt(path.getPath()[1].toString(),docTitle);
-					try {
-						doc.load();
-						main.docPreviewNameJLabel.setText("- "+doc.getTitle());
-						main.docPreviewJTextPane.setText(doc.stringify());
-					} catch (Exception exc) {
-						JOptionPane.showMessageDialog(null,
-								"Failed opening training document for preview:\n"+doc.getFilePath(),
-								"Show Training Document Preview Error",
-								JOptionPane.ERROR_MESSAGE);
-						Logger.logln("Failed opening training document for preview",LogOut.STDERR);
-						Logger.logln(exc.toString(),LogOut.STDERR);
-						GUIUpdateInterface.clearDocPreview(main);
-					}
-				}
-			}
-		});
+//		main.trainDocPreviewJButton.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				Logger.logln("'Preview Document' button clicked under the 'Training Corpus' section on the documents tab.");
+//				
+//				TreePath path = main.trainCorpusJTree.getSelectionPath();
+//				if (path == null || path.getPathCount() != 3) {
+//					JOptionPane.showMessageDialog(null,
+//							"You must select a training document in order to show its preview.",
+//							"Show Training Document Preview Error",
+//							JOptionPane.ERROR_MESSAGE);
+//					Logger.logln("No training document is selected for preview",LogOut.STDERR);
+//				} else {
+//					String docTitle = path.getPath()[2].toString();
+//					Document doc = main.ps.trainDocAt(path.getPath()[1].toString(),docTitle);
+//					try {
+//						doc.load();
+//						main.docPreviewNameJLabel.setText("- "+doc.getTitle());
+//						main.docPreviewJTextPane.setText(doc.stringify());
+//					} catch (Exception exc) {
+//						JOptionPane.showMessageDialog(null,
+//								"Failed opening training document for preview:\n"+doc.getFilePath(),
+//								"Show Training Document Preview Error",
+//								JOptionPane.ERROR_MESSAGE);
+//						Logger.logln("Failed opening training document for preview",LogOut.STDERR);
+//						Logger.logln(exc.toString(),LogOut.STDERR);
+//						GUIUpdateInterface.clearDocPreview(main);
+//					}
+//				}
+//			}
+//		});
 
 		
 		// document preview
 		// ================
 		
 		// document preview clear button
-		main.clearDocPreviewJButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Logger.logln("'Clear Preview' button clicked on the documents tab.");
-				
-				GUIUpdateInterface.clearDocPreview(main);
-			}
-		});
+//		main.clearDocPreviewJButton.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				Logger.logln("'Clear Preview' button clicked on the documents tab.");
+//				
+//				GUIUpdateInterface.clearDocPreview(main);
+//			}
+//		});
 
 		// button toolbar operations
 		// =========================
@@ -760,23 +779,23 @@ public class DocsTabDriver {
 		});
 */
 		// next button
-		main.docTabNextJButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Logger.logln("'Next' button clicked on the documents tab.");
-
-				if (main.ps == null || !main.ps.hasAuthors() || !main.ps.hasTestDocs()) {
-					JOptionPane.showMessageDialog(null,
-							"You must set training corpus and test documents before continuing.",
-							"Error",
-							JOptionPane.ERROR_MESSAGE);
-				} 
-				
-				else
-					main.mainJTabbedPane.setSelectedIndex(1);
-			}
-		});
+//		main.docTabNextJButton.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				Logger.logln("'Next' button clicked on the documents tab.");
+//
+//				if (main.ps == null || !main.ps.hasAuthors() || !main.ps.hasTestDocs()) {
+//					JOptionPane.showMessageDialog(null,
+//							"You must set training corpus and test documents before continuing.",
+//							"Error",
+//							JOptionPane.ERROR_MESSAGE);
+//				} 
+//				
+//				else
+//					main.mainJTabbedPane.setSelectedIndex(1);
+//			}
+//		});
 	}
 	
 	

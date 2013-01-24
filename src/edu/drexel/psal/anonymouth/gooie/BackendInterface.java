@@ -231,7 +231,7 @@ public class BackendInterface {
 			this.wizard = wizard;
 			this.magician = magician;
 			this.pw = new ProgressWindow("Processing...", main);
-			selectedIndex = main.editTP.getSelectedIndex();
+			//selectedIndex = main.editTP.getSelectedIndex();
 			this.eits = EditorTabDriver.eitsList.get(selectedIndex);
 		}
 		
@@ -358,6 +358,15 @@ public class BackendInterface {
 				eits.classificationLabel.setText("Please process your document in order to recieve a classification result.");
 			else
 				eits.classificationLabel.setText("Your document appears as if '"+EditorTabDriver.chosenAuthor+"' wrote it!");
+			
+			int selectedIndex = 1;
+			int trueIndex = selectedIndex - 1;
+			Logger.logln("Cluster Group number '"+trueIndex+"' selected: " + ClusterViewerDriver.getStringRep()[selectedIndex]);
+			Logger.logln("Cluster Group chosen by Anonymouth: "+ClusterViewerDriver.getStringRep()[1]);
+			DataAnalyzer.selectedTargets = ClusterViewerDriver.getIntRep()[trueIndex];
+			Logger.logln("INTREP: "+ClusterViewerDriver.getIntRep()[trueIndex]);//added this.
+			EditorTabDriver.wizard.setSelectedTargets();
+			EditorTabDriver.signalTargetsSelected(main, true);
 			//eits.editorBox.setText(tempDoc);	
 			//cpb.setText("Waiting for Target Selection...");
 			}
@@ -403,7 +412,7 @@ public class BackendInterface {
 			this.wizard = wizard;
 			this.magician = magician;
 			this.pw = new ProgressWindow("Processing...", main);
-			selectedIndex = main.editTP.getSelectedIndex();
+			//selectedIndex = main.editTP.getSelectedIndex();
 			this.eits = EditorTabDriver.eitsList.get(selectedIndex);
 		}
 
@@ -468,7 +477,7 @@ public class BackendInterface {
 			
 			Logger.logln("Finished in BackendInterface - postTargetSelection");
 			//main.editorProgressBar.setIndeterminate(false);	
-			EditorTabDriver.setAllEITSEnabled(true, main);
+			EditorTabDriver.setAllEITSUseable(true, main);
 			eits.nextSentenceButton.doClick();
 			eits.editBox.getViewport().setViewPosition(new java.awt.Point(0, 0));
 			

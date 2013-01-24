@@ -48,7 +48,8 @@ public class ClassTabDriver {
 				// if unselected
 				if (main.classJTree.getSelectionCount() == 0) {
 					Logger.logln("Classifier tree unselected in the classifiers tab.");
-					resetAvClassSelection(main);
+					//resetAvClassSelection(main);
+					tmpClassifier = null;
 					return;
 				}
 				
@@ -84,12 +85,13 @@ public class ClassTabDriver {
 					
 					// show options and description
 					
-					main.classAvClassArgsJTextField.setText(getOptionsStr(tmpClassifier.getOptions())+dashM);
-					main.classDescJTextPane.setText(getDesc(tmpClassifier));
+					//main.classAvClassArgsJTextField.setText(getOptionsStr(tmpClassifier.getOptions())+dashM);
+					//main.classDescJTextPane.setText(getDesc(tmpClassifier));
 				}
 				// otherwise
 				else {
-					resetAvClassSelection(main);
+					//resetAvClassSelection(main);
+					tmpClassifier = null;
 				}
 			}
 		});
@@ -121,7 +123,8 @@ public class ClassTabDriver {
 				else {
 					// check classifier options
 					try {
-						tmpClassifier.setOptions(main.classAvClassArgsJTextField.getText().split(" "));
+						//tmpClassifier.setOptions(main.classAvClassArgsJTextField.getText().split(" "));
+						tmpClassifier.setOptions(getOptionsStr(tmpClassifier.getOptions()).split(" "));
 					} catch (Exception e) {
 						Logger.logln("Invalid options given for classifier.",LogOut.STDERR);
 						JOptionPane.showMessageDialog(main,
@@ -129,14 +132,16 @@ public class ClassTabDriver {
 										"Restoring original options.",
 										"Classifier Options Error",
 										JOptionPane.ERROR_MESSAGE);
-						main.classAvClassArgsJTextField.setText(getOptionsStr(tmpClassifier.getOptions()));
+						//main.classAvClassArgsJTextField.setText(getOptionsStr(tmpClassifier.getOptions()));
 						return;
 					}
 					
 					// add classifier
 					main.classifiers.add(tmpClassifier);
 					GUIUpdateInterface.updateClassList(main);
-					resetAvClassSelection(main);
+					GUIUpdateInterface.updateClassSettingsColor(main);
+					//resetAvClassSelection(main);
+					tmpClassifier = null;
 					main.classJTree.clearSelection();
 				}
 			}
@@ -158,7 +163,8 @@ public class ClassTabDriver {
 				// if unselected
 				if (selected == -1) {
 					Logger.logln("Classifier list unselected in the classifiers tab.");
-					resetSelClassSelection(main);
+					//resetSelClassSelection(main);
+					tmpClassifier = null;
 					return;
 				}
 
@@ -169,8 +175,8 @@ public class ClassTabDriver {
 				Logger.logln("Classifier selected in the selected classifiers list in the classifiers tab: "+className);
 
 				// show options and description
-				main.classSelClassArgsJTextField.setText(getOptionsStr(main.classifiers.get(selected).getOptions()));
-				main.classDescJTextPane.setText(getDesc(main.classifiers.get(selected)));
+				//main.classSelClassArgsJTextField.setText(getOptionsStr(main.classifiers.get(selected).getOptions()));
+				//main.classDescJTextPane.setText(getDesc(main.classifiers.get(selected)));
 			}
 		});
 		
@@ -196,6 +202,7 @@ public class ClassTabDriver {
 				// remove classifier
 				main.classifiers.remove(selected);
 				GUIUpdateInterface.updateClassList(main);
+				GUIUpdateInterface.updateClassSettingsColor(main);
 			}
 		});
 		
@@ -213,93 +220,93 @@ public class ClassTabDriver {
 		// back button
 		// ===========
 		
-		main.classBackJButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Logger.logln("'Back' button clicked in the classifiers tab");
-				main.mainJTabbedPane.setSelectedIndex(1);
-			}
-		});
-		
-		// next button
-		// ===========
-		
-		main.classNextJButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Logger.logln("'Next' button clicked in the classifiers tab");
-				
-				if (main.classifiers.isEmpty()) 
-				{
-					JOptionPane.showMessageDialog(main,
-							"You must add at least one classifier.",
-							"Error",
-							JOptionPane.ERROR_MESSAGE);
-					return;
-				} 
-				else 
-				{
-					if (EditorTabDriver.isFirstRun == false)
-					{
-						int answer = JOptionPane.showConfirmDialog(main, "If you choose to continue, you will lose all unsaved data/work. Continue?","Reset?",JOptionPane.YES_NO_OPTION);
-						if(answer ==0)
-						{
-							EditorTabDriver.shouldReset = true;
-							EditorTabDriver.isFirstRun = true;
-							EditorTabDriver.resetAll(main);
-						}
-					}
-					EditorTabDriver.eits.processButton.setEnabled(true);
-					main.mainJTabbedPane.setEnabledAt(3, true);
-					main.mainJTabbedPane.setSelectedIndex(3);
-					Document toModifyPreview = main.ps.testDocAt(0);
-					try {
-						toModifyPreview.load();
-						EditorTabDriver.eitsList.get(0).editorBox.setText(toModifyPreview.stringify());
-						JOptionPane.showMessageDialog(main, "Click 'Process' to perform initial classification of your document.\n" +
-								"Once the results appear in the table below it,\n" +
-								"click on suggestions in the suggestion list to see what to change.\n\n" +
-								"Note: Depending on the classifier chosen, the number/size of documents,\n" +
-								"and the features selected, classificatoin may take a long time. However,\n" +
-								"you do not need to re-process before/after each suggestion.",
-								"Getting Started",
-								JOptionPane.INFORMATION_MESSAGE,
-								GUIMain.icon); 
-					} catch (Exception e1) {
-						JOptionPane.showMessageDialog(null,
-								"Document to modify could not load.",
-								"Error",
-								JOptionPane.ERROR_MESSAGE,
-								GUIMain.iconNO);
-						//e1.printStackTrace();
-					} finally{
-						EditorTabDriver.shouldReset = false;
-					}
-				}
-			}
-		});
+//		main.classBackJButton.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				Logger.logln("'Back' button clicked in the classifiers tab");
+//				main.mainJTabbedPane.setSelectedIndex(1);
+//			}
+//		});
+//		
+//		// next button
+//		// ===========
+//		
+//		main.classNextJButton.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				Logger.logln("'Next' button clicked in the classifiers tab");
+//				
+//				if (main.classifiers.isEmpty()) 
+//				{
+//					JOptionPane.showMessageDialog(main,
+//							"You must add at least one classifier.",
+//							"Error",
+//							JOptionPane.ERROR_MESSAGE);
+//					return;
+//				} 
+//				else 
+//				{
+//					if (EditorTabDriver.isFirstRun == false)
+//					{
+//						int answer = JOptionPane.showConfirmDialog(main, "If you choose to continue, you will lose all unsaved data/work. Continue?","Reset?",JOptionPane.YES_NO_OPTION);
+//						if(answer ==0)
+//						{
+//							EditorTabDriver.shouldReset = true;
+//							EditorTabDriver.isFirstRun = true;
+//							EditorTabDriver.resetAll(main);
+//						}
+//					}
+//					EditorTabDriver.eits.processButton.setEnabled(true);
+//					main.mainJTabbedPane.setEnabledAt(3, true);
+//					main.mainJTabbedPane.setSelectedIndex(3);
+//					Document toModifyPreview = main.ps.testDocAt(0);
+//					try {
+//						toModifyPreview.load();
+//						EditorTabDriver.eitsList.get(0).editorBox.setText(toModifyPreview.stringify());
+//						JOptionPane.showMessageDialog(main, "Click 'Process' to perform initial classification of your document.\n" +
+//								"Once the results appear in the table below it,\n" +
+//								"click on suggestions in the suggestion list to see what to change.\n\n" +
+//								"Note: Depending on the classifier chosen, the number/size of documents,\n" +
+//								"and the features selected, classificatoin may take a long time. However,\n" +
+//								"you do not need to re-process before/after each suggestion.",
+//								"Getting Started",
+//								JOptionPane.INFORMATION_MESSAGE,
+//								GUIMain.icon); 
+//					} catch (Exception e1) {
+//						JOptionPane.showMessageDialog(null,
+//								"Document to modify could not load.",
+//								"Error",
+//								JOptionPane.ERROR_MESSAGE,
+//								GUIMain.iconNO);
+//						//e1.printStackTrace();
+//					} finally{
+//						EditorTabDriver.shouldReset = false;
+//					}
+//				}
+//			}
+//		});
 	}
 	
 	/**
 	 * Clears the GUI when no available classifier is selected.
 	 */
-	protected static void resetAvClassSelection(GUIMain main) {
-		// clear everything
-		tmpClassifier = null;
-		main.classAvClassArgsJTextField.setText("");
-		main.classDescJTextPane.setText("");
-	}
+//	protected static void resetAvClassSelection(GUIMain main) {
+//		// clear everything
+//		tmpClassifier = null;
+//		main.classAvClassArgsJTextField.setText("");
+//		main.classDescJTextPane.setText("");
+//	}
 	
 	/**
 	 * Clears the GUI when no selected classifier is selected.
 	 */
-	protected static void resetSelClassSelection(GUIMain main) {
-		// clear everything
-		main.classSelClassArgsJTextField.setText("");
-		main.classDescJTextPane.setText("");
-	}
+//	protected static void resetSelClassSelection(GUIMain main) {
+//		// clear everything
+//		main.classSelClassArgsJTextField.setText("");
+//		main.classDescJTextPane.setText("");
+//	}
 	
 	/**
 	 * Creates a classifier options string.

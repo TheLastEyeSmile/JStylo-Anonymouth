@@ -12,6 +12,7 @@ import edu.drexel.psal.jstylo.generics.FeatureDriver.ParamTag;
 
 import com.jgaap.generics.*;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -54,6 +55,24 @@ public class GUIUpdateInterface {
 	 * ========================
 	 */
 	
+	public static void updateDocSettingsColor(GUIMain main)
+	{
+		Color ready = new Color(0,255,128);
+		Color notReady = new Color(255,102,102);
+		if (main.documentsAreReady())
+		{
+			main.settingsDocLabelPanel.setBackground(ready);
+			main.settingsDocLabel.setBackground(ready);
+			main.settingsAdvDocButton.setBackground(ready);
+		}
+		else
+		{
+			main.settingsDocLabelPanel.setBackground(notReady);
+			main.settingsDocLabel.setBackground(notReady);
+			main.settingsAdvDocButton.setBackground(notReady);
+		}	
+	}
+	
 	/**
 	 * Updates the documents tab view with the current problem set.
 	 */
@@ -69,40 +88,33 @@ public class GUIUpdateInterface {
 		// update user sample documents table
 		updateUserSampleDocTable(main);
 		
-		// update preview box
-		clearDocPreview(main);
+		updateDocSettingsColor(main);
 	}
 	
 	/**
 	 * Updates the test documents table with the current problem set. 
 	 */
 	protected static void updateTestDocTable(GUIMain main) {
-		JTable testDocsTable = main.testDocsJTable;
-		DefaultTableModel testTableModel = main.testDocsTableModel;
-		testDocsTable.clearSelection();
-		testTableModel.setRowCount(0);
+		DefaultListModel dlm = (DefaultListModel)main.mainDocList.getModel();
+		dlm.removeAllElements();
 		List<Document> testDocs = main.ps.getTestDocs();
 		for (int i=0; i<testDocs.size(); i++)
-			testTableModel.addRow(new Object[]{
-					testDocs.get(i).getTitle(),
-					testDocs.get(i).getFilePath()
-			});
+			dlm.addElement(testDocs.get(i).getTitle());
+		
+		updateDocSettingsColor(main);
 	}
 	
 	/**
 	 * Updates the User Sample documents table with the current problem set. 
 	 */
 	protected static void updateUserSampleDocTable(GUIMain main) {
-		JTable userSampleDocsTable = main.userSampleDocsJTable;
-		DefaultTableModel userSampleTableModel = main.userSampleDocsTableModel;
-		userSampleDocsTable.clearSelection();
-		userSampleTableModel.setRowCount(0);
+		DefaultListModel dlm = (DefaultListModel)main.sampleDocsList.getModel();
+		dlm.removeAllElements();
 		List<Document> userSampleDocs = main.ps.getTrainDocs(ProblemSet.getDummyAuthor());
 		for (int i=0; i<userSampleDocs.size(); i++)
-			userSampleTableModel.addRow(new Object[]{// todo this is where it fails (from the note in DocsTabDriver).. it fails with a "NullPointerException".... (when "create new problem set" is clicked when there isn't a problem set there. [ i.e. as soon as Anonymouth starts up]) 
-					userSampleDocs.get(i).getTitle(),
-					userSampleDocs.get(i).getFilePath()
-			});
+			dlm.addElement(userSampleDocs.get(i).getTitle());// todo this is where it fails (from the note in DocsTabDriver).. it fails with a "NullPointerException".... (when "create new problem set" is clicked when there isn't a problem set there. [ i.e. as soon as Anonymouth starts up]) 
+		
+		updateDocSettingsColor(main);
 	}
 
 	/**
@@ -124,6 +136,8 @@ public class GUIUpdateInterface {
 		}
 		DefaultTreeModel trainTreeModel = new DefaultTreeModel(root);
 		main.trainCorpusJTree.setModel(trainTreeModel);
+		
+		updateDocSettingsColor(main);
 	}
 	
 	/**
@@ -140,6 +154,24 @@ public class GUIUpdateInterface {
 	 * features tab operations
 	 * =======================
 	 */
+	
+	public static void updateFeatSettingsColor(GUIMain main)
+	{
+		Color ready = new Color(0,255,128);
+		Color notReady = new Color(255,102,102);
+		if (main.featuresAreReady())
+		{
+			main.settingsFeatLabelPanel.setBackground(ready);
+			main.settingsFeatLabel.setBackground(ready);
+			main.settingsAdvFeatButton.setBackground(ready);
+		}
+		else
+		{
+			main.settingsFeatLabelPanel.setBackground(notReady);
+			main.settingsFeatLabel.setBackground(notReady);
+			main.settingsAdvFeatButton.setBackground(notReady);
+		}	
+	}
 	
 	/**
 	 * Updates the feature set view when a new feature set is selected / created.
@@ -242,16 +274,35 @@ public class GUIUpdateInterface {
 	 * ===============
 	 */
 	
+	public static void updateClassSettingsColor(GUIMain main)
+	{
+		Color ready = new Color(0,255,128);
+		Color notReady = new Color(255,102,102);
+		if (main.classifiersAreReady())
+		{
+			main.settingsClassLabelPanel.setBackground(ready);
+			main.settingsClassLabel.setBackground(ready);
+			main.settingsAdvClassButton.setBackground(ready);
+		}
+		else
+		{
+			main.settingsClassLabelPanel.setBackground(notReady);
+			main.settingsClassLabel.setBackground(notReady);
+			main.settingsAdvClassButton.setBackground(notReady);
+		}	
+	}
+	
 	/**
 	 * Updates the list of selected classifiers with respect to the list of classifiers.
 	 */
 	protected static void updateClassList(GUIMain main) {
-		DefaultComboBoxModel model = main.classSelClassJListModel;
+		DefaultListModel model = (DefaultListModel)main.classJList.getModel();
 		List<Classifier> classifiers = main.classifiers;
 		
 		model.removeAllElements();
 		for (Classifier c: classifiers) {
-			model.addElement(c.getClass().getName());
+			String className = c.getClass().getName();
+			model.addElement(className.substring(className.lastIndexOf(".")+1));
 		}
 	}
 }

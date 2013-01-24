@@ -40,6 +40,7 @@ public class CumulativeEventCuller {
 		List<String> authorNames = new ArrayList<String>(totalSetLists);
 		List<String> docNames = new ArrayList<String>(totalSetLists);
 		List<String> esIds = new ArrayList<String>(totalSetLists);
+		eventSets.get(0).get(0);
 		for (int i=0; i<totalSetLists; i++) {
 			authorNames.add(i,eventSets.get(i).get(0).getAuthor());
 			docNames.add(i,eventSets.get(i).get(0).getDocumentName());

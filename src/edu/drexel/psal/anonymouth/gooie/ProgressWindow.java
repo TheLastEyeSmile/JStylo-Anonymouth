@@ -32,6 +32,7 @@ public class ProgressWindow extends JFrame
 	{
 		this.main = main;
 		//main.setEnabled(false);
+		
 		this.setVisible(true);
 		
 		GridBagLayout layout = new GridBagLayout();

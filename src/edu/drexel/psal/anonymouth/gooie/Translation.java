@@ -16,16 +16,21 @@ import com.memetix.mst.translate.Translate;
 public class Translation {
 	
 	private Language allLangs[] = {Language.ARABIC, Language.BULGARIAN, Language.CATALAN,
-		Language.CHINESE_SIMPLIFIED, Language.CHINESE_TRADITIONAL,Language.CZECH,
-		Language.DANISH,Language.DUTCH,Language.ESTONIAN,Language.FINNISH,
-		Language.FRENCH,Language.GERMAN,Language.GREEK,Language.HAITIAN_CREOLE,
-		Language.HEBREW,Language.HINDI,Language.HMONG_DAW,Language.HUNGARIAN,
-		Language.INDONESIAN,Language.ITALIAN,Language.JAPANESE,
-		Language.KOREAN,Language.LATVIAN,Language.LITHUANIAN,
-		Language.NORWEGIAN,Language.POLISH,Language.PORTUGUESE,
-		Language.ROMANIAN,Language.RUSSIAN,Language.SLOVAK,
-		Language.SLOVENIAN,Language.SPANISH, Language.SWEDISH, 
-		Language.THAI, Language.TURKISH, Language.UKRAINIAN, Language.VIETNAMESE};
+			Language.CHINESE_SIMPLIFIED, Language.CHINESE_TRADITIONAL,Language.CZECH,
+			Language.DANISH,Language.DUTCH,Language.ESTONIAN,Language.FINNISH,
+			Language.FRENCH,Language.GERMAN,Language.GREEK,Language.HAITIAN_CREOLE,
+			Language.HEBREW,Language.HINDI,Language.HMONG_DAW,Language.HUNGARIAN,
+			Language.INDONESIAN,Language.ITALIAN,Language.JAPANESE,
+			Language.KOREAN,Language.LATVIAN,Language.LITHUANIAN,
+			Language.NORWEGIAN,Language.POLISH,Language.PORTUGUESE,
+			Language.ROMANIAN,Language.RUSSIAN,Language.SLOVAK,
+			Language.SLOVENIAN,Language.SPANISH, Language.SWEDISH, 
+			Language.THAI, Language.TURKISH, Language.UKRAINIAN, Language.VIETNAMESE};
+	
+	private Language usedLangs[] = {Language.ARABIC, Language.CZECH, Language.DANISH,Language.DUTCH,
+			Language.FRENCH,Language.GERMAN,Language.GREEK, Language.HUNGARIAN,
+			Language.ITALIAN,Language.JAPANESE, Language.KOREAN, Language.POLISH, Language.RUSSIAN,
+			Language.SPANISH, Language.VIETNAMESE};
 	
 	private HashMap<Language, String> names = new HashMap<Language, String>();
 	
@@ -127,6 +132,11 @@ public class Translation {
 	public Language[] getAllLangs()
 	{
 		return allLangs;
+	}
+	
+	public Language[] getUsedLangs()
+	{
+		return usedLangs;
 	}
 	
 	/*

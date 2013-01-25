@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import Jama.Matrix;
 
@@ -21,6 +23,7 @@ import edu.drexel.psal.jstylo.generics.*;
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.SynsetType;
 import edu.smu.tspell.wordnet.WordNetDatabase;
+import edu.stanford.nlp.io.EncodingPrintWriter.out;
 
 /**
  * Implementation of the Writeprints method (supervised).
@@ -62,7 +65,7 @@ public class WriteprintsAnalyzer extends Analyzer {
 	/**
 	 * Local logger
 	 */
-	protected static MultiplePrintStream log = new MultiplePrintStream();
+	public static MultiplePrintStream log = new MultiplePrintStream();
 	
 	/* ==========
 	 * operations
@@ -282,8 +285,9 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 * @return
 	 */
 	public SortedMap<String, double[]> getCrossDatasetsDistances(
-			Instances dataset1, Instances dataset2) {
-		log.println(">>> getCrossDatasetsDistances started");
+			Instances dataset1, Instances dataset2, int numThreads) {
+		log.println(">>> getCrossDatasetsDistances started with " +
+			numThreads + " threads");
 		
 		/* ========
 		 * LEARNING
@@ -293,32 +297,78 @@ public class WriteprintsAnalyzer extends Analyzer {
 		
 		List<AuthorWPData> dataset1AuthorData = new LinkedList<AuthorWPData>();
 		List<AuthorWPData> dataset2AuthorData = new LinkedList<AuthorWPData>();
-		
+				
 		// initialize features, basis and writeprint matrices
 		Attribute classAttribute = dataset1.classAttribute();
 		int numAuthors = classAttribute.numValues();
-		String authorName;
-		AuthorWPData authorData;
+		
+		//String authorName;
+		//AuthorWPData authorData;
+		AuthorWPDataThread[] adThreads = new AuthorWPDataThread[numThreads];
 		// dataset1
 		log.println("Initializing dataset1 authors data:");
-		for (int i = 0; i < numAuthors; i++) {
-			authorName = classAttribute.value(i);
-			authorData = new AuthorWPData(authorName);
-			log.println("- " + authorName);
-			authorData.initFeatureMatrix(dataset1, averageFeatureVectors);
-			dataset1AuthorData.add(authorData);
-			authorData.initBasisAndWriteprintMatrices();
+		int from, to;
+		for (int i = 0; i < numThreads; i++)
+		{
+			from = i * (numAuthors / numThreads);
+			to = (i == numThreads - 1) ? numAuthors :
+				((i + 1) * (numAuthors / numThreads));
+			adThreads[i] = new AuthorWPDataThread(
+					from, to, dataset1, averageFeatureVectors);
 		}
+		for (int i = 0; i < numThreads; i++)
+			adThreads[i].start();
+		for (int i = 0; i < numThreads; i++)
+			try {
+				adThreads[i].join();
+			} catch (InterruptedException e) {
+				out.println(">>> join failed for thread " + i + "!");
+			}
+		for (int i = 0; i < numThreads; i++)
+			dataset1AuthorData.addAll(adThreads[i].m_authorData);
+		for (int i = 0; i < numThreads; i++)
+			adThreads[i] = null;
+		
+//		for (int i = 0; i < numAuthors; i++) {
+//			authorName = classAttribute.value(i);
+//			authorData = new AuthorWPData(authorName);
+//			log.println("- " + authorName);
+//			authorData.initFeatureMatrix(dataset1, averageFeatureVectors);
+//			dataset1AuthorData.add(authorData);
+//			authorData.initBasisAndWriteprintMatrices();
+//		}
+		
 		// dataset2
 		log.println("Initializing dataset2 authors data:");
-		for (int i = 0; i < numAuthors; i++) {
-			authorName = classAttribute.value(i);
-			authorData = new AuthorWPData(authorName);
-			log.println("- " + authorName);
-			authorData.initFeatureMatrix(dataset1, averageFeatureVectors);
-			dataset2AuthorData.add(authorData);
-			authorData.initBasisAndWriteprintMatrices();
+		for (int i = 0; i < numThreads; i++)
+		{
+			from = i * numAuthors;
+			to = (i == numThreads - 1) ? numAuthors : ((i + 1) * numAuthors);
+			adThreads[i] = new AuthorWPDataThread(
+					from, to, dataset2, averageFeatureVectors);
 		}
+		for (int i = 0; i < numThreads; i++)
+			adThreads[i].start();
+		for (int i = 0; i < numThreads; i++)
+			try {
+				adThreads[i].join();
+			} catch (InterruptedException e) {
+				out.println(">>> join failed for thread " + i + "!");
+			}
+		for (int i = 0; i < numThreads; i++)
+			dataset2AuthorData.addAll(adThreads[i].m_authorData);
+		for (int i = 0; i < numThreads; i++)
+			adThreads[i] = null;
+		
+//		log.println("Initializing dataset2 authors data:");
+//		for (int i = 0; i < numAuthors; i++) {
+//			authorName = classAttribute.value(i);
+//			authorData = new AuthorWPData(authorName);
+//			log.println("- " + authorName);
+//			authorData.initFeatureMatrix(dataset1, averageFeatureVectors);
+//			dataset2AuthorData.add(authorData);
+//			authorData.initBasisAndWriteprintMatrices();
+//		}
 		
 		// initialize result set
 		SortedMap<String, double[]> results = new TreeMap<String,double[]>();
@@ -566,6 +616,53 @@ public class WriteprintsAnalyzer extends Analyzer {
 			}
 		}
 		return sum;
+	}
+	
+	/**
+	 * Thread for calculating AuthorWPData objects from a given Instances object
+	 * in a given range.
+	 */
+	public static class AuthorWPDataThread extends Thread
+	{
+		protected int m_from;
+		protected int m_to;
+		protected Instances m_data;
+		protected boolean m_averageFeatureVectors;
+		protected List<AuthorWPData> m_authorData =
+				new LinkedList<AuthorWPData>();
+		protected int m_id;
+		
+		protected static AtomicInteger m_counter = new AtomicInteger(0);
+		
+		public AuthorWPDataThread(int from, int to, Instances data,
+				boolean averageFeatureVectors)
+		{
+			m_from = from;
+			m_to = to;
+			m_data = data;
+			m_averageFeatureVectors = averageFeatureVectors;
+			m_id = m_counter.getAndIncrement();
+		}
+		
+		@Override
+		public void run()
+		{
+			out.println("[" + m_id + "] thread started for range " +
+					m_from + " - " + (m_to - 1));
+			Attribute classAttribute = m_data.classAttribute();
+			String authorName;
+			AuthorWPData authorData;
+			for (int i = m_from; i < m_to; i++) {
+				authorName = classAttribute.value(i);
+				authorData = new AuthorWPData(authorName);
+				log.println("[" + m_id + "] - " + authorName);
+				authorData.initFeatureMatrix(m_data, m_averageFeatureVectors);
+				m_authorData.add(authorData);
+				authorData.initBasisAndWriteprintMatrices();
+			}
+			out.println("[" + m_id + "] thread finished for range " +
+					m_from + " - " + (m_to - 1));
+		}
 	}
 	
 	

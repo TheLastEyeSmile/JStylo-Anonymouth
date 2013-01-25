@@ -271,6 +271,137 @@ public class WriteprintsAnalyzer extends Analyzer {
 		return null;
 	}
 	
+	/**
+	 * Calculates and returns a mapping of authors to the number of documents of
+	 * the corresponding author in the first dataset, the second dataset, and 
+	 * the distances measured between them.<br>
+	 * Both datasets must have the same features, including the same set of
+	 * authors in the class attribute.
+	 * @param dataset1
+	 * @param dataset2
+	 * @return
+	 */
+	public SortedMap<String, double[]> getCrossDatasetsDistances(
+			Instances dataset1, Instances dataset2) {
+		log.println(">>> getCrossDatasetsDistances started");
+		
+		/* ========
+		 * LEARNING
+		 * ========
+		 */
+		log.println("> Learning");
+		
+		List<AuthorWPData> dataset1AuthorData = new LinkedList<AuthorWPData>();
+		List<AuthorWPData> dataset2AuthorData = new LinkedList<AuthorWPData>();
+		
+		// initialize features, basis and writeprint matrices
+		Attribute classAttribute = dataset1.classAttribute();
+		int numAuthors = classAttribute.numValues();
+		String authorName;
+		AuthorWPData authorData;
+		// dataset1
+		log.println("Initializing dataset1 authors data:");
+		for (int i = 0; i < numAuthors; i++) {
+			authorName = classAttribute.value(i);
+			authorData = new AuthorWPData(authorName);
+			log.println("- " + authorName);
+			authorData.initFeatureMatrix(dataset1, averageFeatureVectors);
+			dataset1AuthorData.add(authorData);
+			authorData.initBasisAndWriteprintMatrices();
+		}
+		// dataset2
+		log.println("Initializing dataset2 authors data:");
+		for (int i = 0; i < numAuthors; i++) {
+			authorName = classAttribute.value(i);
+			authorData = new AuthorWPData(authorName);
+			log.println("- " + authorName);
+			authorData.initFeatureMatrix(dataset1, averageFeatureVectors);
+			dataset2AuthorData.add(authorData);
+			authorData.initBasisAndWriteprintMatrices();
+		}
+		
+		// initialize result set
+		SortedMap<String, double[]> results = new TreeMap<String,double[]>();
+		
+		// calculate information-gain
+		log.println("Calculating information gain over dataset1");
+		double[] IG1 = null;
+		int numFeatures = dataset1.numAttributes() - 1;
+		try {
+			IG1 = calcInfoGain(dataset1, numFeatures);
+		} catch (Exception e) {
+			System.err.println("Error evaluating information gain.");
+			e.printStackTrace();
+			return null;
+		}
+		log.println("Calculating information gain over dataset1");
+		double[] IG2 = null;
+		try {
+			IG2 = calcInfoGain(dataset2, numFeatures);
+		} catch (Exception e) {
+			System.err.println("Error evaluating information gain.");
+			e.printStackTrace();
+			return null;
+		}
+		
+		// initialize synonym count mapping
+		log.println("Initializing word synonym count");
+		Map<Integer,Integer> wordsSynCount =
+				calcSynonymCount(dataset1,numFeatures);
+		
+		
+		/* =====================
+		 * CALCULATING DISTANCES
+		 * =====================
+		 */
+		log.println("> Calculating distances");
+		
+		Matrix dataset1Pattern, dataset2Pattern;
+		double dist1, dist2, avgDist;
+		AuthorWPData dataset1DataCopy, dataset2DataCopy;
+		for (AuthorWPData dataset2Data: dataset2AuthorData) {
+			log.println("dataset2 author: " + dataset2Data.authorName);
+			
+			// find matching author in dataset1
+			AuthorWPData dataset1Data = null;
+			for (AuthorWPData d: dataset1AuthorData)
+				if (d.authorName == dataset2Data.authorName)
+				{
+					dataset1Data = d;
+					break;
+				}
+
+			dataset2DataCopy = dataset2Data.halfClone();
+			dataset1DataCopy = dataset1Data.halfClone();
+
+			// compute pattern matrices BEFORE adding pattern disruption
+			dataset2Pattern = AuthorWPData.generatePattern(dataset1Data, dataset2Data);
+			dataset1Pattern = AuthorWPData.generatePattern(dataset2Data, dataset1Data);
+
+			// add pattern disruptions
+			dataset2DataCopy.addPatternDisruption(dataset1Data, IG1, wordsSynCount, dataset1Pattern);
+			dataset1DataCopy.addPatternDisruption(dataset2Data, IG2, wordsSynCount, dataset2Pattern);
+
+			// compute pattern matrices AFTER adding pattern disruption
+			dataset2Pattern = AuthorWPData.generatePattern(dataset1DataCopy, dataset2DataCopy);
+			dataset1Pattern = AuthorWPData.generatePattern(dataset2DataCopy, dataset1DataCopy);
+
+			// compute distances
+			dist1 = sumEuclideanDistance(dataset2Pattern, dataset1DataCopy.writeprint);
+			dist2 = sumEuclideanDistance(dataset1Pattern, dataset2DataCopy.writeprint);
+
+			// compute the average distance
+			avgDist = (dist1 + dist2) / 2;
+			results.put(dataset1Data.authorName, new double[]{
+					dataset1Data.numInstances,
+					dataset2Data.numInstances,
+					avgDist
+			});
+			log.println("- " + dataset1Data.authorName + " distance: " + avgDist);
+		}
+		log.println(">>> getCrossDatasetsDistances finished");
+		return results;
+	}
 	
 	/* ===============
 	 * utility methods

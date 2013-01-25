@@ -24,6 +24,7 @@ public class AuthorWPData {
 	protected static final int K = 2;
 	
 	protected String authorName;
+	protected int numInstances;
 	protected int numFeatures;
 	protected Matrix featureMatrix;
 	protected double[] featureAverages;
@@ -63,7 +64,7 @@ public class AuthorWPData {
 	 */
 	public void initFeatureMatrix(Instances trainingData, boolean average) {
 		// isolate only relevant feature-vectors in a new Instances object
-		int numInstances = trainingData.numInstances();
+		numInstances = trainingData.numInstances();
 		int classIndex = trainingData.classIndex();
 		Instances data = new Instances(trainingData, 0);
 		for (int i = 0; i < numInstances; i++)

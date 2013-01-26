@@ -2,6 +2,8 @@ package edu.drexel.psal.jstylo.analyzers.writeprints;
 
 import java.util.*;
 
+import edu.drexel.psal.jstylo.generics.MultiplePrintStream;
+
 import weka.core.*;
 import Jama.EigenvalueDecomposition;
 import Jama.Matrix;
@@ -16,6 +18,11 @@ import Jama.Matrix;
 public class AuthorWPData {
 
 	// fields
+	
+	/**
+	 * Local logger
+	 */
+	public static MultiplePrintStream log = new MultiplePrintStream();
 	
 	/**
 	 * The constant for pattern disruption calculation:<br>

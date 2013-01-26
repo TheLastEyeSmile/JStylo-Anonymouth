@@ -301,74 +301,72 @@ public class WriteprintsAnalyzer extends Analyzer {
 		// initialize features, basis and writeprint matrices
 		Attribute classAttribute = dataset1.classAttribute();
 		int numAuthors = classAttribute.numValues();
+		String authorName;
+		AuthorWPData authorData;
+		//AuthorWPDataThread[] adThreads = new AuthorWPDataThread[numThreads];
 		
-		//String authorName;
-		//AuthorWPData authorData;
-		AuthorWPDataThread[] adThreads = new AuthorWPDataThread[numThreads];
 		// dataset1
 		log.println("Initializing dataset1 authors data:");
-		int from, to;
-		for (int i = 0; i < numThreads; i++)
-		{
-			from = i * (numAuthors / numThreads);
-			to = (i == numThreads - 1) ? numAuthors :
-				((i + 1) * (numAuthors / numThreads));
-			adThreads[i] = new AuthorWPDataThread(
-					from, to, dataset1, averageFeatureVectors);
-		}
-		for (int i = 0; i < numThreads; i++)
-			adThreads[i].start();
-		for (int i = 0; i < numThreads; i++)
-			try {
-				adThreads[i].join();
-			} catch (InterruptedException e) {
-				out.println(">>> join failed for thread " + i + "!");
-			}
-		for (int i = 0; i < numThreads; i++)
-			dataset1AuthorData.addAll(adThreads[i].m_authorData);
-		for (int i = 0; i < numThreads; i++)
-			adThreads[i] = null;
-		
-//		for (int i = 0; i < numAuthors; i++) {
-//			authorName = classAttribute.value(i);
-//			authorData = new AuthorWPData(authorName);
-//			log.println("- " + authorName);
-//			authorData.initFeatureMatrix(dataset1, averageFeatureVectors);
-//			dataset1AuthorData.add(authorData);
-//			authorData.initBasisAndWriteprintMatrices();
+//		int from, to;
+//		for (int i = 0; i < numThreads; i++)
+//		{
+//			from = i * (numAuthors / numThreads);
+//			to = (i == numThreads - 1) ? numAuthors :
+//				((i + 1) * (numAuthors / numThreads));
+//			adThreads[i] = new AuthorWPDataThread(
+//					from, to, dataset1, averageFeatureVectors);
 //		}
+//		for (int i = 0; i < numThreads; i++)
+//			adThreads[i].start();
+//		for (int i = 0; i < numThreads; i++)
+//			try {
+//				adThreads[i].join();
+//			} catch (InterruptedException e) {
+//				out.println(">>> join failed for thread " + i + "!");
+//			}
+//		for (int i = 0; i < numThreads; i++)
+//			dataset1AuthorData.addAll(adThreads[i].m_authorData);
+//		for (int i = 0; i < numThreads; i++)
+//			adThreads[i] = null;
+		for (int i = 0; i < numAuthors; i++) {
+			authorName = classAttribute.value(i);
+			authorData = new AuthorWPData(authorName);
+			log.println("- " + authorName);
+			authorData.initFeatureMatrix(dataset1, averageFeatureVectors);
+			dataset1AuthorData.add(authorData);
+			authorData.initBasisAndWriteprintMatrices();
+		}
 		
 		// dataset2
-		log.println("Initializing dataset2 authors data:");
-		for (int i = 0; i < numThreads; i++)
-		{
-			from = i * numAuthors;
-			to = (i == numThreads - 1) ? numAuthors : ((i + 1) * numAuthors);
-			adThreads[i] = new AuthorWPDataThread(
-					from, to, dataset2, averageFeatureVectors);
-		}
-		for (int i = 0; i < numThreads; i++)
-			adThreads[i].start();
-		for (int i = 0; i < numThreads; i++)
-			try {
-				adThreads[i].join();
-			} catch (InterruptedException e) {
-				out.println(">>> join failed for thread " + i + "!");
-			}
-		for (int i = 0; i < numThreads; i++)
-			dataset2AuthorData.addAll(adThreads[i].m_authorData);
-		for (int i = 0; i < numThreads; i++)
-			adThreads[i] = null;
-		
 //		log.println("Initializing dataset2 authors data:");
-//		for (int i = 0; i < numAuthors; i++) {
-//			authorName = classAttribute.value(i);
-//			authorData = new AuthorWPData(authorName);
-//			log.println("- " + authorName);
-//			authorData.initFeatureMatrix(dataset1, averageFeatureVectors);
-//			dataset2AuthorData.add(authorData);
-//			authorData.initBasisAndWriteprintMatrices();
+//		for (int i = 0; i < numThreads; i++)
+//		{
+//			from = i * numAuthors;
+//			to = (i == numThreads - 1) ? numAuthors : ((i + 1) * numAuthors);
+//			adThreads[i] = new AuthorWPDataThread(
+//					from, to, dataset2, averageFeatureVectors);
 //		}
+//		for (int i = 0; i < numThreads; i++)
+//			adThreads[i].start();
+//		for (int i = 0; i < numThreads; i++)
+//			try {
+//				adThreads[i].join();
+//			} catch (InterruptedException e) {
+//				out.println(">>> join failed for thread " + i + "!");
+//			}
+//		for (int i = 0; i < numThreads; i++)
+//			dataset2AuthorData.addAll(adThreads[i].m_authorData);
+//		for (int i = 0; i < numThreads; i++)
+//			adThreads[i] = null;
+		log.println("Initializing dataset2 authors data:");
+		for (int i = 0; i < numAuthors; i++) {
+			authorName = classAttribute.value(i);
+			authorData = new AuthorWPData(authorName);
+			log.println("- " + authorName);
+			authorData.initFeatureMatrix(dataset1, averageFeatureVectors);
+			dataset2AuthorData.add(authorData);
+			authorData.initBasisAndWriteprintMatrices();
+		}
 		
 		// initialize result set
 		SortedMap<String, double[]> results = new TreeMap<String,double[]>();

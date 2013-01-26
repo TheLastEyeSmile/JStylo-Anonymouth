@@ -14,7 +14,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/external/fasttag_v2.jar"/>
-	<classpathentry kind="lib" path="lib/external/jmatharray.jar"/>
+	<classpathentry kind="lib" path="lib/external/jmatharray.jar" sourcepath="/jama-1.0.3"/>
 	<classpathentry kind="lib" path="lib/external/jmathplot.jar"/>
 	<classpathentry kind="lib" path="lib/external/poi-3.7-20101029.jar"/>
 	<classpathentry kind="lib" path="lib/external/poi-ooxml-3.7-20101029.jar"/>
@@ -27,6 +27,6 @@
 	<classpathentry kind="lib" path="lib/external/stanford-postagger-2012-01-06.jar"/>
 	<classpathentry kind="lib" path="lib/external/jaws-bin.jar"/>
 	<classpathentry kind="lib" path="lib/external/ui.jar"/>
-	<classpathentry kind="lib" path="lib/external/Jama-1.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/external/Jama-1.0.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

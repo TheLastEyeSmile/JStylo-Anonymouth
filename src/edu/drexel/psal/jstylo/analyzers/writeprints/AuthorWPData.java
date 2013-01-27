@@ -32,6 +32,7 @@ public class AuthorWPData {
 	
 	protected String authorName;
 	protected int numInstances;
+	protected int numAuthorInstances;
 	protected int numFeatures;
 	protected Matrix featureMatrix;
 	protected double[] featureAverages;
@@ -76,7 +77,10 @@ public class AuthorWPData {
 		Instances data = new Instances(trainingData, 0);
 		for (int i = 0; i < numInstances; i++)
 			if (trainingData.instance(i).stringValue(classIndex).equals(authorName))
+			{
 				data.add(trainingData.instance(i));
+				numAuthorInstances++;
+			}
 		initFeatureMatrixHelper(data, average);
 	}
 	

@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.ConcurrentSkipListSet;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import Jama.Matrix;
 
@@ -15,15 +13,12 @@ import com.jgaap.JGAAPConstants;
 import com.jgaap.generics.*;
 
 import weka.attributeSelection.InfoGainAttributeEval;
-import weka.classifiers.*;
 import weka.core.Attribute;
 import weka.core.Instances;
-import edu.drexel.psal.JSANConstants;
 import edu.drexel.psal.jstylo.generics.*;
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.SynsetType;
 import edu.smu.tspell.wordnet.WordNetDatabase;
-import edu.stanford.nlp.io.EncodingPrintWriter.out;
 
 /**
  * Implementation of the Writeprints method (supervised).
@@ -66,6 +61,22 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 * Local logger
 	 */
 	public static MultiplePrintStream log = new MultiplePrintStream();
+	
+	/* ===================
+	 * Getters and Setters
+	 * ===================
+	 */
+	
+	public boolean averageFeatureVectors()
+	{
+		return averageFeatureVectors;
+	}
+	
+	public void setAverageFeatureVectors(boolean averageFeatureVectors)
+	{
+		this.averageFeatureVectors = averageFeatureVectors;
+	}
+	
 	
 	/* ==========
 	 * operations
@@ -285,9 +296,8 @@ public class WriteprintsAnalyzer extends Analyzer {
 	 * @return
 	 */
 	public SortedMap<String, double[]> getCrossDatasetsDistances(
-			Instances dataset1, Instances dataset2, int numThreads) {
-		log.println(">>> getCrossDatasetsDistances started with " +
-			numThreads + " threads");
+			Instances dataset1, Instances dataset2) {
+		log.println(">>> getCrossDatasetsDistances started");
 		
 		/* ========
 		 * LEARNING
@@ -303,31 +313,9 @@ public class WriteprintsAnalyzer extends Analyzer {
 		int numAuthors = classAttribute.numValues();
 		String authorName;
 		AuthorWPData authorData;
-		//AuthorWPDataThread[] adThreads = new AuthorWPDataThread[numThreads];
 		
 		// dataset1
 		log.println("Initializing dataset1 authors data:");
-//		int from, to;
-//		for (int i = 0; i < numThreads; i++)
-//		{
-//			from = i * (numAuthors / numThreads);
-//			to = (i == numThreads - 1) ? numAuthors :
-//				((i + 1) * (numAuthors / numThreads));
-//			adThreads[i] = new AuthorWPDataThread(
-//					from, to, dataset1, averageFeatureVectors);
-//		}
-//		for (int i = 0; i < numThreads; i++)
-//			adThreads[i].start();
-//		for (int i = 0; i < numThreads; i++)
-//			try {
-//				adThreads[i].join();
-//			} catch (InterruptedException e) {
-//				out.println(">>> join failed for thread " + i + "!");
-//			}
-//		for (int i = 0; i < numThreads; i++)
-//			dataset1AuthorData.addAll(adThreads[i].m_authorData);
-//		for (int i = 0; i < numThreads; i++)
-//			adThreads[i] = null;
 		for (int i = 0; i < numAuthors; i++) {
 			authorName = classAttribute.value(i);
 			authorData = new AuthorWPData(authorName);
@@ -338,32 +326,12 @@ public class WriteprintsAnalyzer extends Analyzer {
 		}
 		
 		// dataset2
-//		log.println("Initializing dataset2 authors data:");
-//		for (int i = 0; i < numThreads; i++)
-//		{
-//			from = i * numAuthors;
-//			to = (i == numThreads - 1) ? numAuthors : ((i + 1) * numAuthors);
-//			adThreads[i] = new AuthorWPDataThread(
-//					from, to, dataset2, averageFeatureVectors);
-//		}
-//		for (int i = 0; i < numThreads; i++)
-//			adThreads[i].start();
-//		for (int i = 0; i < numThreads; i++)
-//			try {
-//				adThreads[i].join();
-//			} catch (InterruptedException e) {
-//				out.println(">>> join failed for thread " + i + "!");
-//			}
-//		for (int i = 0; i < numThreads; i++)
-//			dataset2AuthorData.addAll(adThreads[i].m_authorData);
-//		for (int i = 0; i < numThreads; i++)
-//			adThreads[i] = null;
 		log.println("Initializing dataset2 authors data:");
 		for (int i = 0; i < numAuthors; i++) {
 			authorName = classAttribute.value(i);
 			authorData = new AuthorWPData(authorName);
 			log.println("- " + authorName);
-			authorData.initFeatureMatrix(dataset1, averageFeatureVectors);
+			authorData.initFeatureMatrix(dataset2, averageFeatureVectors);
 			dataset2AuthorData.add(authorData);
 			authorData.initBasisAndWriteprintMatrices();
 		}
@@ -407,45 +375,50 @@ public class WriteprintsAnalyzer extends Analyzer {
 		Matrix dataset1Pattern, dataset2Pattern;
 		double dist1, dist2, avgDist;
 		AuthorWPData dataset1DataCopy, dataset2DataCopy;
-		for (AuthorWPData dataset2Data: dataset2AuthorData) {
-			log.println("dataset2 author: " + dataset2Data.authorName);
-			
-			// find matching author in dataset1
-			AuthorWPData dataset1Data = null;
-			for (AuthorWPData d: dataset1AuthorData)
-				if (d.authorName == dataset2Data.authorName)
+		double min = Double.MAX_VALUE;
+		String minAuthor = "";
+		for (AuthorWPData dataset1Data: dataset1AuthorData) {
+			log.println("dataset1 author: " + dataset1Data.authorName);
+			for (AuthorWPData dataset2Data: dataset2AuthorData)
+			{
+				//log.print("- dataset2 author: " + dataset2Data.authorName + ": ");
+				
+				dataset1DataCopy = dataset1Data.halfClone();
+				dataset2DataCopy = dataset2Data.halfClone();
+
+				// compute pattern matrices BEFORE adding pattern disruption
+				dataset1Pattern = AuthorWPData.generatePattern(dataset2Data, dataset1Data);
+				dataset2Pattern = AuthorWPData.generatePattern(dataset1Data, dataset2Data);
+
+				// add pattern disruptions
+				dataset1DataCopy.addPatternDisruption(dataset2Data, IG2, wordsSynCount, dataset2Pattern);
+				dataset2DataCopy.addPatternDisruption(dataset1Data, IG1, wordsSynCount, dataset1Pattern);
+
+				// compute pattern matrices AFTER adding pattern disruption
+				dataset1Pattern = AuthorWPData.generatePattern(dataset2DataCopy, dataset1DataCopy);
+				dataset2Pattern = AuthorWPData.generatePattern(dataset1DataCopy, dataset2DataCopy);
+
+				// compute distances
+				dist2 = sumEuclideanDistance(dataset1Pattern, dataset2DataCopy.writeprint);
+				dist1 = sumEuclideanDistance(dataset2Pattern, dataset1DataCopy.writeprint);
+
+				// compute the average distance
+				avgDist = (dist1 + dist2) / 2;
+				results.put(dataset1Data.authorName + "," + dataset2Data.authorName,
+						new double[]{
+						dataset1Data.numAuthorInstances,
+						dataset2Data.numAuthorInstances,
+						avgDist
+				});
+				if (min > avgDist)
 				{
-					dataset1Data = d;
-					break;
+					min = avgDist;
+					minAuthor = dataset2Data.authorName;
 				}
-
-			dataset2DataCopy = dataset2Data.halfClone();
-			dataset1DataCopy = dataset1Data.halfClone();
-
-			// compute pattern matrices BEFORE adding pattern disruption
-			dataset2Pattern = AuthorWPData.generatePattern(dataset1Data, dataset2Data);
-			dataset1Pattern = AuthorWPData.generatePattern(dataset2Data, dataset1Data);
-
-			// add pattern disruptions
-			dataset2DataCopy.addPatternDisruption(dataset1Data, IG1, wordsSynCount, dataset1Pattern);
-			dataset1DataCopy.addPatternDisruption(dataset2Data, IG2, wordsSynCount, dataset2Pattern);
-
-			// compute pattern matrices AFTER adding pattern disruption
-			dataset2Pattern = AuthorWPData.generatePattern(dataset1DataCopy, dataset2DataCopy);
-			dataset1Pattern = AuthorWPData.generatePattern(dataset2DataCopy, dataset1DataCopy);
-
-			// compute distances
-			dist1 = sumEuclideanDistance(dataset2Pattern, dataset1DataCopy.writeprint);
-			dist2 = sumEuclideanDistance(dataset1Pattern, dataset2DataCopy.writeprint);
-
-			// compute the average distance
-			avgDist = (dist1 + dist2) / 2;
-			results.put(dataset1Data.authorName, new double[]{
-					dataset1Data.numInstances,
-					dataset2Data.numInstances,
-					avgDist
-			});
-			log.println("- " + dataset1Data.authorName + " distance: " + avgDist);
+				//log.println(avgDist);
+			}
+			log.println("minimum distance author: " + minAuthor +
+					", distance: " + min);
 		}
 		log.println(">>> getCrossDatasetsDistances finished");
 		return results;
@@ -614,53 +587,6 @@ public class WriteprintsAnalyzer extends Analyzer {
 			}
 		}
 		return sum;
-	}
-	
-	/**
-	 * Thread for calculating AuthorWPData objects from a given Instances object
-	 * in a given range.
-	 */
-	public static class AuthorWPDataThread extends Thread
-	{
-		protected int m_from;
-		protected int m_to;
-		protected Instances m_data;
-		protected boolean m_averageFeatureVectors;
-		protected List<AuthorWPData> m_authorData =
-				new LinkedList<AuthorWPData>();
-		protected int m_id;
-		
-		protected static AtomicInteger m_counter = new AtomicInteger(0);
-		
-		public AuthorWPDataThread(int from, int to, Instances data,
-				boolean averageFeatureVectors)
-		{
-			m_from = from;
-			m_to = to;
-			m_data = data;
-			m_averageFeatureVectors = averageFeatureVectors;
-			m_id = m_counter.getAndIncrement();
-		}
-		
-		@Override
-		public void run()
-		{
-			out.println("[" + m_id + "] thread started for range " +
-					m_from + " - " + (m_to - 1));
-			Attribute classAttribute = m_data.classAttribute();
-			String authorName;
-			AuthorWPData authorData;
-			for (int i = m_from; i < m_to; i++) {
-				authorName = classAttribute.value(i);
-				authorData = new AuthorWPData(authorName);
-				log.println("[" + m_id + "] - " + authorName);
-				authorData.initFeatureMatrix(m_data, m_averageFeatureVectors);
-				m_authorData.add(authorData);
-				authorData.initBasisAndWriteprintMatrices();
-			}
-			out.println("[" + m_id + "] thread finished for range " +
-					m_from + " - " + (m_to - 1));
-		}
 	}
 	
 	

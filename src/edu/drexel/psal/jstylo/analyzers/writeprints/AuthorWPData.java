@@ -2,6 +2,8 @@ package edu.drexel.psal.jstylo.analyzers.writeprints;
 
 import java.util.*;
 
+import edu.drexel.psal.jstylo.generics.MultiplePrintStream;
+
 import weka.core.*;
 import Jama.EigenvalueDecomposition;
 import Jama.Matrix;
@@ -18,6 +20,11 @@ public class AuthorWPData {
 	// fields
 	
 	/**
+	 * Local logger
+	 */
+	public static MultiplePrintStream log = new MultiplePrintStream();
+	
+	/**
 	 * The constant for pattern disruption calculation:<br>
 	 * <code>d_p = IG(c,p) * K * (syn_total + 1) * (syn_used + 1)</code>
 	 */
@@ -25,6 +32,7 @@ public class AuthorWPData {
 	
 	protected String authorName;
 	protected int numInstances;
+	protected int numAuthorInstances;
 	protected int numFeatures;
 	protected Matrix featureMatrix;
 	protected double[] featureAverages;
@@ -69,7 +77,10 @@ public class AuthorWPData {
 		Instances data = new Instances(trainingData, 0);
 		for (int i = 0; i < numInstances; i++)
 			if (trainingData.instance(i).stringValue(classIndex).equals(authorName))
+			{
 				data.add(trainingData.instance(i));
+				numAuthorInstances++;
+			}
 		initFeatureMatrixHelper(data, average);
 	}
 	

@@ -1,6 +1,7 @@
 package edu.drexel.psal.jstylo.analyzers;
 
 import edu.drexel.psal.jstylo.generics.Analyzer;
+import edu.drexel.psal.jstylo.generics.RelaxedEvaluation;
 
 import java.util.*;
 
@@ -181,6 +182,35 @@ public class WekaAnalyzer extends Analyzer {
 			e.printStackTrace();
 		}
 		
+		return eval;
+	}
+	
+	@Override
+	public Object runCrossValidation(Instances data, int folds, long randSeed,
+			int relaxFactor) {
+		// setup
+		data.setClass(data.attribute("authorName"));
+		Instances randData = new Instances(data);
+		Random rand = new Random(randSeed);
+		randData.randomize(rand);
+		randData.stratify(folds);
+
+		// run CV
+		RelaxedEvaluation eval = null;
+		try {
+			eval = new RelaxedEvaluation(randData, relaxFactor);
+			for (int n = 0; n < folds; n++) {
+				Instances train = randData.trainCV(folds, n);
+				Instances test = randData.testCV(folds, n);
+				// build and evaluate classifier
+				Classifier clsCopy = Classifier.makeCopy(classifier);
+				clsCopy.buildClassifier(train);
+				eval.evaluateModel(clsCopy, test);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return eval;
 	}
 	

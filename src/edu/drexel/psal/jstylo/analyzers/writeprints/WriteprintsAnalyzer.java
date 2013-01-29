@@ -285,6 +285,16 @@ public class WriteprintsAnalyzer extends Analyzer {
 		return null;
 	}
 	
+	@Override
+	/**
+	 * TODO
+	 */
+	public Object runCrossValidation(Instances data, int folds, long randSeed,
+			int relaxFactor) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	/**
 	 * Calculates and returns a mapping of authors to the number of documents of
 	 * the corresponding author in the first dataset, the second dataset, and 

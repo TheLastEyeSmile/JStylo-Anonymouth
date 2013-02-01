@@ -1,0 +1,54 @@
+Started log log/Anonymouth_anonymous_2013-01-22_18-26-52.txt
+===================================================
+18-26-53: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+18-26-53: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+18-26-53: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+18-26-53: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+18-26-53: Populating event drivers...
+18-26-53: adding event drivers under Basic
+18-26-53: adding event drivers under Part-Of-Speech
+18-26-53: adding event drivers under Grams
+18-26-53: adding event drivers under Dictionary
+18-26-53: adding event drivers under Counters
+18-26-53: adding event drivers under Readability Metrics
+18-26-53: adding event drivers under Misc.
+18-26-53: done!
+18-26-53: Populating canonicizers...
+18-26-53: done!
+18-26-53: Populating event cullers...
+18-26-53: done!
+18-26-53: EditorInnerTabSpawner spawning tab
+18-28-03: 'Load Problem Set' button clicked on the documents tab
+18-28-05: Load problem set canceled
+18-28-10: 'Load Problem Set' button clicked on the documents tab
+18-28-11: Trying to load problem set from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1.xml
+18-28-11: GUI Update: update documents tab with current problem set started
+18-28-26: Classifier selected in the available classifiers tree in the classifiers tab: SMO
+18-28-27: 'Add' button clicked in the analysis tab.
+18-28-27: Classifier tree unselected in the classifiers tab.
+18-28-34: Intial processing starting...
+18-28-34: Created DataAnalyzer
+18-28-34: Created new DocumentMagician, is sparse?  ... false
+18-28-34: Numer of features to return: 200
+18-28-34: calling backendInterface for preTargetSelectionProcessing
+18-28-34: FINISHED INITIALIZING FUNCTION WORDS
+18-28-34: Process button pressed for first time (initial run) in editor tab
+18-28-34: called runIntitial in DataAnalyzer
+18-28-34: Entered initialDocToData in DocumentMagician
+18-28-34: True test doc author: ~* you *~
+18-28-34: Dummy author: ~* you *~
+18-28-34: Calling runPrimaryDocOps
+18-28-34: Setting CumulativeFeatureDriver in DocumentMagician
+18-28-34: Building train (with author) and toModify instances
+18-28-34: InstanceConstuctor constructed
+18-28-34: Saving temporary file: ./edited_documents/anonymous_unmodified.txt
+18-28-34: Runnng JStylo WekaInstancesBuilder from runInstanceBuilder in InstanceConstructor
+18-28-34: Could not prepare either test or training set.
+18-28-34: Done with runPrimaryDocOps
+18-28-34: Calling runSecondaryDocOps
+18-28-34: Building author and no author train instances
+18-28-34: InstanceConstuctor constructed
+18-28-34: InstanceConstuctor constructed
+18-28-34: Only building train set
+18-28-34: Could not prepare training set
+18-28-36: Fatal error encountered, termination requested.

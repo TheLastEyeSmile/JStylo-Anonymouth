@@ -1,0 +1,611 @@
+Started log log/Anonymouth_anonymous_2013-01-23_15-50-37.txt
+===================================================
+15-50-37: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+15-50-37: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+15-50-37: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+15-50-37: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+15-50-38: Populating event drivers...
+15-50-38: adding event drivers under Basic
+15-50-38: adding event drivers under Part-Of-Speech
+15-50-38: adding event drivers under Grams
+15-50-38: adding event drivers under Dictionary
+15-50-38: adding event drivers under Counters
+15-50-38: adding event drivers under Readability Metrics
+15-50-38: adding event drivers under Misc.
+15-50-38: done!
+15-50-38: Populating canonicizers...
+15-50-38: done!
+15-50-38: Populating event cullers...
+15-50-38: done!
+15-50-38: EditorInnerTabSpawner spawning tab
+15-50-41: Preset feature set selected in the features tab.
+15-50-41: loaded preset feature set: Translation
+15-50-43: Preset feature set selected in the features tab.
+15-50-44: Preset feature set selected in the features tab.
+15-50-44: loaded preset feature set: Translation
+15-50-46: Preset feature set selected in the features tab.
+15-50-47: Preset feature set selected in the features tab.
+15-50-47: loaded preset feature set: 9 feature-set
+15-50-47: Is using nine feature set? .... true
+15-50-49: Preset feature set selected in the features tab.
+15-50-49: loaded preset feature set: WritePrints
+15-50-50: Preset feature set selected in the features tab.
+15-50-50: loaded preset feature set: WritePrints (Limited)
+15-50-52: Preset feature set selected in the features tab.
+15-50-52: loaded preset feature set: Translation
+15-50-56: 'Load Problem Set' button clicked on the documents tab
+15-50-57: Trying to load problem set from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1.xml
+15-50-57: GUI Update: update documents tab with current problem set started
+15-51-02: Classifier selected in the available classifiers tree in the classifiers tab: SMO
+15-51-02: 'Add' button clicked in the analysis tab.
+15-51-02: Classifier tree unselected in the classifiers tab.
+15-51-05: Intial processing starting...
+15-51-05: Created DataAnalyzer
+15-51-05: Created new DocumentMagician, is sparse?  ... false
+15-51-05: Numer of features to return: 9
+15-51-05: calling backendInterface for preTargetSelectionProcessing
+15-51-05: FINISHED INITIALIZING FUNCTION WORDS
+15-51-05: Process button pressed for first time (initial run) in editor tab
+15-51-05: called runIntitial in DataAnalyzer
+15-51-05: Entered initialDocToData in DocumentMagician
+15-51-05: True test doc author: ~* you *~
+15-51-05: Dummy author: ~* you *~
+15-51-05: Calling runPrimaryDocOps
+15-51-05: Setting CumulativeFeatureDriver in DocumentMagician
+15-51-05: Building train (with author) and toModify instances
+15-51-05: InstanceConstuctor constructed
+15-51-05: Saving temporary file: ./edited_documents/anonymous_unmodified.txt
+15-51-05: Runnng JStylo WekaInstancesBuilder from runInstanceBuilder in InstanceConstructor
+15-51-08: Done with runPrimaryDocOps
+15-51-08: Calling runSecondaryDocOps
+15-51-08: Building author and no author train instances
+15-51-08: InstanceConstuctor constructed
+15-51-08: InstanceConstuctor constructed
+15-51-08: Only building train set
+15-51-10: Only building train set
+15-51-10: Done with runSecondaryDocOps
+15-51-10: Exiting initialDocToData in DocumentMagician
+15-51-10: Calling runGeneric
+15-51-10: called computerInfoGain
+15-51-10: called findMostInfluentialEvents... for 9 features
+15-51-11: Attribute created for feature: @attribute 'Word-Lengths-11{1}' numeric
+15-51-11: Generic name: WORD_LENGTHS
+15-51-11: @attribute 'Word-Lengths-11{1}' numeric info gain for this feature is: 1.124107451387086, calcHist is: true string in the braces (if applicable): 1 toModify value is: 9.0
+15-51-11: Attribute created for feature: @attribute 'Function-Words-10{i}' numeric
+15-51-11: Generic name: FUNCTION_WORDS
+15-51-11: @attribute 'Function-Words-10{i}' numeric info gain for this feature is: 1.0099385167042094, calcHist is: true string in the braces (if applicable): i toModify value is: 173.0
+15-51-11: Attribute created for feature: @attribute 'Words-22{i}' numeric
+15-51-11: Generic name: WORDS
+15-51-11: @attribute 'Words-22{i}' numeric info gain for this feature is: 1.0099385167042094, calcHist is: true string in the braces (if applicable): i toModify value is: 173.0
+15-51-11: Attribute created for feature: @attribute 'Average-characters-per-word{-}' numeric
+15-51-11: Generic name: AVERAGE_CHARACTERS_PER_WORD
+15-51-11: @attribute 'Average-characters-per-word{-}' numeric info gain for this feature is: 0.8856675183335436, calcHist is: false string in the braces (if applicable):  toModify value is: 5.120316
+15-51-11: Attribute created for feature: @attribute 'Top-Letter-trigrams-41{tur}' numeric
+15-51-11: Generic name: TOP_LETTER_TRIGRAMS
+15-51-11: @attribute 'Top-Letter-trigrams-41{tur}' numeric info gain for this feature is: 0.8525548230572988, calcHist is: true string in the braces (if applicable): tur toModify value is: 10.0
+15-51-11: Attribute created for feature: @attribute 'Character-count{-}' numeric
+15-51-11: Generic name: CHARACTER_COUNT
+15-51-11: @attribute 'Character-count{-}' numeric info gain for this feature is: 0.7966998980194109, calcHist is: false string in the braces (if applicable):  toModify value is: 2596.0
+15-51-11: Attribute created for feature: @attribute 'Words-23{world}' numeric
+15-51-11: Generic name: WORDS
+15-51-11: @attribute 'Words-23{world}' numeric info gain for this feature is: 0.7805620135924125, calcHist is: true string in the braces (if applicable): world toModify value is: 0.0
+15-51-11: Attribute created for feature: @attribute 'Top-Letter-trigrams-15{hat}' numeric
+15-51-11: Generic name: TOP_LETTER_TRIGRAMS
+15-51-11: @attribute 'Top-Letter-trigrams-15{hat}' numeric info gain for this feature is: 0.6542969004889672, calcHist is: true string in the braces (if applicable): hat toModify value is: 7.0
+15-51-11: Attribute created for feature: @attribute 'Letters-6{r}' numeric
+15-51-11: Generic name: LETTERS
+15-51-11: @attribute 'Letters-6{r}' numeric info gain for this feature is: 0.6406843428151225, calcHist is: true string in the braces (if applicable): r toModify value is: 233.0
+15-51-11: found all top attributes
+15-51-11: ****** Current list of Present values for: anonymous process request number: 1 ******
+15-51-11: [CHARACTER_COUNT=2596.0, WORDSi=173.0, TOP_LETTER_TRIGRAMShat=7.0, TOP_LETTER_TRIGRAMStur=10.0, AVERAGE_CHARACTERS_PER_WORD=5.120316, WORDSworld=0.0, FUNCTION_WORDSi=173.0, LETTERSr=233.0, WORD_LENGTHS1=9.0]
+15-51-11: called authorAverageFinder
+15-51-11: found author averages
+15-51-11: called authorStdDevFinder
+15-51-11: finished finding author standard deviations
+15-51-11: called minsAndMaxes - finding min and max for each feature
+15-51-11: finished finding mins and maxes
+15-51-11: Generic run.
+15-51-11: called runAllTopFeatures
+15-51-11: In TargetExtractor extracting targets for WORD_LENGTHS1
+15-51-11: Entered aMeansCluster
+15-51-11: Intitializing Clustering, will call kPlusPlusPrep.
+15-51-11: kPlusPlusPrep seems to have done its job. Moving on.
+15-51-11: Initial positions for elements found. Updating Centroids.
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Elements stopped moving - algorithm converged.
+15-51-11: All is well, clustering complete.
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Elements stopped moving - algorithm converged.
+15-51-11: All is well, clustering complete.
+15-51-11: WORD_LENGTHS1 has: 5 clusters.
+15-51-11: Cluster 0 has its centroid at28.5 and has 6 elements. They are: 
+15-51-11: [[f_01.txt , 27.0] , , [g_04.txt , 28.0] , , [m_03.txt , 26.0] , , [f_08.txt , 29.0] , , [m_04.txt , 30.0] , , [f_06.txt , 31.0] , ]
+15-51-11: Cluster 1 has its centroid at7.75 and has 8 elements. They are: 
+15-51-11: [[k_03.txt , 6.0] , , [k_02.txt , 7.0] , , [k_07.txt , 7.0] , , [h_02.txt , 7.0] , , [k_04.txt , 8.0] , , [m_06.txt , 9.0] , , [k_08.txt , 9.0] , , [k_09.txt , 9.0] , ]
+15-51-11: Cluster 2 has its centroid at12.75 and has 8 elements. They are: 
+15-51-11: [[k_05.txt , 11.0] , , [k_01.txt , 12.0] , , [k_06.txt , 12.0] , , [h_07.txt , 12.0] , , [g_03.txt , 13.0] , , [h_03.txt , 13.0] , , [g_08.txt , 14.0] , , [m_05.txt , 15.0] , ]
+15-51-11: Cluster 3 has its centroid at37.285714285714285 and has 7 elements. They are: 
+15-51-11: [[f_02.txt , 41.0] , , [f_03.txt , 33.0] , , [f_04.txt , 39.0] , , [f_05.txt , 36.0] , , [f_07.txt , 34.0] , , [f_09.txt , 44.0] , , [g_06.txt , 34.0] , ]
+15-51-11: Cluster 4 has its centroid at18.923076923076923 and has 13 elements. They are: 
+15-51-11: [[g_01.txt , 19.0] , , [g_07.txt , 16.0] , , [m_01.txt , 18.0] , , [m_02.txt , 17.0] , , [m_07.txt , 16.0] , , [m_08.txt , 19.0] , , [h_01.txt , 18.0] , , [h_06.txt , 17.0] , , [g_02.txt , 20.0] , , [h_05.txt , 21.0] , , [h_08.txt , 21.0] , , [g_05.txt , 22.0] , , [h_04.txt , 22.0] , ]
+15-51-11: leaving aMeansCluster
+15-51-11: Getting preferred ordering for clusters
+15-51-11: finished ordering clusters
+15-51-11: In TargetExtractor extracting targets for FUNCTION_WORDSi
+15-51-11: Entered aMeansCluster
+15-51-11: Intitializing Clustering, will call kPlusPlusPrep.
+15-51-11: kPlusPlusPrep seems to have done its job. Moving on.
+15-51-11: Initial positions for elements found. Updating Centroids.
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Elements stopped moving - algorithm converged.
+15-51-11: Cluster '3' has less than 3 elements. Will restart with '4' means. Enter a character.
+15-51-11: Intitializing Clustering, will call kPlusPlusPrep.
+15-51-11: kPlusPlusPrep seems to have done its job. Moving on.
+15-51-11: Initial positions for elements found. Updating Centroids.
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Elements stopped moving - algorithm converged.
+15-51-11: All is well, clustering complete.
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Elements stopped moving - algorithm converged.
+15-51-11: All is well, clustering complete.
+15-51-11: FUNCTION_WORDSi has: 4 clusters.
+15-51-11: Cluster 0 has its centroid at213.83333333333334 and has 6 elements. They are: 
+15-51-11: [[k_04.txt , 214.0] , , [k_06.txt , 214.0] , , [k_07.txt , 218.0] , , [k_08.txt , 199.0] , , [h_01.txt , 235.0] , , [h_06.txt , 203.0] , ]
+15-51-11: Cluster 1 has its centroid at181.68421052631578 and has 19 elements. They are: 
+15-51-11: [[f_01.txt , 182.0] , , [f_03.txt , 190.0] , , [f_06.txt , 192.0] , , [f_08.txt , 170.0] , , [g_03.txt , 170.0] , , [g_04.txt , 172.0] , , [m_04.txt , 171.0] , , [m_07.txt , 169.0] , , [k_01.txt , 188.0] , , [k_02.txt , 187.0] , , [k_03.txt , 180.0] , , [k_05.txt , 191.0] , , [h_02.txt , 178.0] , , [h_03.txt , 189.0] , , [h_04.txt , 191.0] , , [h_05.txt , 179.0] , , [h_07.txt , 177.0] , , [h_08.txt , 183.0] , , [f_05.txt , 193.0] , ]
+15-51-11: Cluster 2 has its centroid at155.78571428571428 and has 14 elements. They are: 
+15-51-11: [[f_02.txt , 167.0] , , [f_04.txt , 161.0] , , [f_07.txt , 153.0] , , [f_09.txt , 160.0] , , [g_06.txt , 151.0] , , [g_07.txt , 153.0] , , [g_08.txt , 154.0] , , [m_01.txt , 152.0] , , [m_02.txt , 156.0] , , [m_03.txt , 146.0] , , [m_05.txt , 147.0] , , [m_06.txt , 167.0] , , [m_08.txt , 150.0] , , [k_09.txt , 164.0] , ]
+15-51-11: Cluster 3 has its centroid at136.0 and has 3 elements. They are: 
+15-51-11: [[g_01.txt , 127.0] , , [g_02.txt , 142.0] , , [g_05.txt , 139.0] , ]
+15-51-11: leaving aMeansCluster
+15-51-11: Getting preferred ordering for clusters
+15-51-11: finished ordering clusters
+15-51-11: In TargetExtractor extracting targets for WORDSi
+15-51-11: Entered aMeansCluster
+15-51-11: Intitializing Clustering, will call kPlusPlusPrep.
+15-51-11: kPlusPlusPrep seems to have done its job. Moving on.
+15-51-11: Initial positions for elements found. Updating Centroids.
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Elements stopped moving - algorithm converged.
+15-51-11: Cluster '3' has less than 3 elements. Will restart with '4' means. Enter a character.
+15-51-11: Intitializing Clustering, will call kPlusPlusPrep.
+15-51-11: kPlusPlusPrep seems to have done its job. Moving on.
+15-51-11: Initial positions for elements found. Updating Centroids.
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Elements stopped moving - algorithm converged.
+15-51-11: All is well, clustering complete.
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Elements stopped moving - algorithm converged.
+15-51-11: All is well, clustering complete.
+15-51-11: WORDSi has: 4 clusters.
+15-51-11: Cluster 0 has its centroid at186.6 and has 15 elements. They are: 
+15-51-11: [[f_01.txt , 182.0] , , [f_03.txt , 190.0] , , [f_05.txt , 193.0] , , [f_06.txt , 192.0] , , [k_01.txt , 188.0] , , [k_02.txt , 187.0] , , [k_03.txt , 180.0] , , [k_05.txt , 191.0] , , [k_08.txt , 199.0] , , [h_02.txt , 178.0] , , [h_03.txt , 189.0] , , [h_04.txt , 191.0] , , [h_05.txt , 179.0] , , [h_07.txt , 177.0] , , [h_08.txt , 183.0] , ]
+15-51-11: Cluster 1 has its centroid at147.5 and has 12 elements. They are: 
+15-51-11: [[g_01.txt , 127.0] , , [g_05.txt , 139.0] , , [g_02.txt , 142.0] , , [m_03.txt , 146.0] , , [m_05.txt , 147.0] , , [m_08.txt , 150.0] , , [g_06.txt , 151.0] , , [m_01.txt , 152.0] , , [f_07.txt , 153.0] , , [g_07.txt , 153.0] , , [g_08.txt , 154.0] , , [m_02.txt , 156.0] , ]
+15-51-11: Cluster 2 has its centroid at167.1 and has 10 elements. They are: 
+15-51-11: [[f_02.txt , 167.0] , , [f_04.txt , 161.0] , , [f_09.txt , 160.0] , , [m_06.txt , 167.0] , , [k_09.txt , 164.0] , , [m_07.txt , 169.0] , , [f_08.txt , 170.0] , , [g_03.txt , 170.0] , , [g_04.txt , 172.0] , , [m_04.txt , 171.0] , ]
+15-51-11: Cluster 3 has its centroid at216.8 and has 5 elements. They are: 
+15-51-11: [[k_04.txt , 214.0] , , [k_06.txt , 214.0] , , [k_07.txt , 218.0] , , [h_01.txt , 235.0] , , [h_06.txt , 203.0] , ]
+15-51-11: leaving aMeansCluster
+15-51-11: Getting preferred ordering for clusters
+15-51-11: finished ordering clusters
+15-51-11: In TargetExtractor extracting targets for AVERAGE_CHARACTERS_PER_WORD
+15-51-11: Entered aMeansCluster
+15-51-11: Intitializing Clustering, will call kPlusPlusPrep.
+15-51-11: kPlusPlusPrep seems to have done its job. Moving on.
+15-51-11: Initial positions for elements found. Updating Centroids.
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Elements stopped moving - algorithm converged.
+15-51-11: All is well, clustering complete.
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Elements stopped moving - algorithm converged.
+15-51-11: All is well, clustering complete.
+15-51-11: AVERAGE_CHARACTERS_PER_WORD has: 5 clusters.
+15-51-11: Cluster 0 has its centroid at4.594572100000001 and has 10 elements. They are: 
+15-51-11: [[f_03.txt , 4.577778] , , [f_04.txt , 4.528689] , , [f_07.txt , 4.568359] , , [g_02.txt , 4.65415] , , [g_04.txt , 4.572266] , , [g_07.txt , 4.595573] , , [m_02.txt , 4.556237] , , [m_06.txt , 4.665331] , , [k_05.txt , 4.663443] , , [k_09.txt , 4.563895] , ]
+15-51-11: Cluster 1 has its centroid at4.350177333333333 and has 15 elements. They are: 
+15-51-11: [[f_01.txt , 4.46169] , , [f_02.txt , 4.280079] , , [f_05.txt , 4.375] , , [f_06.txt , 4.456] , , [f_08.txt , 4.281059] , , [f_09.txt , 4.404908] , , [g_01.txt , 4.4] , , [g_05.txt , 4.275248] , , [g_06.txt , 4.277228] , , [m_01.txt , 4.290448] , , [m_03.txt , 4.313883] , , [m_04.txt , 4.375254] , , [m_05.txt , 4.341223] , , [m_07.txt , 4.405825] , , [m_08.txt , 4.314815] , ]
+15-51-11: Cluster 2 has its centroid at4.888103875 and has 8 elements. They are: 
+15-51-11: [[k_02.txt , 4.992] , , [k_04.txt , 4.952941] , , [k_06.txt , 4.971311] , , [k_07.txt , 4.866405] , , [k_08.txt , 4.918033] , , [g_08.txt , 4.81] , , [k_01.txt , 4.802041] , , [k_03.txt , 4.7921] , ]
+15-51-11: Cluster 3 has its centroid at5.103477833333333 and has 6 elements. They are: 
+15-51-11: [[h_02.txt , 5.101563] , , [h_03.txt , 5.111324] , , [h_04.txt , 5.125749] , , [h_08.txt , 5.093306] , , [h_07.txt , 5.042339] , , [g_03.txt , 5.146586] , ]
+15-51-11: Cluster 4 has its centroid at5.379297 and has 3 elements. They are: 
+15-51-11: [[h_01.txt , 5.444008] , , [h_05.txt , 5.321932] , , [h_06.txt , 5.371951] , ]
+15-51-11: leaving aMeansCluster
+15-51-11: Getting preferred ordering for clusters
+15-51-11: finished ordering clusters
+15-51-11: In TargetExtractor extracting targets for TOP_LETTER_TRIGRAMStur
+15-51-11: Entered aMeansCluster
+15-51-11: Intitializing Clustering, will call kPlusPlusPrep.
+15-51-11: kPlusPlusPrep seems to have done its job. Moving on.
+15-51-11: Initial positions for elements found. Updating Centroids.
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Elements stopped moving - algorithm converged.
+15-51-11: All is well, clustering complete.
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Elements stopped moving - algorithm converged.
+15-51-11: All is well, clustering complete.
+15-51-11: TOP_LETTER_TRIGRAMStur has: 1 clusters.
+15-51-11: Cluster 0 has its centroid at0.0 and has 42 elements. They are: 
+15-51-11: [[f_01.txt , 0.0] , , [f_02.txt , 0.0] , , [f_03.txt , 0.0] , , [f_04.txt , 0.0] , , [f_05.txt , 0.0] , , [f_06.txt , 0.0] , , [f_07.txt , 0.0] , , [f_08.txt , 0.0] , , [f_09.txt , 0.0] , , [g_01.txt , 0.0] , , [g_02.txt , 0.0] , , [g_03.txt , 0.0] , , [g_04.txt , 0.0] , , [g_05.txt , 0.0] , , [g_06.txt , 0.0] , , [g_07.txt , 0.0] , , [g_08.txt , 0.0] , , [m_01.txt , 0.0] , , [m_02.txt , 0.0] , , [m_03.txt , 0.0] , , [m_04.txt , 0.0] , , [m_05.txt , 0.0] , , [m_06.txt , 0.0] , , [m_07.txt , 0.0] , , [m_08.txt , 0.0] , , [k_01.txt , 0.0] , , [k_02.txt , 0.0] , , [k_03.txt , 0.0] , , [k_04.txt , 0.0] , , [k_05.txt , 0.0] , , [k_06.txt , 0.0] , , [k_07.txt , 0.0] , , [k_08.txt , 0.0] , , [k_09.txt , 0.0] , , [h_01.txt , 0.0] , , [h_02.txt , 0.0] , , [h_03.txt , 0.0] , , [h_04.txt , 0.0] , , [h_05.txt , 0.0] , , [h_06.txt , 0.0] , , [h_07.txt , 0.0] , , [h_08.txt , 0.0] , ]
+15-51-11: leaving aMeansCluster
+15-51-11: Getting preferred ordering for clusters
+15-51-11: finished ordering clusters
+15-51-11: In TargetExtractor extracting targets for CHARACTER_COUNT
+15-51-11: Entered aMeansCluster
+15-51-11: Intitializing Clustering, will call kPlusPlusPrep.
+15-51-11: kPlusPlusPrep seems to have done its job. Moving on.
+15-51-11: Initial positions for elements found. Updating Centroids.
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Elements stopped moving - algorithm converged.
+15-51-11: Cluster '3' has less than 3 elements. Will restart with '4' means. Enter a character.
+15-51-11: Intitializing Clustering, will call kPlusPlusPrep.
+15-51-11: kPlusPlusPrep seems to have done its job. Moving on.
+15-51-11: Initial positions for elements found. Updating Centroids.
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Elements stopped moving - algorithm converged.
+15-51-11: Cluster '1' has less than 3 elements. Will restart with '3' means. Enter a character.
+15-51-11: Intitializing Clustering, will call kPlusPlusPrep.
+15-51-11: kPlusPlusPrep seems to have done its job. Moving on.
+15-51-11: Initial positions for elements found. Updating Centroids.
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Elements stopped moving - algorithm converged.
+15-51-11: All is well, clustering complete.
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Elements stopped moving - algorithm converged.
+15-51-11: All is well, clustering complete.
+15-51-11: CHARACTER_COUNT has: 3 clusters.
+15-51-11: Cluster 0 has its centroid at2581.3333333333335 and has 12 elements. They are: 
+15-51-11: [[g_03.txt , 2563.0] , , [k_02.txt , 2496.0] , , [k_04.txt , 2526.0] , , [k_07.txt , 2477.0] , , [h_01.txt , 2771.0] , , [h_02.txt , 2612.0] , , [h_03.txt , 2663.0] , , [h_04.txt , 2568.0] , , [h_05.txt , 2645.0] , , [h_06.txt , 2643.0] , , [h_07.txt , 2501.0] , , [h_08.txt , 2511.0] , ]
+15-51-11: Cluster 1 has its centroid at2339.5 and has 14 elements. They are: 
+15-51-11: [[f_01.txt , 2271.0] , , [f_03.txt , 2266.0] , , [f_07.txt , 2339.0] , , [g_02.txt , 2355.0] , , [g_04.txt , 2341.0] , , [g_07.txt , 2284.0] , , [g_08.txt , 2405.0] , , [m_06.txt , 2328.0] , , [m_07.txt , 2269.0] , , [k_01.txt , 2353.0] , , [k_03.txt , 2305.0] , , [k_05.txt , 2411.0] , , [k_06.txt , 2426.0] , , [k_08.txt , 2400.0] , ]
+15-51-11: Cluster 2 has its centroid at2178.3125 and has 16 elements. They are: 
+15-51-11: [[f_02.txt , 2170.0] , , [f_04.txt , 2210.0] , , [f_05.txt , 2170.0] , , [f_06.txt , 2228.0] , , [f_08.txt , 2102.0] , , [f_09.txt , 2154.0] , , [g_01.txt , 2222.0] , , [g_05.txt , 2159.0] , , [g_06.txt , 2160.0] , , [m_01.txt , 2201.0] , , [m_02.txt , 2228.0] , , [m_03.txt , 2144.0] , , [m_04.txt , 2157.0] , , [m_05.txt , 2201.0] , , [m_08.txt , 2097.0] , , [k_09.txt , 2250.0] , ]
+15-51-11: leaving aMeansCluster
+15-51-11: Getting preferred ordering for clusters
+15-51-11: finished ordering clusters
+15-51-11: In TargetExtractor extracting targets for WORDSworld
+15-51-11: Entered aMeansCluster
+15-51-11: Intitializing Clustering, will call kPlusPlusPrep.
+15-51-11: kPlusPlusPrep seems to have done its job. Moving on.
+15-51-11: Initial positions for elements found. Updating Centroids.
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Elements stopped moving - algorithm converged.
+15-51-11: All is well, clustering complete.
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Elements stopped moving - algorithm converged.
+15-51-11: All is well, clustering complete.
+15-51-11: WORDSworld has: 1 clusters.
+15-51-11: Cluster 0 has its centroid at0.0 and has 42 elements. They are: 
+15-51-11: [[f_01.txt , 0.0] , , [f_02.txt , 0.0] , , [f_03.txt , 0.0] , , [f_04.txt , 0.0] , , [f_05.txt , 0.0] , , [f_06.txt , 0.0] , , [f_07.txt , 0.0] , , [f_08.txt , 0.0] , , [f_09.txt , 0.0] , , [g_01.txt , 0.0] , , [g_02.txt , 0.0] , , [g_03.txt , 0.0] , , [g_04.txt , 0.0] , , [g_05.txt , 0.0] , , [g_06.txt , 0.0] , , [g_07.txt , 0.0] , , [g_08.txt , 0.0] , , [m_01.txt , 0.0] , , [m_02.txt , 0.0] , , [m_03.txt , 0.0] , , [m_04.txt , 0.0] , , [m_05.txt , 0.0] , , [m_06.txt , 0.0] , , [m_07.txt , 0.0] , , [m_08.txt , 0.0] , , [k_01.txt , 0.0] , , [k_02.txt , 0.0] , , [k_03.txt , 0.0] , , [k_04.txt , 0.0] , , [k_05.txt , 0.0] , , [k_06.txt , 0.0] , , [k_07.txt , 0.0] , , [k_08.txt , 0.0] , , [k_09.txt , 0.0] , , [h_01.txt , 0.0] , , [h_02.txt , 0.0] , , [h_03.txt , 0.0] , , [h_04.txt , 0.0] , , [h_05.txt , 0.0] , , [h_06.txt , 0.0] , , [h_07.txt , 0.0] , , [h_08.txt , 0.0] , ]
+15-51-11: leaving aMeansCluster
+15-51-11: Getting preferred ordering for clusters
+15-51-11: finished ordering clusters
+15-51-11: In TargetExtractor extracting targets for TOP_LETTER_TRIGRAMShat
+15-51-11: Entered aMeansCluster
+15-51-11: Intitializing Clustering, will call kPlusPlusPrep.
+15-51-11: kPlusPlusPrep seems to have done its job. Moving on.
+15-51-11: Initial positions for elements found. Updating Centroids.
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Elements stopped moving - algorithm converged.
+15-51-11: Cluster '2' has less than 3 elements. Will restart with '4' means. Enter a character.
+15-51-11: Intitializing Clustering, will call kPlusPlusPrep.
+15-51-11: kPlusPlusPrep seems to have done its job. Moving on.
+15-51-11: Initial positions for elements found. Updating Centroids.
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Elements stopped moving - algorithm converged.
+15-51-11: All is well, clustering complete.
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Elements stopped moving - algorithm converged.
+15-51-11: All is well, clustering complete.
+15-51-11: TOP_LETTER_TRIGRAMShat has: 4 clusters.
+15-51-11: Cluster 0 has its centroid at4.833333333333333 and has 18 elements. They are: 
+15-51-11: [[f_01.txt , 7.0] , , [f_02.txt , 6.0] , , [f_03.txt , 5.0] , , [f_04.txt , 7.0] , , [f_05.txt , 6.0] , , [f_06.txt , 6.0] , , [f_08.txt , 4.0] , , [g_01.txt , 4.0] , , [g_07.txt , 4.0] , , [g_08.txt , 8.0] , , [h_01.txt , 7.0] , , [h_02.txt , 3.0] , , [h_03.txt , 4.0] , , [h_04.txt , 4.0] , , [h_05.txt , 2.0] , , [h_06.txt , 4.0] , , [h_07.txt , 5.0] , , [h_08.txt , 1.0] , ]
+15-51-11: Cluster 1 has its centroid at18.666666666666668 and has 6 elements. They are: 
+15-51-11: [[m_01.txt , 18.0] , , [m_02.txt , 20.0] , , [m_03.txt , 18.0] , , [k_01.txt , 18.0] , , [k_02.txt , 18.0] , , [k_09.txt , 20.0] , ]
+15-51-11: Cluster 2 has its centroid at11.5 and has 14 elements. They are: 
+15-51-11: [[f_07.txt , 11.0] , , [f_09.txt , 10.0] , , [g_02.txt , 11.0] , , [g_03.txt , 13.0] , , [g_04.txt , 10.0] , , [g_05.txt , 10.0] , , [g_06.txt , 11.0] , , [m_06.txt , 12.0] , , [m_07.txt , 10.0] , , [m_08.txt , 13.0] , , [k_05.txt , 13.0] , , [k_06.txt , 12.0] , , [k_07.txt , 13.0] , , [k_08.txt , 12.0] , ]
+15-51-11: Cluster 3 has its centroid at15.5 and has 4 elements. They are: 
+15-51-11: [[m_04.txt , 16.0] , , [m_05.txt , 16.0] , , [k_03.txt , 16.0] , , [k_04.txt , 14.0] , ]
+15-51-11: leaving aMeansCluster
+15-51-11: Getting preferred ordering for clusters
+15-51-11: finished ordering clusters
+15-51-11: In TargetExtractor extracting targets for LETTERSr
+15-51-11: Entered aMeansCluster
+15-51-11: Intitializing Clustering, will call kPlusPlusPrep.
+15-51-11: kPlusPlusPrep seems to have done its job. Moving on.
+15-51-11: Initial positions for elements found. Updating Centroids.
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Elements stopped moving - algorithm converged.
+15-51-11: Cluster '1' has less than 3 elements. Will restart with '4' means. Enter a character.
+15-51-11: Intitializing Clustering, will call kPlusPlusPrep.
+15-51-11: kPlusPlusPrep seems to have done its job. Moving on.
+15-51-11: Initial positions for elements found. Updating Centroids.
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Elements stopped moving - algorithm converged.
+15-51-11: Cluster '3' has less than 3 elements. Will restart with '3' means. Enter a character.
+15-51-11: Intitializing Clustering, will call kPlusPlusPrep.
+15-51-11: kPlusPlusPrep seems to have done its job. Moving on.
+15-51-11: Initial positions for elements found. Updating Centroids.
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Updating Centroids... something moved
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Elements stopped moving - algorithm converged.
+15-51-11: All is well, clustering complete.
+15-51-11: Begin updating centroids.
+15-51-11: Updating centroids complete, will reOrganize
+15-51-11: Starting reOrganize
+15-51-11: Elements stopped moving - algorithm converged.
+15-51-11: All is well, clustering complete.
+15-51-11: LETTERSr has: 3 clusters.
+15-51-11: Cluster 0 has its centroid at175.1 and has 10 elements. They are: 
+15-51-11: [[k_01.txt , 168.0] , , [k_02.txt , 171.0] , , [k_03.txt , 168.0] , , [k_04.txt , 163.0] , , [k_05.txt , 167.0] , , [h_01.txt , 222.0] , , [h_02.txt , 189.0] , , [h_05.txt , 164.0] , , [h_06.txt , 174.0] , , [h_08.txt , 165.0] , ]
+15-51-11: Cluster 1 has its centroid at120.46666666666667 and has 15 elements. They are: 
+15-51-11: [[f_05.txt , 120.0] , , [f_06.txt , 130.0] , , [f_08.txt , 110.0] , , [g_01.txt , 111.0] , , [g_02.txt , 125.0] , , [g_05.txt , 118.0] , , [g_06.txt , 113.0] , , [g_08.txt , 124.0] , , [m_01.txt , 116.0] , , [m_02.txt , 124.0] , , [m_03.txt , 128.0] , , [m_04.txt , 115.0] , , [m_05.txt , 123.0] , , [m_07.txt , 122.0] , , [k_09.txt , 128.0] , ]
+15-51-11: Cluster 2 has its centroid at141.35294117647058 and has 17 elements. They are: 
+15-51-11: [[f_01.txt , 142.0] , , [f_02.txt , 143.0] , , [f_04.txt , 142.0] , , [m_06.txt , 144.0] , , [m_08.txt , 141.0] , , [k_06.txt , 146.0] , , [k_07.txt , 149.0] , , [k_08.txt , 147.0] , , [h_03.txt , 147.0] , , [h_04.txt , 143.0] , , [h_07.txt , 151.0] , , [f_07.txt , 135.0] , , [g_03.txt , 137.0] , , [g_04.txt , 137.0] , , [f_03.txt , 133.0] , , [f_09.txt , 134.0] , , [g_07.txt , 132.0] , ]
+15-51-11: leaving aMeansCluster
+15-51-11: Getting preferred ordering for clusters
+15-51-11: finished ordering clusters
+15-51-11: Max number of clusters (after clustering all features): 5
+15-51-11: called runClusterAnalysis
+15-51-11: Start construction of ClusterAnanlyzer
+15-51-11: Begin analysis of clusters in analyzeNow in ClusterAnalyzer
+15-51-11: ClusterAnalyzer analysis complete
+15-51-11: calling makeViewer
+15-51-11: viewer made
+15-51-11: Initial has been run.
+15-51-13: Initializing ClusterViewer
+15-51-13: Cluster group array retrieved from ClusterAnalyzer and brought to ClusterViewerDriver
+15-51-13: Called runWeka
+15-51-13: ERROR writing classifier to file!
+15-51-13: Weka Done
+15-51-13:  ****** WEKA RESULTS for session 'anonymous process number : 1
+15-51-13: {e_01.txt={f=0.0, g=0.2, ~* you *~=0.3333333333333333, m=0.13333333333333333, k=0.26666666666666666, h=0.06666666666666667}}
+15-51-17: Cluster Group number '0' selected: [4, 4, 4, 5, 1, 2, 1, 3, 3]
+15-51-17: Cluster Group chosen by Anonymouth: [4, 4, 4, 5, 1, 2, 1, 3, 3]
+15-51-17: INTREP: [I@6dadfbe3
+15-51-17: called setSelectedTargets after cluster group selection.
+15-51-17: Targets set.
+15-51-17: The Features are: [Ljava.lang.String;@751201a1
+15-51-19: Document set tagged.
+15-51-19: Document set tagged.
+15-51-19: Finished in BackendInterface - postTargetSelection

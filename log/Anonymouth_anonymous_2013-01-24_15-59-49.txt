@@ -1,0 +1,25 @@
+Started log log/Anonymouth_anonymous_2013-01-24_15-59-49.txt
+===================================================
+15-59-49: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+15-59-49: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+15-59-49: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+15-59-49: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+15-59-49: Populating event drivers...
+15-59-49: adding event drivers under Basic
+15-59-49: adding event drivers under Part-Of-Speech
+15-59-49: adding event drivers under Grams
+15-59-49: adding event drivers under Dictionary
+15-59-49: adding event drivers under Counters
+15-59-49: adding event drivers under Readability Metrics
+15-59-49: adding event drivers under Misc.
+15-59-49: done!
+15-59-49: Populating canonicizers...
+15-59-49: done!
+15-59-49: Populating event cullers...
+15-59-49: done!
+15-59-49: EditorInnerTabSpawner spawning tab
+16-00-36: 'Load Problem Set' button clicked on the documents tab
+16-00-38: Trying to load problem set from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1.xml
+16-00-38: GUI Update: update documents tab with current problem set started
+16-00-38: Failed loading C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1.xml
+16-00-38: java.lang.NullPointerException

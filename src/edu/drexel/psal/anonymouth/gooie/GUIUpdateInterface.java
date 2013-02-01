@@ -55,21 +55,17 @@ public class GUIUpdateInterface {
 	 * ========================
 	 */
 	
-	public static void updateDocSettingsColor(GUIMain main)
+	public static void updateDocPrepColor(GUIMain main)
 	{
 		Color ready = new Color(0,255,128);
 		Color notReady = new Color(255,102,102);
 		if (main.documentsAreReady())
 		{
-			main.settingsDocLabelPanel.setBackground(ready);
-			main.settingsDocLabel.setBackground(ready);
-			main.settingsAdvDocButton.setBackground(ready);
+			main.prepDocLabel.setBackground(ready);
 		}
 		else
 		{
-			main.settingsDocLabelPanel.setBackground(notReady);
-			main.settingsDocLabel.setBackground(notReady);
-			main.settingsAdvDocButton.setBackground(notReady);
+			main.prepDocLabel.setBackground(notReady);
 		}	
 	}
 	
@@ -88,33 +84,33 @@ public class GUIUpdateInterface {
 		// update user sample documents table
 		updateUserSampleDocTable(main);
 		
-		updateDocSettingsColor(main);
+		updateDocPrepColor(main);
 	}
 	
 	/**
 	 * Updates the test documents table with the current problem set. 
 	 */
 	protected static void updateTestDocTable(GUIMain main) {
-		DefaultListModel dlm = (DefaultListModel)main.mainDocList.getModel();
+		DefaultListModel dlm = (DefaultListModel)main.prepMainDocList.getModel();
 		dlm.removeAllElements();
 		List<Document> testDocs = main.ps.getTestDocs();
 		for (int i=0; i<testDocs.size(); i++)
 			dlm.addElement(testDocs.get(i).getTitle());
 		
-		updateDocSettingsColor(main);
+		updateDocPrepColor(main);
 	}
 	
 	/**
 	 * Updates the User Sample documents table with the current problem set. 
 	 */
 	protected static void updateUserSampleDocTable(GUIMain main) {
-		DefaultListModel dlm = (DefaultListModel)main.sampleDocsList.getModel();
+		DefaultListModel dlm = (DefaultListModel)main.prepSampleDocsList.getModel();
 		dlm.removeAllElements();
 		List<Document> userSampleDocs = main.ps.getTrainDocs(ProblemSet.getDummyAuthor());
 		for (int i=0; i<userSampleDocs.size(); i++)
 			dlm.addElement(userSampleDocs.get(i).getTitle());// todo this is where it fails (from the note in DocsTabDriver).. it fails with a "NullPointerException".... (when "create new problem set" is clicked when there isn't a problem set there. [ i.e. as soon as Anonymouth starts up]) 
 		
-		updateDocSettingsColor(main);
+		updateDocPrepColor(main);
 	}
 
 	/**
@@ -137,7 +133,7 @@ public class GUIUpdateInterface {
 		DefaultTreeModel trainTreeModel = new DefaultTreeModel(root);
 		main.trainCorpusJTree.setModel(trainTreeModel);
 		
-		updateDocSettingsColor(main);
+		updateDocPrepColor(main);
 	}
 	
 	/**
@@ -155,21 +151,17 @@ public class GUIUpdateInterface {
 	 * =======================
 	 */
 	
-	public static void updateFeatSettingsColor(GUIMain main)
+	public static void updateFeatPrepColor(GUIMain main)
 	{
 		Color ready = new Color(0,255,128);
 		Color notReady = new Color(255,102,102);
 		if (main.featuresAreReady())
 		{
-			main.settingsFeatLabelPanel.setBackground(ready);
-			main.settingsFeatLabel.setBackground(ready);
-			main.settingsAdvFeatButton.setBackground(ready);
+			main.prepFeatLabel.setBackground(ready);
 		}
 		else
 		{
-			main.settingsFeatLabelPanel.setBackground(notReady);
-			main.settingsFeatLabel.setBackground(notReady);
-			main.settingsAdvFeatButton.setBackground(notReady);
+			main.prepFeatLabel.setBackground(notReady);
 		}	
 	}
 	
@@ -274,21 +266,17 @@ public class GUIUpdateInterface {
 	 * ===============
 	 */
 	
-	public static void updateClassSettingsColor(GUIMain main)
+	public static void updateClassPrepColor(GUIMain main)
 	{
 		Color ready = new Color(0,255,128);
 		Color notReady = new Color(255,102,102);
 		if (main.classifiersAreReady())
 		{
-			main.settingsClassLabelPanel.setBackground(ready);
-			main.settingsClassLabel.setBackground(ready);
-			main.settingsAdvClassButton.setBackground(ready);
+			main.prepClassLabel.setBackground(ready);
 		}
 		else
 		{
-			main.settingsClassLabelPanel.setBackground(notReady);
-			main.settingsClassLabel.setBackground(notReady);
-			main.settingsAdvClassButton.setBackground(notReady);
+			main.prepClassLabel.setBackground(notReady);
 		}	
 	}
 	

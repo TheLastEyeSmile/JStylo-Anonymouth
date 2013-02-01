@@ -1,0 +1,52 @@
+Started log log/Anonymouth_anonymous_2013-01-23_13-07-44.txt
+===================================================
+13-07-45: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+13-07-45: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+13-07-45: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+13-07-45: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+13-07-45: Populating event drivers...
+13-07-45: adding event drivers under Basic
+13-07-45: adding event drivers under Part-Of-Speech
+13-07-45: adding event drivers under Grams
+13-07-45: adding event drivers under Dictionary
+13-07-45: adding event drivers under Counters
+13-07-45: adding event drivers under Readability Metrics
+13-07-45: adding event drivers under Misc.
+13-07-45: done!
+13-07-45: Populating canonicizers...
+13-07-45: done!
+13-07-45: Populating event cullers...
+13-07-45: done!
+13-07-45: EditorInnerTabSpawner spawning tab
+13-07-48: 'Load Problem Set' button clicked on the documents tab
+13-07-49: Trying to load problem set from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1.xml
+13-07-49: GUI Update: update documents tab with current problem set started
+13-07-52: Classifier selected in the available classifiers tree in the classifiers tab: SMO
+13-07-52: 'Add' button clicked in the analysis tab.
+13-07-52: Classifier tree unselected in the classifiers tab.
+13-07-59: Intial processing starting...
+13-07-59: Created DataAnalyzer
+13-07-59: Created new DocumentMagician, is sparse?  ... false
+13-07-59: Numer of features to return: 200
+13-07-59: calling backendInterface for preTargetSelectionProcessing
+13-07-59: FINISHED INITIALIZING FUNCTION WORDS
+13-07-59: Process button pressed for first time (initial run) in editor tab
+13-07-59: called runIntitial in DataAnalyzer
+13-07-59: Entered initialDocToData in DocumentMagician
+13-07-59: True test doc author: ~* you *~
+13-07-59: Dummy author: ~* you *~
+13-07-59: Calling runPrimaryDocOps
+13-07-59: Setting CumulativeFeatureDriver in DocumentMagician
+13-07-59: Building train (with author) and toModify instances
+13-07-59: InstanceConstuctor constructed
+13-07-59: Saving temporary file: ./edited_documents/anonymous_unmodified.txt
+13-07-59: Runnng JStylo WekaInstancesBuilder from runInstanceBuilder in InstanceConstructor
+13-07-59: Could not prepare either test or training set.
+13-07-59: Done with runPrimaryDocOps
+13-07-59: Calling runSecondaryDocOps
+13-07-59: Building author and no author train instances
+13-07-59: InstanceConstuctor constructed
+13-07-59: InstanceConstuctor constructed
+13-07-59: Only building train set
+13-07-59: Could not prepare training set
+13-08-02: Fatal error encountered, termination requested.

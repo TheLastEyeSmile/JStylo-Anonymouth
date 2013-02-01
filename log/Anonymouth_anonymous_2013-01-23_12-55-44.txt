@@ -1,0 +1,43 @@
+Started log log/Anonymouth_anonymous_2013-01-23_12-55-44.txt
+===================================================
+12-55-45: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+12-55-45: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+12-55-45: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+12-55-45: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+12-55-45: Populating event drivers...
+12-55-45: adding event drivers under Basic
+12-55-45: adding event drivers under Part-Of-Speech
+12-55-45: adding event drivers under Grams
+12-55-45: adding event drivers under Dictionary
+12-55-45: adding event drivers under Counters
+12-55-45: adding event drivers under Readability Metrics
+12-55-45: adding event drivers under Misc.
+12-55-45: done!
+12-55-45: Populating canonicizers...
+12-55-45: done!
+12-55-45: Populating event cullers...
+12-55-45: done!
+12-55-45: EditorInnerTabSpawner spawning tab
+12-55-47: 'Load Problem Set' button clicked on the documents tab
+12-55-49: Trying to load problem set from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1.xml
+12-55-49: GUI Update: update documents tab with current problem set started
+12-55-52: Classifier selected in the available classifiers tree in the classifiers tab: SMO
+12-55-52: 'Add' button clicked in the analysis tab.
+12-55-52: Classifier tree unselected in the classifiers tab.
+12-55-55: Intial processing starting...
+12-55-55: Created DataAnalyzer
+12-55-55: Created new DocumentMagician, is sparse?  ... false
+12-55-55: Numer of features to return: 200
+12-55-55: calling backendInterface for preTargetSelectionProcessing
+12-55-55: FINISHED INITIALIZING FUNCTION WORDS
+12-55-55: Process button pressed for first time (initial run) in editor tab
+12-55-55: called runIntitial in DataAnalyzer
+12-55-55: Entered initialDocToData in DocumentMagician
+12-55-55: True test doc author: ~* you *~
+12-55-55: Dummy author: ~* you *~
+12-55-55: Calling runPrimaryDocOps
+12-55-55: Setting CumulativeFeatureDriver in DocumentMagician
+12-55-55: Building train (with author) and toModify instances
+12-55-55: InstanceConstuctor constructed
+12-55-55: Saving temporary file: ./edited_documents/anonymous_unmodified.txt
+12-55-55: Runnng JStylo WekaInstancesBuilder from runInstanceBuilder in InstanceConstructor

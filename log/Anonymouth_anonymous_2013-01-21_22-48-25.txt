@@ -1,0 +1,31 @@
+Started log log/Anonymouth_anonymous_2013-01-21_22-48-25.txt
+===================================================
+22-48-26: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+22-48-26: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+22-48-26: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+22-48-26: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+22-48-26: Populating event drivers...
+22-48-26: adding event drivers under Basic
+22-48-26: adding event drivers under Part-Of-Speech
+22-48-26: adding event drivers under Grams
+22-48-26: adding event drivers under Dictionary
+22-48-26: adding event drivers under Counters
+22-48-26: adding event drivers under Readability Metrics
+22-48-26: adding event drivers under Misc.
+22-48-26: done!
+22-48-26: Populating canonicizers...
+22-48-26: done!
+22-48-26: Populating event cullers...
+22-48-26: done!
+22-48-26: EditorInnerTabSpawner spawning tab
+22-48-55: 'Load Problem Set' button clicked on the documents tab
+22-48-56: Trying to load problem set from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1.xml
+22-48-56: GUI Update: update documents tab with current problem set started
+22-48-58: 'Next' button clicked on the documents tab.
+22-49-00: Preset feature set selected in the features tab.
+22-49-00: loaded preset feature set: Translation
+22-49-01: 'Next' button clicked in the features tab.
+22-49-02: Classifier selected in the available classifiers tree in the classifiers tab: SMO
+22-49-03: 'Add' button clicked in the analysis tab.
+22-49-03: Classifier tree unselected in the classifiers tab.
+22-49-04: 'Next' button clicked in the classifiers tab

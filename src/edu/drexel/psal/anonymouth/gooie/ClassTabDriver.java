@@ -139,7 +139,7 @@ public class ClassTabDriver {
 					// add classifier
 					main.classifiers.add(tmpClassifier);
 					GUIUpdateInterface.updateClassList(main);
-					GUIUpdateInterface.updateClassSettingsColor(main);
+					GUIUpdateInterface.updateClassPrepColor(main);
 					//resetAvClassSelection(main);
 					tmpClassifier = null;
 					main.classJTree.clearSelection();
@@ -202,7 +202,7 @@ public class ClassTabDriver {
 				// remove classifier
 				main.classifiers.remove(selected);
 				GUIUpdateInterface.updateClassList(main);
-				GUIUpdateInterface.updateClassSettingsColor(main);
+				GUIUpdateInterface.updateClassPrepColor(main);
 			}
 		});
 		

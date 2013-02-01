@@ -268,22 +268,16 @@ public class GUIMain extends javax.swing.JFrame
 	//-------------- HELP TAB PANE STUFF ---------
 	protected JTabbedPane editorHelpTabPane;
 	
-	protected JPanel editorHelpSettingsPanel;
-		protected JPanel documentsPanel;
-			protected JPanel settingsDocLabelPanel;
-				protected JLabel settingsDocLabel;
-				protected JButton settingsAdvDocButton;
-			protected JList mainDocList;
-			protected JList sampleDocsList;
-		protected JPanel featuresPanel;
-			protected JPanel settingsFeatLabelPanel;
-				protected JLabel settingsFeatLabel;
-				protected JButton settingsAdvFeatButton;
-		protected JPanel classifiersPanel;
-			protected JPanel settingsClassLabelPanel;
-				protected JLabel settingsClassLabel;
-				protected JButton settingsAdvClassButton;
-		protected JButton advClassifiersButton;
+	protected JPanel editorHelpPrepPanel;
+	protected JButton prepAdvButton;
+		protected JPanel prepDocumentsPanel;
+			protected JLabel prepDocLabel;
+			protected JList prepMainDocList;
+			protected JList prepSampleDocsList;
+		protected JPanel prepFeaturesPanel;
+			protected JLabel prepFeatLabel;
+		protected JPanel prepClassifiersPanel;
+			protected JLabel prepClassLabel;
 	
 	protected JPanel editorHelpSugPanel;
 		protected JPanel elementsPanel;
@@ -440,23 +434,23 @@ public class GUIMain extends javax.swing.JFrame
 	private void initGUI() {
 		try 
 		{
-			
 			setExtendedState(MAXIMIZED_BOTH);
 			this.setTitle("Anonymouth");
 			this.setIconImage(new ImageIcon(getClass().getResource(JSANConstants.JSAN_GRAPHICS_PREFIX+"Anonymouth_LOGO.png")).getImage());
 			
 			JMenuBar menuBar = new JMenuBar();
-			JMenu documentsMenu = new JMenu("Documents");
-			JMenu featuresMenu = new JMenu("Features");
-			JMenu classifiersMenu = new JMenu("Classifiers");
+			JMenu fileMenu = new JMenu("File");
+			JMenuItem printMenuItem = new JMenuItem("Print...");
 			JMenu settingsMenu = new JMenu("Settings");
+			JMenuItem settingsAdvancedMenuItem = new JMenuItem("Advanced...");
 			JMenu helpMenu = new JMenu("Help");
 			JMenuItem aboutMenuItem = new JMenuItem("About Anonymouth");
 			
-			menuBar.add(documentsMenu);
-			menuBar.add(featuresMenu);
-			menuBar.add(classifiersMenu);
+			menuBar.add(fileMenu);
+			fileMenu.add(printMenuItem);
 			menuBar.add(settingsMenu);
+			settingsMenu.addSeparator();
+			settingsMenu.add(settingsAdvancedMenuItem);
 			menuBar.add(helpMenu);
 			helpMenu.add(aboutMenuItem);
 			this.setJMenuBar(menuBar);
@@ -489,7 +483,7 @@ public class GUIMain extends javax.swing.JFrame
 						String html1 = "<html><body style='width: ";
 				        String html2 = "px'>";
 						{
-							editorHelpTabPane.addTab("Settings", createSmallSettingsTab());
+							editorHelpTabPane.addTab("Pre-Process", createSmallPPTab());
 							
 							editorHelpInfoPanel = new JPanel();
 							editorHelpInfoPanel.setPreferredSize(new java.awt.Dimension(290, 660));
@@ -774,12 +768,15 @@ public class GUIMain extends javax.swing.JFrame
 			EditorTabDriver.setAllEITSUseable(false, this);
 			
 			// initialize listeners - except for EditorTabDriver!
+			
+			MainDriver.initListeners(this);
 			DocsTabDriver.initListeners(this);
 			//FeaturesTabDriver.initListeners(this);
 			ClassTabDriver.initListeners(this);
 			EditorTabDriver.initListeners(this);
 			EditorTabDriver.initEditorInnerTabListeners(this);
 			ClusterViewerDriver.initListeners(this);
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -822,9 +819,9 @@ public class GUIMain extends javax.swing.JFrame
 	{
 		boolean ready = true;
 		
-		if (inst.mainDocList.getModel().getSize() == 0)
+		if (inst.prepMainDocList.getModel().getSize() == 0)
 			ready = false;
-		if (inst.sampleDocsList.getModel().getSize() == 0)
+		if (inst.prepSampleDocsList.getModel().getSize() == 0)
 			ready = false;
 		if (!(inst.trainCorpusJTree.getVisibleRowCount() > 1))
 			ready = false;
@@ -853,54 +850,52 @@ public class GUIMain extends javax.swing.JFrame
 	}
 	
 	/**
-	 * Creates a panel that can be added to the "help area".
+	 * Creates a Pre-Process panel that can be added to the "help area".
 	 * @return editorHelpSettingsPanel
 	 */
-	private JPanel createSmallSettingsTab()
+	private JPanel createSmallPPTab()
 	{
-		editorHelpSettingsPanel = new JPanel();
-		editorHelpSettingsPanel.setPreferredSize(new java.awt.Dimension(300, 660));
+		editorHelpPrepPanel = new JPanel();
+		editorHelpPrepPanel.setPreferredSize(new java.awt.Dimension(300, 660));
 		BorderLayout settingsLayout = new BorderLayout();
-		editorHelpSettingsPanel.setLayout(settingsLayout);
-		documentsPanel = new JPanel();
-		documentsPanel.setPreferredSize(new Dimension(300, 350));
-		editorHelpSettingsPanel.add(documentsPanel, BorderLayout.NORTH);
+		editorHelpPrepPanel.setLayout(settingsLayout);
+		prepDocumentsPanel = new JPanel();
+		prepDocumentsPanel.setPreferredSize(new Dimension(300, 350));
+		editorHelpPrepPanel.add(prepDocumentsPanel, BorderLayout.NORTH);
 		{
 			JPanel topPanel = new JPanel();
-			topPanel.setPreferredSize(new Dimension(300,60));
+			topPanel.setPreferredSize(new Dimension(300, 80));
 			{
-				settingsDocLabelPanel = new JPanel();
-				settingsDocLabelPanel.setPreferredSize(new Dimension(300,30));
+				prepAdvButton = new JButton("Advanced...");
+				prepAdvButton.setPreferredSize(new Dimension(100, 20));
+				prepAdvButton.setOpaque(true);
+				topPanel.add(prepAdvButton, BorderLayout.NORTH);
+				
+				prepDocLabel = new JLabel("Documents:");
+				prepDocLabel.setPreferredSize(new Dimension(300, 20));
+				prepDocLabel.setOpaque(true);
+				prepDocLabel.setFont(new Font("Ariel", Font.BOLD, 12));
+				prepDocLabel.setHorizontalAlignment(SwingConstants.CENTER);
+				prepDocLabel.setBackground(notReady);
+				topPanel.add(prepDocLabel, BorderLayout.CENTER);
+				
+				JPanel buttonPanel = new JPanel();
+				buttonPanel.setPreferredSize(new Dimension(300, 25));
 				{
-					settingsDocLabel = new JLabel("Documents:");
-					settingsDocLabel.setPreferredSize(new Dimension(180, 20));
-					settingsDocLabel.setOpaque(true);
-					settingsDocLabel.setFont(new Font("Ariel", Font.BOLD, 12));
-					settingsDocLabel.setHorizontalAlignment(SwingConstants.CENTER);
-					settingsDocLabelPanel.add(settingsDocLabel, BorderLayout.WEST);
+					saveProblemSetJButton = new JButton("Save...");
+					saveProblemSetJButton.setPreferredSize(new Dimension(140,20));
+					buttonPanel.add(saveProblemSetJButton, BorderLayout.WEST);
 					
-					settingsAdvDocButton = new JButton("Advanced...");
-					settingsAdvDocButton.setPreferredSize(new Dimension(100, 20));
-					settingsAdvDocButton.setOpaque(true);
-					settingsDocLabelPanel.add(settingsAdvDocButton, BorderLayout.EAST);
+					loadProblemSetJButton = new JButton("Load...");
+					loadProblemSetJButton.setPreferredSize(new Dimension(140,20));
+					buttonPanel.add(loadProblemSetJButton, BorderLayout.EAST);
 				}
-				settingsDocLabelPanel.setBackground(notReady);
-				settingsDocLabel.setBackground(notReady);
-				settingsAdvDocButton.setBackground(notReady);
-				topPanel.add(settingsDocLabelPanel, BorderLayout.NORTH);
-				
-				saveProblemSetJButton = new JButton("Save...");
-				saveProblemSetJButton.setPreferredSize(new Dimension(140,20));
-				topPanel.add(saveProblemSetJButton, BorderLayout.WEST);
-				
-				loadProblemSetJButton = new JButton("Load...");
-				loadProblemSetJButton.setPreferredSize(new Dimension(140,20));
-				topPanel.add(loadProblemSetJButton, BorderLayout.EAST);
+				topPanel.add(buttonPanel, BorderLayout.SOUTH);
 			}
-			documentsPanel.add(topPanel, BorderLayout.NORTH);
+			prepDocumentsPanel.add(topPanel, BorderLayout.NORTH);
 			
 			JPanel mainDocPanel = new JPanel();
-			mainDocPanel.setPreferredSize(new Dimension(140, 130));
+			mainDocPanel.setPreferredSize(new Dimension(140, 110));
 			{
 				JLabel label = new JLabel("Main:");
 				label.setPreferredSize(new Dimension(140, 10));
@@ -908,10 +903,10 @@ public class GUIMain extends javax.swing.JFrame
 				mainDocPanel.add(label, BorderLayout.NORTH);
 				
 				DefaultListModel mainDocListModel = new DefaultListModel();
-				mainDocList = new JList(mainDocListModel);
-				mainDocList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-				JScrollPane scrollPane = new JScrollPane(mainDocList);
-				scrollPane.setPreferredSize(new Dimension(140,80));
+				prepMainDocList = new JList(mainDocListModel);
+				prepMainDocList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+				JScrollPane scrollPane = new JScrollPane(prepMainDocList);
+				scrollPane.setPreferredSize(new Dimension(140,60));
 				mainDocPanel.add(scrollPane, BorderLayout.CENTER);
 				
 				JPanel buttonPanel = new JPanel();
@@ -927,10 +922,10 @@ public class GUIMain extends javax.swing.JFrame
 				}
 				mainDocPanel.add(buttonPanel, BorderLayout.SOUTH);
 			}
-			documentsPanel.add(mainDocPanel, BorderLayout.WEST);
+			prepDocumentsPanel.add(mainDocPanel, BorderLayout.WEST);
 			
 			JPanel sampleDocsPanel = new JPanel();
-			sampleDocsPanel.setPreferredSize(new Dimension(140, 130));
+			sampleDocsPanel.setPreferredSize(new Dimension(140, 110));
 			{
 				JLabel label = new JLabel("Sample:");
 				label.setPreferredSize(new Dimension(140, 10));
@@ -938,10 +933,10 @@ public class GUIMain extends javax.swing.JFrame
 				sampleDocsPanel.add(label, BorderLayout.NORTH);
 				
 				DefaultListModel sampleDocsListModel = new DefaultListModel();
-				sampleDocsList = new JList(sampleDocsListModel);
-				sampleDocsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-				JScrollPane scrollPane = new JScrollPane(sampleDocsList);
-				scrollPane.setPreferredSize(new Dimension(140,80));
+				prepSampleDocsList = new JList(sampleDocsListModel);
+				prepSampleDocsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+				JScrollPane scrollPane = new JScrollPane(prepSampleDocsList);
+				scrollPane.setPreferredSize(new Dimension(140,60));
 				sampleDocsPanel.add(scrollPane, BorderLayout.SOUTH);
 				
 				JPanel buttonPanel = new JPanel();
@@ -957,7 +952,7 @@ public class GUIMain extends javax.swing.JFrame
 				}
 				sampleDocsPanel.add(buttonPanel, BorderLayout.SOUTH);
 			}
-			documentsPanel.add(sampleDocsPanel, BorderLayout.EAST);
+			prepDocumentsPanel.add(sampleDocsPanel, BorderLayout.EAST);
 			
 			JPanel trainPanel = new JPanel();
 			trainPanel.setPreferredSize(new Dimension(290, 130));
@@ -986,32 +981,20 @@ public class GUIMain extends javax.swing.JFrame
 				}
 				trainPanel.add(buttonPanel, BorderLayout.SOUTH);
 			}
-			documentsPanel.add(trainPanel, BorderLayout.SOUTH);
+			prepDocumentsPanel.add(trainPanel, BorderLayout.SOUTH);
 		}
 		
-		featuresPanel = new JPanel();
-		featuresPanel.setPreferredSize(new Dimension(300, 50));
-		editorHelpSettingsPanel.add(featuresPanel, BorderLayout.CENTER);
+		prepFeaturesPanel = new JPanel();
+		prepFeaturesPanel.setPreferredSize(new Dimension(300, 50));
+		editorHelpPrepPanel.add(prepFeaturesPanel, BorderLayout.CENTER);
 		{
-			settingsFeatLabelPanel = new JPanel();
-			settingsFeatLabelPanel.setPreferredSize(new Dimension(300,30));
-			{
-				settingsFeatLabel = new JLabel("Features:");
-				settingsFeatLabel.setPreferredSize(new Dimension(180, 20));
-				settingsFeatLabel.setOpaque(true);
-				settingsFeatLabel.setFont(new Font("Ariel", Font.BOLD, 12));
-				settingsFeatLabel.setHorizontalAlignment(SwingConstants.CENTER);
-				settingsFeatLabelPanel.add(settingsFeatLabel, BorderLayout.WEST);
-				
-				settingsAdvFeatButton = new JButton("Advanced...");
-				settingsAdvFeatButton.setPreferredSize(new Dimension(100, 20));
-				settingsAdvFeatButton.setOpaque(true);
-				settingsFeatLabelPanel.add(settingsAdvFeatButton, BorderLayout.EAST);
-			}
-			settingsFeatLabelPanel.setBackground(notReady);
-			settingsFeatLabel.setBackground(notReady);
-			settingsAdvFeatButton.setBackground(notReady);
-			featuresPanel.add(settingsFeatLabelPanel, BorderLayout.NORTH);
+			prepFeatLabel = new JLabel("Features:");
+			prepFeatLabel.setPreferredSize(new Dimension(300, 20));
+			prepFeatLabel.setOpaque(true);
+			prepFeatLabel.setFont(new Font("Ariel", Font.BOLD, 12));
+			prepFeatLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			prepFeatLabel.setBackground(notReady);
+			prepFeaturesPanel.add(prepFeatLabel, BorderLayout.CENTER);
 			
 			JPanel panel = new JPanel();
 			{
@@ -1055,7 +1038,7 @@ public class GUIMain extends javax.swing.JFrame
 						}
 							// update tab view
 							// GUIUpdateInterface.updateFeatureSetView(inst);
-							GUIUpdateInterface.updateFeatSettingsColor(inst);
+							GUIUpdateInterface.updateFeatPrepColor(inst);
 						} else {
 							Logger.logln("Loading preset feature set cancelled.");
 						}
@@ -1070,32 +1053,20 @@ public class GUIMain extends javax.swing.JFrame
 				featuresSetJComboBox.setPreferredSize(new java.awt.Dimension(180, 20));
 				panel.add(featuresSetJComboBox);
 			}
-			featuresPanel.add(panel, BorderLayout.SOUTH);
+			prepFeaturesPanel.add(panel, BorderLayout.SOUTH);
 		}
 		
-		classifiersPanel = new JPanel();
-		classifiersPanel.setPreferredSize(new Dimension(300, 270));
-		editorHelpSettingsPanel.add(classifiersPanel, BorderLayout.SOUTH);
+		prepClassifiersPanel = new JPanel();
+		prepClassifiersPanel.setPreferredSize(new Dimension(300, 270));
+		editorHelpPrepPanel.add(prepClassifiersPanel, BorderLayout.SOUTH);
 		{
-			settingsClassLabelPanel = new JPanel();
-			settingsClassLabelPanel.setPreferredSize(new Dimension(300,30));
-			{
-				settingsClassLabel = new JLabel("Classifiers:");
-				settingsClassLabel.setPreferredSize(new Dimension(180, 20));
-				settingsClassLabel.setOpaque(true);
-				settingsClassLabel.setFont(new Font("Ariel", Font.BOLD, 12));
-				settingsClassLabel.setHorizontalAlignment(SwingConstants.CENTER);
-				settingsClassLabelPanel.add(settingsClassLabel, BorderLayout.WEST);
-				
-				settingsAdvClassButton = new JButton("Advanced...");
-				settingsAdvClassButton.setPreferredSize(new Dimension(100, 20));
-				settingsAdvClassButton.setOpaque(true);
-				settingsClassLabelPanel.add(settingsAdvClassButton, BorderLayout.EAST);
-			}
-			settingsClassLabelPanel.setBackground(notReady);
-			settingsClassLabel.setBackground(notReady);
-			settingsAdvClassButton.setBackground(notReady);
-			classifiersPanel.add(settingsClassLabelPanel, BorderLayout.NORTH);
+			prepClassLabel = new JLabel("Classifiers:");
+			prepClassLabel.setPreferredSize(new Dimension(300, 20));
+			prepClassLabel.setOpaque(true);
+			prepClassLabel.setFont(new Font("Ariel", Font.BOLD, 12));
+			prepClassLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			prepClassLabel.setBackground(notReady);
+			prepClassifiersPanel.add(prepClassLabel, BorderLayout.CENTER);
 			
 			JPanel availablePanel = new JPanel();
 			availablePanel.setPreferredSize(new Dimension(180, 230));
@@ -1116,7 +1087,7 @@ public class GUIMain extends javax.swing.JFrame
 				classAddJButton.setPreferredSize(new Dimension(180,20));
 				availablePanel.add(classAddJButton, BorderLayout.SOUTH);
 			}
-			classifiersPanel.add(availablePanel, BorderLayout.WEST);
+			prepClassifiersPanel.add(availablePanel, BorderLayout.WEST);
 			
 			JPanel selectedPanel = new JPanel();
 			selectedPanel.setPreferredSize(new Dimension(100, 230));
@@ -1137,11 +1108,13 @@ public class GUIMain extends javax.swing.JFrame
 				classRemoveJButton.setPreferredSize(new Dimension(100,20));
 				selectedPanel.add(classRemoveJButton, BorderLayout.SOUTH);
 			}
-			classifiersPanel.add(selectedPanel, BorderLayout.EAST);
+			prepClassifiersPanel.add(selectedPanel, BorderLayout.EAST);
 		}
-		return editorHelpSettingsPanel;
+		return editorHelpPrepPanel;
 	}
 }
+
+
 
 
 

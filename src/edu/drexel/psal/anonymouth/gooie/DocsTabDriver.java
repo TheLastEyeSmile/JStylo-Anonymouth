@@ -222,7 +222,7 @@ public class DocsTabDriver {
 			{
 				Logger.logln("'Remove Document(s)...' button clicked under the 'Test Documents' section on the documents tab.");
 				
-				if (main.mainDocList.isSelectionEmpty()) 
+				if (main.prepMainDocList.isSelectionEmpty()) 
 				{
 					Logger.logln("Failed removing test documents - no documents are selected",LogOut.STDERR);
 					JOptionPane.showMessageDialog(null,
@@ -239,8 +239,8 @@ public class DocsTabDriver {
 					
 					if (answer == 0) 
 					{
-						DefaultListModel dlm = (DefaultListModel)main.mainDocList.getModel();
-						int[] rows = main.mainDocList.getSelectedIndices();
+						DefaultListModel dlm = (DefaultListModel)main.prepMainDocList.getModel();
+						int[] rows = main.prepMainDocList.getSelectedIndices();
 						String msg = "Removed test documents:\n";
 						for (int i=rows.length-1; i>=0; i--) 
 						{
@@ -349,7 +349,7 @@ public class DocsTabDriver {
 				public void actionPerformed(ActionEvent e) {
 					Logger.logln("'Remove Document(s)...' button clicked under the 'User Sample Documents' section on the documents tab.");
 					
-					if (main.sampleDocsList.isSelectionEmpty()) {
+					if (main.prepSampleDocsList.isSelectionEmpty()) {
 						Logger.logln("Failed removing user sample documents - no documents are selected",LogOut.STDERR);
 						JOptionPane.showMessageDialog(null,
 								"You must select documents to remove.",
@@ -362,8 +362,8 @@ public class DocsTabDriver {
 								JOptionPane.YES_NO_OPTION);
 						
 						if (answer == 0) {
-							DefaultListModel dlm = (DefaultListModel)main.sampleDocsList.getModel();
-							int[] rows = main.sampleDocsList.getSelectedIndices();
+							DefaultListModel dlm = (DefaultListModel)main.prepSampleDocsList.getModel();
+							int[] rows = main.prepSampleDocsList.getSelectedIndices();
 							String msg = "Removed test documents:\n";
 							for (int i=rows.length-1; i>=0; i--) {
 								msg += "\t\t> "+main.ps.trainDocAt(ProblemSet.getDummyAuthor(),rows[i]).getTitle()+"\n";

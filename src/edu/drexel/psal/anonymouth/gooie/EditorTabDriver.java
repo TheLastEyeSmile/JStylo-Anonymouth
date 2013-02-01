@@ -594,9 +594,9 @@ public class EditorTabDriver {
 			public synchronized void actionPerformed(ActionEvent event) 
 			{
 				String errorMessage = "";
-				if (main.mainDocList.getModel().getSize() == 0)
+				if (main.prepMainDocList.getModel().getSize() == 0)
 					errorMessage += "Main document not provided.\n";
-				if (main.sampleDocsList.getModel().getSize() == 0)
+				if (main.prepSampleDocsList.getModel().getSize() == 0)
 					errorMessage += "Sample documents not provided.\n";
 				if (!(main.trainCorpusJTree.getVisibleRowCount() > 1))
 					errorMessage += "Train documents not provided.\n";

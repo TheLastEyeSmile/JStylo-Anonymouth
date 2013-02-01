@@ -1,0 +1,19 @@
+Started log log/Anonymouth_anonymous_2013-01-21_23-33-30.txt
+===================================================
+23-33-30: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+23-33-30: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+23-33-30: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+23-33-30: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+23-33-30: Populating event drivers...
+23-33-30: adding event drivers under Basic
+23-33-30: adding event drivers under Part-Of-Speech
+23-33-30: adding event drivers under Grams
+23-33-30: adding event drivers under Dictionary
+23-33-30: adding event drivers under Counters
+23-33-30: adding event drivers under Readability Metrics
+23-33-30: adding event drivers under Misc.
+23-33-30: done!
+23-33-30: Populating canonicizers...
+23-33-30: done!
+23-33-30: Populating event cullers...
+23-33-30: done!

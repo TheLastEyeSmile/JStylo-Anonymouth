@@ -1,0 +1,32 @@
+Started log log/Anonymouth_anonymous_2013-01-21_21-53-08.txt
+===================================================
+21-53-08: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+21-53-08: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+21-53-08: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+21-53-08: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+21-53-08: Populating event drivers...
+21-53-08: adding event drivers under Basic
+21-53-08: adding event drivers under Part-Of-Speech
+21-53-08: adding event drivers under Grams
+21-53-08: adding event drivers under Dictionary
+21-53-08: adding event drivers under Counters
+21-53-08: adding event drivers under Readability Metrics
+21-53-08: adding event drivers under Misc.
+21-53-08: done!
+21-53-08: Populating canonicizers...
+21-53-08: done!
+21-53-08: Populating event cullers...
+21-53-08: done!
+21-53-08: EditorInnerTabSpawner spawning tab
+21-56-16: 'Add Document(s)...' button clicked under the 'Test Documents' section on the documents tab.
+21-56-25: Load test documents canceled
+21-56-26: 'Load Problem Set' button clicked on the documents tab
+21-56-27: Trying to load problem set from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1.xml
+21-56-27: GUI Update: update documents tab with current problem set started
+21-57-08: 'Preview Document' button clicked under the 'Test Documents' section on the documents tab.
+21-57-13: 'Remove Document(s)...' button clicked under the 'Test Documents' section on the documents tab.
+21-57-14: Removed test documents:
+		> e_01.txt
+21-57-19: 'Load Problem Set' button clicked on the documents tab
+21-57-21: Trying to load problem set from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1.xml
+21-57-21: GUI Update: update documents tab with current problem set started

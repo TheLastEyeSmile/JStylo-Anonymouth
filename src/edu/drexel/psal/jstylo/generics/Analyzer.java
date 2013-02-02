@@ -191,12 +191,13 @@ public abstract class Analyzer {
 
 			// get the highest probability of all authors for current document
 			maxProb = 0;
-			currRes = results.get(i).values().iterator();
+			currRes = results.get(unknownDocs.get(i).getTitle()).values().iterator();
 			for (;currRes.hasNext();)
 				maxProb = Math.max(maxProb, currRes.next());
 			
 			// increase rightly classified count by 1 when true
-			rightClassifications += (results.get(i).get(currAuthor) == maxProb) ? 1 : 0;
+			rightClassifications += (results.get(unknownDocs.get(i).getTitle())
+					.get(currAuthor) == maxProb) ? 1 : 0;
 		}
 		
 		return ((double) rightClassifications)/numOfInstances;

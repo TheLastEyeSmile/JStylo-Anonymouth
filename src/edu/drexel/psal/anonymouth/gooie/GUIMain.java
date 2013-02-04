@@ -99,6 +99,7 @@ public class GUIMain extends javax.swing.JFrame
 
 	// main instance
 	public static GUIMain inst;
+	protected JPanel mainPanel;
 
 	// ------------------------
 
@@ -431,6 +432,7 @@ public class GUIMain extends javax.swing.JFrame
 		wib = new WekaInstancesBuilder(true);
 		results = new ArrayList<String>();
 		
+		// properties file -----------------------------------
 		BufferedReader propReader = null;
 		
 		if (!propFile.exists())
@@ -475,24 +477,24 @@ public class GUIMain extends javax.swing.JFrame
 			getContentPane().setLayout(new MigLayout(
 					"fill", // layout constraints
 					"[grow 20, fill][grow 80, growprio 110, fill]", // column constraints
-					"[fill]")); // row constraints
+					"[fill]")); // row constraints)
+			
+			EditorInnerTabSpawner eits = (new EditorInnerTabSpawner()).spawnTab();
+			EditorTabDriver.eitsList.add(0,eits);
+			EditorTabDriver.eits = EditorTabDriver.eitsList.get(0);
+			eits.editorBox.setEnabled(true);
+			
+			editorHelpTabPane = new JTabbedPane();
 			{
-				EditorInnerTabSpawner eits = (new EditorInnerTabSpawner()).spawnTab();
-				EditorTabDriver.eitsList.add(0,eits);
-				EditorTabDriver.eits = EditorTabDriver.eitsList.get(0);
-				eits.editorBox.setEnabled(true);
-				
-				editorHelpTabPane = new JTabbedPane();
-				{
-					editorHelpTabPane.addTab("Pre-Process", createSmallPPTab());
-					editorHelpTabPane.addTab("Information", createSmallInfoTab());
-					editorHelpTabPane.addTab("Suggestions", createSmallSugTab());
-					editorHelpTabPane.addTab("Translations", createSmallTransTab());
-				}
-				
-				getContentPane().add(editorHelpTabPane, "width 300!");
-				getContentPane().add(eits.editorTabPane, "width 600::");
+				editorHelpTabPane.addTab("Pre-Process", createSmallPPTab());
+				editorHelpTabPane.addTab("Information", createSmallInfoTab());
+				editorHelpTabPane.addTab("Suggestions", createSmallSugTab());
+				editorHelpTabPane.addTab("Translations", createSmallTransTab());
 			}
+			
+			getContentPane().add(editorHelpTabPane, "width 300!");
+			getContentPane().add(eits.editorTabPane, "width 600::");
+			
 			
 			
 			// final property settings
@@ -670,7 +672,7 @@ public class GUIMain extends javax.swing.JFrame
 			DefaultMutableTreeNode top = new DefaultMutableTreeNode(ps.getTrainCorpusName());
 			trainCorpusJTree = new JTree(top);
 			trainCorpusJTreeScrollPane = new JScrollPane(trainCorpusJTree);
-			prepDocumentsPanel.add(trainCorpusJTreeScrollPane, "span, growy, h 120::");
+			prepDocumentsPanel.add(trainCorpusJTreeScrollPane, "span, growy, h 120::, shrinkprio 110");
 			
 			// train add button
 			addTrainDocsJButton = new JButton("Add");
@@ -680,7 +682,7 @@ public class GUIMain extends javax.swing.JFrame
 			removeTrainDocsJButton = new JButton("Delete");
 			prepDocumentsPanel.add(removeTrainDocsJButton, "span 2");
 		}
-		editorHelpPrepPanel.add(prepDocumentsPanel, "growx");
+		editorHelpPrepPanel.add(prepDocumentsPanel, "growx, shrinkprio 110");
 		
 		prepFeaturesPanel = new JPanel();
 		MigLayout featuresLayout = new MigLayout(
@@ -776,13 +778,13 @@ public class GUIMain extends javax.swing.JFrame
 			classJTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 			prepAvailableClassScrollPane = new JScrollPane(classJTree);
 			ClassTabDriver.initWekaClassifiersTree(this);
-			prepClassifiersPanel.add(prepAvailableClassScrollPane, "grow, h 250::, w 50%:60%:75%, gapbottom 0");
+			prepClassifiersPanel.add(prepAvailableClassScrollPane, "grow, h 150:360:, w 50%:60%:75%, gapbottom 0");
 			
 			DefaultListModel selectedListModel = new DefaultListModel();
 			classJList = new JList(selectedListModel);
 			classJList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 			prepSelectedClassScrollPane = new JScrollPane(classJList);
-			prepClassifiersPanel.add(prepSelectedClassScrollPane, "grow, h 250::, w 25%:40%:50%, gapbottom 0");
+			prepClassifiersPanel.add(prepSelectedClassScrollPane, "grow, h 150:360:, w 25%:40%:50%, gapbottom 0");
 			
 			classAddJButton = new JButton("Select");
 			prepClassifiersPanel.add(classAddJButton, "gaptop 0, growy 0");

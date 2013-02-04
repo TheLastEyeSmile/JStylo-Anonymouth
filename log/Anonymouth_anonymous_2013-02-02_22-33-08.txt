@@ -1,0 +1,35 @@
+Started log log/Anonymouth_anonymous_2013-02-02_22-33-08.txt
+===================================================
+22-33-08: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+22-33-09: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+22-33-09: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+22-33-09: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+22-33-09: Populating event drivers...
+22-33-09: adding event drivers under Basic
+22-33-09: adding event drivers under Part-Of-Speech
+22-33-09: adding event drivers under Grams
+22-33-09: adding event drivers under Dictionary
+22-33-09: adding event drivers under Counters
+22-33-09: adding event drivers under Readability Metrics
+22-33-09: adding event drivers under Misc.
+22-33-09: done!
+22-33-09: Populating canonicizers...
+22-33-09: done!
+22-33-09: Populating event cullers...
+22-33-09: done!
+22-33-09: EditorInnerTabSpawner spawning tab
+22-33-10: 'Load Problem Set' button clicked on the documents tab
+22-33-12: Trying to load problem set from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1.xml
+22-33-14: GUI Update: update documents tab with current problem set started
+22-33-17: Preset feature set selected in the features tab.
+22-33-17: loaded preset feature set: Translation
+22-33-18: Classifier selected in the available classifiers tree in the classifiers tab: SMO
+22-33-19: 'Add' button clicked in the analysis tab.
+22-33-19: Classifier tree unselected in the classifiers tab.
+22-33-21: Intial processing starting...
+22-33-21: Created DataAnalyzer
+22-33-21: Created new DocumentMagician, is sparse?  ... false
+22-33-21: Numer of features to return: 200
+22-33-21: calling backendInterface for preTargetSelectionProcessing
+22-33-21: FINISHED INITIALIZING FUNCTION WORDS
+22-33-21: Process button pressed for first time (initial run) in editor tab

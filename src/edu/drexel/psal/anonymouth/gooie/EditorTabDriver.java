@@ -581,10 +581,10 @@ public class EditorTabDriver {
 				
 			}
 		};
-		main.theEditorScrollPane.getInputMap().put(KeyStroke.getKeyStroke("F2"),
-		                            "refresh");
-		main.theEditorScrollPane.getActionMap().put("refresh",
-		                             refresh);
+//		main.theEditorScrollPane.getInputMap().put(KeyStroke.getKeyStroke("F2"),
+//		                            "refresh");
+//		main.theEditorScrollPane.getActionMap().put("refresh",
+//		                             refresh);
 		
 		
 		//main.processButton.setToolTipText("Click this first to run and to get the results of the initial classification of your document.");

@@ -1,0 +1,33 @@
+Started log log/Anonymouth_anonymous_2013-02-02_22-57-46.txt
+===================================================
+22-57-47: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+22-57-47: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+22-57-47: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+22-57-47: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+22-57-47: Populating event drivers...
+22-57-47: adding event drivers under Basic
+22-57-47: adding event drivers under Part-Of-Speech
+22-57-47: adding event drivers under Grams
+22-57-47: adding event drivers under Dictionary
+22-57-47: adding event drivers under Counters
+22-57-47: adding event drivers under Readability Metrics
+22-57-47: adding event drivers under Misc.
+22-57-47: done!
+22-57-47: Populating canonicizers...
+22-57-47: done!
+22-57-47: Populating event cullers...
+22-57-47: done!
+22-57-47: EditorInnerTabSpawner spawning tab
+22-57-48: 'Load Problem Set' button clicked on the documents tab
+22-57-50: Trying to load problem set from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1.xml
+22-57-55: GUI Update: update documents tab with current problem set started
+22-57-57: Preset feature set selected in the features tab.
+22-57-57: loaded preset feature set: Translation
+22-57-58: Classifier selected in the available classifiers tree in the classifiers tab: SMO
+22-57-59: 'Add' button clicked in the analysis tab.
+22-57-59: Classifier tree unselected in the classifiers tab.
+22-58-00: Intial processing starting...
+22-58-00: Created DataAnalyzer
+22-58-00: Created new DocumentMagician, is sparse?  ... false
+22-58-00: Numer of features to return: 200
+22-58-00: calling backendInterface for preTargetSelectionProcessing

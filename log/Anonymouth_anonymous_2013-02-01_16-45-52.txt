@@ -1,0 +1,37 @@
+Started log log/Anonymouth_anonymous_2013-02-01_16-45-52.txt
+===================================================
+16-45-52: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+16-45-52: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+16-45-52: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+16-45-52: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+16-45-52: Populating event drivers...
+16-45-52: adding event drivers under Basic
+16-45-52: adding event drivers under Part-Of-Speech
+16-45-52: adding event drivers under Grams
+16-45-52: adding event drivers under Dictionary
+16-45-52: adding event drivers under Counters
+16-45-52: adding event drivers under Readability Metrics
+16-45-52: adding event drivers under Misc.
+16-45-52: done!
+16-45-52: Populating canonicizers...
+16-45-52: done!
+16-45-52: Populating event cullers...
+16-45-52: done!
+16-45-52: EditorInnerTabSpawner spawning tab
+16-45-54: 'Load Problem Set' button clicked on the documents tab
+16-45-55: Trying to load problem set from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1.xml
+16-45-55: GUI Update: update documents tab with current problem set started
+16-45-57: Preset feature set selected in the features tab.
+16-45-57: loaded preset feature set: Translation
+16-45-58: Classifier selected in the available classifiers tree in the classifiers tab: SMO
+16-45-58: 'Add' button clicked in the analysis tab.
+16-45-58: Classifier tree unselected in the classifiers tab.
+16-46-00: Intial processing starting...
+16-46-00: Created DataAnalyzer
+16-46-00: Created new DocumentMagician, is sparse?  ... false
+16-46-00: Numer of features to return: 200
+16-46-00: calling backendInterface for preTargetSelectionProcessing
+16-46-00: FINISHED INITIALIZING FUNCTION WORDS
+16-46-00: Process button pressed for first time (initial run) in editor tab
+16-46-16: called runIntitial in DataAnalyzer
+16-46-17: Entered initialDocToData in DocumentMagician

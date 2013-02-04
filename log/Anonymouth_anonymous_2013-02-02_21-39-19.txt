@@ -1,0 +1,41 @@
+Started log log/Anonymouth_anonymous_2013-02-02_21-39-19.txt
+===================================================
+21-39-20: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+21-39-20: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+21-39-20: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+21-39-20: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+21-39-20: Populating event drivers...
+21-39-20: adding event drivers under Basic
+21-39-20: adding event drivers under Part-Of-Speech
+21-39-20: adding event drivers under Grams
+21-39-20: adding event drivers under Dictionary
+21-39-20: adding event drivers under Counters
+21-39-20: adding event drivers under Readability Metrics
+21-39-20: adding event drivers under Misc.
+21-39-20: done!
+21-39-20: Populating canonicizers...
+21-39-20: done!
+21-39-20: Populating event cullers...
+21-39-20: done!
+21-39-20: EditorInnerTabSpawner spawning tab
+21-39-21: 'Load Problem Set' button clicked on the documents tab
+21-39-22: Trying to load problem set from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1.xml
+21-39-22: GUI Update: update documents tab with current problem set started
+21-39-24: Preset feature set selected in the features tab.
+21-39-24: loaded preset feature set: 9 feature-set
+21-39-24: Is using nine feature set? .... true
+21-39-25: Preset feature set selected in the features tab.
+21-39-25: loaded preset feature set: Translation
+21-39-26: Classifier selected in the available classifiers tree in the classifiers tab: SMO
+21-39-27: 'Add' button clicked in the analysis tab.
+21-39-27: Classifier tree unselected in the classifiers tab.
+21-39-29: Intial processing starting...
+21-39-29: Created DataAnalyzer
+21-39-29: Created new DocumentMagician, is sparse?  ... false
+21-39-29: Numer of features to return: 9
+21-39-29: calling backendInterface for preTargetSelectionProcessing
+21-39-29: FINISHED INITIALIZING FUNCTION WORDS
+21-39-29: Process button pressed for first time (initial run) in editor tab
+21-39-29: called runIntitial in DataAnalyzer
+21-39-29: Entered initialDocToData in DocumentMagician
+21-39-30: Fatal error encountered, termination requested.

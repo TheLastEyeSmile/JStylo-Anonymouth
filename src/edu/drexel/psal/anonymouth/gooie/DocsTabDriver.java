@@ -102,6 +102,7 @@ public class DocsTabDriver {
 						Logger.logln("Trying to load problem set from "+path);
 						try {
 							main.ps = new ProblemSet(path);
+							ProblemSet temp = main.ps;
 							GUIUpdateInterface.updateProblemSet(main);
 						} catch (Exception exc) {
 							Logger.logln("Failed loading "+path, LogOut.STDERR);

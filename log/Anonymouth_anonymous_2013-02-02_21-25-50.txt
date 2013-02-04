@@ -1,0 +1,38 @@
+Started log log/Anonymouth_anonymous_2013-02-02_21-25-50.txt
+===================================================
+21-25-51: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+21-25-51: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+21-25-51: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+21-25-51: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+21-25-51: Populating event drivers...
+21-25-51: adding event drivers under Basic
+21-25-51: adding event drivers under Part-Of-Speech
+21-25-51: adding event drivers under Grams
+21-25-51: adding event drivers under Dictionary
+21-25-51: adding event drivers under Counters
+21-25-51: adding event drivers under Readability Metrics
+21-25-51: adding event drivers under Misc.
+21-25-51: done!
+21-25-51: Populating canonicizers...
+21-25-51: done!
+21-25-51: Populating event cullers...
+21-25-51: done!
+21-25-51: EditorInnerTabSpawner spawning tab
+21-25-57: 'Load Problem Set' button clicked on the documents tab
+21-25-58: Trying to load problem set from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1.xml
+21-25-59: GUI Update: update documents tab with current problem set started
+21-26-01: Preset feature set selected in the features tab.
+21-26-01: loaded preset feature set: Translation
+21-26-02: Classifier selected in the available classifiers tree in the classifiers tab: SMO
+21-26-03: 'Add' button clicked in the analysis tab.
+21-26-03: Classifier tree unselected in the classifiers tab.
+21-26-05: Intial processing starting...
+21-26-05: Created DataAnalyzer
+21-26-05: Created new DocumentMagician, is sparse?  ... false
+21-26-05: Numer of features to return: 200
+21-26-05: calling backendInterface for preTargetSelectionProcessing
+21-26-05: FINISHED INITIALIZING FUNCTION WORDS
+21-26-05: Process button pressed for first time (initial run) in editor tab
+21-26-05: called runIntitial in DataAnalyzer
+21-26-05: Entered initialDocToData in DocumentMagician
+21-26-06: Fatal error encountered, termination requested.

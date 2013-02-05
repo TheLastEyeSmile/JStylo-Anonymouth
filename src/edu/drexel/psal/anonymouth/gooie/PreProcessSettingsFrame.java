@@ -395,14 +395,14 @@ public class PreProcessSettingsFrame extends JFrame
 		this.main = main;
 		this.setIconImage(new ImageIcon(getClass().getResource(JSANConstants.JSAN_GRAPHICS_PREFIX+"Anonymouth_LOGO.png")).getImage());
 		getContentPane().setLayout(new MigLayout(
-				"fill, wrap 1",
+				"fill, wrap 1, ins 0, gap 0 0",
 				"fill",
 				"[grow]0[40]"));
 		{
 			treePanel = new JPanel();
 			treePanel.setLayout(new MigLayout(
 					"",
-					"[100]",
+					"fill",
 					"fill"));
 			treePanel.setBackground(Color.WHITE);
 			treeScrollPane = new JScrollPane(treePanel);
@@ -411,19 +411,16 @@ public class PreProcessSettingsFrame extends JFrame
 				tree = new JTree(top);
 				initializeTree(tree, top);
 			}
-			treePanel.add(tree, "w 100!");
+			treePanel.add(tree);
+			getContentPane().add(treePanel, "split 2, growy, shrinkx 0");
 			
 			mainPanel = new JPanel();
-			mainScrollPane = new JScrollPane();
-			mainScrollPane.setViewportView(mainPanel);
-			
-			splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, treeScrollPane, mainScrollPane);
-			splitPane.setOneTouchExpandable(true);
-			getContentPane().add(splitPane, "grow");
+			mainPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.LIGHT_GRAY));
+			getContentPane().add(mainPanel, "grow");
 			
 			bottomPanel = new JPanel();
-			bottomScrollPane = new JScrollPane(bottomPanel);
-			getContentPane().add(bottomScrollPane, "h 40!");
+			bottomPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.LIGHT_GRAY));
+			getContentPane().add(bottomPanel, "h 40!, span 2, shrinky 0");
 		}
 		
 		Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();

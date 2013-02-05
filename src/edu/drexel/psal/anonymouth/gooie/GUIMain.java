@@ -278,12 +278,15 @@ public class GUIMain extends javax.swing.JFrame
 		protected JPanel prepDocumentsPanel;
 			protected JPanel prepMainDocPanel;
 				protected JLabel prepDocLabel;
+				protected JLabel mainLabel;
 				protected JList prepMainDocList;
 				protected JScrollPane prepMainDocScrollPane;
 			protected JPanel prepSampleDocsPanel;
+				protected JLabel sampleLabel;
 				protected JList prepSampleDocsList;
 				protected JScrollPane prepSampleDocsScrollPane;
 			protected JPanel prepTrainDocsPanel;
+				protected JLabel trainLabel;
 				protected JTree trainCorpusJTree;
 				protected JScrollPane trainCorpusJTreeScrollPane;
 		protected JPanel prepFeaturesPanel;
@@ -391,6 +394,10 @@ public class GUIMain extends javax.swing.JFrame
 	public static ImageIcon icon;
 	
 	protected Translation GUITranslator = new Translation();
+	
+	protected boolean docPPIsShowing = true;
+	protected boolean featPPIsShowing = true;
+	protected boolean classPPIsShowing = true;
 	
 	/**
 	 * Auto-generated main method to display this JFrame
@@ -643,12 +650,12 @@ public class GUIMain extends javax.swing.JFrame
 			prepDocumentsPanel.add(loadProblemSetJButton, "span 2");
 			
 			// main label
-			JLabel mainLabel = new JLabel("Main:");
+			mainLabel = new JLabel("Main:");
 			mainLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			prepDocumentsPanel.add(mainLabel, "span 2");
 			
 			// sample label
-			JLabel sampleLabel = new JLabel("Sample:");
+			sampleLabel = new JLabel("Sample:");
 			sampleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			prepDocumentsPanel.add(sampleLabel, "span 2");
 			
@@ -683,7 +690,7 @@ public class GUIMain extends javax.swing.JFrame
 			prepDocumentsPanel.add(removeuserSampleDocJButton);
 			
 			// train label
-			JLabel trainLabel = new JLabel("Other Authors:");
+			trainLabel = new JLabel("Other Authors:");
 			trainLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			prepDocumentsPanel.add(trainLabel, "span");
 			

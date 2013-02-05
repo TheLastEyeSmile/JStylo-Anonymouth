@@ -38,7 +38,7 @@ public class MainDriver
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				PreProcessSettingsFrame settingsPane = new PreProcessSettingsFrame(main);
+				main.PPSP.openWindow();
 			}
 		});
 	}

@@ -240,16 +240,28 @@ public class PreProcessSettingsFrame extends JFrame
 					protected JButton saveProblemSetJButton;
 					protected JList prepMainDocList;
 					protected JScrollPane prepMainDocScrollPane;
+					protected JPanel mainDocSettingsPanel;
+						protected JLabel mainDocSettingsFullPathLabel;
+						protected JLabel mainDocSettingsSizeLabel;
+						protected JLabel mainDocSettingsLastModifiedLabel;
 					protected JButton removeTestDocJButton;
 					protected JButton addTestDocJButton;
 				protected JPanel prepSampleDocsPanel;
 					protected JList prepSampleDocsList;
 					protected JScrollPane prepSampleDocsScrollPane;
+					protected JPanel sampleDocSettingsPanel;
+						protected JLabel sampleDocSettingsFullPathLabel;
+						protected JLabel sampleDocSettingsSizeLabel;
+						protected JLabel sampleDocSettingsLastModifiedLabel;
 					protected JButton adduserSampleDocJButton;
 					protected JButton removeuserSampleDocJButton;
 				protected JPanel prepTrainDocsPanel;
 					protected JTree trainCorpusJTree;
 					protected JScrollPane trainCorpusJTreeScrollPane;
+					protected JPanel trainDocSettingsPanel;
+						protected JLabel trainDocSettingsFullPathLabel;
+						protected JLabel trainDocSettingsSizeLabel;
+						protected JLabel trainDocSettingsLastModifiedLabel;
 					protected JButton removeTrainDocsJButton;
 					protected JButton addTrainDocsJButton;
 			protected JPanel prepFeaturesPanel;
@@ -375,7 +387,7 @@ public class PreProcessSettingsFrame extends JFrame
 	{
 		super("Pre-Process Settings");
 		init(main);
-		setVisible(true);
+		setVisible(false);
 	}
 	
 	private void init(GUIMain main)
@@ -459,6 +471,12 @@ public class PreProcessSettingsFrame extends JFrame
 		tree.expandRow(0);
 	}
 	
+	public void openWindow()
+	{
+		this.setVisible(true);
+		this.setLocationRelativeTo(null); // makes it form in the center of the screen
+	}
+	
 	public void closeWindow() 
 	{
 		//main.setEnabled(true);
@@ -470,89 +488,147 @@ public class PreProcessSettingsFrame extends JFrame
 	{
 		mainPanel.removeAll();
 		
-		MigLayout documentsLayout = new MigLayout(
-				"fill, wrap 4",
-				"grow 25, fill, center");
-		mainPanel.setLayout(documentsLayout);
+		MigLayout mainLayout = new MigLayout(
+				"wrap 4",
+				"grow, fill",
+				"[30][20]0[grow][20][grow]");
+		mainPanel.setLayout(mainLayout);
 		//prepDocumentsPanel.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Color.BLACK));
 		{
-			// Advanced Button
-			prepAdvButton = new JButton("Advanced");
-			mainPanel.add(prepAdvButton, "span 2, skip 1");
-			
 			// Documents Label
 			prepDocLabel = new JLabel("Documents:");
 			prepDocLabel.setFont(new Font("Ariel", Font.BOLD, 12));
 			prepDocLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			prepDocLabel.setBorder(BorderFactory.createRaisedBevelBorder());
 			prepDocLabel.setOpaque(true);
-			mainPanel.add(prepDocLabel, "skip 1, span, h 20!");
+			if (main.documentsAreReady())
+				prepDocLabel.setBackground(main.ready);
+			else
+				prepDocLabel.setBackground(main.notReady);
+			mainPanel.add(prepDocLabel, "span, h 30!");
 			
-			// Save Problem Set button
-			saveProblemSetJButton = new JButton("Save...");
-			mainPanel.add(saveProblemSetJButton, "span 2");
-			
-			// load problem set button
-			loadProblemSetJButton = new JButton("Load...");
-			mainPanel.add(loadProblemSetJButton, "span 2");
+			JPanel documentOptionsPanel = new JPanel();
+			documentOptionsPanel.setLayout(new MigLayout(
+					"wrap 1",
+					"grow, fill"));
+			{
+				JLabel probSetLabel = new JLabel("Problem Set:");
+				documentOptionsPanel.add(probSetLabel);
+				
+				// Save Problem Set button
+				saveProblemSetJButton = new JButton("Save");
+				documentOptionsPanel.add(saveProblemSetJButton);
+				
+				// load problem set button
+				loadProblemSetJButton = new JButton("Load");
+				documentOptionsPanel.add(loadProblemSetJButton);
+			}
+			mainPanel.add(documentOptionsPanel, "spany, growy");
 			
 			// main label
 			JLabel mainLabel = new JLabel("Main:");
 			mainLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			mainPanel.add(mainLabel, "span 2");
+			mainPanel.add(mainLabel);
 			
 			// sample label
 			JLabel sampleLabel = new JLabel("Sample:");
 			sampleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			mainPanel.add(sampleLabel, "span 2");
+			mainPanel.add(sampleLabel);
+			
+			// train label
+			JLabel trainLabel = new JLabel("Other Authors:");
+			trainLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			mainPanel.add(trainLabel);
+			
 			
 			// main documents list
 			DefaultListModel mainDocListModel = new DefaultListModel();
 			prepMainDocList = new JList(mainDocListModel);
 			prepMainDocList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			prepMainDocScrollPane = new JScrollPane(prepMainDocList);
-			mainPanel.add(prepMainDocScrollPane, "span 2, growy, h 60::180");
+			mainPanel.add(prepMainDocScrollPane, "grow, h 100::, w 100::");
 			
 			// sample documents list
 			DefaultListModel sampleDocsListModel = new DefaultListModel();
 			prepSampleDocsList = new JList(sampleDocsListModel);
 			prepSampleDocsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			prepSampleDocsScrollPane = new JScrollPane(prepSampleDocsList);
-			mainPanel.add(prepSampleDocsScrollPane, "span 2, growy, h 60::180");
-			
-			// main add button
-			addTestDocJButton = new JButton("Add");
-			mainPanel.add(addTestDocJButton);
-			
-			// main delete button
-			removeTestDocJButton = new JButton("Delete");
-			mainPanel.add(removeTestDocJButton);
-			
-			// sample add button
-			adduserSampleDocJButton = new JButton("Add");
-			mainPanel.add(adduserSampleDocJButton);
-			
-			// sample delete button
-			removeuserSampleDocJButton = new JButton("Delete");
-			mainPanel.add(removeuserSampleDocJButton);
-			
-			// train label
-			JLabel trainLabel = new JLabel("Other Authors:");
-			trainLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			mainPanel.add(trainLabel, "span");
+			mainPanel.add(prepSampleDocsScrollPane, "grow, h 100::, w 100::");
 			
 			// train tree
 			DefaultMutableTreeNode top = new DefaultMutableTreeNode(main.ps.getTrainCorpusName());
 			trainCorpusJTree = new JTree(top);
 			trainCorpusJTreeScrollPane = new JScrollPane(trainCorpusJTree);
-			mainPanel.add(trainCorpusJTreeScrollPane, "span, growy, h 120::, shrinkprio 110");
+			mainPanel.add(trainCorpusJTreeScrollPane, "grow, h 100::, w 100::");
+			
+			// main add button
+			addTestDocJButton = new JButton("Add");
+			mainPanel.add(addTestDocJButton, "split 2, w 100::");
+			
+			// main delete button
+			removeTestDocJButton = new JButton("Delete");
+			mainPanel.add(removeTestDocJButton, "w 100::");
+			
+			// sample add button
+			adduserSampleDocJButton = new JButton("Add");
+			mainPanel.add(adduserSampleDocJButton, "split 2, w 100::");
+			
+			// sample delete button
+			removeuserSampleDocJButton = new JButton("Delete");
+			mainPanel.add(removeuserSampleDocJButton, "w 100::");
 			
 			// train add button
 			addTrainDocsJButton = new JButton("Add");
-			mainPanel.add(addTrainDocsJButton, "span 2");
+			mainPanel.add(addTrainDocsJButton, "split 2, w 100::");
 			
 			// train delete button
 			removeTrainDocsJButton = new JButton("Delete");
-			mainPanel.add(removeTrainDocsJButton, "span 2");
+			mainPanel.add(removeTrainDocsJButton, "w 100::");
+			
+			mainDocSettingsPanel = new JPanel();
+			mainDocSettingsPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
+			mainDocSettingsPanel.setLayout(new MigLayout("wrap 1", "grow", "top"));
+			{
+				mainDocSettingsFullPathLabel = new JLabel("Location:");
+				mainDocSettingsPanel.add(mainDocSettingsFullPathLabel);
+				
+				mainDocSettingsSizeLabel = new JLabel("Size:");
+				mainDocSettingsPanel.add(mainDocSettingsSizeLabel);
+				
+				mainDocSettingsLastModifiedLabel = new JLabel("Last Modified:");
+				mainDocSettingsPanel.add(mainDocSettingsLastModifiedLabel);
+			}
+			mainPanel.add(mainDocSettingsPanel, "grow, w 100::");
+			
+			sampleDocSettingsPanel = new JPanel();
+			sampleDocSettingsPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
+			sampleDocSettingsPanel.setLayout(new MigLayout("wrap 1", "grow", "top"));
+			{
+				sampleDocSettingsFullPathLabel = new JLabel("Location:");
+				sampleDocSettingsPanel.add(sampleDocSettingsFullPathLabel);
+				
+				sampleDocSettingsSizeLabel = new JLabel("Size:");
+				sampleDocSettingsPanel.add(sampleDocSettingsSizeLabel);
+				
+				sampleDocSettingsLastModifiedLabel = new JLabel("Last Modified:");
+				sampleDocSettingsPanel.add(sampleDocSettingsLastModifiedLabel);
+			}
+			mainPanel.add(sampleDocSettingsPanel, "grow, w 100::");
+			
+			trainDocSettingsPanel = new JPanel();
+			trainDocSettingsPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
+			trainDocSettingsPanel.setLayout(new MigLayout("wrap 1", "grow", "top"));
+			{
+				trainDocSettingsFullPathLabel = new JLabel("Location:");
+				trainDocSettingsPanel.add(trainDocSettingsFullPathLabel);
+				
+				trainDocSettingsSizeLabel = new JLabel("Size:");
+				trainDocSettingsPanel.add(trainDocSettingsSizeLabel);
+				
+				trainDocSettingsLastModifiedLabel = new JLabel("Last Modified:");
+				trainDocSettingsPanel.add(trainDocSettingsLastModifiedLabel);
+			}
+			mainPanel.add(trainDocSettingsPanel, "grow, w 100::");
 		}
 		mainPanel.revalidate();
 		mainPanel.repaint();

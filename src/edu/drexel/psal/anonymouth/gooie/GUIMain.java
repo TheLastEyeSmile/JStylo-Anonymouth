@@ -112,6 +112,8 @@ public class GUIMain extends javax.swing.JFrame
 	protected List<Classifier> classifiers;
 	protected Thread analysisThread;
 	protected List<String> results;
+	
+	protected PreProcessSettingsFrame PPSP = new PreProcessSettingsFrame(this);
 
 	protected String defaultTrainDocsTreeName = "Authors"; 
 	protected Font defaultLabelFont = new Font("Verdana",0,16);
@@ -553,11 +555,9 @@ public class GUIMain extends javax.swing.JFrame
 	{
 		boolean ready = true;
 		
-		if (inst.prepMainDocList.getModel().getSize() == 0)
+		if (!inst.ps.hasTestDocs())
 			ready = false;
-		if (inst.prepSampleDocsList.getModel().getSize() == 0)
-			ready = false;
-		if (!(inst.trainCorpusJTree.getVisibleRowCount() > 1))
+		if (!inst.ps.hasAuthors())
 			ready = false;
 		
 		return ready;

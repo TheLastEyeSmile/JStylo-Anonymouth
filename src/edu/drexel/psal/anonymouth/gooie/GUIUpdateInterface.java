@@ -57,15 +57,15 @@ public class GUIUpdateInterface {
 	
 	public static void updateDocPrepColor(GUIMain main)
 	{
-		Color ready = new Color(0,255,128);
-		Color notReady = new Color(255,102,102);
 		if (main.documentsAreReady())
 		{
-			main.prepDocLabel.setBackground(ready);
+			main.prepDocLabel.setBackground(main.ready);
+			main.PPSP.prepDocLabel.setBackground(main.ready);
 		}
 		else
 		{
-			main.prepDocLabel.setBackground(notReady);
+			main.prepDocLabel.setBackground(main.notReady);
+			main.PPSP.prepDocLabel.setBackground(main.notReady);
 		}	
 	}
 	
@@ -90,12 +90,18 @@ public class GUIUpdateInterface {
 	/**
 	 * Updates the test documents table with the current problem set. 
 	 */
-	protected static void updateTestDocTable(GUIMain main) {
+	protected static void updateTestDocTable(GUIMain main) 
+	{
 		DefaultListModel dlm = (DefaultListModel)main.prepMainDocList.getModel();
+		DefaultListModel dlm2 = (DefaultListModel)main.PPSP.prepMainDocList.getModel();
 		dlm.removeAllElements();
-		List<Document> testDocs = main.ps.getTestDocs();
+		dlm2.removeAllElements();
+		List<Document>testDocs = main.ps.getTestDocs();
 		for (int i=0; i<testDocs.size(); i++)
+		{
 			dlm.addElement(testDocs.get(i).getTitle());
+			dlm2.addElement(testDocs.get(i).getTitle());
+		}
 		
 		updateDocPrepColor(main);
 	}
@@ -105,10 +111,15 @@ public class GUIUpdateInterface {
 	 */
 	protected static void updateUserSampleDocTable(GUIMain main) {
 		DefaultListModel dlm = (DefaultListModel)main.prepSampleDocsList.getModel();
+		DefaultListModel dlm2 = (DefaultListModel)main.PPSP.prepSampleDocsList.getModel();
 		dlm.removeAllElements();
+		dlm2.removeAllElements();
 		List<Document> userSampleDocs = main.ps.getTrainDocs(ProblemSet.getDummyAuthor());
 		for (int i=0; i<userSampleDocs.size(); i++)
+		{
 			dlm.addElement(userSampleDocs.get(i).getTitle());// todo this is where it fails (from the note in DocsTabDriver).. it fails with a "NullPointerException".... (when "create new problem set" is clicked when there isn't a problem set there. [ i.e. as soon as Anonymouth starts up]) 
+			dlm2.addElement(userSampleDocs.get(i).getTitle());
+		}
 		
 		updateDocPrepColor(main);
 	}
@@ -132,6 +143,7 @@ public class GUIUpdateInterface {
 		}
 		DefaultTreeModel trainTreeModel = new DefaultTreeModel(root);
 		main.trainCorpusJTree.setModel(trainTreeModel);
+		main.PPSP.trainCorpusJTree.setModel(trainTreeModel);
 		
 		updateDocPrepColor(main);
 	}
@@ -153,15 +165,15 @@ public class GUIUpdateInterface {
 	
 	public static void updateFeatPrepColor(GUIMain main)
 	{
-		Color ready = new Color(0,255,128);
-		Color notReady = new Color(255,102,102);
 		if (main.featuresAreReady())
 		{
-			main.prepFeatLabel.setBackground(ready);
+			main.prepFeatLabel.setBackground(main.ready);
+			//main.PPSP.prepFeatLabel.setBackground(main.ready);
 		}
 		else
 		{
-			main.prepFeatLabel.setBackground(notReady);
+			main.prepFeatLabel.setBackground(main.notReady);
+			//main.PPSP.prepFeatLabel.setBackground(main.ready);
 		}	
 	}
 	
@@ -268,15 +280,15 @@ public class GUIUpdateInterface {
 	
 	public static void updateClassPrepColor(GUIMain main)
 	{
-		Color ready = new Color(0,255,128);
-		Color notReady = new Color(255,102,102);
 		if (main.classifiersAreReady())
 		{
-			main.prepClassLabel.setBackground(ready);
+			main.prepClassLabel.setBackground(main.ready);
+			//main.PPSP.prepClassLabel.setBackground(main.ready);
 		}
 		else
 		{
-			main.prepClassLabel.setBackground(notReady);
+			main.prepClassLabel.setBackground(main.notReady);
+			//main.PPSP.prepClassLabel.setBackground(main.notReady);
 		}	
 	}
 	

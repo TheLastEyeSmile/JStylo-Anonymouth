@@ -3,6 +3,7 @@ package edu.drexel.psal.anonymouth.gooie;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -59,7 +60,7 @@ import weka.classifiers.*;
 
 import edu.drexel.psal.jstylo.analyzers.WekaAnalyzer;
 
-public class PreProcessSettingsFrame extends JFrame
+public class PreProcessSettingsFrame extends JDialog
 {
 	
 	
@@ -371,21 +372,29 @@ public class PreProcessSettingsFrame extends JFrame
 //		protected Translation GUITranslator = new Translation();
 	
 	protected GUIMain main;
+	public boolean panelsAreMade = false;
 	
 	protected JSplitPane splitPane;
 	protected JScrollPane treeScrollPane;
 	protected JScrollPane mainScrollPane;
 	protected JScrollPane bottomScrollPane;
-	protected JPanel treePanel;
-	protected JPanel mainPanel;
-	protected JPanel bottomPanel;
 	
+	protected JPanel treePanel;
 	protected JTree tree;
 	protected DefaultMutableTreeNode top;
 	
+	protected JPanel mainPanel;
+	protected JPanel docPanel;
+	protected JPanel featPanel;
+	protected JPanel classPanel;
+	
+	protected JPanel bottomPanel;
+	protected JButton okButton;
+	protected JButton cancelButton;
+	
 	public PreProcessSettingsFrame(GUIMain main)
 	{
-		super("Pre-Process Settings");
+		super(main, "Pre-Process Settings", Dialog.ModalityType.APPLICATION_MODAL);
 		init(main);
 		setVisible(false);
 	}
@@ -396,8 +405,8 @@ public class PreProcessSettingsFrame extends JFrame
 		this.setIconImage(new ImageIcon(getClass().getResource(JSANConstants.JSAN_GRAPHICS_PREFIX+"Anonymouth_LOGO.png")).getImage());
 		getContentPane().setLayout(new MigLayout(
 				"fill, wrap 1, ins 0, gap 0 0",
-				"fill",
-				"[grow]0[40]"));
+				"fill, grow",
+				"[grow][grow, shrink 0, 40!]"));
 		{
 			treePanel = new JPanel();
 			treePanel.setLayout(new MigLayout(
@@ -415,14 +424,42 @@ public class PreProcessSettingsFrame extends JFrame
 			getContentPane().add(treePanel, "split 2, growy, shrinkx 0");
 			
 			mainPanel = new JPanel();
+			mainPanel.setLayout(new MigLayout(
+					"fill, wrap 1, ins 0, gap 0 0",
+					"fill",
+					"fill"));
 			mainPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.LIGHT_GRAY));
 			getContentPane().add(mainPanel, "grow");
 			
 			bottomPanel = new JPanel();
+			bottomPanel.setLayout(new MigLayout(
+					"right",
+					"right",
+					"bottom"));
 			bottomPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.LIGHT_GRAY));
+			{
+				okButton = new JButton("Ok");
+				okButton.addActionListener(new ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						closeWindow();
+					}
+				});
+				bottomPanel.add(okButton);
+				
+				cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						closeWindow();
+					}
+				});
+				bottomPanel.add(cancelButton);
+			}
 			getContentPane().add(bottomPanel, "h 40!, span 2, shrinky 0");
 		}
 		
+		makePanels();
 		Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setSize(new Dimension((int)(screensize.width*.75), (int)(screensize.height*.75)));
 		this.setLocationRelativeTo(null); // makes it form in the center of the screen
@@ -449,15 +486,15 @@ public class PreProcessSettingsFrame extends JFrame
 				String name = e.getPath().getLastPathComponent().toString();
 				if (name.equals("Documents"))
 				{
-					showDocOptions();
+					showPanel(docPanel);
 				}
 				else if (name.equals("Features"))
 				{
-					showFeatOptions();
+					showPanel(featPanel);
 				}
 				else if (name.equals("Classifiers"))
 				{
-					showClassOptions();
+					showPanel(classPanel);
 				}
 				else
 				{}
@@ -481,15 +518,28 @@ public class PreProcessSettingsFrame extends JFrame
         Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
 	}
 	
-	private void showDocOptions()
+	private void showPanel(JPanel panel)
 	{
+//		if (docPanel == null || featPanel == null || classPanel == null)
+//			makePanels();
 		mainPanel.removeAll();
+		mainPanel.add(panel);
+		mainPanel.revalidate();
+		mainPanel.repaint();
+	}
+	
+	private void makePanels()
+	{
+		//==========================================================================================
+		//================================ Documents Panel =========================================
+		//==========================================================================================
+		docPanel = new JPanel();
 		
-		MigLayout mainLayout = new MigLayout(
+		MigLayout docLayout = new MigLayout(
 				"wrap 4",
 				"grow, fill",
 				"[30][20]0[grow][20][grow]");
-		mainPanel.setLayout(mainLayout);
+		docPanel.setLayout(docLayout);
 		//prepDocumentsPanel.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Color.BLACK));
 		{
 			// Documents Label
@@ -502,7 +552,7 @@ public class PreProcessSettingsFrame extends JFrame
 				prepDocLabel.setBackground(main.ready);
 			else
 				prepDocLabel.setBackground(main.notReady);
-			mainPanel.add(prepDocLabel, "span, h 30!");
+			docPanel.add(prepDocLabel, "span, h 30!");
 			
 			JPanel documentOptionsPanel = new JPanel();
 			documentOptionsPanel.setLayout(new MigLayout(
@@ -520,22 +570,22 @@ public class PreProcessSettingsFrame extends JFrame
 				loadProblemSetJButton = new JButton("Load");
 				documentOptionsPanel.add(loadProblemSetJButton);
 			}
-			mainPanel.add(documentOptionsPanel, "spany, growy");
+			docPanel.add(documentOptionsPanel, "spany, growy");
 			
 			// main label
 			JLabel mainLabel = new JLabel("Main:");
 			mainLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			mainPanel.add(mainLabel);
+			docPanel.add(mainLabel);
 			
 			// sample label
 			JLabel sampleLabel = new JLabel("Sample:");
 			sampleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			mainPanel.add(sampleLabel);
+			docPanel.add(sampleLabel);
 			
 			// train label
 			JLabel trainLabel = new JLabel("Other Authors:");
 			trainLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			mainPanel.add(trainLabel);
+			docPanel.add(trainLabel);
 			
 			
 			// main documents list
@@ -543,44 +593,44 @@ public class PreProcessSettingsFrame extends JFrame
 			prepMainDocList = new JList(mainDocListModel);
 			prepMainDocList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			prepMainDocScrollPane = new JScrollPane(prepMainDocList);
-			mainPanel.add(prepMainDocScrollPane, "grow, h 100::, w 100::");
+			docPanel.add(prepMainDocScrollPane, "grow, h 100::, w 100::");
 			
 			// sample documents list
 			DefaultListModel sampleDocsListModel = new DefaultListModel();
 			prepSampleDocsList = new JList(sampleDocsListModel);
 			prepSampleDocsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			prepSampleDocsScrollPane = new JScrollPane(prepSampleDocsList);
-			mainPanel.add(prepSampleDocsScrollPane, "grow, h 100::, w 100::");
+			docPanel.add(prepSampleDocsScrollPane, "grow, h 100::, w 100::");
 			
 			// train tree
 			DefaultMutableTreeNode top = new DefaultMutableTreeNode(main.ps.getTrainCorpusName());
 			trainCorpusJTree = new JTree(top);
 			trainCorpusJTreeScrollPane = new JScrollPane(trainCorpusJTree);
-			mainPanel.add(trainCorpusJTreeScrollPane, "grow, h 100::, w 100::");
+			docPanel.add(trainCorpusJTreeScrollPane, "grow, h 100::, w 100::");
 			
 			// main add button
 			addTestDocJButton = new JButton("Add");
-			mainPanel.add(addTestDocJButton, "split 2, w 100::");
+			docPanel.add(addTestDocJButton, "split 2, w 100::");
 			
 			// main delete button
 			removeTestDocJButton = new JButton("Delete");
-			mainPanel.add(removeTestDocJButton, "w 100::");
+			docPanel.add(removeTestDocJButton, "w 100::");
 			
 			// sample add button
 			adduserSampleDocJButton = new JButton("Add");
-			mainPanel.add(adduserSampleDocJButton, "split 2, w 100::");
+			docPanel.add(adduserSampleDocJButton, "split 2, w 100::");
 			
 			// sample delete button
 			removeuserSampleDocJButton = new JButton("Delete");
-			mainPanel.add(removeuserSampleDocJButton, "w 100::");
+			docPanel.add(removeuserSampleDocJButton, "w 100::");
 			
 			// train add button
 			addTrainDocsJButton = new JButton("Add");
-			mainPanel.add(addTrainDocsJButton, "split 2, w 100::");
+			docPanel.add(addTrainDocsJButton, "split 2, w 100::");
 			
 			// train delete button
 			removeTrainDocsJButton = new JButton("Delete");
-			mainPanel.add(removeTrainDocsJButton, "w 100::");
+			docPanel.add(removeTrainDocsJButton, "w 100::");
 			
 			mainDocSettingsPanel = new JPanel();
 			mainDocSettingsPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
@@ -595,7 +645,7 @@ public class PreProcessSettingsFrame extends JFrame
 				mainDocSettingsLastModifiedLabel = new JLabel("Last Modified:");
 				mainDocSettingsPanel.add(mainDocSettingsLastModifiedLabel);
 			}
-			mainPanel.add(mainDocSettingsPanel, "grow, w 100::");
+			docPanel.add(mainDocSettingsPanel, "grow, w 100::");
 			
 			sampleDocSettingsPanel = new JPanel();
 			sampleDocSettingsPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
@@ -610,7 +660,7 @@ public class PreProcessSettingsFrame extends JFrame
 				sampleDocSettingsLastModifiedLabel = new JLabel("Last Modified:");
 				sampleDocSettingsPanel.add(sampleDocSettingsLastModifiedLabel);
 			}
-			mainPanel.add(sampleDocSettingsPanel, "grow, w 100::");
+			docPanel.add(sampleDocSettingsPanel, "grow, w 100::");
 			
 			trainDocSettingsPanel = new JPanel();
 			trainDocSettingsPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
@@ -625,26 +675,20 @@ public class PreProcessSettingsFrame extends JFrame
 				trainDocSettingsLastModifiedLabel = new JLabel("Last Modified:");
 				trainDocSettingsPanel.add(trainDocSettingsLastModifiedLabel);
 			}
-			mainPanel.add(trainDocSettingsPanel, "grow, w 100::");
+			docPanel.add(trainDocSettingsPanel, "grow, w 100::");
 		}
-		mainPanel.revalidate();
-		mainPanel.repaint();
-	}
-	
-	private void showFeatOptions()
-	{
-		mainPanel.removeAll();
 		
-		mainPanel.revalidate();
-		mainPanel.repaint();
-	}
-	
-	private void showClassOptions()
-	{
-		mainPanel.removeAll();
+		//==========================================================================================
+		//================================ Features Panel =========================================
+		//==========================================================================================
 		
-		mainPanel.revalidate();
-		mainPanel.repaint();
+		featPanel = new JPanel();
+		
+		//==========================================================================================
+		//================================ Features Panel =========================================
+		//==========================================================================================
+				
+		classPanel = new JPanel();
 	}
 }
 

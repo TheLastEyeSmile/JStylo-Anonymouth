@@ -113,7 +113,7 @@ public class GUIMain extends javax.swing.JFrame
 	protected Thread analysisThread;
 	protected List<String> results;
 	
-	protected PreProcessSettingsFrame PPSP = new PreProcessSettingsFrame(this);
+	protected PreProcessSettingsFrame PPSP;
 
 	protected String defaultTrainDocsTreeName = "Authors"; 
 	protected Font defaultLabelFont = new Font("Verdana",0,16);
@@ -503,6 +503,10 @@ public class GUIMain extends javax.swing.JFrame
 			
 			EditorTabDriver.setAllEITSUseable(false, this);
 			
+			// init all settings panes
+			
+			PPSP = new PreProcessSettingsFrame(this);
+			
 			// initialize listeners - except for EditorTabDriver!
 			
 			MainDriver.initListeners(this);
@@ -554,11 +558,15 @@ public class GUIMain extends javax.swing.JFrame
 	public boolean documentsAreReady()
 	{
 		boolean ready = true;
-		
-		if (!inst.ps.hasTestDocs())
-			ready = false;
-		if (!inst.ps.hasAuthors())
-			ready = false;
+		try {
+			if (!inst.ps.hasTestDocs())
+				ready = false;
+			if (!inst.ps.hasAuthors())
+				ready = false;
+		}
+		catch (Exception e){
+			return false;
+		}
 		
 		return ready;
 	}
@@ -567,8 +575,13 @@ public class GUIMain extends javax.swing.JFrame
 	{
 		boolean ready = true;
 		
-		if (inst.cfd.numOfFeatureDrivers() == 0)
-			ready = false;
+		try {
+			if (inst.cfd.numOfFeatureDrivers() == 0)
+				ready = false;
+		}
+		catch (Exception e){
+			return false;
+		}
 		
 		return ready;
 	}
@@ -577,8 +590,13 @@ public class GUIMain extends javax.swing.JFrame
 	{
 		boolean ready = true;
 		
-		if (inst.classifiers.isEmpty())
-			ready = false;
+		try {
+			if (inst.classifiers.isEmpty())
+				ready = false;
+		}
+		catch (Exception e){
+			return false;
+		}
 		
 		return ready;
 	}
@@ -611,6 +629,7 @@ public class GUIMain extends javax.swing.JFrame
 			prepDocLabel = new JLabel("Documents:");
 			prepDocLabel.setFont(new Font("Ariel", Font.BOLD, 12));
 			prepDocLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			prepDocLabel.setBorder(BorderFactory.createRaisedBevelBorder());
 			prepDocLabel.setOpaque(true);
 			prepDocLabel.setBackground(notReady);
 			prepDocumentsPanel.add(prepDocLabel, "skip 1, span, h 20!");
@@ -694,6 +713,7 @@ public class GUIMain extends javax.swing.JFrame
 			prepFeatLabel.setOpaque(true);
 			prepFeatLabel.setFont(new Font("Ariel", Font.BOLD, 12));
 			prepFeatLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			prepFeatLabel.setBorder(BorderFactory.createRaisedBevelBorder());
 			prepFeatLabel.setBackground(notReady);
 			prepFeaturesPanel.add(prepFeatLabel, "span 2, h 20!");
 			
@@ -763,6 +783,7 @@ public class GUIMain extends javax.swing.JFrame
 			prepClassLabel.setOpaque(true);
 			prepClassLabel.setFont(new Font("Ariel", Font.BOLD, 12));
 			prepClassLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			prepClassLabel.setBorder(BorderFactory.createRaisedBevelBorder());
 			prepClassLabel.setBackground(notReady);
 			prepClassifiersPanel.add(prepClassLabel, "span 2, h 20!");
 			

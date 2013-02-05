@@ -1,0 +1,45 @@
+Started log log/Anonymouth_anonymous_2013-02-05_12-18-19.txt
+===================================================
+12-18-19: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+12-18-19: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+12-18-19: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+12-18-19: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+12-18-19: Populating event drivers...
+12-18-19: adding event drivers under Basic
+12-18-19: adding event drivers under Part-Of-Speech
+12-18-19: adding event drivers under Grams
+12-18-19: adding event drivers under Dictionary
+12-18-19: adding event drivers under Counters
+12-18-19: adding event drivers under Readability Metrics
+12-18-19: adding event drivers under Misc.
+12-18-19: done!
+12-18-19: Populating canonicizers...
+12-18-19: done!
+12-18-19: Populating event cullers...
+12-18-19: done!
+12-18-19: EditorInnerTabSpawner spawning tab
+12-18-36: 'Add Document(s)...' button clicked under the 'Test Documents' section on the documents tab.
+12-18-42: Trying to load test documents:
+		> C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_01.txt
+12-18-49: 'Add Document(s)...' button clicked under the 'User Sample Documents' section on the documents tab.
+12-19-08: Trying to load User Sample documents:
+		> C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_02.txt
+		> C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_03.txt
+		> C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_04.txt
+		> C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_05.txt
+		> C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_06.txt
+		> C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_07.txt
+		> C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_08.txt
+		> C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_09.txt
+12-19-21: 'Add Document(s)...' button clicked under the 'Training Corpus' section on the documents tab.
+12-19-23: tried to add training documents without selecting an author
+12-19-23: no author entered prior to clicking 'Add Document(s)' button. Must select folder with documents - folder name will be set as author name.
+12-19-29: Trying to load training documents for author "no author entered":
+		> C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\f
+		> C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\g
+		> C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\h
+		> C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\k
+		> C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\m
+12-19-29: file 'no author entered' was not found. If name in single quotes is 'no author entered', this is not a problem.
+12-21-03: 'Remove Document(s)...' button clicked under the 'Test Documents' section on the documents tab.
+12-21-03: Failed removing test documents - no documents are selected

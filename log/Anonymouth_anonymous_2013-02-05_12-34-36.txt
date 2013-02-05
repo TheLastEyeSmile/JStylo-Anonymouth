@@ -1,0 +1,45 @@
+Started log log/Anonymouth_anonymous_2013-02-05_12-34-36.txt
+===================================================
+12-34-37: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+12-34-37: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+12-34-37: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+12-34-37: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+12-34-37: Populating event drivers...
+12-34-37: adding event drivers under Basic
+12-34-37: adding event drivers under Part-Of-Speech
+12-34-37: adding event drivers under Grams
+12-34-37: adding event drivers under Dictionary
+12-34-37: adding event drivers under Counters
+12-34-37: adding event drivers under Readability Metrics
+12-34-37: adding event drivers under Misc.
+12-34-37: done!
+12-34-37: Populating canonicizers...
+12-34-37: done!
+12-34-37: Populating event cullers...
+12-34-37: done!
+12-34-37: EditorInnerTabSpawner spawning tab
+12-34-47: 'Load Problem Set' button clicked on the documents tab
+12-34-48: Trying to load problem set from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1_Desktop.xml
+12-34-48: GUI Update: update documents tab with current problem set started
+12-34-51: 'Remove Document(s)...' button clicked under the 'Test Documents' section on the documents tab.
+12-34-52: Removed test documents:
+		> e_01.txt
+12-35-02: 'Remove Document(s)...' button clicked under the 'User Sample Documents' section on the documents tab.
+12-35-03: Removed test documents:
+		> e_05.txt
+		> e_02.txt
+12-35-13: 'Remove Document(s)' button clicked under the 'Training Corpus' section on the documents tab.
+12-35-13: Failed removing training documents - no documents are selected
+12-35-31: 'Remove Document(s)' button clicked under the 'Training Corpus' section on the documents tab.
+12-35-32: Removed training documents:
+		> f_01.txt
+		> f_02.txt
+		> f_03.txt
+		> f_04.txt
+		> f_05.txt
+		> f_06.txt
+		> f_07.txt
+		> f_08.txt
+		> f_09.txt
+12-35-34: 'Remove Document(s)' button clicked under the 'Training Corpus' section on the documents tab.
+12-35-34: Failed removing training documents - no documents are selected

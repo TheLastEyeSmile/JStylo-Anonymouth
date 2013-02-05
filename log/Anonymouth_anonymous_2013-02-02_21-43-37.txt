@@ -1,0 +1,45 @@
+Started log log/Anonymouth_anonymous_2013-02-02_21-43-37.txt
+===================================================
+21-43-39: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+21-43-39: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+21-43-39: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+21-43-39: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+21-43-39: Populating event drivers...
+21-43-39: adding event drivers under Basic
+21-43-39: adding event drivers under Part-Of-Speech
+21-43-39: adding event drivers under Grams
+21-43-39: adding event drivers under Dictionary
+21-43-39: adding event drivers under Counters
+21-43-39: adding event drivers under Readability Metrics
+21-43-39: adding event drivers under Misc.
+21-43-39: done!
+21-43-39: Populating canonicizers...
+21-43-39: done!
+21-43-39: Populating event cullers...
+21-43-39: done!
+21-43-39: EditorInnerTabSpawner spawning tab
+21-43-47: 'Load Problem Set' button clicked on the documents tab
+21-43-48: Trying to load problem set from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1.xml
+21-43-48: GUI Update: update documents tab with current problem set started
+21-43-50: Preset feature set selected in the features tab.
+21-43-50: loaded preset feature set: Translation
+21-43-52: Classifier selected in the available classifiers tree in the classifiers tab: SMO
+21-43-53: 'Add' button clicked in the analysis tab.
+21-43-53: Classifier tree unselected in the classifiers tab.
+21-43-56: Intial processing starting...
+21-43-56: Created DataAnalyzer
+21-43-56: Created new DocumentMagician, is sparse?  ... false
+21-43-56: Numer of features to return: 200
+21-43-56: calling backendInterface for preTargetSelectionProcessing
+21-43-56: FINISHED INITIALIZING FUNCTION WORDS
+21-43-56: Process button pressed for first time (initial run) in editor tab
+21-44-16: called runIntitial in DataAnalyzer
+21-44-19: Entered initialDocToData in DocumentMagician
+21-44-19: True test doc author: ~* you *~
+21-44-19: Dummy author: ~* you *~
+21-44-19: Calling runPrimaryDocOps
+21-44-19: Setting CumulativeFeatureDriver in DocumentMagician
+21-44-19: Building train (with author) and toModify instances
+21-44-19: InstanceConstuctor constructed
+21-44-19: Saving temporary file: ./edited_documents/anonymous_unmodified.txt
+21-44-19: Runnng JStylo WekaInstancesBuilder from runInstanceBuilder in InstanceConstructor

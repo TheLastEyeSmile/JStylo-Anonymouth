@@ -1,0 +1,41 @@
+Started log log/Anonymouth_anonymous_2013-02-02_22-03-17.txt
+===================================================
+22-03-17: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+22-03-17: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+22-03-17: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+22-03-17: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+22-03-17: Populating event drivers...
+22-03-17: adding event drivers under Basic
+22-03-17: adding event drivers under Part-Of-Speech
+22-03-17: adding event drivers under Grams
+22-03-17: adding event drivers under Dictionary
+22-03-17: adding event drivers under Counters
+22-03-17: adding event drivers under Readability Metrics
+22-03-17: adding event drivers under Misc.
+22-03-17: done!
+22-03-17: Populating canonicizers...
+22-03-17: done!
+22-03-17: Populating event cullers...
+22-03-17: done!
+22-03-17: EditorInnerTabSpawner spawning tab
+22-03-19: 'Load Problem Set' button clicked on the documents tab
+22-03-20: Trying to load problem set from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1.xml
+22-05-10: GUI Update: update documents tab with current problem set started
+22-05-17: 'Load Problem Set' button clicked on the documents tab
+22-05-22: Trying to load problem set from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1.xml
+22-05-30: GUI Update: update documents tab with current problem set started
+22-05-34: Preset feature set selected in the features tab.
+22-05-34: loaded preset feature set: 9 feature-set
+22-05-34: Is using nine feature set? .... true
+22-05-37: Preset feature set selected in the features tab.
+22-05-37: loaded preset feature set: Translation
+22-05-38: Classifier selected in the available classifiers tree in the classifiers tab: SMO
+22-05-39: 'Add' button clicked in the analysis tab.
+22-05-39: Classifier tree unselected in the classifiers tab.
+22-05-42: Intial processing starting...
+22-05-42: Created DataAnalyzer
+22-05-42: Created new DocumentMagician, is sparse?  ... false
+22-05-42: Numer of features to return: 9
+22-05-42: calling backendInterface for preTargetSelectionProcessing
+22-05-42: FINISHED INITIALIZING FUNCTION WORDS
+22-05-42: Process button pressed for first time (initial run) in editor tab

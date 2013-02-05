@@ -403,11 +403,21 @@ public class PreProcessSettingsFrame extends JDialog
 	{
 		this.main = main;
 		this.setIconImage(new ImageIcon(getClass().getResource(JSANConstants.JSAN_GRAPHICS_PREFIX+"Anonymouth_LOGO.png")).getImage());
+		initPanels();
 		getContentPane().setLayout(new MigLayout(
 				"fill, wrap 1, ins 0, gap 0 0",
 				"fill, grow",
 				"[grow][grow, shrink 0, 40!]"));
 		{
+			// main panel must be created before the tree panel, but added to content pane after the tree panel
+			// when tree is initialized it selects the first leaf and needs the main panel to be created
+			mainPanel = new JPanel();
+			mainPanel.setLayout(new MigLayout(
+					"fill, wrap 1, ins 0, gap 0 0",
+					"fill",
+					"fill"));
+			mainPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.LIGHT_GRAY));
+			
 			treePanel = new JPanel();
 			treePanel.setLayout(new MigLayout(
 					"",
@@ -421,15 +431,6 @@ public class PreProcessSettingsFrame extends JDialog
 				initializeTree(tree, top);
 			}
 			treePanel.add(tree);
-			getContentPane().add(treePanel, "split 2, growy, shrinkx 0");
-			
-			mainPanel = new JPanel();
-			mainPanel.setLayout(new MigLayout(
-					"fill, wrap 1, ins 0, gap 0 0",
-					"fill",
-					"fill"));
-			mainPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.LIGHT_GRAY));
-			getContentPane().add(mainPanel, "grow");
 			
 			bottomPanel = new JPanel();
 			bottomPanel.setLayout(new MigLayout(
@@ -456,10 +457,11 @@ public class PreProcessSettingsFrame extends JDialog
 				});
 				bottomPanel.add(cancelButton);
 			}
+			getContentPane().add(treePanel, "split 2, growy, shrinkx 0");
+			getContentPane().add(mainPanel, "grow");
 			getContentPane().add(bottomPanel, "h 40!, span 2, shrinky 0");
 		}
 		
-		makePanels();
 		Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setSize(new Dimension((int)(screensize.width*.75), (int)(screensize.height*.75)));
 		this.setLocationRelativeTo(null); // makes it form in the center of the screen
@@ -503,6 +505,7 @@ public class PreProcessSettingsFrame extends JDialog
 		
 		tree.addTreeSelectionListener(treeListener);
 		tree.expandRow(0);
+		tree.setSelectionRow(1);
 	}
 	
 	public void openWindow()
@@ -528,7 +531,11 @@ public class PreProcessSettingsFrame extends JDialog
 		mainPanel.repaint();
 	}
 	
-	private void makePanels()
+	/**
+	 * Initializes all of the panels on the tree. Must be called before the tree is created, because when the tree
+	 * is initialized it selects the first leaf in the tree which causes the panel to be shown.
+	 */
+	private void initPanels()
 	{
 		//==========================================================================================
 		//================================ Documents Panel =========================================

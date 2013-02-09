@@ -80,7 +80,7 @@ public class PreProcessSettingsFrame extends JDialog
 //		protected List<String> results;
 //
 //		protected String defaultTrainDocsTreeName = "Authors"; 
-//		protected Font defaultLabelFont = new Font("Verdana",0,16);
+	protected Font defaultLabelFont = new Font("Verdana",0,16);
 //		protected static int cellPadding = 5;
 //		
 //		// possible color scheme
@@ -123,7 +123,7 @@ public class PreProcessSettingsFrame extends JDialog
 //		
 //		protected JTable testDocsJTable;
 //		protected DefaultTableModel testDocsTableModel;
-//		protected JLabel featuresToolsJLabel;
+//		
 //		protected JLabel docPreviewNameJLabel;
 //		protected JLabel corpusJLabel;
 
@@ -136,53 +136,58 @@ public class PreProcessSettingsFrame extends JDialog
 
 //		protected JButton userSampleDocPreviewJButton;
 //
-//		// features tab
-//		protected JButton featuresNextJButton;
-//		protected JButton featuresBackJButton;
-//		protected JLabel featuresFeatureConfigJLabel;
-//		protected JLabel featuresFactorContentJLabel;
-//		protected JLabel featuresFeatureExtractorContentJLabel;
-//		protected JScrollPane featuresFeatureExtractorJScrollPane;
-//		protected JLabel featuresNormContentJLabel;
-//		protected JScrollPane featuresFeatureExtractorConfigJScrollPane;
-//		protected JScrollPane featuresCullConfigJScrollPane;
-//		protected JScrollPane featuresCanonConfigJScrollPane;
-//		protected JList featuresCullJList;
-//		protected DefaultComboBoxModel featuresCullJListModel;
-//
-//		protected JScrollPane featuresCullListJScrollPane;
-//		protected JScrollPane featuresCanonListJScrollPane;
-//		protected JList featuresCanonJList;
-//		protected DefaultComboBoxModel featuresCanonJListModel;
-//		protected JScrollPane featuresFeatureDescJScrollPane;
-//		protected JTextPane featuresFeatureDescJTextPane;
-//		protected JLabel featuresFeatureExtractorJLabel;
-//		protected JLabel featuresFactorJLabel;
-//		protected JLabel featuresNormJLabel;
-//		protected JLabel featuresFeatureDescJLabel;
-//		protected JTextField featuresFeatureNameJTextField;
-//		protected JLabel featuresFeatureNameJLabel;
-//		protected JLabel featuresCullJLabel;
-//		protected JLabel featuresCanonJLabel;
-//		protected JButton featuresEditJButton;
-//		protected JButton featuresRemoveJButton;
-//		protected JButton featuresAddJButton;
-//		protected JList featuresJList;
-//		protected DefaultComboBoxModel featuresJListModel;
-//		protected JLabel featuresFeaturesJLabel;
-//		protected JTextPane featuresSetDescJTextPane;
-//		protected JScrollPane featuresSetDescJScrollPane;
-//		protected JLabel featuresSetDescJLabel;
-//		protected JTextField featuresSetNameJTextField;
-//		protected JLabel featuresSetNameJLabel;
-//		protected JButton featuresNewSetJButton;
-//		protected JButton featuresSaveSetJButton;
-//		protected JButton featuresLoadSetFromFileJButton;
-//		protected JButton featuresAddSetJButton;
-//		protected JComboBox featuresSetJComboBox;
-//		protected DefaultComboBoxModel featuresSetJComboBoxModel;
-//		protected JLabel featuresSetJLabel;
-//		protected JButton featuresAboutJButton;
+		// features tab
+		protected static int cellPadding = 5;
+	
+		protected JLabel featuresToolsJLabel;
+		protected JButton featuresNextJButton;
+		protected JButton featuresBackJButton;
+		protected JLabel featuresFeatureConfigJLabel;
+		
+		protected JLabel featuresFeatureExtractorContentJLabel;
+		protected JScrollPane featuresFeatureExtractorJScrollPane;
+		
+		protected JScrollPane featuresFeatureExtractorConfigJScrollPane;
+		protected JScrollPane featuresCullConfigJScrollPane;
+		protected JScrollPane featuresCanonConfigJScrollPane;
+		protected JList featuresCullJList;
+		protected DefaultComboBoxModel featuresCullJListModel;
+
+		protected JScrollPane featuresCullListJScrollPane;
+		protected JScrollPane featuresCanonListJScrollPane;
+		protected JList featuresCanonJList;
+		protected DefaultComboBoxModel featuresCanonJListModel;
+		protected JScrollPane featuresFeatureDescJScrollPane;
+		
+		protected JLabel featuresFeatureExtractorJLabel;
+		protected JLabel featuresFactorJLabel;
+		protected JLabel featuresNormJLabel;
+		protected JLabel featuresFeatureDescJLabel;
+		
+		protected JLabel featuresFeatureNameJLabel;
+		protected JLabel featuresCullJLabel;
+		protected JLabel featuresCanonJLabel;
+		protected JButton featuresEditJButton;
+		protected JButton featuresRemoveJButton;
+		protected JButton featuresAddJButton;
+		protected JList featuresJList;
+		protected DefaultComboBoxModel featuresJListModel;
+		protected JLabel featuresFeaturesJLabel;
+		protected JTextPane featuresSetDescJTextPane;
+		protected JScrollPane featuresSetDescJScrollPane;
+		protected JLabel featuresSetDescJLabel;
+		protected JTextField featuresSetNameJTextField;
+		protected JLabel featuresSetNameJLabel;
+		protected JButton featuresNewSetJButton;
+		protected JButton featuresSaveSetJButton;
+		protected JButton featuresLoadSetFromFileJButton;
+		protected JButton featuresAddSetJButton;
+		protected JComboBox featuresSetJComboBox;
+		protected DefaultComboBoxModel featuresSetJComboBoxModel;
+		protected JLabel featuresSetJLabel;
+		protected JButton featuresAboutJButton;
+		protected JLabel featuresListLabel;
+		protected JLabel featuresInfoLabel;
 //
 //		// Calssifiers tab
 //		protected JTextField classAvClassArgsJTextField;
@@ -384,8 +389,18 @@ public class PreProcessSettingsFrame extends JDialog
 	protected DefaultMutableTreeNode top;
 	
 	protected JPanel mainPanel;
+	
 	protected JPanel docPanel;
+	protected JPanel docMainPanel;
+	
 	protected JPanel featPanel;
+	protected JPanel featMainPanel;
+	protected JTextPane featuresFeatureNameJTextPane;
+	protected JTextPane featuresFeatureDescJTextPane;
+	protected JTextPane featuresNormContentJTextPane;
+	protected JTextPane featuresFactorContentJTextPane;
+	
+	
 	protected JPanel classPanel;
 	
 	protected JPanel bottomPanel;
@@ -543,15 +558,15 @@ public class PreProcessSettingsFrame extends JDialog
 		docPanel = new JPanel();
 		
 		MigLayout docLayout = new MigLayout(
-				"wrap 4",
-				"grow, fill",
-				"[30][20]0[grow][20][grow]");
+				"wrap 2",
+				"[grow, fill][200!]",
+				"[30][grow, fill]");
 		docPanel.setLayout(docLayout);
 		//prepDocumentsPanel.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Color.BLACK));
 		{
-			// Documents Label
+			// Documents Label-----------------------------
 			prepDocLabel = new JLabel("Documents:");
-			prepDocLabel.setFont(new Font("Ariel", Font.BOLD, 12));
+			prepDocLabel.setFont(new Font("Ariel", Font.BOLD, 15));
 			prepDocLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			prepDocLabel.setBorder(BorderFactory.createRaisedBevelBorder());
 			prepDocLabel.setOpaque(true);
@@ -559,130 +574,150 @@ public class PreProcessSettingsFrame extends JDialog
 				prepDocLabel.setBackground(main.ready);
 			else
 				prepDocLabel.setBackground(main.notReady);
-			docPanel.add(prepDocLabel, "span, h 30!");
+			docPanel.add(prepDocLabel, "spanx, h 30!");
 			
+			docMainPanel = new JPanel();
+			docMainPanel.setLayout(new MigLayout(
+					"wrap 3",
+					"grow, fill",
+					"[20]0[grow][20][grow]"));
+			{
+				// main label-----------------------------------
+				JLabel mainLabel = new JLabel("Main:");
+				mainLabel.setHorizontalAlignment(SwingConstants.CENTER);
+				docMainPanel.add(mainLabel);
+				
+				// sample label--------------------------------
+				JLabel sampleLabel = new JLabel("Sample:");
+				sampleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+				docMainPanel.add(sampleLabel);
+				
+				// train label----------------------------------
+				JLabel trainLabel = new JLabel("Other Authors:");
+				trainLabel.setHorizontalAlignment(SwingConstants.CENTER);
+				docMainPanel.add(trainLabel);
+				
+				
+				// main documents list---------------------------------------------
+				DefaultListModel mainDocListModel = new DefaultListModel();
+				prepMainDocList = new JList(mainDocListModel);
+				prepMainDocList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+				prepMainDocScrollPane = new JScrollPane(prepMainDocList);
+				docMainPanel.add(prepMainDocScrollPane, "grow, h 100::, w 100::");
+				
+				// sample documents list-----------------------------------------
+				DefaultListModel sampleDocsListModel = new DefaultListModel();
+				prepSampleDocsList = new JList(sampleDocsListModel);
+				prepSampleDocsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+				prepSampleDocsScrollPane = new JScrollPane(prepSampleDocsList);
+				docMainPanel.add(prepSampleDocsScrollPane, "grow, h 100::, w 100::");
+				
+				// train tree---------------------------------------------------
+				DefaultMutableTreeNode top = new DefaultMutableTreeNode(main.ps.getTrainCorpusName());
+				trainCorpusJTree = new JTree(top);
+				trainCorpusJTreeScrollPane = new JScrollPane(trainCorpusJTree);
+				docMainPanel.add(trainCorpusJTreeScrollPane, "grow, h 100::, w 100::");
+				
+				// main add button----------------------------------------------
+				addTestDocJButton = new JButton("Add");
+				docMainPanel.add(addTestDocJButton, "split 2, w 100::");
+				
+				// main delete button-------------------------------------------
+				removeTestDocJButton = new JButton("Delete");
+				docMainPanel.add(removeTestDocJButton, "w 100::");
+				
+				// sample add button-------------------------------------------
+				adduserSampleDocJButton = new JButton("Add");
+				docMainPanel.add(adduserSampleDocJButton, "split 2, w 100::");
+				
+				// sample delete button------------------------------------------
+				removeuserSampleDocJButton = new JButton("Delete");
+				docMainPanel.add(removeuserSampleDocJButton, "w 100::");
+				
+				// train add button-------------------------------------------
+				addTrainDocsJButton = new JButton("Add");
+				docMainPanel.add(addTrainDocsJButton, "split 2, w 100::");
+				
+				// train delete button----------------------------------------
+				removeTrainDocsJButton = new JButton("Delete");
+				docMainPanel.add(removeTrainDocsJButton, "w 100::");
+				
+				// main doc settings panel-------------------------------------------
+				mainDocSettingsPanel = new JPanel();
+				//mainDocSettingsPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
+				mainDocSettingsPanel.setLayout(new MigLayout("wrap 1", "grow", "top"));
+				{
+					mainDocSettingsFullPathLabel = new JLabel("Location:");
+					mainDocSettingsPanel.add(mainDocSettingsFullPathLabel);
+					
+					mainDocSettingsSizeLabel = new JLabel("Size:");
+					mainDocSettingsPanel.add(mainDocSettingsSizeLabel);
+					
+					mainDocSettingsLastModifiedLabel = new JLabel("Last Modified:");
+					mainDocSettingsPanel.add(mainDocSettingsLastModifiedLabel);
+				}
+				docMainPanel.add(mainDocSettingsPanel, "grow, w 100::");
+				
+				// sample doc settings panel-------------------------------------------
+				sampleDocSettingsPanel = new JPanel();
+				//sampleDocSettingsPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
+				sampleDocSettingsPanel.setLayout(new MigLayout("wrap 1", "grow", "top"));
+				{
+					sampleDocSettingsFullPathLabel = new JLabel("Location:");
+					sampleDocSettingsPanel.add(sampleDocSettingsFullPathLabel);
+					
+					sampleDocSettingsSizeLabel = new JLabel("Size:");
+					sampleDocSettingsPanel.add(sampleDocSettingsSizeLabel);
+					
+					sampleDocSettingsLastModifiedLabel = new JLabel("Last Modified:");
+					sampleDocSettingsPanel.add(sampleDocSettingsLastModifiedLabel);
+				}
+				docMainPanel.add(sampleDocSettingsPanel, "grow, w 100::");
+				
+				// train doc settings panel-------------------------------------------
+				trainDocSettingsPanel = new JPanel();
+				//trainDocSettingsPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
+				trainDocSettingsPanel.setLayout(new MigLayout("wrap 1", "grow", "top"));
+				{
+					trainDocSettingsFullPathLabel = new JLabel("Location:");
+					trainDocSettingsPanel.add(trainDocSettingsFullPathLabel);
+					
+					trainDocSettingsSizeLabel = new JLabel("Size:");
+					trainDocSettingsPanel.add(trainDocSettingsSizeLabel);
+					
+					trainDocSettingsLastModifiedLabel = new JLabel("Last Modified:");
+					trainDocSettingsPanel.add(trainDocSettingsLastModifiedLabel);
+				}
+				docMainPanel.add(trainDocSettingsPanel, "grow, w 100::");
+			}
+			docPanel.add(docMainPanel);
+			
+			// document options panel---------------------------
 			JPanel documentOptionsPanel = new JPanel();
+			documentOptionsPanel.setBackground(main.optionsColor);
+			documentOptionsPanel.setBorder(BorderFactory.createRaisedBevelBorder());
 			documentOptionsPanel.setLayout(new MigLayout(
 					"wrap 1",
 					"grow, fill"));
 			{
-				JLabel probSetLabel = new JLabel("Problem Set:");
-				documentOptionsPanel.add(probSetLabel);
-				
-				// Save Problem Set button
-				saveProblemSetJButton = new JButton("Save");
-				documentOptionsPanel.add(saveProblemSetJButton);
-				
-				// load problem set button
-				loadProblemSetJButton = new JButton("Load");
-				documentOptionsPanel.add(loadProblemSetJButton);
+				JPanel probSetOptionsPanel = new JPanel();
+				probSetOptionsPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK),"Problem Set Options:"));
+				probSetOptionsPanel.setLayout(new MigLayout(
+						"wrap 1",
+						"grow, fill"));
+				probSetOptionsPanel.setBackground(main.optionsColor);
+				{
+					// Save Problem Set button--------------------------------
+					saveProblemSetJButton = new JButton("Save");
+					probSetOptionsPanel.add(saveProblemSetJButton);
+					
+					// load problem set button-------------------------------
+					loadProblemSetJButton = new JButton("Load");
+					probSetOptionsPanel.add(loadProblemSetJButton);
+				}
+				documentOptionsPanel.add(probSetOptionsPanel);
 			}
-			docPanel.add(documentOptionsPanel, "spany, growy");
-			
-			// main label
-			JLabel mainLabel = new JLabel("Main:");
-			mainLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			docPanel.add(mainLabel);
-			
-			// sample label
-			JLabel sampleLabel = new JLabel("Sample:");
-			sampleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			docPanel.add(sampleLabel);
-			
-			// train label
-			JLabel trainLabel = new JLabel("Other Authors:");
-			trainLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			docPanel.add(trainLabel);
-			
-			
-			// main documents list
-			DefaultListModel mainDocListModel = new DefaultListModel();
-			prepMainDocList = new JList(mainDocListModel);
-			prepMainDocList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-			prepMainDocScrollPane = new JScrollPane(prepMainDocList);
-			docPanel.add(prepMainDocScrollPane, "grow, h 100::, w 100::");
-			
-			// sample documents list
-			DefaultListModel sampleDocsListModel = new DefaultListModel();
-			prepSampleDocsList = new JList(sampleDocsListModel);
-			prepSampleDocsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-			prepSampleDocsScrollPane = new JScrollPane(prepSampleDocsList);
-			docPanel.add(prepSampleDocsScrollPane, "grow, h 100::, w 100::");
-			
-			// train tree
-			DefaultMutableTreeNode top = new DefaultMutableTreeNode(main.ps.getTrainCorpusName());
-			trainCorpusJTree = new JTree(top);
-			trainCorpusJTreeScrollPane = new JScrollPane(trainCorpusJTree);
-			docPanel.add(trainCorpusJTreeScrollPane, "grow, h 100::, w 100::");
-			
-			// main add button
-			addTestDocJButton = new JButton("Add");
-			docPanel.add(addTestDocJButton, "split 2, w 100::");
-			
-			// main delete button
-			removeTestDocJButton = new JButton("Delete");
-			docPanel.add(removeTestDocJButton, "w 100::");
-			
-			// sample add button
-			adduserSampleDocJButton = new JButton("Add");
-			docPanel.add(adduserSampleDocJButton, "split 2, w 100::");
-			
-			// sample delete button
-			removeuserSampleDocJButton = new JButton("Delete");
-			docPanel.add(removeuserSampleDocJButton, "w 100::");
-			
-			// train add button
-			addTrainDocsJButton = new JButton("Add");
-			docPanel.add(addTrainDocsJButton, "split 2, w 100::");
-			
-			// train delete button
-			removeTrainDocsJButton = new JButton("Delete");
-			docPanel.add(removeTrainDocsJButton, "w 100::");
-			
-			mainDocSettingsPanel = new JPanel();
-			mainDocSettingsPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
-			mainDocSettingsPanel.setLayout(new MigLayout("wrap 1", "grow", "top"));
-			{
-				mainDocSettingsFullPathLabel = new JLabel("Location:");
-				mainDocSettingsPanel.add(mainDocSettingsFullPathLabel);
-				
-				mainDocSettingsSizeLabel = new JLabel("Size:");
-				mainDocSettingsPanel.add(mainDocSettingsSizeLabel);
-				
-				mainDocSettingsLastModifiedLabel = new JLabel("Last Modified:");
-				mainDocSettingsPanel.add(mainDocSettingsLastModifiedLabel);
-			}
-			docPanel.add(mainDocSettingsPanel, "grow, w 100::");
-			
-			sampleDocSettingsPanel = new JPanel();
-			sampleDocSettingsPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
-			sampleDocSettingsPanel.setLayout(new MigLayout("wrap 1", "grow", "top"));
-			{
-				sampleDocSettingsFullPathLabel = new JLabel("Location:");
-				sampleDocSettingsPanel.add(sampleDocSettingsFullPathLabel);
-				
-				sampleDocSettingsSizeLabel = new JLabel("Size:");
-				sampleDocSettingsPanel.add(sampleDocSettingsSizeLabel);
-				
-				sampleDocSettingsLastModifiedLabel = new JLabel("Last Modified:");
-				sampleDocSettingsPanel.add(sampleDocSettingsLastModifiedLabel);
-			}
-			docPanel.add(sampleDocSettingsPanel, "grow, w 100::");
-			
-			trainDocSettingsPanel = new JPanel();
-			trainDocSettingsPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
-			trainDocSettingsPanel.setLayout(new MigLayout("wrap 1", "grow", "top"));
-			{
-				trainDocSettingsFullPathLabel = new JLabel("Location:");
-				trainDocSettingsPanel.add(trainDocSettingsFullPathLabel);
-				
-				trainDocSettingsSizeLabel = new JLabel("Size:");
-				trainDocSettingsPanel.add(trainDocSettingsSizeLabel);
-				
-				trainDocSettingsLastModifiedLabel = new JLabel("Last Modified:");
-				trainDocSettingsPanel.add(trainDocSettingsLastModifiedLabel);
-			}
-			docPanel.add(trainDocSettingsPanel, "grow, w 100::");
+			docPanel.add(documentOptionsPanel, "spany, grow");
 		}
 		
 		//==========================================================================================
@@ -690,6 +725,186 @@ public class PreProcessSettingsFrame extends JDialog
 		//==========================================================================================
 		
 		featPanel = new JPanel();
+		
+		MigLayout featLayout = new MigLayout(
+				"wrap 2",
+				"[grow, fill][200!]",
+				"[30][grow, fill]");
+		featPanel.setLayout(featLayout);
+		{
+			// Features Label---------------------------------------------------
+			prepFeatLabel = new JLabel("Features:");
+			prepFeatLabel.setFont(new Font("Ariel", Font.BOLD, 15));
+			prepFeatLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			prepFeatLabel.setBorder(BorderFactory.createRaisedBevelBorder());
+			prepFeatLabel.setOpaque(true);
+			if (main.featuresAreReady())
+				prepFeatLabel.setBackground(main.ready);
+			else
+				prepFeatLabel.setBackground(main.notReady);
+			featPanel.add(prepFeatLabel, "spanx, h 30!");
+			
+			// Main Features area---------------------------------------------
+			featMainPanel = new JPanel();
+			featMainPanel.setLayout(new MigLayout(
+					"fill, wrap 4",
+					"[150!]20[left][150:40%:, fill][300:60%:, fill]",
+					"[][][20!][40!][20!][20!][33%, fill][33%, fill][33%, fill]"));
+			{
+				JPanel featMainTopPanel = new JPanel();
+				featMainTopPanel.setLayout(new MigLayout(
+						"wrap 2",
+						"[][grow, fill]"));
+				{
+					// combo box label---------------------------------------------
+					featuresSetJLabel = new JLabel("Feature Set:");
+					featMainTopPanel.add(featuresSetJLabel);
+					
+					// Combo box----------------------------------------------------------
+					String[] presetCFDsNames = new String[main.presetCFDs.size() + 1];
+					presetCFDsNames[0] = "Select A Feature Set...";
+					for (int i=0; i<main.presetCFDs.size(); i++)
+						presetCFDsNames[i+1] = main.presetCFDs.get(i).getName();
+			
+					featuresSetJComboBoxModel = new DefaultComboBoxModel(presetCFDsNames);
+					featuresSetJComboBox = new JComboBox();
+					featuresSetJComboBox.setModel(featuresSetJComboBoxModel);
+					featMainTopPanel.add(featuresSetJComboBox);
+					
+					// description label-----------------------------------------------
+					featuresSetDescJLabel = new JLabel("Description:");
+					featMainTopPanel.add(featuresSetDescJLabel);
+					
+					// description pane--------------------------------------------------
+					featuresSetDescJTextPane = new JTextPane();
+					featuresSetDescJScrollPane = new JScrollPane(featuresSetDescJTextPane);
+					featMainTopPanel.add(featuresSetDescJScrollPane);
+				}
+				featMainPanel.add(featMainTopPanel, "spanx, growx, gapbottom 20");
+				
+				featuresListLabel = new JLabel("Features:");
+				featuresListLabel.setHorizontalAlignment(JLabel.CENTER);
+				featuresListLabel.setBorder(BorderFactory.createRaisedBevelBorder());
+				featMainPanel.add(featuresListLabel, "w 150!");
+				
+				featuresInfoLabel = new JLabel("Feature Information:");
+				featuresInfoLabel.setHorizontalAlignment(JLabel.CENTER);
+				featuresInfoLabel.setBorder(BorderFactory.createRaisedBevelBorder());
+				featMainPanel.add(featuresInfoLabel, "spanx, growx");
+				
+				// features list--------------------------------------------------
+				featuresJListModel = new DefaultComboBoxModel();
+				featuresJList = new JList(featuresJListModel);
+				JScrollPane featuresListJScrollPane = new JScrollPane(featuresJList);
+				featMainPanel.add(featuresListJScrollPane, "spany, growy, w 150!");
+				
+				// feature name label--------------------------------------------------
+				featuresFeatureNameJLabel = new JLabel("Name:");
+				featMainPanel.add(featuresFeatureNameJLabel);
+				
+				// feature name field--------------------------------------------------
+				featuresFeatureNameJTextPane = new JTextPane();
+				featuresFeatureNameJTextPane.setEditable(false);
+				featMainPanel.add(new JScrollPane(featuresFeatureNameJTextPane), "span 2, grow");
+				
+				// feature description label--------------------------------------------------
+				featuresFeatureDescJLabel = new JLabel("Description:");
+				featMainPanel.add(featuresFeatureDescJLabel);
+				
+				// feature description pane--------------------------------------------------
+				featuresFeatureDescJTextPane = new JTextPane();
+				//featuresFeatureDescJScrollPane = new JScrollPane(featuresFeatureDescJTextPane);
+				featuresFeatureDescJTextPane.setEditable(false);
+				featMainPanel.add(new JScrollPane(featuresFeatureDescJTextPane), "span 2, grow");
+				
+				featuresNormJLabel = new JLabel("Normalization:");
+				featMainPanel.add(featuresNormJLabel);
+				
+				featuresNormContentJTextPane = new JTextPane();
+				featuresNormContentJTextPane.setEditable(false);
+				featMainPanel.add(new JScrollPane(featuresNormContentJTextPane), "span 2, grow");
+						
+				featuresFactorJLabel = new JLabel("Factor:");
+				featMainPanel.add(featuresFactorJLabel);
+				
+				featuresFactorContentJTextPane = new JTextPane();
+				featuresFactorContentJTextPane.setEditable(false);
+				featMainPanel.add(new JScrollPane(featuresFactorContentJTextPane), "span 2, grow");
+
+				featuresFeatureExtractorJLabel = new JLabel("Extractor:");
+				featMainPanel.add(featuresFeatureExtractorJLabel);
+				
+				featuresFeatureExtractorContentJLabel = new JLabel();
+				featuresFeatureExtractorJScrollPane = new JScrollPane(featuresFeatureExtractorContentJLabel);
+				featMainPanel.add(featuresFeatureExtractorJScrollPane);
+				
+				featuresFeatureExtractorConfigJScrollPane = new JScrollPane();
+				featMainPanel.add(featuresFeatureExtractorConfigJScrollPane);
+				
+				featuresCanonJLabel = new JLabel("Pre-Processing:");
+				featMainPanel.add(featuresCanonJLabel);
+				
+				featuresCanonJListModel = new DefaultComboBoxModel();
+				featuresCanonJList = new JList(featuresCanonJListModel);
+				featuresCanonListJScrollPane = new JScrollPane(featuresCanonJList);
+				featMainPanel.add(featuresCanonListJScrollPane);
+				
+				featuresCanonConfigJScrollPane = new JScrollPane();
+				featMainPanel.add(featuresCanonConfigJScrollPane);
+
+				featuresCullJLabel = new JLabel("Post-Processing:");
+				featMainPanel.add(featuresCullJLabel);
+				
+				featuresCullJListModel = new DefaultComboBoxModel();
+				featuresCullJList = new JList(featuresCullJListModel);
+				featuresCullListJScrollPane = new JScrollPane(featuresCullJList);
+				featMainPanel.add(featuresCullListJScrollPane);
+					
+				featuresCullConfigJScrollPane = new JScrollPane();
+				featMainPanel.add(featuresCullConfigJScrollPane);
+				
+//				featuresAddJButton = new JButton("Add");
+//				featMainPanel.add(featuresAddJButton);
+//				
+//				featuresRemoveJButton = new JButton("Remove");
+//				featMainPanel.add(featuresAddJButton);
+//				
+//				featuresEditJButton = new JButton("Edit");
+//				featMainPanel.add(featuresAddJButton);
+			}
+			featPanel.add(featMainPanel);
+			
+			// Features options panel-------------------------------------------------
+			JPanel featuresOptionsPanel = new JPanel();
+			featuresOptionsPanel.setBackground(main.optionsColor);
+			featuresOptionsPanel.setBorder(BorderFactory.createRaisedBevelBorder());
+			featuresOptionsPanel.setLayout(new MigLayout(
+					"wrap 1",
+					"grow, fill"));
+			{
+				JPanel featSetOptionsPanel = new JPanel();
+				featSetOptionsPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK),"Feature Set Options:"));
+				featSetOptionsPanel.setLayout(new MigLayout(
+						"wrap 1",
+						"grow, fill"));
+				featSetOptionsPanel.setBackground(main.optionsColor);
+				{
+					featuresAddSetJButton = new JButton("Add");
+					featSetOptionsPanel.add(featuresAddSetJButton);
+					
+					featuresLoadSetFromFileJButton = new JButton("Import");
+					featSetOptionsPanel.add(featuresLoadSetFromFileJButton);
+					
+					featuresSaveSetJButton = new JButton("Export");
+					featSetOptionsPanel.add(featuresSaveSetJButton);
+					
+					featuresNewSetJButton = new JButton("New");
+					featSetOptionsPanel.add(featuresNewSetJButton);
+				}
+				featuresOptionsPanel.add(featSetOptionsPanel);
+			}
+			featPanel.add(featuresOptionsPanel, "spany, grow");
+		}
 		
 		//==========================================================================================
 		//================================ Features Panel =========================================

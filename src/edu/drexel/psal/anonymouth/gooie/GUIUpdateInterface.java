@@ -184,16 +184,16 @@ public class GUIUpdateInterface {
 		CumulativeFeatureDriver cfd = main.cfd;
 		
 		// update name
-		main.featuresSetNameJTextField.setText(cfd.getName() == null ? "" : cfd.getName());
+		//main.PPSP.featuresSetNameJTextField.setText(cfd.getName() == null ? "" : cfd.getName());
 		
 		// update description
-		main.featuresSetDescJTextPane.setText(cfd.getDescription() == null ? "" : cfd.getDescription());
+		main.PPSP.featuresSetDescJTextPane.setText(cfd.getDescription() == null ? "" : cfd.getDescription());
 		
 		// update list of features
 		clearFeatureView(main);
-		main.featuresJListModel.removeAllElements();
+		main.PPSP.featuresJListModel.removeAllElements();
 		for (int i=0; i<cfd.numOfFeatureDrivers(); i++) 
-			main.featuresJListModel.addElement(cfd.featureDriverAt(i).getName());
+			main.PPSP.featuresJListModel.addElement(cfd.featureDriverAt(i).getName());
 	}
 	
 	/**
@@ -211,46 +211,46 @@ public class GUIUpdateInterface {
 		FeatureDriver fd = main.cfd.featureDriverAt(selected);
 		
 		// name and description
-		main.featuresFeatureNameJTextField.setText(fd.getName());
-		main.featuresFeatureDescJTextPane.setText(fd.getDescription());
+		main.PPSP.featuresFeatureNameJTextPane.setText(fd.getName());
+		main.PPSP.featuresFeatureDescJTextPane.setText(fd.getDescription());
+		
+		// update normalization
+		main.PPSP.featuresNormContentJTextPane.setText(fd.getNormBaseline().getTitle());
+		main.PPSP.featuresFactorContentJTextPane.setText(fd.getNormFactor().toString());
 		
 		// update feature extractor
-		main.featuresFeatureExtractorContentJLabel.setText(fd.getUnderlyingEventDriver().displayName());
-		main.featuresFeatureExtractorConfigJScrollPane.setViewportView(getParamPanel(fd.getUnderlyingEventDriver()));
+		main.PPSP.featuresFeatureExtractorContentJLabel.setText(fd.getUnderlyingEventDriver().displayName());
+		main.PPSP.featuresFeatureExtractorConfigJScrollPane.setViewportView(getParamPanel(fd.getUnderlyingEventDriver()));
 		
 		// update canonicizers
 		List<Canonicizer> canons = fd.getCanonicizers();
 		if (canons != null) {
 			for (int i=0; i<canons.size(); i++)
-				main.featuresCanonJListModel.addElement(canons.get(i).displayName());
+				main.PPSP.featuresCanonJListModel.addElement(canons.get(i).displayName());
 		}
 		
 		// update cullers
 		List<EventCuller> cullers = fd.getCullers();
 		if (cullers != null) {
 			for (int i=0; i<cullers.size(); i++)
-				main.featuresCullJListModel.addElement(cullers.get(i).displayName());
+				main.PPSP.featuresCullJListModel.addElement(cullers.get(i).displayName());
 		}
-
-		// update normalization
-		main.featuresNormContentJLabel.setText(fd.getNormBaseline().getTitle());
-		main.featuresFactorContentJLabel.setText(fd.getNormFactor().toString());
 	}
 	
 	/**
 	 * Resets the feature view in the features tab.
 	 */
 	protected static void clearFeatureView(GUIMain main) {
-		main.featuresFeatureNameJTextField.setText("");
-		main.featuresFeatureDescJTextPane.setText("");
-		main.featuresFeatureExtractorContentJLabel.setText("");
-		main.featuresFeatureExtractorConfigJScrollPane.setViewportView(null);
-		main.featuresCanonJListModel.removeAllElements();
-		main.featuresCanonConfigJScrollPane.setViewportView(null);
-		main.featuresCullJListModel.removeAllElements();
-		main.featuresCullConfigJScrollPane.setViewportView(null);
-		main.featuresNormContentJLabel.setText("");
-		main.featuresFactorContentJLabel.setText("");
+		main.PPSP.featuresFeatureNameJTextPane.setText("");
+		main.PPSP.featuresFeatureDescJTextPane.setText("");
+		main.PPSP.featuresFeatureExtractorContentJLabel.setText("");
+		main.PPSP.featuresFeatureExtractorConfigJScrollPane.setViewportView(null);
+		main.PPSP.featuresCanonJListModel.removeAllElements();
+		main.PPSP.featuresCanonConfigJScrollPane.setViewportView(null);
+		main.PPSP.featuresCullJListModel.removeAllElements();
+		main.PPSP.featuresCullConfigJScrollPane.setViewportView(null);
+		main.PPSP.featuresNormContentJTextPane.setText("");
+		main.PPSP.featuresFactorContentJTextPane.setText("");
 	}
 	
 	/**

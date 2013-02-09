@@ -16,6 +16,8 @@ import edu.drexel.psal.jstylo.generics.Logger;
 
 public class ClusterViewerDriver {
 	
+	private GUIMain main = GUIMain.inst;
+	
 	private static int lenJPanels;
 	public static boolean clusterGroupReady = false;
 	private static ClusterGroup[] clusterGroupRay;
@@ -54,9 +56,9 @@ public class ClusterViewerDriver {
 		for(i=5; i< numPanels;i++){
 			if(i== 19 || i == 20)
 				continue;
-			EditorTabDriver.eits.holderPanel.add(namePanels[i]);
+			main.holderPanel.add(namePanels[i]);
 			ClusterViewer.allPanels[i].setPreferredSize(new Dimension(800,50));
-			EditorTabDriver.eits.holderPanel.add(ClusterViewer.allPanels[i]);
+			main.holderPanel.add(ClusterViewer.allPanels[i]);
 		}
 		
 		boolean cgIsSet = setClusterGroup();
@@ -109,7 +111,7 @@ public class ClusterViewerDriver {
 			
 		});	
 		*/
-		EditorTabDriver.eits.selectClusterConfiguration.addActionListener(new ActionListener(){
+		main.selectClusterConfiguration.addActionListener(new ActionListener(){
 			
 			public void actionPerformed(ActionEvent e){
 				int selectedIndex = 1; //main.clusterConfigurationBox.getSelectedIndex();
@@ -136,7 +138,7 @@ public class ClusterViewerDriver {
 			
 		});
 		
-		EditorTabDriver.eits.refreshButton.addActionListener(new ActionListener(){
+		main.refreshButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				for(int i=0;i<lenJPanels;i++)
 					ClusterViewer.allPanels[i].repaint();
@@ -145,7 +147,7 @@ public class ClusterViewerDriver {
 			
 		});
 		
-		EditorTabDriver.eits.reClusterAllButton.addActionListener(new ActionListener(){
+		main.reClusterAllButton.addActionListener(new ActionListener(){
 			
 			public void actionPerformed(ActionEvent e){
 				int sureness = JOptionPane.showConfirmDialog(main, "Are you sure you want to re-cluster all features?");

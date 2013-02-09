@@ -41,7 +41,7 @@ public class FeaturesTabDriver {
 		// ===================
 		
 		// feature set combo box
-		main.featuresSetJComboBox.addActionListener(new ActionListener() {
+		main.PPSP.featuresSetJComboBox.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -58,7 +58,7 @@ public class FeaturesTabDriver {
 				*/
 
 				if (answer == JOptionPane.YES_OPTION) {
-					int selected = main.featuresSetJComboBox.getSelectedIndex() - 1;
+					int selected = main.PPSP.featuresSetJComboBox.getSelectedIndex() - 1;
 					if (selected == -1) {
 						main.cfd = new CumulativeFeatureDriver();
 					} else {
@@ -74,7 +74,7 @@ public class FeaturesTabDriver {
 		});
 
 		// new feature set button
-		main.featuresNewSetJButton.addActionListener(new ActionListener() {
+		main.PPSP.featuresNewSetJButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -93,14 +93,14 @@ public class FeaturesTabDriver {
 
 				if (answer == JOptionPane.YES_OPTION) {
 					main.cfd = new CumulativeFeatureDriver();
-					main.featuresSetJComboBox.setSelectedIndex(0);
+					main.PPSP.featuresSetJComboBox.setSelectedIndex(0);
 					GUIUpdateInterface.updateFeatureSetView(main);
 				}
 			}
 		});
 		
 		// add feature set
-		main.featuresAddSetJButton.addActionListener(new ActionListener() {
+		main.PPSP.featuresAddSetJButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -116,8 +116,8 @@ public class FeaturesTabDriver {
 				}
 				
 				// check that doesn't exist
-				for (int i=0; i<main.featuresSetJComboBoxModel.getSize(); i++) {
-					if (main.cfd.getName().equals(main.featuresSetJComboBoxModel.getElementAt(i))) {
+				for (int i=0; i<main.PPSP.featuresSetJComboBoxModel.getSize(); i++) {
+					if (main.cfd.getName().equals(main.PPSP.featuresSetJComboBoxModel.getElementAt(i))) {
 						JOptionPane.showMessageDialog(main,
 								"Feature set with the given name already exists.",
 								"Add Feature Set",
@@ -128,13 +128,13 @@ public class FeaturesTabDriver {
 				
 				// add
 				main.presetCFDs.add(main.cfd);
-				main.featuresSetJComboBoxModel.addElement(main.cfd.getName());
-				main.featuresSetJComboBox.setSelectedIndex(main.featuresSetJComboBoxModel.getSize()-1);
+				main.PPSP.featuresSetJComboBoxModel.addElement(main.cfd.getName());
+				main.PPSP.featuresSetJComboBox.setSelectedIndex(main.PPSP.featuresSetJComboBoxModel.getSize()-1);
 			}
 		});
 
 		// load from file button
-		main.featuresLoadSetFromFileJButton.addActionListener(new ActionListener() {
+		main.PPSP.featuresLoadSetFromFileJButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -162,9 +162,9 @@ public class FeaturesTabDriver {
 						try {
 							// read CFD and update
 							CumulativeFeatureDriver cfd = new CumulativeFeatureDriver(path);
-							for (int i=0; i<main.featuresSetJComboBoxModel.getSize(); i++) {
-								if (cfd.getName().equals(main.featuresSetJComboBoxModel.getElementAt(i))) {
-									main.featuresSetJComboBoxModel.removeElementAt(i);
+							for (int i=0; i<main.PPSP.featuresSetJComboBoxModel.getSize(); i++) {
+								if (cfd.getName().equals(main.PPSP.featuresSetJComboBoxModel.getElementAt(i))) {
+									main.PPSP.featuresSetJComboBoxModel.removeElementAt(i);
 									//JOptionPane.showMessageDialog(main,
 										//	"Feature set already exists.",
 										//	"Import Feature Set",
@@ -175,8 +175,8 @@ public class FeaturesTabDriver {
 									
 							main.cfd = cfd;
 							main.presetCFDs.add(cfd);
-							main.featuresSetJComboBoxModel.addElement(cfd.getName());
-							main.featuresSetJComboBox.setSelectedIndex(main.featuresSetJComboBoxModel.getSize()-1);
+							main.PPSP.featuresSetJComboBoxModel.addElement(cfd.getName());
+							main.PPSP.featuresSetJComboBox.setSelectedIndex(main.PPSP.featuresSetJComboBoxModel.getSize()-1);
 							GUIUpdateInterface.updateFeatureSetView(main);
 							
 						} catch (Exception exc) {
@@ -196,7 +196,7 @@ public class FeaturesTabDriver {
 		});
 
 		// save feature set button
-		main.featuresSaveSetJButton.addActionListener(new ActionListener() {
+		main.PPSP.featuresSaveSetJButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -236,25 +236,25 @@ public class FeaturesTabDriver {
 		// ======================
 		
 		// feature set name text field
-		main.featuresSetNameJTextField.addFocusListener(new FocusListener() {
-			
-			@Override
-			public void focusLost(FocusEvent arg0) {
-				Logger.logln("Feature set name edited in the features tab.");
-				main.cfd.setName(main.featuresSetNameJTextField.getText());
-			}
-			
-			@Override
-			public void focusGained(FocusEvent arg0) {}
-		});
+//		main.PPSP.featuresSetNameJTextField.addFocusListener(new FocusListener() {
+//			
+//			@Override
+//			public void focusLost(FocusEvent arg0) {
+//				Logger.logln("Feature set name edited in the features tab.");
+//				main.cfd.setName(main.PPSP.featuresSetNameJTextField.getText());
+//			}
+//			
+//			@Override
+//			public void focusGained(FocusEvent arg0) {}
+//		});
 		
 		// feature set description text pane
-		main.featuresSetDescJTextPane.addFocusListener(new FocusListener() {
+		main.PPSP.featuresSetDescJTextPane.addFocusListener(new FocusListener() {
 			
 			@Override
 			public void focusLost(FocusEvent arg0) {
 				Logger.logln("Feature set description edited in the features tab.");
-				main.cfd.setDescription(main.featuresSetDescJTextPane.getText());
+				main.cfd.setDescription(main.PPSP.featuresSetDescJTextPane.getText());
 			}
 			
 			@Override
@@ -266,84 +266,84 @@ public class FeaturesTabDriver {
 		// ========
 		
 		// feature list
-		main.featuresJList.addListSelectionListener(new ListSelectionListener() {
+		main.PPSP.featuresJList.addListSelectionListener(new ListSelectionListener() {
 			int lastSelected = -2;
 			@Override
 			public void valueChanged(ListSelectionEvent arg0) {
-				int selected = main.featuresJList.getSelectedIndex();
+				int selected = main.PPSP.featuresJList.getSelectedIndex();
 				// skip if already processed
 				if (selected == lastSelected)
 					return;
-				Logger.logln("Feature selected in the features tab: "+main.featuresJList.getSelectedValue());
+				Logger.logln("Feature selected in the features tab: "+main.PPSP.featuresJList.getSelectedValue());
 				GUIUpdateInterface.updateFeatureView(main, selected);
 				lastSelected = selected;
 			}
 		});
 		
 		// add feature button
-		main.featuresAddJButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Logger.logln("'Add' feature button clicked in the features tab.");
-				FeatureWizard fw = new FeatureWizard(main);
-				fw.setVisible(true);
-			}
-		});
-		
-		// edit feature button
-		main.featuresEditJButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Logger.logln("'Edit' feature button clicked in the features tab.");
-				if (main.featuresJList.getSelectedIndex() == -1) {
-					JOptionPane.showMessageDialog(main,
-							"You must select a feature to edit.",
-							"Edit Feature Error",
-							JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				FeatureDriver fd = main.cfd.featureDriverAt(main.featuresJList.getSelectedIndex());
-				FeatureWizard fw = new FeatureWizard(main,fd,main.featuresJList.getSelectedIndex());
-				fw.setVisible(true);
-			}
-		});
-		
-		// remove feature button
-		main.featuresRemoveJButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Logger.logln("'Remove' feature button clicked in the features tab.");
-				int selected = main.featuresJList.getSelectedIndex();
-				
-				if (selected == -1) {
-					JOptionPane.showMessageDialog(main,
-							"You must select a feature to be removed.",
-							"Remove Feature Error",
-							JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				
-				int answer = JOptionPane.showConfirmDialog(main,
-						"Are you sure you want to remove feature '"+main.featuresJList.getSelectedValue()+"'",
-						"Remove Feature",
-						JOptionPane.YES_NO_OPTION);
-				if (answer == JOptionPane.YES_OPTION) {
-					FeatureDriver fd = main.cfd.removeFeatureDriverAt(selected);
-					GUIUpdateInterface.updateFeatureSetView(main);
-					Logger.logln("Removed feature "+fd.getName());
-				}
-			}
-		});
+//		main.PPSP.featuresAddJButton.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent arg0) {
+//				Logger.logln("'Add' feature button clicked in the features tab.");
+//				FeatureWizard fw = new FeatureWizard(main);
+//				fw.setVisible(true);
+//			}
+//		});
+//		
+//		// edit feature button
+//		main.PPSP.featuresEditJButton.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				Logger.logln("'Edit' feature button clicked in the features tab.");
+//				if (main.PPSP.featuresJList.getSelectedIndex() == -1) {
+//					JOptionPane.showMessageDialog(main,
+//							"You must select a feature to edit.",
+//							"Edit Feature Error",
+//							JOptionPane.ERROR_MESSAGE);
+//					return;
+//				}
+//				FeatureDriver fd = main.cfd.featureDriverAt(main.PPSP.featuresJList.getSelectedIndex());
+//				FeatureWizard fw = new FeatureWizard(main,fd,main.PPSP.featuresJList.getSelectedIndex());
+//				fw.setVisible(true);
+//			}
+//		});
+//		
+//		// remove feature button
+//		main.PPSP.featuresRemoveJButton.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				Logger.logln("'Remove' feature button clicked in the features tab.");
+//				int selected = main.PPSP.featuresJList.getSelectedIndex();
+//				
+//				if (selected == -1) {
+//					JOptionPane.showMessageDialog(main,
+//							"You must select a feature to be removed.",
+//							"Remove Feature Error",
+//							JOptionPane.ERROR_MESSAGE);
+//					return;
+//				}
+//				
+//				int answer = JOptionPane.showConfirmDialog(main,
+//						"Are you sure you want to remove feature '"+main.PPSP.featuresJList.getSelectedValue()+"'",
+//						"Remove Feature",
+//						JOptionPane.YES_NO_OPTION);
+//				if (answer == JOptionPane.YES_OPTION) {
+//					FeatureDriver fd = main.cfd.removeFeatureDriverAt(selected);
+//					GUIUpdateInterface.updateFeatureSetView(main);
+//					Logger.logln("Removed feature "+fd.getName());
+//				}
+//			}
+//		});
 				
 		// canonicizers list
-		main.featuresCanonJList.addListSelectionListener(new ListSelectionListener() {
+		main.PPSP.featuresCanonJList.addListSelectionListener(new ListSelectionListener() {
 			int lastSelected = -2;
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				int selected = main.featuresCanonJList.getSelectedIndex();
+				int selected = main.PPSP.featuresCanonJList.getSelectedIndex();
 				
 				// already selected
 				if (selected == lastSelected)
@@ -352,14 +352,14 @@ public class FeaturesTabDriver {
 				// unselected
 				else if (selected == -1) {
 					Logger.logln("Canonicizer unselected in features tab.");
-					main.featuresCanonConfigJScrollPane.setViewportView(null);
+					main.PPSP.featuresCanonConfigJScrollPane.setViewportView(null);
 				}
 				
 				//selected
 				else {
-					Canonicizer c = main.cfd.featureDriverAt(main.featuresJList.getSelectedIndex()).canonicizerAt(selected);
+					Canonicizer c = main.cfd.featureDriverAt(main.PPSP.featuresJList.getSelectedIndex()).canonicizerAt(selected);
 					Logger.logln("Canonicizer '"+c.displayName()+"' selected in features tab.");
-					main.featuresCanonConfigJScrollPane.setViewportView(GUIUpdateInterface.getParamPanel(c));
+					main.PPSP.featuresCanonConfigJScrollPane.setViewportView(GUIUpdateInterface.getParamPanel(c));
 				}
 				
 				lastSelected = selected;
@@ -367,11 +367,11 @@ public class FeaturesTabDriver {
 		});
 		
 		// cullers list
-		main.featuresCullJList.addListSelectionListener(new ListSelectionListener() {
+		main.PPSP.featuresCullJList.addListSelectionListener(new ListSelectionListener() {
 			int lastSelected = -2;
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				int selected = main.featuresCullJList.getSelectedIndex();
+				int selected = main.PPSP.featuresCullJList.getSelectedIndex();
 				
 				// already selected
 				if (selected == lastSelected)
@@ -380,14 +380,14 @@ public class FeaturesTabDriver {
 				// unselected
 				else if (selected == -1) {
 					Logger.logln("Culler unselected in features tab.");
-					main.featuresCullConfigJScrollPane.setViewportView(null);
+					main.PPSP.featuresCullConfigJScrollPane.setViewportView(null);
 				}
 				
 				//selected
 				else {
-					EventCuller ec = main.cfd.featureDriverAt(main.featuresJList.getSelectedIndex()).cullerAt(selected);
+					EventCuller ec = main.cfd.featureDriverAt(main.PPSP.featuresJList.getSelectedIndex()).cullerAt(selected);
 					Logger.logln("Culler '"+ec.displayName()+"' selected in features tab.");
-					main.featuresCullConfigJScrollPane.setViewportView(GUIUpdateInterface.getParamPanel(ec));
+					main.PPSP.featuresCullConfigJScrollPane.setViewportView(GUIUpdateInterface.getParamPanel(ec));
 				}
 				
 				lastSelected = selected;
@@ -406,36 +406,36 @@ public class FeaturesTabDriver {
 		});
 	*/	
 		// back button
-		main.featuresBackJButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Logger.logln("'Back' button clicked in the features tab.");
-				main.mainJTabbedPane.setSelectedIndex(0);
-			}
-		});
-
-		// next button
-		main.featuresNextJButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Logger.logln("'Next' button clicked in the features tab.");
-
-				if (isCFDEmpty(main.cfd)) {
-					JOptionPane.showMessageDialog(null,
-							"You must set a feature set before continuing.",
-							"Feature Set Error",
-							JOptionPane.ERROR_MESSAGE);
-				} else {
-					if(main.cfd.getName().equals("9 feature-set") && main.cfd.numOfFeatureDrivers() == 9){;
-						EditorTabDriver.isUsingNineFeatures = true;
-						Logger.logln("Is using nine feature set? .... true");
-					}
-					main.mainJTabbedPane.setSelectedIndex(2);
-				}
-			}
-		});
+//		main.PPSP.featuresBackJButton.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				Logger.logln("'Back' button clicked in the features tab.");
+//				main.mainJTabbedPane.setSelectedIndex(0);
+//			}
+//		});
+//
+//		// next button
+//		main.PPSP.featuresNextJButton.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				Logger.logln("'Next' button clicked in the features tab.");
+//
+//				if (isCFDEmpty(main.cfd)) {
+//					JOptionPane.showMessageDialog(null,
+//							"You must set a feature set before continuing.",
+//							"Feature Set Error",
+//							JOptionPane.ERROR_MESSAGE);
+//				} else {
+//					if(main.cfd.getName().equals("9 feature-set") && main.cfd.numOfFeatureDrivers() == 9){;
+//						EditorTabDriver.isUsingNineFeatures = true;
+//						Logger.logln("Is using nine feature set? .... true");
+//					}
+//					main.mainJTabbedPane.setSelectedIndex(2);
+//				}
+//			}
+//		});
 	}
 	
 	/**

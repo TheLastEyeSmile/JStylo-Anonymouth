@@ -1,0 +1,237 @@
+Started log log/Anonymouth_anonymous_2013-02-09_01-22-34.txt
+===================================================
+01-22-34: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+01-22-34: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+01-22-34: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+01-22-34: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+01-22-34: Populating event drivers...
+01-22-34: adding event drivers under Basic
+01-22-34: adding event drivers under Part-Of-Speech
+01-22-34: adding event drivers under Grams
+01-22-34: adding event drivers under Dictionary
+01-22-34: adding event drivers under Counters
+01-22-34: adding event drivers under Readability Metrics
+01-22-34: adding event drivers under Misc.
+01-22-34: done!
+01-22-34: Populating canonicizers...
+01-22-34: done!
+01-22-34: Populating event cullers...
+01-22-34: done!
+01-22-35: Creating Documents Tab...
+01-22-41: Preset feature set selected in the features tab.
+01-22-41: loaded preset feature set: Translation
+01-22-42: Feature selected in the features tab: Character count
+01-22-44: Feature selected in the features tab: Average characters per word
+01-22-45: Feature selected in the features tab: Letters
+01-22-45: Feature selected in the features tab: Top Letter bigrams
+01-22-45: Feature selected in the features tab: Top Letter trigrams
+01-22-45: Feature selected in the features tab: Word Lengths
+01-22-45: Feature selected in the features tab: Special Characters
+01-22-46: Feature selected in the features tab: Function Words
+01-22-46: Feature selected in the features tab: Punctuation
+01-22-47: Feature selected in the features tab: Function Words
+01-22-47: Feature selected in the features tab: Special Characters
+01-22-47: Feature selected in the features tab: Word Lengths
+01-22-47: Feature selected in the features tab: Top Letter trigrams
+01-22-47: Feature selected in the features tab: Top Letter bigrams
+01-22-48: Feature selected in the features tab: Letters
+01-22-48: Feature selected in the features tab: Average characters per word
+01-23-04: Feature selected in the features tab: Letters
+01-23-04: Feature selected in the features tab: Top Letter bigrams
+01-23-05: Feature selected in the features tab: Top Letter trigrams
+01-23-05: Feature selected in the features tab: Word Lengths
+01-23-06: Feature selected in the features tab: Special Characters
+01-25-00: Feature selected in the features tab: Word Lengths
+01-25-00: Feature selected in the features tab: Top Letter trigrams
+01-25-01: Feature selected in the features tab: Top Letter bigrams
+01-25-01: Feature selected in the features tab: Letters
+01-25-01: Feature selected in the features tab: Average characters per word
+01-25-01: Feature selected in the features tab: Letters
+01-25-01: Feature selected in the features tab: Top Letter bigrams
+01-25-02: Feature selected in the features tab: Top Letter trigrams
+01-25-02: Feature selected in the features tab: Word Lengths
+01-25-02: Feature selected in the features tab: Special Characters
+01-25-02: Feature selected in the features tab: Function Words
+01-25-02: Feature selected in the features tab: Punctuation
+01-25-03: Feature selected in the features tab: Function Words
+01-25-03: Feature selected in the features tab: Special Characters
+01-25-03: Feature selected in the features tab: Word Lengths
+01-25-04: Feature selected in the features tab: Special Characters
+01-25-04: Feature selected in the features tab: Function Words
+01-25-04: Feature selected in the features tab: Punctuation
+01-25-05: Feature selected in the features tab: Words
+01-25-05: Feature selected in the features tab: Punctuation
+01-25-06: Feature selected in the features tab: Function Words
+01-25-06: Feature selected in the features tab: Special Characters
+01-25-06: Feature selected in the features tab: Word Lengths
+01-25-06: Feature selected in the features tab: Top Letter trigrams
+01-25-06: Feature selected in the features tab: Top Letter bigrams
+01-25-07: Feature selected in the features tab: Letters
+01-25-07: Feature selected in the features tab: Average characters per word
+01-25-07: Feature selected in the features tab: Character count
+01-25-08: Feature selected in the features tab: Average characters per word
+01-25-08: Feature selected in the features tab: Letters
+01-25-08: Feature selected in the features tab: Top Letter bigrams
+01-25-08: Feature selected in the features tab: Top Letter trigrams
+01-25-09: Feature selected in the features tab: Word Lengths
+01-25-09: Feature selected in the features tab: Special Characters
+01-25-09: Feature selected in the features tab: Function Words
+01-25-10: Feature selected in the features tab: Punctuation
+01-25-10: Feature selected in the features tab: Words
+01-25-12: Feature selected in the features tab: Punctuation
+01-25-12: Feature selected in the features tab: Function Words
+01-25-12: Feature selected in the features tab: Special Characters
+01-25-13: Feature selected in the features tab: Word Lengths
+01-25-15: Feature selected in the features tab: Top Letter trigrams
+01-25-16: Feature selected in the features tab: Top Letter bigrams
+01-25-16: Feature selected in the features tab: Letters
+01-25-16: Feature selected in the features tab: Average characters per word
+01-25-17: Feature selected in the features tab: Letters
+01-25-17: Feature selected in the features tab: Top Letter bigrams
+01-25-17: Feature selected in the features tab: Top Letter trigrams
+01-25-18: Feature selected in the features tab: Word Lengths
+01-25-18: Feature selected in the features tab: Special Characters
+01-25-31: Feature selected in the features tab: Function Words
+01-26-33: Feature selected in the features tab: Special Characters
+01-26-33: Feature selected in the features tab: Word Lengths
+01-26-34: Feature selected in the features tab: Top Letter trigrams
+01-26-34: Feature selected in the features tab: Top Letter bigrams
+01-26-34: Feature selected in the features tab: Letters
+01-26-35: Feature selected in the features tab: Average characters per word
+01-26-35: Feature selected in the features tab: Letters
+01-26-35: Feature selected in the features tab: Top Letter bigrams
+01-26-35: Feature selected in the features tab: Top Letter trigrams
+01-26-35: Feature selected in the features tab: Word Lengths
+01-26-36: Feature selected in the features tab: Special Characters
+01-26-36: Feature selected in the features tab: Function Words
+01-26-37: Feature selected in the features tab: Punctuation
+01-26-37: Feature selected in the features tab: Words
+01-26-37: Feature selected in the features tab: Punctuation
+01-26-38: Feature selected in the features tab: Function Words
+01-26-38: Feature selected in the features tab: Special Characters
+01-26-38: Feature selected in the features tab: Word Lengths
+01-26-38: Feature selected in the features tab: Top Letter trigrams
+01-26-38: Feature selected in the features tab: Top Letter bigrams
+01-26-38: Feature selected in the features tab: Letters
+01-26-39: Feature selected in the features tab: Average characters per word
+01-26-39: Feature selected in the features tab: Character count
+01-26-39: Feature selected in the features tab: Average characters per word
+01-26-39: Feature selected in the features tab: Letters
+01-26-39: Feature selected in the features tab: Top Letter bigrams
+01-26-40: Feature selected in the features tab: Top Letter trigrams
+01-26-40: Feature selected in the features tab: Word Lengths
+01-26-40: Feature selected in the features tab: Special Characters
+01-26-40: Feature selected in the features tab: Function Words
+01-26-40: Feature selected in the features tab: Punctuation
+01-26-40: Feature selected in the features tab: Words
+01-26-41: Feature selected in the features tab: Punctuation
+01-26-41: Feature selected in the features tab: Function Words
+01-26-41: Feature selected in the features tab: Special Characters
+01-26-41: Feature selected in the features tab: Word Lengths
+01-26-41: Feature selected in the features tab: Top Letter trigrams
+01-26-42: Feature selected in the features tab: Top Letter bigrams
+01-26-42: Feature selected in the features tab: Letters
+01-26-42: Feature selected in the features tab: Top Letter bigrams
+01-26-42: Feature selected in the features tab: Top Letter trigrams
+01-26-43: Feature selected in the features tab: Word Lengths
+01-26-43: Feature selected in the features tab: Special Characters
+01-26-43: Feature selected in the features tab: Function Words
+01-26-46: Feature selected in the features tab: Punctuation
+01-26-46: Feature selected in the features tab: Words
+01-26-46: Feature selected in the features tab: Punctuation
+01-26-47: Feature selected in the features tab: Function Words
+01-26-47: Feature selected in the features tab: Special Characters
+01-26-47: Feature selected in the features tab: Word Lengths
+01-26-48: Feature selected in the features tab: Top Letter trigrams
+01-26-53: Feature selected in the features tab: Word Lengths
+01-26-53: Feature selected in the features tab: Special Characters
+01-30-32: Feature selected in the features tab: Function Words
+01-30-36: Feature selected in the features tab: Punctuation
+01-30-37: Feature selected in the features tab: Words
+01-30-39: Feature selected in the features tab: Punctuation
+01-30-40: Feature selected in the features tab: Words
+01-30-40: Feature selected in the features tab: Punctuation
+01-30-41: Feature selected in the features tab: Words
+01-30-42: Feature selected in the features tab: Punctuation
+01-30-42: Feature selected in the features tab: Function Words
+01-30-42: Feature selected in the features tab: Special Characters
+01-30-43: Feature selected in the features tab: Word Lengths
+01-30-43: Feature selected in the features tab: Special Characters
+01-30-43: Feature selected in the features tab: Function Words
+01-30-44: Feature selected in the features tab: Punctuation
+01-30-44: Feature selected in the features tab: Words
+01-30-45: Feature selected in the features tab: Punctuation
+01-30-45: Feature selected in the features tab: Function Words
+01-30-46: Feature selected in the features tab: Special Characters
+01-30-46: Feature selected in the features tab: Word Lengths
+01-30-46: Feature selected in the features tab: Top Letter trigrams
+01-30-47: Feature selected in the features tab: Top Letter bigrams
+01-30-47: Feature selected in the features tab: Letters
+01-30-48: Feature selected in the features tab: Average characters per word
+01-30-48: Feature selected in the features tab: Character count
+01-30-48: Feature selected in the features tab: Average characters per word
+01-30-49: Feature selected in the features tab: Letters
+01-30-49: Feature selected in the features tab: Top Letter bigrams
+01-30-50: Feature selected in the features tab: Top Letter trigrams
+01-30-50: Feature selected in the features tab: Top Letter bigrams
+01-30-50: Feature selected in the features tab: Letters
+01-30-50: Feature selected in the features tab: Average characters per word
+01-30-51: Feature selected in the features tab: Letters
+01-30-52: Feature selected in the features tab: Average characters per word
+01-30-52: Feature selected in the features tab: Letters
+01-30-53: Feature selected in the features tab: Top Letter bigrams
+01-30-54: Feature selected in the features tab: Letters
+01-30-54: Feature selected in the features tab: Top Letter bigrams
+01-30-55: Feature selected in the features tab: Letters
+01-30-55: Feature selected in the features tab: Top Letter bigrams
+01-30-56: Feature selected in the features tab: Letters
+01-35-13: Feature selected in the features tab: Word Lengths
+01-35-14: Feature selected in the features tab: Top Letter trigrams
+01-35-14: Feature selected in the features tab: Top Letter bigrams
+01-35-14: Feature selected in the features tab: Letters
+01-35-14: Feature selected in the features tab: Average characters per word
+01-35-14: Feature selected in the features tab: Character count
+01-35-15: Feature selected in the features tab: Average characters per word
+01-35-15: Feature selected in the features tab: Letters
+01-35-15: Feature selected in the features tab: Top Letter bigrams
+01-35-15: Feature selected in the features tab: Top Letter trigrams
+01-35-16: Feature selected in the features tab: Word Lengths
+01-35-16: Feature selected in the features tab: Special Characters
+01-35-16: Feature selected in the features tab: Function Words
+01-35-16: Feature selected in the features tab: Punctuation
+01-35-16: Feature selected in the features tab: Words
+01-35-17: Feature selected in the features tab: Punctuation
+01-35-18: Feature selected in the features tab: Function Words
+01-35-18: Feature selected in the features tab: Special Characters
+01-35-18: Feature selected in the features tab: Word Lengths
+01-35-18: Feature selected in the features tab: Top Letter trigrams
+01-35-18: Feature selected in the features tab: Top Letter bigrams
+01-35-18: Feature selected in the features tab: Letters
+01-35-18: Feature selected in the features tab: Average characters per word
+01-35-18: Feature selected in the features tab: Character count
+01-35-18: Feature selected in the features tab: Average characters per word
+01-35-19: Feature selected in the features tab: Letters
+01-35-19: Feature selected in the features tab: Top Letter bigrams
+01-35-19: Feature selected in the features tab: Top Letter trigrams
+01-35-20: Feature selected in the features tab: Word Lengths
+01-35-20: Feature selected in the features tab: Special Characters
+01-35-20: Feature selected in the features tab: Function Words
+01-35-23: Feature selected in the features tab: Special Characters
+01-35-24: Feature selected in the features tab: Word Lengths
+01-35-24: Feature selected in the features tab: Top Letter trigrams
+01-35-25: Feature selected in the features tab: Word Lengths
+01-35-25: Feature selected in the features tab: Special Characters
+01-35-26: Feature selected in the features tab: Word Lengths
+01-35-26: Feature selected in the features tab: Special Characters
+01-35-33: Feature selected in the features tab: Function Words
+01-35-34: Feature selected in the features tab: Punctuation
+01-35-34: Feature selected in the features tab: Words
+01-35-35: Feature selected in the features tab: Punctuation
+01-35-36: Feature selected in the features tab: Function Words
+01-35-36: Feature selected in the features tab: Special Characters
+01-35-36: Feature selected in the features tab: Word Lengths
+01-35-37: Feature selected in the features tab: Top Letter trigrams
+01-35-37: Feature selected in the features tab: Top Letter bigrams
+01-35-37: Feature selected in the features tab: Letters
+01-35-37: Feature selected in the features tab: Average characters per word
+01-35-38: Feature selected in the features tab: Character count

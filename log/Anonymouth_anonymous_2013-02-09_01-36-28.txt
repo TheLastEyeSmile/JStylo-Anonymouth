@@ -1,0 +1,42 @@
+Started log log/Anonymouth_anonymous_2013-02-09_01-36-28.txt
+===================================================
+01-36-29: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+01-36-29: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+01-36-29: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+01-36-29: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+01-36-29: Populating event drivers...
+01-36-29: adding event drivers under Basic
+01-36-29: adding event drivers under Part-Of-Speech
+01-36-29: adding event drivers under Grams
+01-36-29: adding event drivers under Dictionary
+01-36-29: adding event drivers under Counters
+01-36-29: adding event drivers under Readability Metrics
+01-36-29: adding event drivers under Misc.
+01-36-29: done!
+01-36-29: Populating canonicizers...
+01-36-29: done!
+01-36-29: Populating event cullers...
+01-36-29: done!
+01-36-29: Creating Documents Tab...
+01-36-44: Preset feature set selected in the features tab.
+01-36-44: loaded preset feature set: 9 feature-set
+01-36-47: Preset feature set selected in the features tab.
+01-36-47: loaded preset feature set: Translation
+01-36-48: Feature selected in the features tab: Average characters per word
+01-36-49: Feature selected in the features tab: Letters
+01-36-50: Feature selected in the features tab: Top Letter bigrams
+01-36-50: Feature selected in the features tab: Top Letter trigrams
+01-36-50: Feature selected in the features tab: Word Lengths
+01-36-50: Feature selected in the features tab: Special Characters
+01-36-51: Feature selected in the features tab: Function Words
+01-36-52: Feature selected in the features tab: Punctuation
+01-36-52: Feature selected in the features tab: Function Words
+01-36-53: Feature selected in the features tab: Punctuation
+01-37-00: Feature selected in the features tab: Function Words
+01-37-09: Feature selected in the features tab: Punctuation
+01-37-09: Feature selected in the features tab: Words
+01-37-11: Feature selected in the features tab: Punctuation
+01-37-11: Feature selected in the features tab: Function Words
+01-37-12: Feature selected in the features tab: Punctuation
+01-37-12: Feature selected in the features tab: Function Words
+01-37-13: Feature selected in the features tab: Special Characters

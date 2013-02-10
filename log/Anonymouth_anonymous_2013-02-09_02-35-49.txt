@@ -1,0 +1,30 @@
+Started log log/Anonymouth_anonymous_2013-02-09_02-35-49.txt
+===================================================
+02-35-49: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+02-35-49: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+02-35-49: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+02-35-49: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+02-35-49: Populating event drivers...
+02-35-49: adding event drivers under Basic
+02-35-49: adding event drivers under Part-Of-Speech
+02-35-49: adding event drivers under Grams
+02-35-49: adding event drivers under Dictionary
+02-35-49: adding event drivers under Counters
+02-35-49: adding event drivers under Readability Metrics
+02-35-49: adding event drivers under Misc.
+02-35-49: done!
+02-35-49: Populating canonicizers...
+02-35-49: done!
+02-35-49: Populating event cullers...
+02-35-49: done!
+02-35-50: Creating Documents Tab...
+02-35-58: Feature set description edited in the features tab.
+02-35-59: Preset feature set selected in the features tab.
+02-35-59: loaded preset feature set: Translation
+02-36-00: Feature selected in the features tab: Top Letter bigrams
+02-36-01: Feature selected in the features tab: Word Lengths
+02-36-01: Feature selected in the features tab: Function Words
+02-36-02: Feature selected in the features tab: Words
+02-36-02: Feature selected in the features tab: Special Characters
+02-36-02: Feature selected in the features tab: Top Letter trigrams
+02-36-03: Feature selected in the features tab: Letters

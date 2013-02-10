@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -740,49 +741,9 @@ public class GUIMain extends javax.swing.JFrame
 			for (int i=0; i<presetCFDs.size(); i++)
 				presetCFDsNames[i+1] = presetCFDs.get(i).getName();
 			
-			ActionListener featuresComboBoxAL = new ActionListener()
-			{
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					Logger.logln("Preset feature set selected in the features tab.");
-					
-					int answer = JOptionPane.YES_OPTION;
-					/*
-					if (!isCFDEmpty(main.cfd)) {
-						answer = JOptionPane.showConfirmDialog(main,
-								"Are you sure you want to override current feature set?",
-								"Load Preset Feature Set",
-								JOptionPane.YES_NO_OPTION);
-					}
-					*/
-
-					if (answer == JOptionPane.YES_OPTION) {
-						int selected = inst.featuresSetJComboBox.getSelectedIndex() - 1;
-						if (selected == -1) {
-							inst.cfd = new CumulativeFeatureDriver();
-						} else {
-							inst.cfd = inst.presetCFDs.get(selected);
-							Logger.logln("loaded preset feature set: "+inst.cfd.getName());
-						}
-						
-						if(inst.cfd.numOfFeatureDrivers() != 0 && inst.cfd.getName().equals("9 feature-set") && inst.cfd.numOfFeatureDrivers() == 9){;
-							EditorTabDriver.isUsingNineFeatures = true;
-							Logger.logln("Is using nine feature set? .... true");
-					}
-						// update tab view
-						// GUIUpdateInterface.updateFeatureSetView(inst);
-						GUIUpdateInterface.updateFeatPrepColor(inst);
-					} else {
-						Logger.logln("Loading preset feature set cancelled.");
-					}
-				}
-			};
-
-			
 			featuresSetJComboBoxModel = new DefaultComboBoxModel(presetCFDsNames);
 			featuresSetJComboBox = new JComboBox();
 			featuresSetJComboBox.setModel(featuresSetJComboBoxModel);
-			featuresSetJComboBox.addActionListener(featuresComboBoxAL);
 			prepFeaturesPanel.add(featuresSetJComboBox, "growx");
 		}
 		editorHelpPrepPanel.add(prepFeaturesPanel, "growx");
@@ -1315,4 +1276,115 @@ public class GUIMain extends javax.swing.JFrame
 		}
 		return clusterScrollPane;
 	}
+	
+	/**
+	 * Class for resizing table columns to fit the data/header.
+	 * Call ColumnsAutoSizer.sizeColumnsToFit(table); in tabledChanged when adding a TableModelListener.
+	 * @author Jeff
+	 *
+	 */
+	
+	//http://bosmeeuw.wordpress.com/2011/08/07/java-swing-automatically-resize-table-columns-to-their-contents/
+	public static class ColumnsAutoSizer 
+	{
+	    public static void sizeColumnsToFit(JTable table) 
+	    {
+	        sizeColumnsToFit(table, 5);
+	    }
+	    
+	    public static void sizeColumnsToFit(JTable table, int columnMargin) 
+	    {
+	        JTableHeader tableHeader = table.getTableHeader();
+	        if(tableHeader == null) 
+	        {
+	            // can't auto size a table without a header
+	            return;
+	        }
+	        FontMetrics headerFontMetrics = tableHeader.getFontMetrics(tableHeader.getFont());
+	        int[] minWidths = new int[table.getColumnCount()];
+	        int[] maxWidths = new int[table.getColumnCount()];
+	        for(int columnIndex = 0; columnIndex < table.getColumnCount(); columnIndex++) 
+	        {
+	            int headerWidth = headerFontMetrics.stringWidth(table.getColumnName(columnIndex));
+	            minWidths[columnIndex] = headerWidth + columnMargin;
+	            int maxWidth = getMaximalRequiredColumnWidth(table, columnIndex, headerWidth);
+	            maxWidths[columnIndex] = Math.max(maxWidth, minWidths[columnIndex]) + columnMargin;
+	        }
+	        adjustMaximumWidths(table, minWidths, maxWidths);
+	        for(int i = 0; i < minWidths.length; i++) 
+	        {
+	            if(minWidths[i] > 0) 
+	            {
+	                table.getColumnModel().getColumn(i).setMinWidth(minWidths[i]);
+	            }
+	            if(maxWidths[i] > 0) 
+	            {
+	                table.getColumnModel().getColumn(i).setMaxWidth(maxWidths[i]);
+	                table.getColumnModel().getColumn(i).setWidth(maxWidths[i]);
+	            }
+	        }
+	    }
+	    private static void adjustMaximumWidths(JTable table, int[] minWidths, int[] maxWidths) 
+	    {
+	        if(table.getWidth() > 0) {
+	            // to prevent infinite loops in exceptional situations
+	            int breaker = 0;
+	            // keep stealing one pixel of the maximum width of the highest column until we can fit in the width of the table
+	            while(sum(maxWidths) > table.getWidth() && breaker < 10000) 
+	            {
+	                int highestWidthIndex = findLargestIndex(maxWidths);
+	                maxWidths[highestWidthIndex] -= 1;
+	                maxWidths[highestWidthIndex] = Math.max(maxWidths[highestWidthIndex], minWidths[highestWidthIndex]);
+	                breaker++;
+	            }
+	        }
+	    }
+	    private static int getMaximalRequiredColumnWidth(JTable table, int columnIndex, int headerWidth) 
+	    {
+	        int maxWidth = headerWidth;
+	        TableColumn column = table.getColumnModel().getColumn(columnIndex);
+	        TableCellRenderer cellRenderer = column.getCellRenderer();
+	        if(cellRenderer == null) 
+	        {
+	            cellRenderer = new DefaultTableCellRenderer();
+	        }
+	        for(int row = 0; row < table.getModel().getRowCount(); row++) 
+	        {
+	            Component rendererComponent = cellRenderer.getTableCellRendererComponent(table,
+	                table.getModel().getValueAt(row, columnIndex),
+	                false,
+	                false,
+	                row,
+	                columnIndex);
+	            double valueWidth = rendererComponent.getPreferredSize().getWidth();
+	            maxWidth = (int) Math.max(maxWidth, valueWidth);
+	        }
+	        return maxWidth;
+	    }
+	    private static int findLargestIndex(int[] widths) 
+	    {
+	        int largestIndex = 0;
+	        int largestValue = 0;
+	        for(int i = 0; i < widths.length; i++) 
+	        {
+	            if(widths[i] > largestValue) 
+	            {
+	                largestIndex = i;
+	                largestValue = widths[i];
+	            }
+	        }
+	        return largestIndex;
+	    }
+
+	    private static int sum(int[] widths) 
+	    {
+	        int sum = 0;
+	        for(int width : widths) 
+	        {
+	            sum += width;
+	        }
+	        return sum;
+	    }
+	}
+
 }

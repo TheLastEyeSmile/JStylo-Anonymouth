@@ -1,0 +1,24 @@
+Started log log/Anonymouth_anonymous_2013-02-08_20-44-58.txt
+===================================================
+20-44-59: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+20-44-59: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+20-44-59: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+20-44-59: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+20-44-59: Populating event drivers...
+20-44-59: adding event drivers under Basic
+20-44-59: adding event drivers under Part-Of-Speech
+20-44-59: adding event drivers under Grams
+20-44-59: adding event drivers under Dictionary
+20-44-59: adding event drivers under Counters
+20-44-59: adding event drivers under Readability Metrics
+20-44-59: adding event drivers under Misc.
+20-44-59: done!
+20-44-59: Populating canonicizers...
+20-44-59: done!
+20-44-59: Populating event cullers...
+20-44-59: done!
+20-44-59: Creating Documents Tab...
+20-45-45: 'New Feature Set' button clicked in the features tab.
+20-45-45: Preset feature set selected in the features tab.
+20-45-46: 'Save Feature Set...' button clicked in the features tab.
+20-45-58: Save cumulative feature driver canceled

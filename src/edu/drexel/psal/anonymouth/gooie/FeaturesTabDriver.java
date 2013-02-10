@@ -13,6 +13,7 @@ import java.util.*;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -41,6 +42,42 @@ public class FeaturesTabDriver {
 		// ===================
 		
 		// feature set combo box
+		main.featuresSetJComboBox.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Logger.logln("Preset feature set selected in the features tab.");
+				
+				int answer = JOptionPane.YES_OPTION;
+				/*
+				if (!isCFDEmpty(main.cfd)) {
+					answer = JOptionPane.showConfirmDialog(main,
+							"Are you sure you want to override current feature set?",
+							"Load Preset Feature Set",
+							JOptionPane.YES_NO_OPTION);
+				}
+				*/
+
+				if (answer == JOptionPane.YES_OPTION) {
+					int selected = main.featuresSetJComboBox.getSelectedIndex() - 1;
+					if (selected == -1) {
+						main.cfd = new CumulativeFeatureDriver();
+					} else {
+						main.cfd = main.presetCFDs.get(selected);
+						Logger.logln("loaded preset feature set: "+main.cfd.getName());
+					}
+					main.featuresSetJComboBox.setSelectedIndex(selected+1);
+					main.PPSP.featuresSetJComboBox.setSelectedIndex(selected+1);
+					// update tab view
+					GUIUpdateInterface.updateFeatureSetView(main);
+					GUIUpdateInterface.updateFeatPrepColor(main);
+				} else {
+					Logger.logln("Loading preset feature set canceled.");
+				}
+			}
+		});
+		
+		// feature set combo box
 		main.PPSP.featuresSetJComboBox.addActionListener(new ActionListener() {
 			
 			@Override
@@ -65,8 +102,11 @@ public class FeaturesTabDriver {
 						main.cfd = main.presetCFDs.get(selected);
 						Logger.logln("loaded preset feature set: "+main.cfd.getName());
 					}
+					main.featuresSetJComboBox.setSelectedIndex(selected+1);
+					main.PPSP.featuresSetJComboBox.setSelectedIndex(selected+1);
 					// update tab view
 					GUIUpdateInterface.updateFeatureSetView(main);
+					GUIUpdateInterface.updateFeatPrepColor(main);
 				} else {
 					Logger.logln("Loading preset feature set canceled.");
 				}
@@ -339,11 +379,11 @@ public class FeaturesTabDriver {
 //		});
 				
 		// canonicizers list
-		main.PPSP.featuresCanonJList.addListSelectionListener(new ListSelectionListener() {
+		main.PPSP.featuresCanonJTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			int lastSelected = -2;
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				int selected = main.PPSP.featuresCanonJList.getSelectedIndex();
+				int selected = main.PPSP.featuresCanonJTable.getSelectedRow();
 				
 				// already selected
 				if (selected == lastSelected)
@@ -352,14 +392,14 @@ public class FeaturesTabDriver {
 				// unselected
 				else if (selected == -1) {
 					Logger.logln("Canonicizer unselected in features tab.");
-					main.PPSP.featuresCanonConfigJScrollPane.setViewportView(null);
+					main.PPSP.featuresCanonConfigJTableModel.getDataVector().removeAllElements();
 				}
 				
 				//selected
 				else {
 					Canonicizer c = main.cfd.featureDriverAt(main.PPSP.featuresJList.getSelectedIndex()).canonicizerAt(selected);
 					Logger.logln("Canonicizer '"+c.displayName()+"' selected in features tab.");
-					main.PPSP.featuresCanonConfigJScrollPane.setViewportView(GUIUpdateInterface.getParamPanel(c));
+					GUIUpdateInterface.populateTableWithParams(c, main.PPSP.featuresCanonConfigJTableModel);
 				}
 				
 				lastSelected = selected;
@@ -367,11 +407,11 @@ public class FeaturesTabDriver {
 		});
 		
 		// cullers list
-		main.PPSP.featuresCullJList.addListSelectionListener(new ListSelectionListener() {
+		main.PPSP.featuresCullJTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			int lastSelected = -2;
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				int selected = main.PPSP.featuresCullJList.getSelectedIndex();
+				int selected = main.PPSP.featuresCullJTable.getSelectedRow();
 				
 				// already selected
 				if (selected == lastSelected)
@@ -380,14 +420,14 @@ public class FeaturesTabDriver {
 				// unselected
 				else if (selected == -1) {
 					Logger.logln("Culler unselected in features tab.");
-					main.PPSP.featuresCullConfigJScrollPane.setViewportView(null);
+					main.PPSP.featuresCullConfigJTableModel.getDataVector().removeAllElements();
 				}
 				
 				//selected
 				else {
 					EventCuller ec = main.cfd.featureDriverAt(main.PPSP.featuresJList.getSelectedIndex()).cullerAt(selected);
 					Logger.logln("Culler '"+ec.displayName()+"' selected in features tab.");
-					main.PPSP.featuresCullConfigJScrollPane.setViewportView(GUIUpdateInterface.getParamPanel(ec));
+					GUIUpdateInterface.populateTableWithParams(ec, main.PPSP.featuresCullConfigJTableModel);
 				}
 				
 				lastSelected = selected;

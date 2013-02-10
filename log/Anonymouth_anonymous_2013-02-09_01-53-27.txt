@@ -1,0 +1,25 @@
+Started log log/Anonymouth_anonymous_2013-02-09_01-53-27.txt
+===================================================
+01-53-27: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+01-53-27: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+01-53-27: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+01-53-27: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+01-53-27: Populating event drivers...
+01-53-27: adding event drivers under Basic
+01-53-27: adding event drivers under Part-Of-Speech
+01-53-27: adding event drivers under Grams
+01-53-27: adding event drivers under Dictionary
+01-53-27: adding event drivers under Counters
+01-53-27: adding event drivers under Readability Metrics
+01-53-27: adding event drivers under Misc.
+01-53-27: done!
+01-53-27: Populating canonicizers...
+01-53-27: done!
+01-53-27: Populating event cullers...
+01-53-27: done!
+01-53-28: Creating Documents Tab...
+01-53-36: Preset feature set selected in the features tab.
+01-53-36: loaded preset feature set: Translation
+01-53-36: Feature selected in the features tab: Top Letter bigrams
+01-53-37: Feature selected in the features tab: Word Lengths
+01-53-38: Feature selected in the features tab: Special Characters

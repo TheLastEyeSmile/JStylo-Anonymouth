@@ -1,0 +1,33 @@
+Started log log/Anonymouth_anonymous_2013-02-08_17-56-16.txt
+===================================================
+17-56-16: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+17-56-16: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+17-56-16: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+17-56-16: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+17-56-16: Populating event drivers...
+17-56-16: adding event drivers under Basic
+17-56-16: adding event drivers under Part-Of-Speech
+17-56-16: adding event drivers under Grams
+17-56-16: adding event drivers under Dictionary
+17-56-16: adding event drivers under Counters
+17-56-16: adding event drivers under Readability Metrics
+17-56-16: adding event drivers under Misc.
+17-56-16: done!
+17-56-16: Populating canonicizers...
+17-56-16: done!
+17-56-16: Populating event cullers...
+17-56-16: done!
+17-56-16: Creating Documents Tab...
+18-29-31: Feature set name edited in the features tab.
+18-42-09: Feature set name edited in the features tab.
+18-45-11: Feature set name edited in the features tab.
+18-45-27: Feature set name edited in the features tab.
+18-53-52: Feature set name edited in the features tab.
+18-56-20: Feature set name edited in the features tab.
+18-59-51: Feature set name edited in the features tab.
+19-06-03: Feature set name edited in the features tab.
+19-06-26: Feature set name edited in the features tab.
+19-12-39: Feature set name edited in the features tab.
+19-14-57: Feature set name edited in the features tab.
+19-16-42: Feature set name edited in the features tab.
+20-43-01: Feature set name edited in the features tab.

@@ -168,12 +168,12 @@ public class GUIUpdateInterface {
 		if (main.featuresAreReady())
 		{
 			main.prepFeatLabel.setBackground(main.ready);
-			//main.PPSP.prepFeatLabel.setBackground(main.ready);
+			main.PPSP.prepFeatLabel.setBackground(main.ready);
 		}
 		else
 		{
 			main.prepFeatLabel.setBackground(main.notReady);
-			//main.PPSP.prepFeatLabel.setBackground(main.ready);
+			main.PPSP.prepFeatLabel.setBackground(main.notReady);
 		}	
 	}
 	
@@ -219,21 +219,37 @@ public class GUIUpdateInterface {
 		main.PPSP.featuresFactorContentJTextPane.setText(fd.getNormFactor().toString());
 		
 		// update feature extractor
-		main.PPSP.featuresFeatureExtractorContentJLabel.setText(fd.getUnderlyingEventDriver().displayName());
-		main.PPSP.featuresFeatureExtractorConfigJScrollPane.setViewportView(getParamPanel(fd.getUnderlyingEventDriver()));
+		main.PPSP.featuresFeatureExtractorContentJTableModel.addRow(new String[] {fd.getUnderlyingEventDriver().displayName()});
+		populateTableWithParams(fd.getUnderlyingEventDriver(), main.PPSP.featuresFeatureExtractorConfigJTableModel);
 		
 		// update canonicizers
 		List<Canonicizer> canons = fd.getCanonicizers();
 		if (canons != null) {
 			for (int i=0; i<canons.size(); i++)
-				main.PPSP.featuresCanonJListModel.addElement(canons.get(i).displayName());
+			{
+				main.PPSP.featuresCanonJTableModel.addRow(new String[]{canons.get(i).displayName()});
+				populateTableWithParams(canons.get(i), main.PPSP.featuresCanonConfigJTableModel);
+			}
+		}
+		else
+		{
+			main.PPSP.featuresCanonJTableModel.addRow(new String[]{"N/A"});
+			main.PPSP.featuresCanonConfigJTableModel.addRow(new String[]{"N/A", "N/A", "N/A"});
 		}
 		
 		// update cullers
 		List<EventCuller> cullers = fd.getCullers();
 		if (cullers != null) {
 			for (int i=0; i<cullers.size(); i++)
-				main.PPSP.featuresCullJListModel.addElement(cullers.get(i).displayName());
+			{
+				main.PPSP.featuresCullJTableModel.addRow(new String[]{cullers.get(i).displayName()});
+				populateTableWithParams(cullers.get(i), main.PPSP.featuresCullConfigJTableModel);
+			}
+		}
+		else
+		{
+			main.PPSP.featuresCullJTableModel.addRow(new String[]{"N/A"});
+			main.PPSP.featuresCullConfigJTableModel.addRow(new String[]{"N/A", "N/A", "N/A"});
 		}
 	}
 	
@@ -243,34 +259,58 @@ public class GUIUpdateInterface {
 	protected static void clearFeatureView(GUIMain main) {
 		main.PPSP.featuresFeatureNameJTextPane.setText("");
 		main.PPSP.featuresFeatureDescJTextPane.setText("");
-		main.PPSP.featuresFeatureExtractorContentJLabel.setText("");
-		main.PPSP.featuresFeatureExtractorConfigJScrollPane.setViewportView(null);
-		main.PPSP.featuresCanonJListModel.removeAllElements();
-		main.PPSP.featuresCanonConfigJScrollPane.setViewportView(null);
-		main.PPSP.featuresCullJListModel.removeAllElements();
-		main.PPSP.featuresCullConfigJScrollPane.setViewportView(null);
+		main.PPSP.featuresFeatureExtractorContentJTableModel.getDataVector().removeAllElements();
+		main.PPSP.featuresFeatureExtractorConfigJTableModel.getDataVector().removeAllElements();
+		main.PPSP.featuresCanonJTableModel.getDataVector().removeAllElements();
+		main.PPSP.featuresCanonConfigJTableModel.getDataVector().removeAllElements();
+		main.PPSP.featuresCullJTableModel.getDataVector().removeAllElements();
+		main.PPSP.featuresCullConfigJTableModel.getDataVector().removeAllElements();
 		main.PPSP.featuresNormContentJTextPane.setText("");
 		main.PPSP.featuresFactorContentJTextPane.setText("");
 	}
 	
 	/**
-	 * Creates a panel with parameters and their values for the given event driver / canonicizer / culler.
+	 * Populates the given tableModel with parameters and their values for the given event driver / canonicizer / culler. Assumes the table is set to have two columns.
 	 */
-	protected static JPanel getParamPanel(Parameterizable p) {
-		List<Pair<String,ParamTag>> params = FeatureDriver.getClassParams(p.getClass().getName());
+	protected static void populateTableWithParams(Parameterizable p, DefaultTableModel tm) {
+		String fullname = p.getClass().getName();
+		List<Pair<String,ParamTag>> params = FeatureDriver.getClassParams(fullname);
 		
-		JPanel panel = new JPanel(new GridLayout(params.size(),2,5,5));
-		for (Pair<String,ParamTag> param: params) {
-			JLabel name = new JLabel(param.getFirst()+": ");
-			name.setVerticalAlignment(JLabel.TOP);
-			panel.add(name);
-			JLabel value = new JLabel(p.getParameter(param.getFirst()));
-			value.setVerticalAlignment(JLabel.TOP);
-			panel.add(value);
+		boolean allParamsNull = true;
+		
+		for (Pair<String,ParamTag> param: params) 
+		{
+			if (param != null)
+				allParamsNull = false;
+			else
+				continue;
 		}
-		
-		return panel;
+				
+		if (!allParamsNull)
+			for (Pair<String,ParamTag> param: params) 
+				tm.addRow(new String[] {fullname.substring(fullname.lastIndexOf(".")+1), param.getFirst(), p.getParameter(param.getFirst())});
+		else
+			tm.addRow(new String[] {fullname.substring(fullname.lastIndexOf(".")+1), "N/A", "N/A"});
 	}
+	
+//	/**
+//	 * Creates a panel with parameters and their values for the given event driver / canonicizer / culler.
+//	 */
+//	protected static JPanel getParamPanel(Parameterizable p) {
+//		List<Pair<String,ParamTag>> params = FeatureDriver.getClassParams(p.getClass().getName());
+//		
+//		JPanel panel = new JPanel(new GridLayout(params.size(),2,5,5));
+//		for (Pair<String,ParamTag> param: params) {
+//			JLabel name = new JLabel(param.getFirst()+": ");
+//			name.setVerticalAlignment(JLabel.TOP);
+//			panel.add(name);
+//			JLabel value = new JLabel(p.getParameter(param.getFirst()));
+//			value.setVerticalAlignment(JLabel.TOP);
+//			panel.add(value);
+//		}
+//		
+//		return panel;
+//	}
 	
 	
 	/* ===============

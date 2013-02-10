@@ -145,19 +145,17 @@ public class PreProcessSettingsFrame extends JDialog
 		protected JLabel featuresFeatureConfigJLabel;
 		
 		protected JLabel featuresFeatureExtractorContentJLabel;
-		protected JScrollPane featuresFeatureExtractorJScrollPane;
-		
-		protected JScrollPane featuresFeatureExtractorConfigJScrollPane;
-		protected JScrollPane featuresCullConfigJScrollPane;
-		protected JScrollPane featuresCanonConfigJScrollPane;
-		protected JList featuresCullJList;
-		protected DefaultComboBoxModel featuresCullJListModel;
-
-		protected JScrollPane featuresCullListJScrollPane;
-		protected JScrollPane featuresCanonListJScrollPane;
-		protected JList featuresCanonJList;
-		protected DefaultComboBoxModel featuresCanonJListModel;
-		protected JScrollPane featuresFeatureDescJScrollPane;
+//		protected JScrollPane featuresFeatureExtractorJScrollPane;
+//		protected JScrollPane featuresFeatureExtractorConfigJScrollPane;
+//		protected JScrollPane featuresCullConfigJScrollPane;
+//		protected JScrollPane featuresCanonConfigJScrollPane;
+//		protected JList featuresCullJList;
+//		protected DefaultComboBoxModel featuresCullJListModel;
+//		protected JScrollPane featuresCullListJScrollPane;
+//		protected JScrollPane featuresCanonListJScrollPane;
+//		protected JList featuresCanonJList;
+//		protected DefaultComboBoxModel featuresCanonJListModel;
+//		protected JScrollPane featuresFeatureDescJScrollPane;
 		
 		protected JLabel featuresFeatureExtractorJLabel;
 		protected JLabel featuresFactorJLabel;
@@ -399,6 +397,18 @@ public class PreProcessSettingsFrame extends JDialog
 	protected JTextPane featuresFeatureDescJTextPane;
 	protected JTextPane featuresNormContentJTextPane;
 	protected JTextPane featuresFactorContentJTextPane;
+	protected JTable featuresFeatureExtractorContentJTable;
+	protected JTable featuresFeatureExtractorConfigJTable;
+	protected JTable featuresCanonJTable;
+	protected JTable featuresCanonConfigJTable;
+	protected JTable featuresCullJTable;
+	protected JTable featuresCullConfigJTable;
+	protected DefaultTableModel featuresFeatureExtractorContentJTableModel;
+	protected DefaultTableModel featuresFeatureExtractorConfigJTableModel;
+	protected DefaultTableModel featuresCanonJTableModel;
+	protected DefaultTableModel featuresCanonConfigJTableModel;
+	protected DefaultTableModel featuresCullJTableModel;
+	protected DefaultTableModel featuresCullConfigJTableModel;
 	
 	
 	protected JPanel classPanel;
@@ -478,7 +488,7 @@ public class PreProcessSettingsFrame extends JDialog
 		}
 		
 		Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setSize(new Dimension((int)(screensize.width*.75), (int)(screensize.height*.75)));
+		this.setSize(new Dimension((int)(screensize.width*.9), (int)(screensize.height*.9)));
 		this.setLocationRelativeTo(null); // makes it form in the center of the screen
 	}
 	
@@ -559,7 +569,7 @@ public class PreProcessSettingsFrame extends JDialog
 		
 		MigLayout docLayout = new MigLayout(
 				"wrap 2",
-				"[grow, fill][200!]",
+				"[grow, fill][100!]",
 				"[30][grow, fill]");
 		docPanel.setLayout(docLayout);
 		//prepDocumentsPanel.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Color.BLACK));
@@ -727,8 +737,8 @@ public class PreProcessSettingsFrame extends JDialog
 		featPanel = new JPanel();
 		
 		MigLayout featLayout = new MigLayout(
-				"wrap 2",
-				"[grow, fill][200!]",
+				"wrap",
+				"[grow, fill]",
 				"[30][grow, fill]");
 		featPanel.setLayout(featLayout);
 		{
@@ -742,19 +752,18 @@ public class PreProcessSettingsFrame extends JDialog
 				prepFeatLabel.setBackground(main.ready);
 			else
 				prepFeatLabel.setBackground(main.notReady);
-			featPanel.add(prepFeatLabel, "spanx, h 30!");
 			
 			// Main Features area---------------------------------------------
 			featMainPanel = new JPanel();
 			featMainPanel.setLayout(new MigLayout(
 					"fill, wrap 4",
 					"[150!]20[left][150:40%:, fill][300:60%:, fill]",
-					"[][][20!][40!][20!][20!][33%, fill][33%, fill][33%, fill]"));
+					"[][][20!][40!][20!][20!]20[33%, fill]20[33%, fill]20[33%, fill]"));
 			{
 				JPanel featMainTopPanel = new JPanel();
 				featMainTopPanel.setLayout(new MigLayout(
-						"wrap 2",
-						"[][grow, fill]"));
+						"wrap 6",
+						"[][grow, fill][][][][]"));
 				{
 					// combo box label---------------------------------------------
 					featuresSetJLabel = new JLabel("Feature Set:");
@@ -769,7 +778,19 @@ public class PreProcessSettingsFrame extends JDialog
 					featuresSetJComboBoxModel = new DefaultComboBoxModel(presetCFDsNames);
 					featuresSetJComboBox = new JComboBox();
 					featuresSetJComboBox.setModel(featuresSetJComboBoxModel);
-					featMainTopPanel.add(featuresSetJComboBox);
+					featMainTopPanel.add(featuresSetJComboBox, "grow");
+					
+					featuresAddSetJButton = new JButton("Add");
+					featMainTopPanel.add(featuresAddSetJButton);
+					
+					featuresLoadSetFromFileJButton = new JButton("Import");
+					featMainTopPanel.add(featuresLoadSetFromFileJButton);
+					
+					featuresSaveSetJButton = new JButton("Export");
+					featMainTopPanel.add(featuresSaveSetJButton);
+					
+					featuresNewSetJButton = new JButton("New");
+					featMainTopPanel.add(featuresNewSetJButton);
 					
 					// description label-----------------------------------------------
 					featuresSetDescJLabel = new JLabel("Description:");
@@ -778,90 +799,174 @@ public class PreProcessSettingsFrame extends JDialog
 					// description pane--------------------------------------------------
 					featuresSetDescJTextPane = new JTextPane();
 					featuresSetDescJScrollPane = new JScrollPane(featuresSetDescJTextPane);
-					featMainTopPanel.add(featuresSetDescJScrollPane);
+					featMainTopPanel.add(featuresSetDescJScrollPane, "span, grow");
 				}
-				featMainPanel.add(featMainTopPanel, "spanx, growx, gapbottom 20");
 				
 				featuresListLabel = new JLabel("Features:");
 				featuresListLabel.setHorizontalAlignment(JLabel.CENTER);
+				featuresListLabel.setOpaque(true);
+				featuresListLabel.setBackground(main.tan);
 				featuresListLabel.setBorder(BorderFactory.createRaisedBevelBorder());
-				featMainPanel.add(featuresListLabel, "w 150!");
 				
 				featuresInfoLabel = new JLabel("Feature Information:");
 				featuresInfoLabel.setHorizontalAlignment(JLabel.CENTER);
+				featuresInfoLabel.setOpaque(true);
+				featuresInfoLabel.setBackground(main.tan);
 				featuresInfoLabel.setBorder(BorderFactory.createRaisedBevelBorder());
-				featMainPanel.add(featuresInfoLabel, "spanx, growx");
 				
 				// features list--------------------------------------------------
 				featuresJListModel = new DefaultComboBoxModel();
 				featuresJList = new JList(featuresJListModel);
 				JScrollPane featuresListJScrollPane = new JScrollPane(featuresJList);
-				featMainPanel.add(featuresListJScrollPane, "spany, growy, w 150!");
 				
 				// feature name label--------------------------------------------------
 				featuresFeatureNameJLabel = new JLabel("Name:");
-				featMainPanel.add(featuresFeatureNameJLabel);
 				
 				// feature name field--------------------------------------------------
 				featuresFeatureNameJTextPane = new JTextPane();
 				featuresFeatureNameJTextPane.setEditable(false);
-				featMainPanel.add(new JScrollPane(featuresFeatureNameJTextPane), "span 2, grow");
 				
 				// feature description label--------------------------------------------------
 				featuresFeatureDescJLabel = new JLabel("Description:");
-				featMainPanel.add(featuresFeatureDescJLabel);
 				
 				// feature description pane--------------------------------------------------
 				featuresFeatureDescJTextPane = new JTextPane();
 				//featuresFeatureDescJScrollPane = new JScrollPane(featuresFeatureDescJTextPane);
 				featuresFeatureDescJTextPane.setEditable(false);
-				featMainPanel.add(new JScrollPane(featuresFeatureDescJTextPane), "span 2, grow");
 				
+				// feature description pane--------------------------------------------------
 				featuresNormJLabel = new JLabel("Normalization:");
-				featMainPanel.add(featuresNormJLabel);
 				
+				// feature description pane--------------------------------------------------
 				featuresNormContentJTextPane = new JTextPane();
 				featuresNormContentJTextPane.setEditable(false);
-				featMainPanel.add(new JScrollPane(featuresNormContentJTextPane), "span 2, grow");
-						
-				featuresFactorJLabel = new JLabel("Factor:");
-				featMainPanel.add(featuresFactorJLabel);
 				
+				// feature description pane--------------------------------------------------
+				featuresFactorJLabel = new JLabel("Factor:");
+				
+				// feature description pane--------------------------------------------------
 				featuresFactorContentJTextPane = new JTextPane();
 				featuresFactorContentJTextPane.setEditable(false);
-				featMainPanel.add(new JScrollPane(featuresFactorContentJTextPane), "span 2, grow");
-
+				
+				// feature description pane--------------------------------------------------
+				String[][] toolsTableFiller = new String[1][1];
+				toolsTableFiller[0] = new String[] {"N/A"};
+	        	String[] toolsTableHeaderFiller = {"Tools:"};
+	        	
+	        	String[][] configTableFiller = new String[1][1];
+				configTableFiller[0] = new String[] {"N/A", "N/A"};
+	        	String[] configTableHeaderFiller = {"Tool:", "Parameter:", "Value:"};
+				
+				// feature description pane--------------------------------------------------
 				featuresFeatureExtractorJLabel = new JLabel("Extractor:");
-				featMainPanel.add(featuresFeatureExtractorJLabel);
 				
-				featuresFeatureExtractorContentJLabel = new JLabel();
-				featuresFeatureExtractorJScrollPane = new JScrollPane(featuresFeatureExtractorContentJLabel);
-				featMainPanel.add(featuresFeatureExtractorJScrollPane);
+				// feature description pane--------------------------------------------------
+				featuresFeatureExtractorContentJTableModel = new DefaultTableModel(toolsTableFiller, toolsTableHeaderFiller){
+					public boolean isCellEditable(int rowIndex, int mColIndex) {
+				        return false;
+				    }
+				};
 				
-				featuresFeatureExtractorConfigJScrollPane = new JScrollPane();
-				featMainPanel.add(featuresFeatureExtractorConfigJScrollPane);
+				featuresFeatureExtractorContentJTable = new JTable(featuresFeatureExtractorContentJTableModel);
+				featuresFeatureExtractorContentJTable.setRowSelectionAllowed(false);
+				featuresFeatureExtractorContentJTable.setColumnSelectionAllowed(false);
 				
+				// feature description pane--------------------------------------------------
+				featuresFeatureExtractorConfigJTableModel = new DefaultTableModel(configTableFiller, configTableHeaderFiller){
+					public boolean isCellEditable(int rowIndex, int mColIndex) {
+				        return false;
+				    }
+				};
+				
+				featuresFeatureExtractorConfigJTable = new JTable(featuresFeatureExtractorConfigJTableModel);
+				featuresFeatureExtractorConfigJTable.setRowSelectionAllowed(false);
+				featuresFeatureExtractorConfigJTable.setColumnSelectionAllowed(false);
+				
+				// feature description pane--------------------------------------------------
 				featuresCanonJLabel = new JLabel("Pre-Processing:");
-				featMainPanel.add(featuresCanonJLabel);
 				
-				featuresCanonJListModel = new DefaultComboBoxModel();
-				featuresCanonJList = new JList(featuresCanonJListModel);
-				featuresCanonListJScrollPane = new JScrollPane(featuresCanonJList);
-				featMainPanel.add(featuresCanonListJScrollPane);
+				// feature description pane--------------------------------------------------
+				featuresCanonJTableModel = new DefaultTableModel(toolsTableFiller, toolsTableHeaderFiller){
+					public boolean isCellEditable(int rowIndex, int mColIndex) {
+				        return false;
+				    }
+				};
 				
-				featuresCanonConfigJScrollPane = new JScrollPane();
-				featMainPanel.add(featuresCanonConfigJScrollPane);
-
+				featuresCanonJTable = new JTable(featuresCanonJTableModel);
+				featuresCanonJTable.setRowSelectionAllowed(false);
+				featuresCanonJTable.setColumnSelectionAllowed(false);
+				
+				// feature description pane--------------------------------------------------
+				featuresCanonConfigJTableModel = new DefaultTableModel(configTableFiller, configTableHeaderFiller){
+					public boolean isCellEditable(int rowIndex, int mColIndex) {
+				        return false;
+				    }
+				};
+				
+				featuresCanonConfigJTable = new JTable(featuresCanonConfigJTableModel);
+				featuresCanonConfigJTable.setRowSelectionAllowed(false);
+				featuresCanonConfigJTable.setColumnSelectionAllowed(false);
+				
+				// feature description pane--------------------------------------------------
 				featuresCullJLabel = new JLabel("Post-Processing:");
-				featMainPanel.add(featuresCullJLabel);
 				
-				featuresCullJListModel = new DefaultComboBoxModel();
-				featuresCullJList = new JList(featuresCullJListModel);
-				featuresCullListJScrollPane = new JScrollPane(featuresCullJList);
-				featMainPanel.add(featuresCullListJScrollPane);
-					
-				featuresCullConfigJScrollPane = new JScrollPane();
-				featMainPanel.add(featuresCullConfigJScrollPane);
+				// feature description pane--------------------------------------------------
+				featuresCullJTableModel = new DefaultTableModel(toolsTableFiller, toolsTableHeaderFiller){
+					public boolean isCellEditable(int rowIndex, int mColIndex) {
+				        return false;
+				    }
+				};
+				
+				featuresCullJTable = new JTable(featuresCullJTableModel);
+				featuresCullJTable.setRowSelectionAllowed(false);
+				featuresCullJTable.setColumnSelectionAllowed(false);
+				
+				// feature description pane--------------------------------------------------
+				featuresCullConfigJTableModel = new DefaultTableModel(configTableFiller, configTableHeaderFiller){
+					public boolean isCellEditable(int rowIndex, int mColIndex) {
+				        return false;
+				    }
+				};
+				
+				featuresCullConfigJTable = new JTable(featuresCullConfigJTableModel);
+				featuresCullConfigJTable.setRowSelectionAllowed(false);
+				featuresCullConfigJTable.setColumnSelectionAllowed(false);
+				
+				featMainPanel.add(featMainTopPanel, "spanx, growx, gapbottom 20");
+				featMainPanel.add(featuresListLabel, "w 150!");
+				featMainPanel.add(featuresInfoLabel, "spanx, growx");
+				featMainPanel.add(featuresListJScrollPane, "spany, growy, w 150!");
+				featMainPanel.add(featuresFeatureNameJLabel);
+				featMainPanel.add(new JScrollPane(featuresFeatureNameJTextPane), "span 2, grow");
+				featMainPanel.add(featuresFeatureDescJLabel);
+				featMainPanel.add(new JScrollPane(featuresFeatureDescJTextPane), "span 2, grow");
+				featMainPanel.add(featuresNormJLabel);
+				featMainPanel.add(new JScrollPane(featuresNormContentJTextPane), "span 2, grow");
+				featMainPanel.add(featuresFactorJLabel);
+				featMainPanel.add(new JScrollPane(featuresFactorContentJTextPane), "span 2, grow");
+				featMainPanel.add(featuresFeatureExtractorJLabel);
+				featMainPanel.add(new JScrollPane(featuresFeatureExtractorContentJTable));
+				featMainPanel.add(new JScrollPane(featuresFeatureExtractorConfigJTable));
+				featMainPanel.add(featuresCanonJLabel);
+				featMainPanel.add(new JScrollPane(featuresCanonJTable));
+				featMainPanel.add(new JScrollPane(featuresCanonConfigJTable));
+				featMainPanel.add(featuresCullJLabel);
+				featMainPanel.add(new JScrollPane(featuresCullJTable));
+				featMainPanel.add(new JScrollPane(featuresCullConfigJTable));
+				
+				
+				JTable[] configTableArray = {featuresFeatureExtractorConfigJTable, featuresCanonConfigJTable, featuresCullConfigJTable};
+				
+				for (final JTable table: configTableArray)
+				{
+					table.getModel().addTableModelListener(new TableModelListener() {
+			            public void tableChanged(TableModelEvent e) {
+			                GUIMain.ColumnsAutoSizer.sizeColumnsToFit(table);
+			            }
+			        });
+				}
+				
+				
 				
 //				featuresAddJButton = new JButton("Add");
 //				featMainPanel.add(featuresAddJButton);
@@ -872,42 +977,13 @@ public class PreProcessSettingsFrame extends JDialog
 //				featuresEditJButton = new JButton("Edit");
 //				featMainPanel.add(featuresAddJButton);
 			}
+			featPanel.add(prepFeatLabel, "spanx, h 30!");
 			featPanel.add(featMainPanel);
-			
-			// Features options panel-------------------------------------------------
-			JPanel featuresOptionsPanel = new JPanel();
-			featuresOptionsPanel.setBackground(main.optionsColor);
-			featuresOptionsPanel.setBorder(BorderFactory.createRaisedBevelBorder());
-			featuresOptionsPanel.setLayout(new MigLayout(
-					"wrap 1",
-					"grow, fill"));
-			{
-				JPanel featSetOptionsPanel = new JPanel();
-				featSetOptionsPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK),"Feature Set Options:"));
-				featSetOptionsPanel.setLayout(new MigLayout(
-						"wrap 1",
-						"grow, fill"));
-				featSetOptionsPanel.setBackground(main.optionsColor);
-				{
-					featuresAddSetJButton = new JButton("Add");
-					featSetOptionsPanel.add(featuresAddSetJButton);
-					
-					featuresLoadSetFromFileJButton = new JButton("Import");
-					featSetOptionsPanel.add(featuresLoadSetFromFileJButton);
-					
-					featuresSaveSetJButton = new JButton("Export");
-					featSetOptionsPanel.add(featuresSaveSetJButton);
-					
-					featuresNewSetJButton = new JButton("New");
-					featSetOptionsPanel.add(featuresNewSetJButton);
-				}
-				featuresOptionsPanel.add(featSetOptionsPanel);
-			}
-			featPanel.add(featuresOptionsPanel, "spany, grow");
 		}
+
 		
 		//==========================================================================================
-		//================================ Features Panel =========================================
+		//================================ Classifiers Panel =========================================
 		//==========================================================================================
 				
 		classPanel = new JPanel();

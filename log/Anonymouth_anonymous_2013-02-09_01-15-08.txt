@@ -1,0 +1,31 @@
+Started log log/Anonymouth_anonymous_2013-02-09_01-15-08.txt
+===================================================
+01-15-09: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+01-15-09: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+01-15-09: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+01-15-09: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+01-15-09: Populating event drivers...
+01-15-09: adding event drivers under Basic
+01-15-09: adding event drivers under Part-Of-Speech
+01-15-09: adding event drivers under Grams
+01-15-09: adding event drivers under Dictionary
+01-15-09: adding event drivers under Counters
+01-15-09: adding event drivers under Readability Metrics
+01-15-09: adding event drivers under Misc.
+01-15-09: done!
+01-15-09: Populating canonicizers...
+01-15-09: done!
+01-15-09: Populating event cullers...
+01-15-09: done!
+01-15-09: Creating Documents Tab...
+01-15-14: Classifier selected in the available classifiers tree in the classifiers tab: MultilayerPerceptron
+01-15-15: Classifier selected in the available classifiers tree in the classifiers tab: SMO
+01-15-16: 'Add' button clicked in the analysis tab.
+01-15-16: Classifier tree unselected in the classifiers tab.
+01-15-19: Preset feature set selected in the features tab.
+01-15-19: loaded preset feature set: Translation
+01-15-20: 'Load Problem Set' button clicked on the documents tab
+01-15-22: Trying to load problem set from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1_Desktop.xml
+01-15-22: GUI Update: update documents tab with current problem set started
+01-15-28: Preset feature set selected in the features tab.
+01-15-28: loaded preset feature set: Translation

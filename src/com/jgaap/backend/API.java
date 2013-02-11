@@ -55,7 +55,7 @@ public class API {
 
 	private static final API INSTANCE = new API();
 	
-	private API() {
+	public API() {
 		documents = new ArrayList<Document>();
 		language = new English();
 		eventDrivers = new ArrayList<EventDriver>();

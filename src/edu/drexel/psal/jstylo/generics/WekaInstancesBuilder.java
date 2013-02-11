@@ -203,7 +203,8 @@ public class WekaInstancesBuilder {
 		featureClassAttrsFirstIndex = new int[numOfFeatureClasses+1];
 
 		// initialize author name set
-		authors = new ArrayList<String>();
+		if (authors == null)
+			authors = new LinkedList<String>();
 		for (i=0; i<numOfVectors; i++) {
 			String author = known.get(i).get(0).getAuthor();
 			if (!authors.contains(author))
@@ -1023,4 +1024,12 @@ public class WekaInstancesBuilder {
 		return dummy;
 	}
 	*/
+	
+	public void addAuthor(String author)
+	{
+		if (authors == null)
+			authors = new LinkedList<String>();
+		if (!authors.contains(author))
+			authors.add(author);
+	}
 }

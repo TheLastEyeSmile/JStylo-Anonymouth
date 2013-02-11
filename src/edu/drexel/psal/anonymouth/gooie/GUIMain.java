@@ -279,6 +279,7 @@ public class GUIMain extends javax.swing.JFrame
 				protected JLabel prepDocLabel;
 				protected JLabel mainLabel;
 				protected JList prepMainDocList;
+				protected JButton clearProblemSetJButton;
 				protected JScrollPane prepMainDocScrollPane;
 			protected JPanel prepSampleDocsPanel;
 				protected JLabel sampleLabel;
@@ -575,9 +576,11 @@ public class GUIMain extends javax.swing.JFrame
 	{
 		boolean ready = true;
 		try {
-			if (!inst.ps.hasTestDocs())
+			if (!mainDocReady())
 				ready = false;
-			if (!inst.ps.hasAuthors())
+			if (!sampleDocsReady())
+				ready = false;
+			if (!trainDocsReady())
 				ready = false;
 		}
 		catch (Exception e){
@@ -585,6 +588,30 @@ public class GUIMain extends javax.swing.JFrame
 		}
 		
 		return ready;
+	}
+	
+	public boolean mainDocReady()
+	{
+		if (inst.ps.hasTestDocs())
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean sampleDocsReady()
+	{
+		if (!inst.ps.getTrainDocs(ProblemSet.getDummyAuthor()).isEmpty())
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean trainDocsReady()
+	{
+		if (inst.ps.hasTestDocs())
+			return true;
+		else
+			return false;
 	}
 	
 	public boolean featuresAreReady()
@@ -651,12 +678,16 @@ public class GUIMain extends javax.swing.JFrame
 			prepDocumentsPanel.add(prepDocLabel, "skip 1, span, h 20!");
 			
 			// Save Problem Set button
-			saveProblemSetJButton = new JButton("Save...");
-			prepDocumentsPanel.add(saveProblemSetJButton, "span 2");
+			saveProblemSetJButton = new JButton("Save");
+			prepDocumentsPanel.add(saveProblemSetJButton, "span 4, split 3");
 			
 			// load problem set button
-			loadProblemSetJButton = new JButton("Load...");
-			prepDocumentsPanel.add(loadProblemSetJButton, "span 2");
+			loadProblemSetJButton = new JButton("Load");
+			prepDocumentsPanel.add(loadProblemSetJButton);
+			
+			// Save Problem Set button
+			clearProblemSetJButton = new JButton("Clear");
+			prepDocumentsPanel.add(clearProblemSetJButton);
 			
 			// main label
 			mainLabel = new JLabel("Main:");
@@ -774,7 +805,7 @@ public class GUIMain extends javax.swing.JFrame
 			classJTree = new JTree();
 			classJTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 			prepAvailableClassScrollPane = new JScrollPane(classJTree);
-			ClassTabDriver.initWekaClassifiersTree(this);
+			ClassTabDriver.initMainWekaClassifiersTree(this);
 			prepClassifiersPanel.add(prepAvailableClassScrollPane, "grow, h 150:360:, w 50%:60%:75%, gapbottom 0");
 			
 			DefaultListModel selectedListModel = new DefaultListModel();

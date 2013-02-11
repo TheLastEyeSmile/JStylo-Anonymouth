@@ -1,0 +1,35 @@
+Started log log/Anonymouth_anonymous_2013-02-09_14-56-32.txt
+===================================================
+14-56-33: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+14-56-33: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+14-56-33: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+14-56-33: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+14-56-33: Populating event drivers...
+14-56-33: adding event drivers under Basic
+14-56-33: adding event drivers under Part-Of-Speech
+14-56-33: adding event drivers under Grams
+14-56-33: adding event drivers under Dictionary
+14-56-33: adding event drivers under Counters
+14-56-33: adding event drivers under Readability Metrics
+14-56-33: adding event drivers under Misc.
+14-56-33: done!
+14-56-33: Populating canonicizers...
+14-56-33: done!
+14-56-33: Populating event cullers...
+14-56-33: done!
+14-56-34: Creating Documents Tab...
+14-56-38: Preset feature set selected in the features tab.
+14-56-38: loaded preset feature set: Translation
+14-56-38: Preset feature set selected in the features tab.
+14-56-38: loaded preset feature set: Translation
+14-56-39: Feature selected in the features tab: Character count
+14-56-39: Feature selected in the features tab: Letters
+14-56-39: Feature selected in the features tab: Top Letter trigrams
+14-56-40: Feature selected in the features tab: Special Characters
+14-56-40: Feature selected in the features tab: Words
+14-56-41: Feature selected in the features tab: Special Characters
+14-56-42: Feature selected in the features tab: Top Letter trigrams
+14-56-43: Feature selected in the features tab: Top Letter bigrams
+14-56-43: Feature selected in the features tab: Letters
+14-56-44: Feature selected in the features tab: Special Characters
+14-56-45: Feature selected in the features tab: Function Words

@@ -1,0 +1,75 @@
+Started log log/Anonymouth_anonymous_2013-02-09_04-33-35.txt
+===================================================
+04-33-35: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+04-33-35: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+04-33-35: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+04-33-35: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+04-33-36: Populating event drivers...
+04-33-36: adding event drivers under Basic
+04-33-36: adding event drivers under Part-Of-Speech
+04-33-36: adding event drivers under Grams
+04-33-36: adding event drivers under Dictionary
+04-33-36: adding event drivers under Counters
+04-33-36: adding event drivers under Readability Metrics
+04-33-36: adding event drivers under Misc.
+04-33-36: done!
+04-33-36: Populating canonicizers...
+04-33-36: done!
+04-33-36: Populating event cullers...
+04-33-36: done!
+04-33-36: Creating Documents Tab...
+04-33-42: Preset feature set selected in the features tab.
+04-33-42: loaded preset feature set: Translation
+04-33-42: Feature selected in the features tab: Letters
+04-33-43: Feature selected in the features tab: Top Letter trigrams
+04-33-43: Feature selected in the features tab: Special Characters
+04-33-44: Feature selected in the features tab: Word Lengths
+04-33-44: Feature selected in the features tab: Top Letter bigrams
+04-33-59: Culler 'Most Common Events extended' selected in features tab.
+04-34-00: Canonicizer 'Unify Case' selected in features tab.
+04-35-12: Feature selected in the features tab: Top Letter trigrams
+04-35-13: Feature selected in the features tab: Special Characters
+04-35-39: Feature selected in the features tab: Function Words
+04-35-39: Feature selected in the features tab: Punctuation
+04-35-39: Feature selected in the features tab: Special Characters
+04-35-40: Feature selected in the features tab: Word Lengths
+04-35-40: Feature selected in the features tab: Top Letter trigrams
+04-35-40: Feature selected in the features tab: Top Letter bigrams
+04-35-40: Feature selected in the features tab: Letters
+04-35-41: Feature selected in the features tab: Character count
+04-35-41: Feature selected in the features tab: Top Letter trigrams
+04-35-42: Feature selected in the features tab: Word Lengths
+04-35-43: Feature selected in the features tab: Function Words
+04-35-43: Feature selected in the features tab: Punctuation
+04-35-44: Feature selected in the features tab: Special Characters
+04-35-44: Feature selected in the features tab: Top Letter trigrams
+04-35-45: Feature selected in the features tab: Letters
+04-35-46: Feature selected in the features tab: Character count
+04-35-47: Feature selected in the features tab: Top Letter bigrams
+04-35-47: Feature selected in the features tab: Top Letter trigrams
+04-35-47: Feature selected in the features tab: Special Characters
+04-35-48: Feature selected in the features tab: Punctuation
+04-35-48: Feature selected in the features tab: Words
+04-35-49: Feature selected in the features tab: Function Words
+04-35-50: Feature selected in the features tab: Special Characters
+04-35-50: Feature selected in the features tab: Top Letter bigrams
+04-35-50: Feature selected in the features tab: Character count
+04-35-53: Preset feature set selected in the features tab.
+04-35-53: Feature selected in the features tab: null
+04-35-56: Preset feature set selected in the features tab.
+04-35-56: loaded preset feature set: WritePrints (Limited)
+04-35-57: Feature selected in the features tab: Uppercase Letters Percentage
+04-35-58: Feature selected in the features tab: Word Lengths
+04-35-59: Feature selected in the features tab: Function Words
+04-36-00: Feature selected in the features tab: POS Trigrams
+04-36-01: Feature selected in the features tab: Words
+04-36-01: Feature selected in the features tab: Word Bigrams
+04-36-02: Feature selected in the features tab: POS Bigrams
+04-36-02: Feature selected in the features tab: Special Characters
+04-36-03: Feature selected in the features tab: Three Digit Numbers
+04-36-03: Feature selected in the features tab: Letters Percentage
+04-36-10: Feature selected in the features tab: Top Letter bigrams
+04-36-11: Feature selected in the features tab: Digits
+04-36-11: Feature selected in the features tab: Punctuation
+04-36-12: Feature selected in the features tab: POS Bigrams
+04-36-13: Feature selected in the features tab: Punctuation

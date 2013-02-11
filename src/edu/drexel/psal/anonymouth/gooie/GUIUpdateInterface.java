@@ -96,11 +96,14 @@ public class GUIUpdateInterface {
 		DefaultListModel dlm2 = (DefaultListModel)main.PPSP.prepMainDocList.getModel();
 		dlm.removeAllElements();
 		dlm2.removeAllElements();
-		List<Document>testDocs = main.ps.getTestDocs();
-		for (int i=0; i<testDocs.size(); i++)
+		if (main.mainDocReady())
 		{
-			dlm.addElement(testDocs.get(i).getTitle());
-			dlm2.addElement(testDocs.get(i).getTitle());
+			List<Document>testDocs = main.ps.getTestDocs();
+			for (int i=0; i<testDocs.size(); i++)
+			{
+				dlm.addElement(testDocs.get(i).getTitle());
+				dlm2.addElement(testDocs.get(i).getTitle());
+			}
 		}
 		
 		updateDocPrepColor(main);
@@ -114,13 +117,15 @@ public class GUIUpdateInterface {
 		DefaultListModel dlm2 = (DefaultListModel)main.PPSP.prepSampleDocsList.getModel();
 		dlm.removeAllElements();
 		dlm2.removeAllElements();
-		List<Document> userSampleDocs = main.ps.getTrainDocs(ProblemSet.getDummyAuthor());
-		for (int i=0; i<userSampleDocs.size(); i++)
+		if (main.sampleDocsReady())
 		{
-			dlm.addElement(userSampleDocs.get(i).getTitle());// todo this is where it fails (from the note in DocsTabDriver).. it fails with a "NullPointerException".... (when "create new problem set" is clicked when there isn't a problem set there. [ i.e. as soon as Anonymouth starts up]) 
-			dlm2.addElement(userSampleDocs.get(i).getTitle());
+			List<Document> userSampleDocs = main.ps.getTrainDocs(ProblemSet.getDummyAuthor());
+			for (int i=0; i<userSampleDocs.size(); i++)
+			{
+				dlm.addElement(userSampleDocs.get(i).getTitle());// todo this is where it fails (from the note in DocsTabDriver).. it fails with a "NullPointerException".... (when "create new problem set" is clicked when there isn't a problem set there. [ i.e. as soon as Anonymouth starts up]) 
+				dlm2.addElement(userSampleDocs.get(i).getTitle());
+			}
 		}
-		
 		updateDocPrepColor(main);
 	}
 
@@ -270,7 +275,7 @@ public class GUIUpdateInterface {
 	}
 	
 	/**
-	 * Populates the given tableModel with parameters and their values for the given event driver / canonicizer / culler. Assumes the table is set to have two columns.
+	 * Populates the given tableModel with parameters and their values for the given event driver / canonicizer / culler. Assumes the table is set to have three columns.
 	 */
 	protected static void populateTableWithParams(Parameterizable p, DefaultTableModel tm) {
 		String fullname = p.getClass().getName();
@@ -323,12 +328,12 @@ public class GUIUpdateInterface {
 		if (main.classifiersAreReady())
 		{
 			main.prepClassLabel.setBackground(main.ready);
-			//main.PPSP.prepClassLabel.setBackground(main.ready);
+			main.PPSP.prepClassLabel.setBackground(main.ready);
 		}
 		else
 		{
 			main.prepClassLabel.setBackground(main.notReady);
-			//main.PPSP.prepClassLabel.setBackground(main.notReady);
+			main.PPSP.prepClassLabel.setBackground(main.notReady);
 		}	
 	}
 	
@@ -337,12 +342,15 @@ public class GUIUpdateInterface {
 	 */
 	protected static void updateClassList(GUIMain main) {
 		DefaultListModel model = (DefaultListModel)main.classJList.getModel();
+		DefaultListModel model2 = (DefaultListModel)main.PPSP.classJList.getModel();
 		List<Classifier> classifiers = main.classifiers;
 		
 		model.removeAllElements();
+		model2.removeAllElements();
 		for (Classifier c: classifiers) {
 			String className = c.getClass().getName();
 			model.addElement(className.substring(className.lastIndexOf(".")+1));
+			model2.addElement(className);
 		}
 	}
 }

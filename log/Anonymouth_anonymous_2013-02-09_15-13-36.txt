@@ -1,0 +1,30 @@
+Started log log/Anonymouth_anonymous_2013-02-09_15-13-36.txt
+===================================================
+15-13-36: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+15-13-36: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+15-13-36: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+15-13-36: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+15-13-36: Populating event drivers...
+15-13-36: adding event drivers under Basic
+15-13-36: adding event drivers under Part-Of-Speech
+15-13-36: adding event drivers under Grams
+15-13-36: adding event drivers under Dictionary
+15-13-36: adding event drivers under Counters
+15-13-36: adding event drivers under Readability Metrics
+15-13-36: adding event drivers under Misc.
+15-13-36: done!
+15-13-36: Populating canonicizers...
+15-13-36: done!
+15-13-36: Populating event cullers...
+15-13-36: done!
+15-13-36: Creating Documents Tab...
+15-13-41: Preset feature set selected in the features tab.
+15-13-41: loaded preset feature set: Translation
+15-13-41: Preset feature set selected in the features tab.
+15-13-41: loaded preset feature set: Translation
+15-13-42: Feature selected in the features tab: Character count
+15-13-49: Feature selected in the features tab: Top Letter trigrams
+15-13-50: Feature selected in the features tab: Special Characters
+15-13-50: Feature selected in the features tab: Function Words
+15-13-51: Feature selected in the features tab: Top Letter bigrams
+15-13-52: Feature selected in the features tab: Letters

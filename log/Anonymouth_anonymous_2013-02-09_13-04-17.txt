@@ -1,0 +1,90 @@
+Started log log/Anonymouth_anonymous_2013-02-09_13-04-17.txt
+===================================================
+13-04-17: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+13-04-17: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+13-04-17: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+13-04-17: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+13-04-17: Populating event drivers...
+13-04-17: adding event drivers under Basic
+13-04-17: adding event drivers under Part-Of-Speech
+13-04-17: adding event drivers under Grams
+13-04-17: adding event drivers under Dictionary
+13-04-17: adding event drivers under Counters
+13-04-17: adding event drivers under Readability Metrics
+13-04-17: adding event drivers under Misc.
+13-04-17: done!
+13-04-17: Populating canonicizers...
+13-04-17: done!
+13-04-17: Populating event cullers...
+13-04-17: done!
+13-04-17: Creating Documents Tab...
+13-04-23: Preset feature set selected in the features tab.
+13-04-23: loaded preset feature set: Translation
+13-04-25: Preset feature set selected in the features tab.
+13-04-25: loaded preset feature set: WritePrints
+13-04-25: Preset feature set selected in the features tab.
+13-04-25: loaded preset feature set: WritePrints (Limited)
+13-04-28: Preset feature set selected in the features tab.
+13-04-28: loaded preset feature set: Translation
+13-04-29: Feature selected in the features tab: Character count
+13-04-30: Feature selected in the features tab: Average characters per word
+13-04-30: Feature selected in the features tab: Letters
+13-04-30: Feature selected in the features tab: Top Letter bigrams
+13-04-30: Feature selected in the features tab: Top Letter trigrams
+13-04-30: Feature selected in the features tab: Word Lengths
+13-04-31: Feature selected in the features tab: Special Characters
+13-04-31: Feature selected in the features tab: Function Words
+13-04-31: Feature selected in the features tab: Special Characters
+13-04-32: Feature selected in the features tab: Function Words
+13-04-32: Feature selected in the features tab: Punctuation
+13-04-32: Feature selected in the features tab: Words
+13-04-33: Feature selected in the features tab: Punctuation
+13-04-33: Feature selected in the features tab: Function Words
+13-04-33: Feature selected in the features tab: Special Characters
+13-04-34: Feature selected in the features tab: Word Lengths
+13-04-34: Feature selected in the features tab: Special Characters
+13-04-54: Feature selected in the features tab: Function Words
+13-04-54: Feature selected in the features tab: Punctuation
+13-04-55: Feature selected in the features tab: Function Words
+13-04-55: Feature selected in the features tab: Special Characters
+13-04-55: Feature selected in the features tab: Word Lengths
+13-04-55: Feature selected in the features tab: Top Letter trigrams
+13-04-55: Feature selected in the features tab: Top Letter bigrams
+13-04-56: Feature selected in the features tab: Top Letter trigrams
+13-04-56: Feature selected in the features tab: Word Lengths
+13-04-56: Feature selected in the features tab: Special Characters
+13-04-56: Feature selected in the features tab: Function Words
+13-04-56: Feature selected in the features tab: Punctuation
+13-04-57: Feature selected in the features tab: Function Words
+13-04-57: Feature selected in the features tab: Punctuation
+13-04-58: Feature selected in the features tab: Function Words
+13-04-58: Feature selected in the features tab: Punctuation
+13-04-58: Feature selected in the features tab: Words
+13-04-59: Feature selected in the features tab: Punctuation
+13-04-59: Feature selected in the features tab: Function Words
+13-05-15: Feature selected in the features tab: Punctuation
+13-05-15: Feature selected in the features tab: Words
+13-05-16: Feature selected in the features tab: Punctuation
+13-05-16: Feature selected in the features tab: Function Words
+13-05-16: Feature selected in the features tab: Special Characters
+13-05-16: Feature selected in the features tab: Word Lengths
+13-05-16: Feature selected in the features tab: Top Letter trigrams
+13-05-17: Feature selected in the features tab: Top Letter bigrams
+13-05-17: Feature selected in the features tab: Letters
+13-05-17: Feature selected in the features tab: Top Letter bigrams
+13-05-17: Feature selected in the features tab: Top Letter trigrams
+13-05-17: Feature selected in the features tab: Word Lengths
+13-05-17: Feature selected in the features tab: Special Characters
+13-05-18: Feature selected in the features tab: Function Words
+13-05-44: Feature selected in the features tab: Punctuation
+13-05-44: Feature selected in the features tab: Words
+13-05-45: Feature selected in the features tab: Punctuation
+13-05-45: Feature selected in the features tab: Function Words
+13-05-45: Feature selected in the features tab: Special Characters
+13-05-45: Feature selected in the features tab: Word Lengths
+13-05-45: Feature selected in the features tab: Top Letter trigrams
+13-05-45: Feature selected in the features tab: Word Lengths
+13-05-46: Feature selected in the features tab: Special Characters
+13-05-46: Feature selected in the features tab: Function Words
+13-05-46: Feature selected in the features tab: Punctuation
+13-05-46: Feature selected in the features tab: Words

@@ -1,0 +1,67 @@
+Started log log/Anonymouth_anonymous_2013-02-09_04-57-08.txt
+===================================================
+04-57-09: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+04-57-09: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+04-57-09: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+04-57-09: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+04-57-09: Populating event drivers...
+04-57-09: adding event drivers under Basic
+04-57-09: adding event drivers under Part-Of-Speech
+04-57-09: adding event drivers under Grams
+04-57-09: adding event drivers under Dictionary
+04-57-09: adding event drivers under Counters
+04-57-09: adding event drivers under Readability Metrics
+04-57-09: adding event drivers under Misc.
+04-57-09: done!
+04-57-09: Populating canonicizers...
+04-57-09: done!
+04-57-09: Populating event cullers...
+04-57-09: done!
+04-57-09: Creating Documents Tab...
+04-57-20: Preset feature set selected in the features tab.
+04-57-20: loaded preset feature set: Translation
+04-57-21: Feature selected in the features tab: Word Lengths
+04-57-25: Feature selected in the features tab: Top Letter trigrams
+04-57-25: Feature selected in the features tab: Top Letter bigrams
+04-57-25: Feature selected in the features tab: Letters
+04-57-26: Feature selected in the features tab: Top Letter bigrams
+04-57-26: Feature selected in the features tab: Top Letter trigrams
+04-57-26: Feature selected in the features tab: Word Lengths
+04-57-26: Feature selected in the features tab: Special Characters
+04-57-27: Feature selected in the features tab: Function Words
+04-57-55: Canonicizer 'Unify Case' selected in features tab.
+04-57-55: Canonicizer 'Word-edges Punctuation Stripper' selected in features tab.
+04-57-57: Feature selected in the features tab: Special Characters
+04-57-58: Feature selected in the features tab: Function Words
+04-57-58: Feature selected in the features tab: Punctuation
+04-57-59: Feature selected in the features tab: Words
+04-57-59: Feature selected in the features tab: Function Words
+04-58-00: Feature selected in the features tab: Special Characters
+04-58-00: Feature selected in the features tab: Word Lengths
+04-58-00: Feature selected in the features tab: Top Letter trigrams
+04-58-01: Feature selected in the features tab: Top Letter bigrams
+04-58-01: Feature selected in the features tab: Letters
+04-58-02: Feature selected in the features tab: Average characters per word
+04-58-02: Feature selected in the features tab: Character count
+04-58-03: Feature selected in the features tab: Average characters per word
+04-58-03: Feature selected in the features tab: Letters
+04-58-03: Feature selected in the features tab: Top Letter bigrams
+04-58-04: Feature selected in the features tab: Top Letter trigrams
+04-58-04: Feature selected in the features tab: Word Lengths
+04-58-05: Feature selected in the features tab: Special Characters
+04-58-05: Feature selected in the features tab: Function Words
+04-58-05: Feature selected in the features tab: Punctuation
+04-58-06: Feature selected in the features tab: Words
+04-58-07: Feature selected in the features tab: Function Words
+04-58-07: Feature selected in the features tab: Special Characters
+04-58-07: Feature selected in the features tab: Word Lengths
+04-58-07: Feature selected in the features tab: Top Letter trigrams
+04-58-07: Feature selected in the features tab: Top Letter bigrams
+04-58-08: Feature selected in the features tab: Letters
+04-58-08: Feature selected in the features tab: Average characters per word
+04-58-08: Feature selected in the features tab: Letters
+04-58-08: Feature selected in the features tab: Top Letter bigrams
+04-58-09: Feature selected in the features tab: Top Letter trigrams
+04-58-09: Feature selected in the features tab: Word Lengths
+04-58-09: Feature selected in the features tab: Special Characters
+04-58-09: Feature selected in the features tab: Function Words

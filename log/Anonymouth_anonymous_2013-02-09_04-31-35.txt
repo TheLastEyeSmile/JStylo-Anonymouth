@@ -1,0 +1,88 @@
+Started log log/Anonymouth_anonymous_2013-02-09_04-31-35.txt
+===================================================
+04-31-36: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+04-31-36: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+04-31-36: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+04-31-36: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+04-31-36: Populating event drivers...
+04-31-36: adding event drivers under Basic
+04-31-36: adding event drivers under Part-Of-Speech
+04-31-36: adding event drivers under Grams
+04-31-36: adding event drivers under Dictionary
+04-31-36: adding event drivers under Counters
+04-31-36: adding event drivers under Readability Metrics
+04-31-36: adding event drivers under Misc.
+04-31-36: done!
+04-31-36: Populating canonicizers...
+04-31-36: done!
+04-31-36: Populating event cullers...
+04-31-36: done!
+04-31-36: Creating Documents Tab...
+04-32-21: Preset feature set selected in the features tab.
+04-32-21: loaded preset feature set: Translation
+04-32-22: Feature selected in the features tab: Top Letter trigrams
+04-32-22: Canonicizer 'Unify Case' selected in features tab.
+04-32-23: Feature selected in the features tab: Special Characters
+04-32-24: Feature selected in the features tab: Function Words
+04-32-24: Feature selected in the features tab: Top Letter trigrams
+04-32-25: Feature selected in the features tab: Letters
+04-32-25: Feature selected in the features tab: Character count
+04-32-26: Feature selected in the features tab: Top Letter trigrams
+04-32-26: Feature selected in the features tab: Special Characters
+04-32-26: Feature selected in the features tab: Punctuation
+04-32-27: Feature selected in the features tab: Words
+04-32-28: Feature selected in the features tab: Special Characters
+04-32-29: Feature selected in the features tab: Function Words
+04-32-29: Feature selected in the features tab: Words
+04-32-33: Feature selected in the features tab: Function Words
+04-32-33: Feature selected in the features tab: Special Characters
+04-32-33: Feature selected in the features tab: Letters
+04-32-34: Feature selected in the features tab: Punctuation
+04-32-34: Feature selected in the features tab: Words
+04-32-35: Feature selected in the features tab: Function Words
+04-32-36: Feature selected in the features tab: Top Letter trigrams
+04-32-37: Feature selected in the features tab: Top Letter bigrams
+04-32-37: Feature selected in the features tab: Letters
+04-32-38: Feature selected in the features tab: Top Letter bigrams
+04-32-38: Feature selected in the features tab: Top Letter trigrams
+04-32-38: Feature selected in the features tab: Word Lengths
+04-32-38: Feature selected in the features tab: Special Characters
+04-32-38: Feature selected in the features tab: Function Words
+04-32-39: Feature selected in the features tab: Punctuation
+04-32-39: Feature selected in the features tab: Words
+04-32-39: Feature selected in the features tab: Punctuation
+04-32-39: Feature selected in the features tab: Function Words
+04-32-40: Feature selected in the features tab: Special Characters
+04-32-40: Feature selected in the features tab: Word Lengths
+04-32-40: Feature selected in the features tab: Special Characters
+04-32-40: Feature selected in the features tab: Function Words
+04-32-40: Feature selected in the features tab: Punctuation
+04-32-41: Feature selected in the features tab: Function Words
+04-32-41: Feature selected in the features tab: Special Characters
+04-32-41: Feature selected in the features tab: Word Lengths
+04-32-41: Feature selected in the features tab: Top Letter trigrams
+04-32-42: Feature selected in the features tab: Top Letter bigrams
+04-32-42: Feature selected in the features tab: Letters
+04-32-42: Feature selected in the features tab: Average characters per word
+04-32-42: Feature selected in the features tab: Letters
+04-32-43: Feature selected in the features tab: Top Letter bigrams
+04-32-43: Feature selected in the features tab: Top Letter trigrams
+04-32-43: Feature selected in the features tab: Word Lengths
+04-32-43: Feature selected in the features tab: Special Characters
+04-32-43: Feature selected in the features tab: Function Words
+04-32-43: Feature selected in the features tab: Punctuation
+04-32-43: Feature selected in the features tab: Words
+04-32-45: Feature selected in the features tab: Punctuation
+04-32-45: Feature selected in the features tab: Function Words
+04-32-45: Feature selected in the features tab: Special Characters
+04-32-45: Feature selected in the features tab: Word Lengths
+04-32-46: Feature selected in the features tab: Top Letter trigrams
+04-32-46: Feature selected in the features tab: Top Letter bigrams
+04-32-46: Feature selected in the features tab: Letters
+04-32-46: Feature selected in the features tab: Top Letter bigrams
+04-32-47: Feature selected in the features tab: Top Letter trigrams
+04-32-47: Feature selected in the features tab: Word Lengths
+04-32-47: Feature selected in the features tab: Special Characters
+04-32-47: Feature selected in the features tab: Function Words
+04-32-47: Feature selected in the features tab: Punctuation
+04-32-48: Feature selected in the features tab: Words

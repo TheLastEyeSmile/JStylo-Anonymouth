@@ -1,0 +1,30 @@
+Started log log/Anonymouth_anonymous_2013-02-09_16-37-21.txt
+===================================================
+16-37-21: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+16-37-21: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+16-37-21: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+16-37-21: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+16-37-21: Populating event drivers...
+16-37-21: adding event drivers under Basic
+16-37-21: adding event drivers under Part-Of-Speech
+16-37-21: adding event drivers under Grams
+16-37-21: adding event drivers under Dictionary
+16-37-21: adding event drivers under Counters
+16-37-21: adding event drivers under Readability Metrics
+16-37-21: adding event drivers under Misc.
+16-37-21: done!
+16-37-21: Populating canonicizers...
+16-37-21: done!
+16-37-21: Populating event cullers...
+16-37-21: done!
+16-37-21: Creating Documents Tab...
+16-37-27: Preset feature set selected in the features tab.
+16-37-27: loaded preset feature set: Translation
+16-37-27: Preset feature set selected in the features tab.
+16-37-27: loaded preset feature set: Translation
+16-37-28: Feature selected in the features tab: Letters
+16-37-28: Feature selected in the features tab: Top Letter trigrams
+16-37-28: Feature selected in the features tab: Special Characters
+16-37-29: Feature selected in the features tab: Punctuation
+16-37-30: Feature selected in the features tab: Words
+16-37-30: Feature selected in the features tab: Special Characters

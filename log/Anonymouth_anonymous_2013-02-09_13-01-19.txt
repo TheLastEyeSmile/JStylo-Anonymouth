@@ -1,0 +1,177 @@
+Started log log/Anonymouth_anonymous_2013-02-09_13-01-19.txt
+===================================================
+13-01-19: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+13-01-19: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+13-01-20: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+13-01-20: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+13-01-20: Populating event drivers...
+13-01-20: adding event drivers under Basic
+13-01-20: adding event drivers under Part-Of-Speech
+13-01-20: adding event drivers under Grams
+13-01-20: adding event drivers under Dictionary
+13-01-20: adding event drivers under Counters
+13-01-20: adding event drivers under Readability Metrics
+13-01-20: adding event drivers under Misc.
+13-01-20: done!
+13-01-20: Populating canonicizers...
+13-01-20: done!
+13-01-20: Populating event cullers...
+13-01-20: done!
+13-01-20: Creating Documents Tab...
+13-01-25: Preset feature set selected in the features tab.
+13-01-25: loaded preset feature set: Translation
+13-01-26: Feature selected in the features tab: Character count
+13-01-27: Feature selected in the features tab: Average characters per word
+13-01-28: Feature selected in the features tab: Letters
+13-01-28: Feature selected in the features tab: Top Letter bigrams
+13-01-28: Feature selected in the features tab: Top Letter trigrams
+13-01-29: Feature selected in the features tab: Word Lengths
+13-01-29: Feature selected in the features tab: Special Characters
+13-01-31: Feature selected in the features tab: Function Words
+13-01-32: Feature selected in the features tab: Punctuation
+13-01-32: Feature selected in the features tab: Words
+13-01-33: Feature selected in the features tab: Punctuation
+13-01-33: Feature selected in the features tab: Function Words
+13-01-33: Feature selected in the features tab: Special Characters
+13-01-33: Feature selected in the features tab: Word Lengths
+13-01-33: Feature selected in the features tab: Top Letter trigrams
+13-01-33: Feature selected in the features tab: Top Letter bigrams
+13-01-34: Feature selected in the features tab: Letters
+13-01-34: Feature selected in the features tab: Average characters per word
+13-01-34: Feature selected in the features tab: Character count
+13-01-34: Feature selected in the features tab: Average characters per word
+13-01-35: Feature selected in the features tab: Letters
+13-01-35: Feature selected in the features tab: Top Letter bigrams
+13-01-35: Feature selected in the features tab: Top Letter trigrams
+13-01-35: Feature selected in the features tab: Word Lengths
+13-01-35: Feature selected in the features tab: Special Characters
+13-01-35: Feature selected in the features tab: Function Words
+13-01-35: Feature selected in the features tab: Punctuation
+13-01-35: Feature selected in the features tab: Words
+13-01-36: Feature selected in the features tab: Punctuation
+13-01-36: Feature selected in the features tab: Function Words
+13-01-36: Feature selected in the features tab: Special Characters
+13-01-37: Feature selected in the features tab: Word Lengths
+13-01-37: Feature selected in the features tab: Top Letter trigrams
+13-01-37: Feature selected in the features tab: Top Letter bigrams
+13-01-37: Feature selected in the features tab: Letters
+13-01-37: Feature selected in the features tab: Average characters per word
+13-01-38: Feature selected in the features tab: Letters
+13-01-38: Feature selected in the features tab: Top Letter bigrams
+13-01-38: Feature selected in the features tab: Top Letter trigrams
+13-01-38: Feature selected in the features tab: Word Lengths
+13-01-39: Feature selected in the features tab: Special Characters
+13-01-39: Feature selected in the features tab: Function Words
+13-01-39: Feature selected in the features tab: Punctuation
+13-01-39: Feature selected in the features tab: Words
+13-01-40: Feature selected in the features tab: Punctuation
+13-01-40: Feature selected in the features tab: Function Words
+13-01-40: Feature selected in the features tab: Special Characters
+13-01-40: Feature selected in the features tab: Word Lengths
+13-01-41: Feature selected in the features tab: Top Letter trigrams
+13-01-41: Feature selected in the features tab: Top Letter bigrams
+13-01-41: Feature selected in the features tab: Letters
+13-01-41: Feature selected in the features tab: Average characters per word
+13-01-42: Feature selected in the features tab: Character count
+13-01-45: Feature selected in the features tab: Average characters per word
+13-01-45: Feature selected in the features tab: Letters
+13-01-45: Feature selected in the features tab: Top Letter bigrams
+13-01-45: Feature selected in the features tab: Top Letter trigrams
+13-01-45: Feature selected in the features tab: Word Lengths
+13-01-45: Feature selected in the features tab: Special Characters
+13-01-45: Feature selected in the features tab: Function Words
+13-01-46: Feature selected in the features tab: Punctuation
+13-01-46: Feature selected in the features tab: Words
+13-01-47: Feature selected in the features tab: Punctuation
+13-01-48: Feature selected in the features tab: Function Words
+13-01-48: Feature selected in the features tab: Special Characters
+13-01-48: Feature selected in the features tab: Word Lengths
+13-01-49: Feature selected in the features tab: Top Letter trigrams
+13-01-49: Feature selected in the features tab: Top Letter bigrams
+13-01-49: Feature selected in the features tab: Letters
+13-01-49: Feature selected in the features tab: Average characters per word
+13-01-50: Feature selected in the features tab: Character count
+13-01-50: Feature selected in the features tab: Average characters per word
+13-01-50: Feature selected in the features tab: Letters
+13-01-50: Feature selected in the features tab: Top Letter bigrams
+13-01-51: Feature selected in the features tab: Top Letter trigrams
+13-01-51: Feature selected in the features tab: Word Lengths
+13-01-51: Feature selected in the features tab: Special Characters
+13-01-51: Feature selected in the features tab: Function Words
+13-01-51: Feature selected in the features tab: Punctuation
+13-01-52: Feature selected in the features tab: Words
+13-01-52: Feature selected in the features tab: Punctuation
+13-01-52: Feature selected in the features tab: Function Words
+13-01-53: Feature selected in the features tab: Special Characters
+13-01-53: Feature selected in the features tab: Word Lengths
+13-01-53: Feature selected in the features tab: Top Letter trigrams
+13-01-53: Feature selected in the features tab: Top Letter bigrams
+13-01-54: Feature selected in the features tab: Top Letter trigrams
+13-01-54: Feature selected in the features tab: Word Lengths
+13-01-54: Feature selected in the features tab: Special Characters
+13-01-54: Feature selected in the features tab: Function Words
+13-01-55: Feature selected in the features tab: Punctuation
+13-01-55: Feature selected in the features tab: Words
+13-02-04: Feature selected in the features tab: Punctuation
+13-02-04: Feature selected in the features tab: Function Words
+13-02-05: Feature selected in the features tab: Special Characters
+13-02-05: Feature selected in the features tab: Word Lengths
+13-02-05: Feature selected in the features tab: Top Letter trigrams
+13-02-06: Feature selected in the features tab: Top Letter bigrams
+13-02-06: Feature selected in the features tab: Letters
+13-02-06: Feature selected in the features tab: Top Letter bigrams
+13-02-07: Feature selected in the features tab: Top Letter trigrams
+13-02-07: Feature selected in the features tab: Word Lengths
+13-02-07: Feature selected in the features tab: Special Characters
+13-02-07: Feature selected in the features tab: Function Words
+13-02-07: Feature selected in the features tab: Punctuation
+13-02-07: Feature selected in the features tab: Words
+13-02-08: Feature selected in the features tab: Punctuation
+13-02-09: Feature selected in the features tab: Function Words
+13-02-09: Feature selected in the features tab: Special Characters
+13-02-09: Feature selected in the features tab: Word Lengths
+13-02-09: Feature selected in the features tab: Top Letter trigrams
+13-02-09: Feature selected in the features tab: Top Letter bigrams
+13-02-10: Feature selected in the features tab: Letters
+13-02-10: Feature selected in the features tab: Average characters per word
+13-02-10: Feature selected in the features tab: Letters
+13-02-11: Feature selected in the features tab: Top Letter bigrams
+13-02-12: Culler 'Most Common Events extended' selected in features tab.
+13-03-11: Feature selected in the features tab: Top Letter trigrams
+13-03-12: Feature selected in the features tab: Top Letter bigrams
+13-03-12: Feature selected in the features tab: Letters
+13-03-12: Feature selected in the features tab: Average characters per word
+13-03-13: Feature selected in the features tab: Character count
+13-03-13: Feature selected in the features tab: Average characters per word
+13-03-13: Feature selected in the features tab: Letters
+13-03-13: Feature selected in the features tab: Top Letter bigrams
+13-03-13: Feature selected in the features tab: Top Letter trigrams
+13-03-14: Feature selected in the features tab: Word Lengths
+13-03-14: Feature selected in the features tab: Special Characters
+13-03-14: Feature selected in the features tab: Function Words
+13-03-15: Feature selected in the features tab: Punctuation
+13-03-15: Feature selected in the features tab: Words
+13-03-16: Feature selected in the features tab: Punctuation
+13-03-16: Feature selected in the features tab: Function Words
+13-03-16: Feature selected in the features tab: Special Characters
+13-03-16: Feature selected in the features tab: Word Lengths
+13-03-17: Feature selected in the features tab: Special Characters
+13-03-22: Feature selected in the features tab: Function Words
+13-03-22: Feature selected in the features tab: Punctuation
+13-03-23: Feature selected in the features tab: Words
+13-03-23: Feature selected in the features tab: Punctuation
+13-03-23: Feature selected in the features tab: Function Words
+13-03-23: Feature selected in the features tab: Special Characters
+13-03-23: Feature selected in the features tab: Word Lengths
+13-03-24: Feature selected in the features tab: Top Letter trigrams
+13-03-24: Feature selected in the features tab: Top Letter bigrams
+13-03-24: Feature selected in the features tab: Letters
+13-03-24: Feature selected in the features tab: Average characters per word
+13-03-24: Feature selected in the features tab: Letters
+13-03-25: Feature selected in the features tab: Top Letter bigrams
+13-03-25: Feature selected in the features tab: Top Letter trigrams
+13-03-25: Feature selected in the features tab: Word Lengths
+13-03-25: Feature selected in the features tab: Special Characters
+13-03-25: Feature selected in the features tab: Function Words
+13-03-25: Feature selected in the features tab: Punctuation
+13-03-26: Feature selected in the features tab: Words

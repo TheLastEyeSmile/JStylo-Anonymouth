@@ -1,0 +1,24 @@
+Started log log/Anonymouth_anonymous_2013-02-09_04-48-25.txt
+===================================================
+04-48-25: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+04-48-26: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+04-48-26: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+04-48-26: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+04-48-26: Populating event drivers...
+04-48-26: adding event drivers under Basic
+04-48-26: adding event drivers under Part-Of-Speech
+04-48-26: adding event drivers under Grams
+04-48-26: adding event drivers under Dictionary
+04-48-26: adding event drivers under Counters
+04-48-26: adding event drivers under Readability Metrics
+04-48-26: adding event drivers under Misc.
+04-48-26: done!
+04-48-26: Populating canonicizers...
+04-48-26: done!
+04-48-26: Populating event cullers...
+04-48-26: done!
+04-48-26: Creating Documents Tab...
+04-48-42: Preset feature set selected in the features tab.
+04-48-42: loaded preset feature set: Translation
+04-48-44: Feature selected in the features tab: Punctuation
+04-49-06: Feature selected in the features tab: Words

@@ -108,21 +108,19 @@ public class BackendInterface {
 		
 	}
 	
-	protected static void updatePresentFeatureNow(GUIMain main,EditorInnerTabSpawner eits,TheMirror theMirror){
+	protected static void updatePresentFeatureNow(GUIMain main,TheMirror theMirror){
 	
-		new Thread(bei.new UpdatePresentFeatureNow(main,eits,theMirror)).start();
+		new Thread(bei.new UpdatePresentFeatureNow(main, theMirror)).start();
 		
 	}
 	
 	public class UpdatePresentFeatureNow extends GUIThread {
 		
 		TheMirror theMirror;
-		EditorInnerTabSpawner eits;
 		
-		public UpdatePresentFeatureNow(GUIMain main, EditorInnerTabSpawner eits,TheMirror theMirror){
+		public UpdatePresentFeatureNow(GUIMain main,TheMirror theMirror){
 			super(main);
 			this.theMirror = theMirror;
-			this.eits = eits;
 		}
 		
 		public void run(){
@@ -137,7 +135,7 @@ public class BackendInterface {
 					FeatureDriver theOneToUpdate = main.cfd.featureDriverAt(EditorTabDriver.featuresInCfd.indexOf(EditorTabDriver.currentAttrib.getGenericName().toString()));
 					WekaInstancesBuilder wib = new WekaInstancesBuilder(false);
 					Document currDoc = new Document();
-					currDoc.setText(eits.editorBox.getText().toCharArray());
+					currDoc.setText(main.editorBox.getText().toCharArray());
 					
 					List<Canonicizer> canonList = theOneToUpdate.getCanonicizers();
 					try{
@@ -221,7 +219,7 @@ public class BackendInterface {
 		private DataAnalyzer wizard;
 		private DocumentMagician magician;
 		private ProgressWindow pw;
-		private EditorInnerTabSpawner eits;
+		//private EditorInnerTabSpawner eits;
 		private int selectedIndex;
 		
 		
@@ -232,16 +230,16 @@ public class BackendInterface {
 			this.magician = magician;
 			this.pw = new ProgressWindow("Processing...", main);
 			//selectedIndex = main.editTP.getSelectedIndex();
-			this.eits = EditorTabDriver.eitsList.get(selectedIndex);
+			//this.eits = EditorTabDriver.eitsList.get(selectedIndex);
 		}
 		
 		public String getDocFromCurrentTab(){
-			return eits.editorBox.getText();
+			return main.editorBox.getText();
 		}
 		
 		public void run(){
 			try{
-				eits.editorBox.setEnabled(true);
+				main.editorBox.setEnabled(true);
 				DocumentMagician.numProcessRequests++;
 			//System.out.println("Still in EditTabProcessButtonClicked...STARTING RUN METHOD.");
 			//main.featureNameLabel.setText("Feature Name: ");
@@ -299,7 +297,7 @@ public class BackendInterface {
 				Logger.logln(wekaResults.toString());
 				//main.getResultsTable().setDefaultRenderer(Object.class, new MyTableRenderer()); 
 				//addNewDocEditTab();
-				eits.resultsTable.setModel(makeResultsTable(wekaResults));
+				main.resultsTable.setModel(makeResultsTable(wekaResults));
 				//main.getResultsTable().getColumnModel().getColumn(resultsMaxIndex).setCellRenderer(new MyTableRenderer());
 				
 			}
@@ -315,8 +313,8 @@ public class BackendInterface {
 				}
 				else{
 					magician.setModifiedDocument(tempDoc);
-					eits.editorBox.setEditable(false);
-					eits.editorBox.setEnabled(true);
+					main.editorBox.setEditable(false);
+					main.editorBox.setEnabled(true);
 					
 					pw.setText("Extracting and Clustering Features...");
 					try {
@@ -338,7 +336,7 @@ public class BackendInterface {
 					Logger.logln(wekaResults.toString());
 					//main.getResultsTable().setDefaultRenderer(Object.class, new MyTableRenderer()); 
 					//addNewDocEditTab();
-					eits.resultsTable.setModel(makeResultsTable(wekaResults));
+					main.resultsTable.setModel(makeResultsTable(wekaResults));
 					//main.getResultsTable().getColumnModel().getColumn(resultsMaxIndex).setCellRenderer(new MyTableRenderer());
 					//XXX STOP HERE
 					pw.setText("Setting Results... Done");
@@ -353,11 +351,11 @@ public class BackendInterface {
 			//System.out.println("FINISHED in EditTabProcessButtonClicked - Program use may continue.");
 			String chosenOne = EditorTabDriver.chosenAuthor;
 			if(chosenOne.equals(ProblemSet.getDummyAuthor()))
-				eits.classificationLabel.setText("Unfortunately, your document seems to have been written by: "+EditorTabDriver.chosenAuthor);//TODO: change this nonsense
+				main.classificationLabel.setText("Unfortunately, your document seems to have been written by: "+EditorTabDriver.chosenAuthor);//TODO: change this nonsense
 			else if (chosenOne.equals("n/a"))
-				eits.classificationLabel.setText("Please process your document in order to recieve a classification result.");
+				main.classificationLabel.setText("Please process your document in order to recieve a classification result.");
 			else
-				eits.classificationLabel.setText("Your document appears as if '"+EditorTabDriver.chosenAuthor+"' wrote it!");
+				main.classificationLabel.setText("Your document appears as if '"+EditorTabDriver.chosenAuthor+"' wrote it!");
 			
 			int selectedIndex = 1;
 			int trueIndex = selectedIndex - 1;
@@ -402,7 +400,7 @@ public class BackendInterface {
 		private DataAnalyzer wizard;
 		private DocumentMagician magician;
 		private ProgressWindow pw;
-		private EditorInnerTabSpawner eits;
+		//private EditorInnerTabSpawner eits;
 		private int selectedIndex;
 
 
@@ -413,15 +411,15 @@ public class BackendInterface {
 			this.magician = magician;
 			this.pw = new ProgressWindow("Processing...", main);
 			//selectedIndex = main.editTP.getSelectedIndex();
-			this.eits = EditorTabDriver.eitsList.get(selectedIndex);
+			//this.eits = EditorTabDriver.eitsList.get(selectedIndex);
 		}
 
 		public void run(){
 			pw.setText("Target Selected");
-			TableCellRenderer renderer = new PredictionRenderer(eits);
-		    eits.resultsTable.setDefaultRenderer(Object.class, renderer);
+			TableCellRenderer renderer = new PredictionRenderer(main);
+			main.resultsTable.setDefaultRenderer(Object.class, renderer);
 		    if(EditorTabDriver.isFirstRun == false)
-			    eits.resultsTableLabel.setText("Results of this Document's Classification (% probability of authorship per author)");
+		    	main.resultsTableLabel.setText("Results of this Document's Classification (% probability of authorship per author)");
 			EditorTabDriver.theFeatures = wizard.getAllRelevantFeatures();
 			Logger.logln("The Features are: "+EditorTabDriver.theFeatures.toString());
 			//main.suggestionTable.setModel(makeSuggestionListTable(EditorTabDriver.theFeatures));
@@ -431,32 +429,32 @@ public class BackendInterface {
 			//tCol.setPreferredWidth(30);
 			// make highlight bar
 			//main.highlightSelectionBox.setModel(makeHighlightBarModel());
-			TheOracle.setTheDocument(eits.editorBox.getText());
+			TheOracle.setTheDocument(main.editorBox.getText());
 			//eits.processButton.setText("Re-process");
 			//eits.processButton.setToolTipText("Click this button once you have made all changes in order to see how they have affected the classification of your document.");
 			//eits.processButton.setSize(eits.processButton.getSize().width+3,eits.processButton.getSize().height);
-			eits.processButton.setSelected(false);
+			main.processButton.setSelected(false);
 			
-			eits.nextSentenceButton.setEnabled(false);
-			eits.prevSentenceButton.setEnabled(false);
-			eits.transButton.setEnabled(false);
-			eits.appendSentenceButton.setEnabled(false);
+			main.nextSentenceButton.setEnabled(false);
+			main.prevSentenceButton.setEnabled(false);
+			main.transButton.setEnabled(false);
+			main.appendSentenceButton.setEnabled(false);
 			// XXX for AFTER everything is done
 				
 			//main.highlightSelectionBox.setEnabled(true);
-			eits.processButton.setSelected(false);
+			main.processButton.setSelected(false);
 			pw.setText("Tagging all documents... Done");
 			
 			//main.editorProgressBar.setIndeterminate(true);	
 			
-			eits.resultsTablePane.setOpaque(true);
+			main.resultsTablePane.setOpaque(true);
 			EditorTabDriver.okayToSelectSuggestion = true;
 			if(EditorTabDriver.isFirstRun)
-				ConsolidationStation.toModifyTaggedDocs.get(0).makeAndTagSentences(eits.editorBox.getText(), true);
+				ConsolidationStation.toModifyTaggedDocs.get(0).makeAndTagSentences(main.editorBox.getText(), true);
 			else
-				ConsolidationStation.toModifyTaggedDocs.get(0).makeAndTagSentences(eits.editorBox.getText(), false);
+				ConsolidationStation.toModifyTaggedDocs.get(0).makeAndTagSentences(main.editorBox.getText(), false);
 			EditorTabDriver.isFirstRun = false;	
-			eits.getSentenceEditPane().setText(EditorTabDriver.getHelpMessege()+" ");//the space is to differentiate this from the messege in a new inner tab.
+			main.sentenceEditPane.setText(EditorTabDriver.getHelpMessege()+" ");//the space is to differentiate this from the messege in a new inner tab.
 			
 			boolean loadIfExists = false;
 			
@@ -477,9 +475,9 @@ public class BackendInterface {
 			
 			Logger.logln("Finished in BackendInterface - postTargetSelection");
 			//main.editorProgressBar.setIndeterminate(false);	
-			EditorTabDriver.setAllEITSUseable(true, main);
-			eits.nextSentenceButton.doClick();
-			eits.editBox.getViewport().setViewPosition(new java.awt.Point(0, 0));
+			EditorTabDriver.setAllDocTabUseable(true, main);
+			main.nextSentenceButton.doClick();
+			main.editBox.getViewport().setViewPosition(new java.awt.Point(0, 0));
 			
 			pw.closeWindow();
 			//cpb.setText("User Editing... Waiting to\"Re-process\"");
@@ -616,14 +614,14 @@ public class BackendInterface {
 
 class PredictionRenderer implements TableCellRenderer {
 	
-	private EditorInnerTabSpawner eits;
+	private GUIMain main;
 
 	  public static final DefaultTableCellRenderer DEFAULT_RENDERER = new DefaultTableCellRenderer();
 
-	  public PredictionRenderer(EditorInnerTabSpawner eits){
-		  this.eits = eits;
-		  this.eits.chosenAuthor = EditorTabDriver.chosenAuthor;
-		  this.eits.resultsMaxIndex = EditorTabDriver.resultsMaxIndex;
+	  public PredictionRenderer(GUIMain main){
+		  this.main = main;
+		  this.main.chosenAuthor = EditorTabDriver.chosenAuthor;
+		  this.main.resultsMaxIndex = EditorTabDriver.resultsMaxIndex;
 	  }
 	  
 	  
@@ -634,8 +632,8 @@ class PredictionRenderer implements TableCellRenderer {
 	    ((JLabel) renderer).setOpaque(true);
 	    Color foreground, background;
 	    
-	      if ((column  == eits.resultsMaxIndex) && (row==0)) {
-		    	 if(eits.chosenAuthor.equals(DocumentMagician.authorToRemove)){
+	      if ((column  == main.resultsMaxIndex) && (row==0)) {
+		    	 if(main.chosenAuthor.equals(DocumentMagician.authorToRemove)){
 		        foreground = Color.black;
 		        background = Color.red;
 		      } else {

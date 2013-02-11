@@ -1,0 +1,83 @@
+Started log log/Anonymouth_anonymous_2013-02-09_16-21-05.txt
+===================================================
+16-21-05: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+16-21-05: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+16-21-05: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+16-21-05: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+16-21-05: Populating event drivers...
+16-21-05: adding event drivers under Basic
+16-21-05: adding event drivers under Part-Of-Speech
+16-21-05: adding event drivers under Grams
+16-21-06: adding event drivers under Dictionary
+16-21-06: adding event drivers under Counters
+16-21-06: adding event drivers under Readability Metrics
+16-21-06: adding event drivers under Misc.
+16-21-06: done!
+16-21-06: Populating canonicizers...
+16-21-06: done!
+16-21-06: Populating event cullers...
+16-21-06: done!
+16-21-06: Creating Documents Tab...
+16-21-11: Preset feature set selected in the features tab.
+16-21-11: loaded preset feature set: Translation
+16-21-11: Preset feature set selected in the features tab.
+16-21-11: loaded preset feature set: Translation
+16-21-13: Feature selected in the features tab: Character count
+16-21-15: Feature selected in the features tab: Average characters per word
+16-21-15: Feature selected in the features tab: Letters
+16-21-15: Feature selected in the features tab: Top Letter bigrams
+16-21-15: Feature selected in the features tab: Top Letter trigrams
+16-21-16: Feature selected in the features tab: Word Lengths
+16-21-16: Feature selected in the features tab: Special Characters
+16-21-16: Feature selected in the features tab: Function Words
+16-21-17: Feature selected in the features tab: Special Characters
+16-21-17: Feature selected in the features tab: Word Lengths
+16-21-17: Feature selected in the features tab: Special Characters
+16-21-18: Feature selected in the features tab: Function Words
+16-21-18: Feature selected in the features tab: Punctuation
+16-21-20: Feature selected in the features tab: Words
+16-21-21: Feature selected in the features tab: Punctuation
+16-21-21: Feature selected in the features tab: Function Words
+16-21-21: Feature selected in the features tab: Special Characters
+16-21-22: Feature selected in the features tab: Word Lengths
+16-21-22: Feature selected in the features tab: Special Characters
+16-21-31: Feature selected in the features tab: Function Words
+16-21-31: Feature selected in the features tab: Punctuation
+16-21-32: Feature selected in the features tab: Function Words
+16-21-32: Feature selected in the features tab: Special Characters
+16-21-32: Feature selected in the features tab: Function Words
+16-21-32: Feature selected in the features tab: Punctuation
+16-21-33: Feature selected in the features tab: Function Words
+16-21-33: Feature selected in the features tab: Special Characters
+16-21-33: Feature selected in the features tab: Word Lengths
+16-21-34: Feature selected in the features tab: Special Characters
+16-21-34: Feature selected in the features tab: Function Words
+16-21-34: Feature selected in the features tab: Punctuation
+16-21-35: Feature selected in the features tab: Words
+16-21-35: Feature selected in the features tab: Punctuation
+16-21-35: Feature selected in the features tab: Function Words
+16-21-36: Feature selected in the features tab: Special Characters
+16-21-36: Feature selected in the features tab: Word Lengths
+16-21-36: Feature selected in the features tab: Top Letter trigrams
+16-21-36: Feature selected in the features tab: Top Letter bigrams
+16-21-36: Feature selected in the features tab: Letters
+16-21-37: Feature selected in the features tab: Average characters per word
+16-21-37: Feature selected in the features tab: Character count
+16-21-37: Feature selected in the features tab: Average characters per word
+16-21-38: Feature selected in the features tab: Letters
+16-21-38: Feature selected in the features tab: Top Letter bigrams
+16-21-38: Feature selected in the features tab: Top Letter trigrams
+16-21-38: Feature selected in the features tab: Word Lengths
+16-21-38: Feature selected in the features tab: Special Characters
+16-21-39: Feature selected in the features tab: Word Lengths
+16-21-40: Feature selected in the features tab: Top Letter trigrams
+16-21-40: Feature selected in the features tab: Word Lengths
+16-21-41: Feature selected in the features tab: Special Characters
+16-21-41: Feature selected in the features tab: Word Lengths
+16-21-41: Feature selected in the features tab: Top Letter trigrams
+16-21-42: Feature selected in the features tab: Word Lengths
+16-21-42: Feature selected in the features tab: Special Characters
+16-21-43: Feature selected in the features tab: Word Lengths
+16-21-43: Feature selected in the features tab: Top Letter trigrams
+16-21-43: Feature selected in the features tab: Word Lengths
+16-21-44: Feature selected in the features tab: Special Characters

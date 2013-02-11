@@ -33,11 +33,11 @@ public class TranslationsRunnable extends EditorTabDriver implements Runnable
 	 */
 	public void setAllEnabled(boolean b)
 	{
-		eits.nextSentenceButton.setEnabled(b);
-		eits.transButton.setEnabled(b);
-		eits.prevSentenceButton.setEnabled(b);
+		main.nextSentenceButton.setEnabled(b);
+		main.transButton.setEnabled(b);
+		main.prevSentenceButton.setEnabled(b);
 		//main.translationsComboBox.setEnabled(b);
-		eits.processButton.setEnabled(b);
+		main.processButton.setEnabled(b);
 	}
 	
 	/**

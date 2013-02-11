@@ -1,0 +1,38 @@
+Started log log/Anonymouth_anonymous_2013-02-08_16-16-18.txt
+===================================================
+16-16-18: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+16-16-18: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+16-16-18: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+16-16-18: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+16-16-18: Populating event drivers...
+16-16-18: adding event drivers under Basic
+16-16-18: adding event drivers under Part-Of-Speech
+16-16-18: adding event drivers under Grams
+16-16-18: adding event drivers under Dictionary
+16-16-18: adding event drivers under Counters
+16-16-18: adding event drivers under Readability Metrics
+16-16-18: adding event drivers under Misc.
+16-16-18: done!
+16-16-18: Populating canonicizers...
+16-16-18: done!
+16-16-18: Populating event cullers...
+16-16-18: done!
+16-16-18: Creating Documents Tab...
+16-19-04: Preset feature set selected in the features tab.
+16-19-04: loaded preset feature set: WritePrints (Limited)
+16-19-08: Preset feature set selected in the features tab.
+16-19-08: loaded preset feature set: WritePrints
+16-19-12: Preset feature set selected in the features tab.
+16-19-12: loaded preset feature set: WritePrints (Limited)
+16-20-10: Feature selected in the features tab: Letters Percentage
+16-23-07: Feature selected in the features tab: Uppercase Letters Percentage
+16-23-08: Feature selected in the features tab: Two Digit Numbers
+16-23-09: Feature selected in the features tab: Three Digit Numbers
+16-23-10: Feature selected in the features tab: Word Lengths
+16-23-10: Feature selected in the features tab: Punctuation
+16-25-47: 'Load Problem Set' button clicked on the documents tab
+16-25-49: Trying to load problem set from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1_Desktop.xml
+16-25-49: GUI Update: update documents tab with current problem set started
+16-56-54: Feature selected in the features tab: Digits
+16-56-55: Feature selected in the features tab: Letters Percentage
+16-56-56: Feature selected in the features tab: Function Words

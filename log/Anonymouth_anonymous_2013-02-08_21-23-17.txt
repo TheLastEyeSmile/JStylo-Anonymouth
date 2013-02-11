@@ -1,0 +1,22 @@
+Started log log/Anonymouth_anonymous_2013-02-08_21-23-17.txt
+===================================================
+21-23-17: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+21-23-18: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+21-23-18: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+21-23-18: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+21-23-18: Populating event drivers...
+21-23-18: adding event drivers under Basic
+21-23-18: adding event drivers under Part-Of-Speech
+21-23-18: adding event drivers under Grams
+21-23-18: adding event drivers under Dictionary
+21-23-18: adding event drivers under Counters
+21-23-18: adding event drivers under Readability Metrics
+21-23-18: adding event drivers under Misc.
+21-23-18: done!
+21-23-18: Populating canonicizers...
+21-23-18: done!
+21-23-18: Populating event cullers...
+21-23-18: done!
+21-23-18: Creating Documents Tab...
+21-23-57: Preset feature set selected in the features tab.
+21-23-57: loaded preset feature set: 9 feature-set

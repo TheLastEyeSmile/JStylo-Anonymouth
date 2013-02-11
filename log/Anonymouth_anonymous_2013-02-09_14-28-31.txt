@@ -1,0 +1,324 @@
+Started log log/Anonymouth_anonymous_2013-02-09_14-28-31.txt
+===================================================
+14-28-31: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+14-28-31: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+14-28-31: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+14-28-31: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+14-28-31: Populating event drivers...
+14-28-31: adding event drivers under Basic
+14-28-31: adding event drivers under Part-Of-Speech
+14-28-31: adding event drivers under Grams
+14-28-31: adding event drivers under Dictionary
+14-28-31: adding event drivers under Counters
+14-28-31: adding event drivers under Readability Metrics
+14-28-31: adding event drivers under Misc.
+14-28-31: done!
+14-28-31: Populating canonicizers...
+14-28-31: done!
+14-28-31: Populating event cullers...
+14-28-31: done!
+14-28-32: Creating Documents Tab...
+14-28-46: Preset feature set selected in the features tab.
+14-28-46: loaded preset feature set: Translation
+14-28-48: Feature selected in the features tab: Character count
+14-28-50: Feature selected in the features tab: Average characters per word
+14-28-50: Feature selected in the features tab: Letters
+14-28-50: Feature selected in the features tab: Top Letter bigrams
+14-28-50: Feature selected in the features tab: Top Letter trigrams
+14-28-51: Feature selected in the features tab: Word Lengths
+14-28-51: Feature selected in the features tab: Special Characters
+14-28-51: Feature selected in the features tab: Function Words
+14-28-52: Feature selected in the features tab: Punctuation
+14-28-52: Feature selected in the features tab: Words
+14-28-52: Feature selected in the features tab: Punctuation
+14-28-53: Feature selected in the features tab: Function Words
+14-28-53: Feature selected in the features tab: Special Characters
+14-28-54: Feature selected in the features tab: Word Lengths
+14-28-54: Feature selected in the features tab: Special Characters
+14-28-55: Feature selected in the features tab: Function Words
+14-28-55: Feature selected in the features tab: Punctuation
+14-28-55: Feature selected in the features tab: Function Words
+14-28-56: Feature selected in the features tab: Special Characters
+14-28-56: Feature selected in the features tab: Function Words
+14-28-56: Feature selected in the features tab: Punctuation
+14-29-00: Feature selected in the features tab: Function Words
+14-29-01: Feature selected in the features tab: Special Characters
+14-29-01: Feature selected in the features tab: Word Lengths
+14-29-01: Feature selected in the features tab: Top Letter trigrams
+14-29-01: Feature selected in the features tab: Top Letter bigrams
+14-29-01: Feature selected in the features tab: Letters
+14-29-01: Feature selected in the features tab: Average characters per word
+14-29-02: Feature selected in the features tab: Character count
+14-29-03: Feature selected in the features tab: Average characters per word
+14-29-04: Feature selected in the features tab: Letters
+14-29-04: Feature selected in the features tab: Top Letter bigrams
+14-29-04: Feature selected in the features tab: Top Letter trigrams
+14-29-04: Feature selected in the features tab: Word Lengths
+14-29-04: Feature selected in the features tab: Special Characters
+14-29-05: Feature selected in the features tab: Word Lengths
+14-29-05: Feature selected in the features tab: Top Letter trigrams
+14-29-05: Feature selected in the features tab: Top Letter bigrams
+14-29-05: Feature selected in the features tab: Letters
+14-29-07: Feature selected in the features tab: Top Letter bigrams
+14-29-07: Feature selected in the features tab: Top Letter trigrams
+14-29-07: Feature selected in the features tab: Word Lengths
+14-29-08: Feature selected in the features tab: Special Characters
+14-29-08: Feature selected in the features tab: Word Lengths
+14-29-08: Feature selected in the features tab: Top Letter trigrams
+14-29-08: Feature selected in the features tab: Top Letter bigrams
+14-29-08: Feature selected in the features tab: Letters
+14-29-08: Feature selected in the features tab: Average characters per word
+14-29-08: Feature selected in the features tab: Character count
+14-29-19: Preset feature set selected in the features tab.
+14-29-19: loaded preset feature set: WritePrints
+14-29-19: Feature selected in the features tab: null
+14-29-21: Feature selected in the features tab: Character count
+14-29-46: Feature selected in the features tab: Average characters per word
+14-29-46: Feature selected in the features tab: Letters
+14-29-47: Feature selected in the features tab: Top Letter bigrams
+14-29-47: Feature selected in the features tab: Letters
+14-29-47: Feature selected in the features tab: Average characters per word
+14-29-47: Feature selected in the features tab: Character count
+14-29-49: Feature selected in the features tab: Average characters per word
+14-29-49: Feature selected in the features tab: Letters
+14-29-49: Feature selected in the features tab: Top Letter bigrams
+14-29-50: Feature selected in the features tab: Top Letter trigrams
+14-29-50: Feature selected in the features tab: Digits Percentage
+14-29-50: Feature selected in the features tab: Letters Percentage
+14-29-50: Feature selected in the features tab: Uppercase Letters Percentage
+14-29-51: Feature selected in the features tab: Digits
+14-29-51: Feature selected in the features tab: Two Digit Numbers
+14-29-51: Feature selected in the features tab: Three Digit Numbers
+14-29-51: Feature selected in the features tab: Word Lengths
+14-29-51: Feature selected in the features tab: Special Characters
+14-29-51: Feature selected in the features tab: Function Words
+14-29-52: Feature selected in the features tab: Punctuation
+14-29-52: Feature selected in the features tab: POS Tags
+14-29-52: Feature selected in the features tab: POS Bigrams
+14-29-52: Feature selected in the features tab: POS Trigrams
+14-29-52: Feature selected in the features tab: Words
+14-29-52: Feature selected in the features tab: Word Bigrams
+14-29-53: Feature selected in the features tab: Word Trigrams
+14-29-53: Feature selected in the features tab: Misspelled Words
+14-29-55: Feature selected in the features tab: Word Trigrams
+14-29-55: Feature selected in the features tab: Word Bigrams
+14-29-55: Feature selected in the features tab: Words
+14-29-55: Feature selected in the features tab: POS Trigrams
+14-29-56: Feature selected in the features tab: POS Bigrams
+14-29-56: Feature selected in the features tab: POS Tags
+14-29-56: Feature selected in the features tab: Punctuation
+14-29-56: Feature selected in the features tab: Function Words
+14-29-56: Feature selected in the features tab: Special Characters
+14-29-56: Feature selected in the features tab: Word Lengths
+14-29-57: Feature selected in the features tab: Three Digit Numbers
+14-29-57: Feature selected in the features tab: Two Digit Numbers
+14-29-57: Feature selected in the features tab: Digits
+14-29-57: Feature selected in the features tab: Uppercase Letters Percentage
+14-29-57: Feature selected in the features tab: Letters Percentage
+14-29-57: Feature selected in the features tab: Digits Percentage
+14-29-58: Feature selected in the features tab: Top Letter trigrams
+14-29-58: Feature selected in the features tab: Top Letter bigrams
+14-29-58: Feature selected in the features tab: Letters
+14-29-58: Feature selected in the features tab: Average characters per word
+14-29-58: Feature selected in the features tab: Character count
+14-31-18: Feature selected in the features tab: Average characters per word
+14-31-18: Feature selected in the features tab: Letters
+14-31-18: Feature selected in the features tab: Top Letter bigrams
+14-31-18: Feature selected in the features tab: Top Letter trigrams
+14-31-19: Feature selected in the features tab: Digits Percentage
+14-31-19: Feature selected in the features tab: Letters Percentage
+14-31-19: Feature selected in the features tab: Uppercase Letters Percentage
+14-31-19: Feature selected in the features tab: Digits
+14-31-19: Feature selected in the features tab: Two Digit Numbers
+14-31-19: Feature selected in the features tab: Three Digit Numbers
+14-31-20: Feature selected in the features tab: Word Lengths
+14-31-20: Feature selected in the features tab: Special Characters
+14-31-20: Feature selected in the features tab: Function Words
+14-31-20: Feature selected in the features tab: Punctuation
+14-31-20: Feature selected in the features tab: POS Tags
+14-31-20: Feature selected in the features tab: POS Bigrams
+14-31-21: Feature selected in the features tab: POS Trigrams
+14-31-21: Feature selected in the features tab: Words
+14-31-21: Feature selected in the features tab: Word Bigrams
+14-31-21: Feature selected in the features tab: Word Trigrams
+14-31-21: Feature selected in the features tab: Misspelled Words
+14-31-22: Feature selected in the features tab: Word Trigrams
+14-31-22: Feature selected in the features tab: Word Bigrams
+14-31-22: Feature selected in the features tab: Words
+14-31-22: Feature selected in the features tab: POS Trigrams
+14-31-22: Feature selected in the features tab: POS Bigrams
+14-31-22: Feature selected in the features tab: POS Tags
+14-31-22: Feature selected in the features tab: Punctuation
+14-31-22: Feature selected in the features tab: Function Words
+14-31-23: Feature selected in the features tab: Special Characters
+14-31-23: Feature selected in the features tab: Word Lengths
+14-31-23: Feature selected in the features tab: Three Digit Numbers
+14-31-23: Feature selected in the features tab: Two Digit Numbers
+14-31-23: Feature selected in the features tab: Digits
+14-31-23: Feature selected in the features tab: Uppercase Letters Percentage
+14-31-23: Feature selected in the features tab: Letters Percentage
+14-31-23: Feature selected in the features tab: Digits Percentage
+14-31-23: Feature selected in the features tab: Top Letter trigrams
+14-31-23: Feature selected in the features tab: Top Letter bigrams
+14-31-23: Feature selected in the features tab: Letters
+14-31-23: Feature selected in the features tab: Average characters per word
+14-31-23: Feature selected in the features tab: Character count
+14-31-24: Feature selected in the features tab: Average characters per word
+14-31-24: Feature selected in the features tab: Letters
+14-31-24: Feature selected in the features tab: Top Letter bigrams
+14-31-24: Feature selected in the features tab: Top Letter trigrams
+14-31-24: Feature selected in the features tab: Digits Percentage
+14-31-24: Feature selected in the features tab: Letters Percentage
+14-31-24: Feature selected in the features tab: Uppercase Letters Percentage
+14-31-24: Feature selected in the features tab: Digits
+14-31-24: Feature selected in the features tab: Two Digit Numbers
+14-31-24: Feature selected in the features tab: Three Digit Numbers
+14-31-24: Feature selected in the features tab: Word Lengths
+14-31-24: Feature selected in the features tab: Special Characters
+14-31-25: Feature selected in the features tab: Function Words
+14-31-25: Feature selected in the features tab: Punctuation
+14-31-25: Feature selected in the features tab: POS Tags
+14-31-25: Feature selected in the features tab: POS Bigrams
+14-31-25: Feature selected in the features tab: POS Trigrams
+14-31-25: Feature selected in the features tab: Words
+14-31-25: Feature selected in the features tab: Word Bigrams
+14-31-25: Feature selected in the features tab: Word Trigrams
+14-31-26: Feature selected in the features tab: Misspelled Words
+14-31-33: Feature selected in the features tab: Word Trigrams
+14-31-33: Feature selected in the features tab: Word Bigrams
+14-31-33: Feature selected in the features tab: Words
+14-31-33: Feature selected in the features tab: POS Trigrams
+14-31-33: Feature selected in the features tab: POS Bigrams
+14-31-33: Feature selected in the features tab: POS Tags
+14-31-33: Feature selected in the features tab: Punctuation
+14-31-33: Feature selected in the features tab: Function Words
+14-31-33: Feature selected in the features tab: Special Characters
+14-31-33: Feature selected in the features tab: Word Lengths
+14-31-33: Feature selected in the features tab: Three Digit Numbers
+14-31-34: Feature selected in the features tab: Two Digit Numbers
+14-31-34: Feature selected in the features tab: Digits
+14-31-34: Feature selected in the features tab: Uppercase Letters Percentage
+14-31-34: Feature selected in the features tab: Letters Percentage
+14-31-34: Feature selected in the features tab: Digits Percentage
+14-31-34: Feature selected in the features tab: Top Letter trigrams
+14-31-34: Feature selected in the features tab: Top Letter bigrams
+14-31-34: Feature selected in the features tab: Letters
+14-31-34: Feature selected in the features tab: Average characters per word
+14-31-34: Feature selected in the features tab: Character count
+14-31-34: Feature selected in the features tab: Average characters per word
+14-31-35: Feature selected in the features tab: Letters
+14-31-35: Feature selected in the features tab: Top Letter bigrams
+14-31-35: Feature selected in the features tab: Top Letter trigrams
+14-31-35: Feature selected in the features tab: Digits Percentage
+14-31-35: Feature selected in the features tab: Letters Percentage
+14-31-35: Feature selected in the features tab: Uppercase Letters Percentage
+14-31-35: Feature selected in the features tab: Digits
+14-31-35: Feature selected in the features tab: Two Digit Numbers
+14-31-35: Feature selected in the features tab: Three Digit Numbers
+14-31-35: Feature selected in the features tab: Word Lengths
+14-31-35: Feature selected in the features tab: Special Characters
+14-31-35: Feature selected in the features tab: Function Words
+14-31-35: Feature selected in the features tab: Punctuation
+14-31-35: Feature selected in the features tab: POS Tags
+14-31-35: Feature selected in the features tab: POS Bigrams
+14-31-35: Feature selected in the features tab: POS Trigrams
+14-31-36: Feature selected in the features tab: Words
+14-31-36: Feature selected in the features tab: Word Bigrams
+14-31-37: Feature selected in the features tab: Words
+14-31-37: Feature selected in the features tab: POS Trigrams
+14-31-37: Feature selected in the features tab: POS Bigrams
+14-31-37: Feature selected in the features tab: POS Tags
+14-31-37: Feature selected in the features tab: Punctuation
+14-31-37: Feature selected in the features tab: Function Words
+14-31-37: Feature selected in the features tab: Special Characters
+14-31-37: Feature selected in the features tab: Word Lengths
+14-31-37: Feature selected in the features tab: Three Digit Numbers
+14-31-37: Feature selected in the features tab: Two Digit Numbers
+14-31-37: Feature selected in the features tab: Digits
+14-31-37: Feature selected in the features tab: Uppercase Letters Percentage
+14-31-37: Feature selected in the features tab: Letters Percentage
+14-31-37: Feature selected in the features tab: Digits Percentage
+14-31-37: Feature selected in the features tab: Top Letter trigrams
+14-31-37: Feature selected in the features tab: Top Letter bigrams
+14-31-37: Feature selected in the features tab: Letters
+14-31-38: Feature selected in the features tab: Top Letter bigrams
+14-31-38: Feature selected in the features tab: Top Letter trigrams
+14-31-38: Feature selected in the features tab: Digits Percentage
+14-31-38: Feature selected in the features tab: Letters Percentage
+14-31-38: Feature selected in the features tab: Uppercase Letters Percentage
+14-31-39: Feature selected in the features tab: Digits
+14-31-39: Feature selected in the features tab: Two Digit Numbers
+14-31-39: Feature selected in the features tab: Three Digit Numbers
+14-31-39: Feature selected in the features tab: Word Lengths
+14-31-39: Feature selected in the features tab: Special Characters
+14-31-53: Feature selected in the features tab: Function Words
+14-31-53: Feature selected in the features tab: Punctuation
+14-31-53: Feature selected in the features tab: POS Tags
+14-31-53: Feature selected in the features tab: POS Bigrams
+14-31-53: Feature selected in the features tab: POS Trigrams
+14-31-54: Feature selected in the features tab: Words
+14-31-54: Feature selected in the features tab: Word Bigrams
+14-31-54: Feature selected in the features tab: Word Trigrams
+14-31-54: Feature selected in the features tab: Misspelled Words
+14-31-55: Feature selected in the features tab: Word Trigrams
+14-31-55: Feature selected in the features tab: Word Bigrams
+14-31-55: Feature selected in the features tab: Words
+14-31-55: Feature selected in the features tab: POS Trigrams
+14-31-55: Feature selected in the features tab: POS Bigrams
+14-31-55: Feature selected in the features tab: POS Tags
+14-31-55: Feature selected in the features tab: Punctuation
+14-31-55: Feature selected in the features tab: Function Words
+14-31-55: Feature selected in the features tab: Special Characters
+14-31-56: Feature selected in the features tab: Word Lengths
+14-31-56: Feature selected in the features tab: Three Digit Numbers
+14-31-56: Feature selected in the features tab: Two Digit Numbers
+14-31-56: Feature selected in the features tab: Digits
+14-31-56: Feature selected in the features tab: Uppercase Letters Percentage
+14-31-56: Feature selected in the features tab: Letters Percentage
+14-31-56: Feature selected in the features tab: Digits Percentage
+14-31-56: Feature selected in the features tab: Top Letter trigrams
+14-31-56: Feature selected in the features tab: Top Letter bigrams
+14-31-56: Feature selected in the features tab: Letters
+14-31-56: Feature selected in the features tab: Average characters per word
+14-31-56: Feature selected in the features tab: Character count
+14-31-57: Feature selected in the features tab: Average characters per word
+14-31-57: Feature selected in the features tab: Letters
+14-31-57: Feature selected in the features tab: Top Letter bigrams
+14-31-57: Feature selected in the features tab: Top Letter trigrams
+14-31-57: Feature selected in the features tab: Digits Percentage
+14-31-58: Feature selected in the features tab: Letters Percentage
+14-31-58: Feature selected in the features tab: Uppercase Letters Percentage
+14-31-58: Feature selected in the features tab: Digits
+14-31-58: Feature selected in the features tab: Two Digit Numbers
+14-31-58: Feature selected in the features tab: Three Digit Numbers
+14-31-58: Feature selected in the features tab: Word Lengths
+14-31-59: Feature selected in the features tab: Special Characters
+14-31-59: Feature selected in the features tab: Function Words
+14-31-59: Feature selected in the features tab: Punctuation
+14-31-59: Feature selected in the features tab: POS Tags
+14-31-59: Feature selected in the features tab: POS Bigrams
+14-32-00: Feature selected in the features tab: POS Tags
+14-32-00: Feature selected in the features tab: Punctuation
+14-32-00: Feature selected in the features tab: Function Words
+14-32-00: Feature selected in the features tab: Special Characters
+14-32-00: Feature selected in the features tab: Word Lengths
+14-32-01: Feature selected in the features tab: Three Digit Numbers
+14-32-01: Feature selected in the features tab: Two Digit Numbers
+14-32-01: Feature selected in the features tab: Digits
+14-32-01: Feature selected in the features tab: Uppercase Letters Percentage
+14-32-02: Feature selected in the features tab: Digits
+14-32-02: Feature selected in the features tab: Two Digit Numbers
+14-32-03: Feature selected in the features tab: Three Digit Numbers
+14-32-03: Feature selected in the features tab: Word Lengths
+14-32-03: Feature selected in the features tab: Special Characters
+14-32-03: Feature selected in the features tab: Function Words
+14-32-03: Feature selected in the features tab: Punctuation
+14-32-03: Feature selected in the features tab: POS Tags
+14-32-04: Feature selected in the features tab: POS Bigrams
+14-32-04: Feature selected in the features tab: POS Trigrams
+14-32-04: Feature selected in the features tab: Words
+14-32-04: Feature selected in the features tab: POS Trigrams
+14-32-05: Feature selected in the features tab: POS Bigrams
+14-32-05: Feature selected in the features tab: POS Tags
+14-32-05: Feature selected in the features tab: Punctuation
+14-32-05: Feature selected in the features tab: Function Words

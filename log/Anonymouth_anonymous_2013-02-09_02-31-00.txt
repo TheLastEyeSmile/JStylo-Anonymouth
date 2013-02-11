@@ -1,0 +1,62 @@
+Started log log/Anonymouth_anonymous_2013-02-09_02-31-00.txt
+===================================================
+02-31-00: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+02-31-00: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+02-31-00: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+02-31-00: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+02-31-00: Populating event drivers...
+02-31-00: adding event drivers under Basic
+02-31-00: adding event drivers under Part-Of-Speech
+02-31-00: adding event drivers under Grams
+02-31-00: adding event drivers under Dictionary
+02-31-00: adding event drivers under Counters
+02-31-00: adding event drivers under Readability Metrics
+02-31-00: adding event drivers under Misc.
+02-31-00: done!
+02-31-00: Populating canonicizers...
+02-31-00: done!
+02-31-00: Populating event cullers...
+02-31-00: done!
+02-31-01: Creating Documents Tab...
+02-31-04: Preset feature set selected in the features tab.
+02-31-04: loaded preset feature set: Translation
+02-31-05: Feature selected in the features tab: Top Letter trigrams
+02-31-22: Feature selected in the features tab: Special Characters
+02-31-22: Feature selected in the features tab: Punctuation
+02-31-22: Feature selected in the features tab: Words
+02-31-23: Feature selected in the features tab: Special Characters
+02-31-23: Feature selected in the features tab: Top Letter bigrams
+02-31-23: Feature selected in the features tab: Character count
+02-31-24: Feature selected in the features tab: Top Letter trigrams
+02-31-24: Feature selected in the features tab: Word Lengths
+02-31-24: Feature selected in the features tab: Special Characters
+02-31-24: Feature selected in the features tab: Punctuation
+02-31-25: Feature selected in the features tab: Words
+02-31-25: Feature selected in the features tab: Top Letter trigrams
+02-31-25: Feature selected in the features tab: Top Letter bigrams
+02-31-25: Feature selected in the features tab: Average characters per word
+02-31-27: Feature selected in the features tab: Character count
+02-31-28: Feature selected in the features tab: Average characters per word
+02-31-33: Feature selected in the features tab: Letters
+02-31-33: Feature selected in the features tab: Top Letter bigrams
+02-31-34: Feature selected in the features tab: Top Letter trigrams
+02-31-34: Feature selected in the features tab: Word Lengths
+02-31-35: Feature selected in the features tab: Special Characters
+02-31-35: Feature selected in the features tab: Word Lengths
+02-31-35: Feature selected in the features tab: Top Letter trigrams
+02-31-35: Feature selected in the features tab: Top Letter bigrams
+02-31-36: Feature selected in the features tab: Letters
+02-31-36: Feature selected in the features tab: Average characters per word
+02-31-36: Feature selected in the features tab: Letters
+02-31-37: Feature selected in the features tab: Top Letter bigrams
+02-31-37: Feature selected in the features tab: Top Letter trigrams
+02-31-37: Feature selected in the features tab: Top Letter bigrams
+02-31-37: Feature selected in the features tab: Letters
+02-31-37: Feature selected in the features tab: Average characters per word
+02-31-38: Feature selected in the features tab: Character count
+02-31-44: Feature selected in the features tab: Average characters per word
+02-32-08: Feature selected in the features tab: Letters
+02-32-08: Feature selected in the features tab: Top Letter bigrams
+02-32-08: Feature selected in the features tab: Top Letter trigrams
+02-32-08: Feature selected in the features tab: Word Lengths
+02-32-09: Feature selected in the features tab: Special Characters

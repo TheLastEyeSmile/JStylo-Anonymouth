@@ -1,0 +1,39 @@
+Started log log/Anonymouth_anonymous_2013-02-09_14-32-24.txt
+===================================================
+14-32-24: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+14-32-25: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+14-32-25: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+14-32-25: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+14-32-25: Populating event drivers...
+14-32-25: adding event drivers under Basic
+14-32-25: adding event drivers under Part-Of-Speech
+14-32-25: adding event drivers under Grams
+14-32-25: adding event drivers under Dictionary
+14-32-25: adding event drivers under Counters
+14-32-25: adding event drivers under Readability Metrics
+14-32-25: adding event drivers under Misc.
+14-32-25: done!
+14-32-25: Populating canonicizers...
+14-32-25: done!
+14-32-25: Populating event cullers...
+14-32-25: done!
+14-32-25: Creating Documents Tab...
+14-32-28: Preset feature set selected in the features tab.
+14-32-28: loaded preset feature set: Translation
+14-32-29: Feature selected in the features tab: Character count
+14-32-31: Feature selected in the features tab: Average characters per word
+14-32-31: Feature selected in the features tab: Letters
+14-32-31: Feature selected in the features tab: Top Letter bigrams
+14-32-32: Feature selected in the features tab: Top Letter trigrams
+14-32-32: Feature selected in the features tab: Word Lengths
+14-32-32: Feature selected in the features tab: Special Characters
+14-32-32: Feature selected in the features tab: Function Words
+14-32-33: Feature selected in the features tab: Special Characters
+14-32-33: Feature selected in the features tab: Word Lengths
+14-32-33: Feature selected in the features tab: Top Letter trigrams
+14-32-33: Feature selected in the features tab: Top Letter bigrams
+14-32-33: Feature selected in the features tab: Letters
+14-32-34: Feature selected in the features tab: Average characters per word
+14-32-35: Feature selected in the features tab: Letters
+14-32-35: Feature selected in the features tab: Average characters per word
+14-32-36: Feature selected in the features tab: Character count

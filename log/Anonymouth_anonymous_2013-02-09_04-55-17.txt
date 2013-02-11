@@ -1,0 +1,111 @@
+Started log log/Anonymouth_anonymous_2013-02-09_04-55-17.txt
+===================================================
+04-55-17: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+04-55-17: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+04-55-17: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+04-55-17: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+04-55-17: Populating event drivers...
+04-55-17: adding event drivers under Basic
+04-55-17: adding event drivers under Part-Of-Speech
+04-55-17: adding event drivers under Grams
+04-55-17: adding event drivers under Dictionary
+04-55-17: adding event drivers under Counters
+04-55-17: adding event drivers under Readability Metrics
+04-55-17: adding event drivers under Misc.
+04-55-17: done!
+04-55-17: Populating canonicizers...
+04-55-17: done!
+04-55-17: Populating event cullers...
+04-55-17: done!
+04-55-18: Creating Documents Tab...
+04-55-24: Preset feature set selected in the features tab.
+04-55-24: loaded preset feature set: 9 feature-set
+04-55-27: Preset feature set selected in the features tab.
+04-55-27: loaded preset feature set: Translation
+04-55-27: Feature selected in the features tab: Top Letter trigrams
+04-55-29: Feature selected in the features tab: Word Lengths
+04-55-30: Feature selected in the features tab: Special Characters
+04-55-31: Feature selected in the features tab: Top Letter trigrams
+04-55-32: Feature selected in the features tab: Word Lengths
+04-55-34: Feature selected in the features tab: Words
+04-55-35: Feature selected in the features tab: Punctuation
+04-55-35: Feature selected in the features tab: Words
+04-55-37: Feature selected in the features tab: Punctuation
+04-55-45: Feature selected in the features tab: Function Words
+04-55-45: Feature selected in the features tab: Special Characters
+04-55-45: Feature selected in the features tab: Word Lengths
+04-55-46: Feature selected in the features tab: Top Letter trigrams
+04-55-46: Feature selected in the features tab: Top Letter bigrams
+04-55-46: Feature selected in the features tab: Letters
+04-55-47: Feature selected in the features tab: Average characters per word
+04-55-47: Feature selected in the features tab: Letters
+04-55-47: Feature selected in the features tab: Top Letter bigrams
+04-55-47: Feature selected in the features tab: Top Letter trigrams
+04-55-47: Feature selected in the features tab: Word Lengths
+04-55-48: Feature selected in the features tab: Special Characters
+04-55-48: Feature selected in the features tab: Function Words
+04-55-48: Feature selected in the features tab: Punctuation
+04-55-48: Feature selected in the features tab: Words
+04-55-49: Feature selected in the features tab: Punctuation
+04-55-49: Feature selected in the features tab: Function Words
+04-55-49: Feature selected in the features tab: Special Characters
+04-55-49: Feature selected in the features tab: Word Lengths
+04-55-49: Feature selected in the features tab: Top Letter trigrams
+04-55-50: Feature selected in the features tab: Word Lengths
+04-55-50: Feature selected in the features tab: Special Characters
+04-55-50: Feature selected in the features tab: Function Words
+04-55-50: Feature selected in the features tab: Punctuation
+04-55-50: Feature selected in the features tab: Words
+04-55-51: Feature selected in the features tab: Punctuation
+04-55-51: Feature selected in the features tab: Function Words
+04-55-51: Feature selected in the features tab: Special Characters
+04-55-51: Feature selected in the features tab: Word Lengths
+04-55-52: Feature selected in the features tab: Top Letter trigrams
+04-55-52: Feature selected in the features tab: Top Letter bigrams
+04-55-52: Feature selected in the features tab: Letters
+04-55-52: Feature selected in the features tab: Top Letter bigrams
+04-55-52: Feature selected in the features tab: Top Letter trigrams
+04-55-53: Feature selected in the features tab: Word Lengths
+04-55-53: Feature selected in the features tab: Special Characters
+04-55-53: Feature selected in the features tab: Function Words
+04-55-53: Feature selected in the features tab: Punctuation
+04-55-53: Feature selected in the features tab: Words
+04-55-54: Feature selected in the features tab: Punctuation
+04-55-54: Feature selected in the features tab: Function Words
+04-55-55: Feature selected in the features tab: Special Characters
+04-55-55: Feature selected in the features tab: Word Lengths
+04-55-55: Feature selected in the features tab: Top Letter trigrams
+04-55-56: Feature selected in the features tab: Word Lengths
+04-55-56: Feature selected in the features tab: Special Characters
+04-55-56: Feature selected in the features tab: Function Words
+04-55-57: Feature selected in the features tab: Punctuation
+04-55-57: Feature selected in the features tab: Words
+04-56-04: Canonicizer 'Unify Case' selected in features tab.
+04-56-05: Canonicizer 'Word-edges Punctuation Stripper' selected in features tab.
+04-56-05: Canonicizer 'Unify Case' selected in features tab.
+04-56-06: Canonicizer 'Word-edges Punctuation Stripper' selected in features tab.
+04-56-07: Canonicizer 'Unify Case' selected in features tab.
+04-56-07: Canonicizer 'Word-edges Punctuation Stripper' selected in features tab.
+04-56-08: Canonicizer 'Unify Case' selected in features tab.
+04-56-08: Canonicizer 'Word-edges Punctuation Stripper' selected in features tab.
+04-56-08: Canonicizer 'Unify Case' selected in features tab.
+04-56-09: Canonicizer 'Word-edges Punctuation Stripper' selected in features tab.
+04-56-09: Canonicizer 'Unify Case' selected in features tab.
+04-56-10: Canonicizer 'Word-edges Punctuation Stripper' selected in features tab.
+04-56-10: Canonicizer 'Unify Case' selected in features tab.
+04-56-10: Canonicizer 'Word-edges Punctuation Stripper' selected in features tab.
+04-56-11: Canonicizer 'Unify Case' selected in features tab.
+04-56-11: Canonicizer 'Word-edges Punctuation Stripper' selected in features tab.
+04-56-15: Feature selected in the features tab: Special Characters
+04-56-15: Feature selected in the features tab: Punctuation
+04-56-17: Feature selected in the features tab: Word Lengths
+04-56-18: Feature selected in the features tab: Word Lengths
+04-56-18: Feature selected in the features tab: Letters
+04-56-18: Feature selected in the features tab: Letters
+04-56-18: Feature selected in the features tab: Average characters per word
+04-56-20: Feature selected in the features tab: Top Letter bigrams
+04-56-20: Feature selected in the features tab: Top Letter bigrams
+04-56-20: Feature selected in the features tab: Top Letter trigrams
+04-56-20: Feature selected in the features tab: Top Letter trigrams
+04-56-20: Feature selected in the features tab: Function Words
+04-56-21: Feature selected in the features tab: Function Words

@@ -1,0 +1,31 @@
+Started log log/Anonymouth_anonymous_2013-02-10_00-00-40.txt
+===================================================
+00-00-41: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+00-00-41: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+00-00-41: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+00-00-41: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+00-00-41: Populating event drivers...
+00-00-41: adding event drivers under Basic
+00-00-41: adding event drivers under Part-Of-Speech
+00-00-41: adding event drivers under Grams
+00-00-41: adding event drivers under Dictionary
+00-00-41: adding event drivers under Counters
+00-00-41: adding event drivers under Readability Metrics
+00-00-41: adding event drivers under Misc.
+00-00-41: done!
+00-00-41: Populating canonicizers...
+00-00-41: done!
+00-00-41: Populating event cullers...
+00-00-41: done!
+00-00-42: Creating Documents Tab...
+00-00-49: Preset feature set selected in the features tab.
+00-00-49: loaded preset feature set: Translation
+00-00-49: Preset feature set selected in the features tab.
+00-00-49: loaded preset feature set: Translation
+00-00-53: Feature selected in the features tab: Character count
+00-00-55: Feature selected in the features tab: Average characters per word
+00-00-56: Feature selected in the features tab: Letters
+00-00-56: Feature selected in the features tab: Top Letter bigrams
+00-00-56: Feature selected in the features tab: Top Letter trigrams
+00-00-57: Feature selected in the features tab: Word Lengths
+00-00-57: Feature selected in the features tab: Special Characters

@@ -34,9 +34,19 @@ public class ClassTabDriver {
 	protected static Classifier tmpClassifier;
 	
 	/**
-	 * Initialize all documents tab listeners.
+	 * Initialize all classifiers tab listeners.
 	 */
-	protected static void initListeners(final GUIMain main) {
+	protected static void initListeners(final GUIMain main) 
+	{
+		initMainListeners(main);
+		initAdvListeners(main);
+	}
+	
+	/**
+	 * Initialize all classifiers tab listeners.
+	 */
+	protected static void initMainListeners(final GUIMain main) 
+	{
 		
 		// available classifiers tree
 		// ==========================
@@ -289,6 +299,178 @@ public class ClassTabDriver {
 //		});
 	}
 	
+	protected static void initAdvListeners(final GUIMain main) 
+	{
+		
+		// available classifiers tree
+		// ==========================
+		
+		main.PPSP.classJTree.addTreeSelectionListener(new TreeSelectionListener() {
+			
+			@Override
+			public void valueChanged(TreeSelectionEvent arg0) {
+				// if unselected
+				if (main.PPSP.classJTree.getSelectionCount() == 0) {
+					Logger.logln("Classifier tree unselected in the classifiers tab.");
+					//resetAvClassSelection(main);
+					tmpClassifier = null;
+					return;
+				}
+				
+				// unselect selected list
+				main.PPSP.classJList.clearSelection();
+				
+				Object[] path = main.PPSP.classJTree.getSelectionPath().getPath();
+				DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode)path[path.length-1];
+				
+				// if selected a classifier
+				if (selectedNode.isLeaf()) {
+					Logger.logln("Classifier selected in the available classifiers tree in the classifiers tab: "+selectedNode.toString());
+					
+					// get classifier
+					String className = getClassNameFromPath(path);
+					tmpClassifier = null;
+					try {
+						tmpClassifier = Classifier.forName(className, null);						
+					} catch (Exception e) {
+						Logger.logln("Could not create classifier out of class: "+className);
+						JOptionPane.showMessageDialog(main,
+								"Could not generate classifier for selected class:\n"+className,
+								"Classifier Selection Error",
+								JOptionPane.ERROR_MESSAGE);
+						e.printStackTrace();
+						return;
+					}
+					// Add an -M option for SMO classifier
+					String dashM = "";
+					if(className.toLowerCase().contains("smo"))
+						dashM = " -M";
+					
+					
+					// show options and description
+					
+					main.PPSP.classAvClassArgsJTextField.setText(getOptionsStr(tmpClassifier.getOptions())+dashM);
+					main.PPSP.classDescJTextPane.setText(getDesc(tmpClassifier));
+				}
+				// otherwise
+				else {
+					//resetAvClassSelection(main);
+					tmpClassifier = null;
+				}
+			}
+		});
+		
+		// add button
+		// ==========
+		
+		main.PPSP.classAddJButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Logger.logln("'Add' button clicked in the analysis tab.");
+
+				// check if classifier is selected
+				if (tmpClassifier == null) {
+					JOptionPane.showMessageDialog(main,
+							"You must select a classifier to be added.",
+							"Add Classifier Error",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				else if( main.classifiers.size() >0){
+					JOptionPane.showMessageDialog(main,
+							"It is only possible to select one classifier at a time.",
+							"Add Classifier Error",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				else {
+					// check classifier options
+					try {
+						//tmpClassifier.setOptions(main.classAvClassArgsJTextField.getText().split(" "));
+						tmpClassifier.setOptions(getOptionsStr(tmpClassifier.getOptions()).split(" "));
+					} catch (Exception e) {
+						Logger.logln("Invalid options given for classifier.",LogOut.STDERR);
+						JOptionPane.showMessageDialog(main,
+								"The classifier arguments entered are invalid.\n"+
+										"Restoring original options.",
+										"Classifier Options Error",
+										JOptionPane.ERROR_MESSAGE);
+						//main.classAvClassArgsJTextField.setText(getOptionsStr(tmpClassifier.getOptions()));
+						return;
+					}
+					
+					// add classifier
+					main.classifiers.add(tmpClassifier);
+					GUIUpdateInterface.updateClassList(main);
+					GUIUpdateInterface.updateClassPrepColor(main);
+					//resetAvClassSelection(main);
+					tmpClassifier = null;
+					main.PPSP.classJTree.clearSelection();
+				}
+			}
+		});
+		
+		// selected classifiers list
+		// =========================
+		
+		main.PPSP.classJList.addListSelectionListener(new ListSelectionListener() {
+			int lastSelected = -2;
+			
+			@Override
+			public void valueChanged(ListSelectionEvent arg0) {
+				int selected = main.PPSP.classJList.getSelectedIndex();
+				if (selected == lastSelected)
+					return;
+				lastSelected = selected;
+				
+				// if unselected
+				if (selected == -1) {
+					Logger.logln("Classifier list unselected in the classifiers tab.");
+					//resetSelClassSelection(main);
+					tmpClassifier = null;
+					return;
+				}
+
+				// unselect available classifiers tree
+				main.PPSP.classJTree.clearSelection();
+
+				String className = main.PPSP.classJList.getSelectedValue().toString();
+				Logger.logln("Classifier selected in the selected classifiers list in the classifiers tab: "+className);
+
+				// show options and description
+				main.PPSP.classSelClassArgsJTextField.setText(getOptionsStr(main.classifiers.get(selected).getOptions()));
+				main.PPSP.classDescJTextPane.setText(getDesc(main.classifiers.get(selected)));
+			}
+		});
+		
+		// remove button
+		// =============
+		
+		main.PPSP.classRemoveJButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Logger.log("'Remove' button clicked in the classifiers tab.");
+				int selected = main.PPSP.classJList.getSelectedIndex();
+				
+				// check if selected
+				if (selected == -1) {
+					JOptionPane.showMessageDialog(main,
+							"You must select a classifier to be removed.",
+							"Remove Classifier Error",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				
+				// remove classifier
+				main.classifiers.remove(selected);
+				GUIUpdateInterface.updateClassList(main);
+				GUIUpdateInterface.updateClassPrepColor(main);
+			}
+		});
+	}
+	
 	/**
 	 * Clears the GUI when no available classifier is selected.
 	 */
@@ -369,7 +551,7 @@ public class ClassTabDriver {
 	/**
 	 * Initialize available classifiers tree
 	 */
-	protected static void initWekaClassifiersTree(GUIMain main) {
+	protected static void initMainWekaClassifiersTree(GUIMain main) {
 		// create root and set to tree
 		DefaultMutableTreeNode wekaNode = new DefaultMutableTreeNode("weka");
 		DefaultMutableTreeNode classifiersNode = new DefaultMutableTreeNode("classifiers");
@@ -406,6 +588,48 @@ public class ClassTabDriver {
 		int row = 0;
 		while (row < main.classJTree.getRowCount())
 			main.classJTree.expandRow(row++);
+	}
+	
+	/**
+	 * Initialize available classifiers tree
+	 */
+	protected static void initAdvWekaClassifiersTree(PreProcessSettingsFrame PPSP) {
+		// create root and set to tree
+		DefaultMutableTreeNode wekaNode = new DefaultMutableTreeNode("weka");
+		DefaultMutableTreeNode classifiersNode = new DefaultMutableTreeNode("classifiers");
+		wekaNode.add(classifiersNode);
+		DefaultTreeModel model = new DefaultTreeModel(wekaNode);
+		PPSP.classJTree.setModel(model);
+		
+		// add all classes
+		DefaultMutableTreeNode currNode, child;
+		for (String className: classNames) {
+			String[] nameArr = className.split("\\.");
+			currNode = classifiersNode;
+			for (int i=2; i<nameArr.length; i++) {
+				// look for node
+				Enumeration<DefaultMutableTreeNode> children = currNode.children();
+				while (children.hasMoreElements()) {
+					child = children.nextElement();
+					if (child.getUserObject().toString().equals(nameArr[i])) {
+						currNode = child;
+						break;
+					}
+				}
+				
+				// if not found, create a new one
+				if (!currNode.getUserObject().toString().equals(nameArr[i])) {
+					child = new DefaultMutableTreeNode(nameArr[i]);
+					currNode.add(child);
+					currNode = child;
+				}
+			}
+		}
+		
+		// expand tree
+		int row = 0;
+		while (row < PPSP.classJTree.getRowCount())
+			PPSP.classJTree.expandRow(row++);
 	}
 	
 	/**

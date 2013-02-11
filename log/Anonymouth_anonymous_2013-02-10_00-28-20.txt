@@ -1,0 +1,24 @@
+Started log log/Anonymouth_anonymous_2013-02-10_00-28-20.txt
+===================================================
+00-28-21: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+00-28-21: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+00-28-21: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+00-28-21: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+00-28-21: Populating event drivers...
+00-28-21: adding event drivers under Basic
+00-28-21: adding event drivers under Part-Of-Speech
+00-28-21: adding event drivers under Grams
+00-28-21: adding event drivers under Dictionary
+00-28-21: adding event drivers under Counters
+00-28-21: adding event drivers under Readability Metrics
+00-28-21: adding event drivers under Misc.
+00-28-21: done!
+00-28-21: Populating canonicizers...
+00-28-21: done!
+00-28-21: Populating event cullers...
+00-28-21: done!
+00-28-21: Creating Documents Tab...
+00-28-26: 'Load Problem Set' button clicked on the documents tab
+00-28-28: Trying to load problem set from C:\Users\Jeff\Documents\jeffu_test1_Desktop.xml
+00-28-28: Failed loading C:\Users\Jeff\Documents\jeffu_test1_Desktop.xml
+00-28-28: java.io.FileNotFoundException: C:\Users\Jeff\Documents\jeffu_test1_Desktop.xml (The system cannot find the file specified)

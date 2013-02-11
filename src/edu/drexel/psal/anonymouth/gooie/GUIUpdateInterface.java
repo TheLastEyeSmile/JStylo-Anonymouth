@@ -96,11 +96,14 @@ public class GUIUpdateInterface {
 		DefaultListModel dlm2 = (DefaultListModel)main.PPSP.prepMainDocList.getModel();
 		dlm.removeAllElements();
 		dlm2.removeAllElements();
-		List<Document>testDocs = main.ps.getTestDocs();
-		for (int i=0; i<testDocs.size(); i++)
+		if (main.mainDocReady())
 		{
-			dlm.addElement(testDocs.get(i).getTitle());
-			dlm2.addElement(testDocs.get(i).getTitle());
+			List<Document>testDocs = main.ps.getTestDocs();
+			for (int i=0; i<testDocs.size(); i++)
+			{
+				dlm.addElement(testDocs.get(i).getTitle());
+				dlm2.addElement(testDocs.get(i).getTitle());
+			}
 		}
 		
 		updateDocPrepColor(main);
@@ -114,13 +117,15 @@ public class GUIUpdateInterface {
 		DefaultListModel dlm2 = (DefaultListModel)main.PPSP.prepSampleDocsList.getModel();
 		dlm.removeAllElements();
 		dlm2.removeAllElements();
-		List<Document> userSampleDocs = main.ps.getTrainDocs(ProblemSet.getDummyAuthor());
-		for (int i=0; i<userSampleDocs.size(); i++)
+		if (main.sampleDocsReady())
 		{
-			dlm.addElement(userSampleDocs.get(i).getTitle());// todo this is where it fails (from the note in DocsTabDriver).. it fails with a "NullPointerException".... (when "create new problem set" is clicked when there isn't a problem set there. [ i.e. as soon as Anonymouth starts up]) 
-			dlm2.addElement(userSampleDocs.get(i).getTitle());
+			List<Document> userSampleDocs = main.ps.getTrainDocs(ProblemSet.getDummyAuthor());
+			for (int i=0; i<userSampleDocs.size(); i++)
+			{
+				dlm.addElement(userSampleDocs.get(i).getTitle());// todo this is where it fails (from the note in DocsTabDriver).. it fails with a "NullPointerException".... (when "create new problem set" is clicked when there isn't a problem set there. [ i.e. as soon as Anonymouth starts up]) 
+				dlm2.addElement(userSampleDocs.get(i).getTitle());
+			}
 		}
-		
 		updateDocPrepColor(main);
 	}
 
@@ -168,12 +173,12 @@ public class GUIUpdateInterface {
 		if (main.featuresAreReady())
 		{
 			main.prepFeatLabel.setBackground(main.ready);
-			//main.PPSP.prepFeatLabel.setBackground(main.ready);
+			main.PPSP.prepFeatLabel.setBackground(main.ready);
 		}
 		else
 		{
 			main.prepFeatLabel.setBackground(main.notReady);
-			//main.PPSP.prepFeatLabel.setBackground(main.ready);
+			main.PPSP.prepFeatLabel.setBackground(main.notReady);
 		}	
 	}
 	
@@ -184,16 +189,16 @@ public class GUIUpdateInterface {
 		CumulativeFeatureDriver cfd = main.cfd;
 		
 		// update name
-		main.featuresSetNameJTextField.setText(cfd.getName() == null ? "" : cfd.getName());
+		//main.PPSP.featuresSetNameJTextField.setText(cfd.getName() == null ? "" : cfd.getName());
 		
 		// update description
-		main.featuresSetDescJTextPane.setText(cfd.getDescription() == null ? "" : cfd.getDescription());
+		main.PPSP.featuresSetDescJTextPane.setText(cfd.getDescription() == null ? "" : cfd.getDescription());
 		
 		// update list of features
 		clearFeatureView(main);
-		main.featuresJListModel.removeAllElements();
+		main.PPSP.featuresJListModel.removeAllElements();
 		for (int i=0; i<cfd.numOfFeatureDrivers(); i++) 
-			main.featuresJListModel.addElement(cfd.featureDriverAt(i).getName());
+			main.PPSP.featuresJListModel.addElement(cfd.featureDriverAt(i).getName());
 	}
 	
 	/**
@@ -211,66 +216,106 @@ public class GUIUpdateInterface {
 		FeatureDriver fd = main.cfd.featureDriverAt(selected);
 		
 		// name and description
-		main.featuresFeatureNameJTextField.setText(fd.getName());
-		main.featuresFeatureDescJTextPane.setText(fd.getDescription());
+		main.PPSP.featuresFeatureNameJTextPane.setText(fd.getName());
+		main.PPSP.featuresFeatureDescJTextPane.setText(fd.getDescription());
+		
+		// update normalization
+		main.PPSP.featuresNormContentJTextPane.setText(fd.getNormBaseline().getTitle());
+		main.PPSP.featuresFactorContentJTextPane.setText(fd.getNormFactor().toString());
 		
 		// update feature extractor
-		main.featuresFeatureExtractorContentJLabel.setText(fd.getUnderlyingEventDriver().displayName());
-		main.featuresFeatureExtractorConfigJScrollPane.setViewportView(getParamPanel(fd.getUnderlyingEventDriver()));
+		main.PPSP.featuresFeatureExtractorContentJTableModel.addRow(new String[] {fd.getUnderlyingEventDriver().displayName()});
+		populateTableWithParams(fd.getUnderlyingEventDriver(), main.PPSP.featuresFeatureExtractorConfigJTableModel);
 		
 		// update canonicizers
 		List<Canonicizer> canons = fd.getCanonicizers();
 		if (canons != null) {
 			for (int i=0; i<canons.size(); i++)
-				main.featuresCanonJListModel.addElement(canons.get(i).displayName());
+			{
+				main.PPSP.featuresCanonJTableModel.addRow(new String[]{canons.get(i).displayName()});
+				populateTableWithParams(canons.get(i), main.PPSP.featuresCanonConfigJTableModel);
+			}
+		}
+		else
+		{
+			main.PPSP.featuresCanonJTableModel.addRow(new String[]{"N/A"});
+			main.PPSP.featuresCanonConfigJTableModel.addRow(new String[]{"N/A", "N/A", "N/A"});
 		}
 		
 		// update cullers
 		List<EventCuller> cullers = fd.getCullers();
 		if (cullers != null) {
 			for (int i=0; i<cullers.size(); i++)
-				main.featuresCullJListModel.addElement(cullers.get(i).displayName());
+			{
+				main.PPSP.featuresCullJTableModel.addRow(new String[]{cullers.get(i).displayName()});
+				populateTableWithParams(cullers.get(i), main.PPSP.featuresCullConfigJTableModel);
+			}
 		}
-
-		// update normalization
-		main.featuresNormContentJLabel.setText(fd.getNormBaseline().getTitle());
-		main.featuresFactorContentJLabel.setText(fd.getNormFactor().toString());
+		else
+		{
+			main.PPSP.featuresCullJTableModel.addRow(new String[]{"N/A"});
+			main.PPSP.featuresCullConfigJTableModel.addRow(new String[]{"N/A", "N/A", "N/A"});
+		}
 	}
 	
 	/**
 	 * Resets the feature view in the features tab.
 	 */
 	protected static void clearFeatureView(GUIMain main) {
-		main.featuresFeatureNameJTextField.setText("");
-		main.featuresFeatureDescJTextPane.setText("");
-		main.featuresFeatureExtractorContentJLabel.setText("");
-		main.featuresFeatureExtractorConfigJScrollPane.setViewportView(null);
-		main.featuresCanonJListModel.removeAllElements();
-		main.featuresCanonConfigJScrollPane.setViewportView(null);
-		main.featuresCullJListModel.removeAllElements();
-		main.featuresCullConfigJScrollPane.setViewportView(null);
-		main.featuresNormContentJLabel.setText("");
-		main.featuresFactorContentJLabel.setText("");
+		main.PPSP.featuresFeatureNameJTextPane.setText("");
+		main.PPSP.featuresFeatureDescJTextPane.setText("");
+		main.PPSP.featuresFeatureExtractorContentJTableModel.getDataVector().removeAllElements();
+		main.PPSP.featuresFeatureExtractorConfigJTableModel.getDataVector().removeAllElements();
+		main.PPSP.featuresCanonJTableModel.getDataVector().removeAllElements();
+		main.PPSP.featuresCanonConfigJTableModel.getDataVector().removeAllElements();
+		main.PPSP.featuresCullJTableModel.getDataVector().removeAllElements();
+		main.PPSP.featuresCullConfigJTableModel.getDataVector().removeAllElements();
+		main.PPSP.featuresNormContentJTextPane.setText("");
+		main.PPSP.featuresFactorContentJTextPane.setText("");
 	}
 	
 	/**
-	 * Creates a panel with parameters and their values for the given event driver / canonicizer / culler.
+	 * Populates the given tableModel with parameters and their values for the given event driver / canonicizer / culler. Assumes the table is set to have three columns.
 	 */
-	protected static JPanel getParamPanel(Parameterizable p) {
-		List<Pair<String,ParamTag>> params = FeatureDriver.getClassParams(p.getClass().getName());
+	protected static void populateTableWithParams(Parameterizable p, DefaultTableModel tm) {
+		String fullname = p.getClass().getName();
+		List<Pair<String,ParamTag>> params = FeatureDriver.getClassParams(fullname);
 		
-		JPanel panel = new JPanel(new GridLayout(params.size(),2,5,5));
-		for (Pair<String,ParamTag> param: params) {
-			JLabel name = new JLabel(param.getFirst()+": ");
-			name.setVerticalAlignment(JLabel.TOP);
-			panel.add(name);
-			JLabel value = new JLabel(p.getParameter(param.getFirst()));
-			value.setVerticalAlignment(JLabel.TOP);
-			panel.add(value);
+		boolean allParamsNull = true;
+		
+		for (Pair<String,ParamTag> param: params) 
+		{
+			if (param != null)
+				allParamsNull = false;
+			else
+				continue;
 		}
-		
-		return panel;
+				
+		if (!allParamsNull)
+			for (Pair<String,ParamTag> param: params) 
+				tm.addRow(new String[] {fullname.substring(fullname.lastIndexOf(".")+1), param.getFirst(), p.getParameter(param.getFirst())});
+		else
+			tm.addRow(new String[] {fullname.substring(fullname.lastIndexOf(".")+1), "N/A", "N/A"});
 	}
+	
+//	/**
+//	 * Creates a panel with parameters and their values for the given event driver / canonicizer / culler.
+//	 */
+//	protected static JPanel getParamPanel(Parameterizable p) {
+//		List<Pair<String,ParamTag>> params = FeatureDriver.getClassParams(p.getClass().getName());
+//		
+//		JPanel panel = new JPanel(new GridLayout(params.size(),2,5,5));
+//		for (Pair<String,ParamTag> param: params) {
+//			JLabel name = new JLabel(param.getFirst()+": ");
+//			name.setVerticalAlignment(JLabel.TOP);
+//			panel.add(name);
+//			JLabel value = new JLabel(p.getParameter(param.getFirst()));
+//			value.setVerticalAlignment(JLabel.TOP);
+//			panel.add(value);
+//		}
+//		
+//		return panel;
+//	}
 	
 	
 	/* ===============
@@ -283,12 +328,12 @@ public class GUIUpdateInterface {
 		if (main.classifiersAreReady())
 		{
 			main.prepClassLabel.setBackground(main.ready);
-			//main.PPSP.prepClassLabel.setBackground(main.ready);
+			main.PPSP.prepClassLabel.setBackground(main.ready);
 		}
 		else
 		{
 			main.prepClassLabel.setBackground(main.notReady);
-			//main.PPSP.prepClassLabel.setBackground(main.notReady);
+			main.PPSP.prepClassLabel.setBackground(main.notReady);
 		}	
 	}
 	
@@ -297,12 +342,15 @@ public class GUIUpdateInterface {
 	 */
 	protected static void updateClassList(GUIMain main) {
 		DefaultListModel model = (DefaultListModel)main.classJList.getModel();
+		DefaultListModel model2 = (DefaultListModel)main.PPSP.classJList.getModel();
 		List<Classifier> classifiers = main.classifiers;
 		
 		model.removeAllElements();
+		model2.removeAllElements();
 		for (Classifier c: classifiers) {
 			String className = c.getClass().getName();
 			model.addElement(className.substring(className.lastIndexOf(".")+1));
+			model2.addElement(className);
 		}
 	}
 }

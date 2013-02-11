@@ -1,0 +1,72 @@
+Started log log/Anonymouth_anonymous_2013-02-09_02-41-46.txt
+===================================================
+02-41-46: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+02-41-46: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+02-41-46: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+02-41-46: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+02-41-46: Populating event drivers...
+02-41-46: adding event drivers under Basic
+02-41-46: adding event drivers under Part-Of-Speech
+02-41-46: adding event drivers under Grams
+02-41-46: adding event drivers under Dictionary
+02-41-46: adding event drivers under Counters
+02-41-46: adding event drivers under Readability Metrics
+02-41-46: adding event drivers under Misc.
+02-41-46: done!
+02-41-46: Populating canonicizers...
+02-41-46: done!
+02-41-46: Populating event cullers...
+02-41-46: done!
+02-41-47: Creating Documents Tab...
+02-41-55: Preset feature set selected in the features tab.
+02-41-55: loaded preset feature set: Translation
+02-41-55: Feature selected in the features tab: Letters
+02-41-57: Feature selected in the features tab: Top Letter bigrams
+02-41-57: Feature selected in the features tab: Top Letter trigrams
+02-41-57: Feature selected in the features tab: Word Lengths
+02-41-58: Feature selected in the features tab: Special Characters
+02-41-58: Feature selected in the features tab: Function Words
+02-41-59: Feature selected in the features tab: Special Characters
+02-41-59: Feature selected in the features tab: Word Lengths
+02-41-59: Feature selected in the features tab: Top Letter trigrams
+02-41-59: Feature selected in the features tab: Word Lengths
+02-41-59: Feature selected in the features tab: Special Characters
+02-41-59: Feature selected in the features tab: Function Words
+02-42-00: Feature selected in the features tab: Punctuation
+02-42-00: Feature selected in the features tab: Words
+02-42-00: Feature selected in the features tab: Punctuation
+02-42-01: Feature selected in the features tab: Function Words
+02-42-01: Feature selected in the features tab: Special Characters
+02-42-01: Feature selected in the features tab: Word Lengths
+02-42-01: Feature selected in the features tab: Top Letter trigrams
+02-42-01: Feature selected in the features tab: Top Letter bigrams
+02-42-01: Feature selected in the features tab: Letters
+02-42-01: Feature selected in the features tab: Average characters per word
+02-42-02: Feature selected in the features tab: Character count
+02-42-02: Feature selected in the features tab: Average characters per word
+02-42-02: Feature selected in the features tab: Letters
+02-42-02: Feature selected in the features tab: Top Letter bigrams
+02-42-03: Feature selected in the features tab: Top Letter trigrams
+02-42-03: Feature selected in the features tab: Word Lengths
+02-42-03: Feature selected in the features tab: Special Characters
+02-42-03: Feature selected in the features tab: Function Words
+02-42-03: Feature selected in the features tab: Punctuation
+02-42-03: Feature selected in the features tab: Words
+02-42-04: Feature selected in the features tab: Punctuation
+02-42-04: Feature selected in the features tab: Function Words
+02-42-04: Feature selected in the features tab: Special Characters
+02-42-04: Feature selected in the features tab: Word Lengths
+02-42-04: Feature selected in the features tab: Top Letter trigrams
+02-42-05: Feature selected in the features tab: Word Lengths
+02-42-05: Feature selected in the features tab: Special Characters
+02-42-05: Feature selected in the features tab: Function Words
+02-42-05: Feature selected in the features tab: Punctuation
+02-42-05: Feature selected in the features tab: Words
+02-42-06: Feature selected in the features tab: Punctuation
+02-42-06: Feature selected in the features tab: Function Words
+02-42-06: Feature selected in the features tab: Special Characters
+02-42-06: Feature selected in the features tab: Word Lengths
+02-42-06: Feature selected in the features tab: Top Letter trigrams
+02-42-07: Feature selected in the features tab: Top Letter bigrams
+02-42-07: Feature selected in the features tab: Letters
+02-42-07: Feature selected in the features tab: Average characters per word

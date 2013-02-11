@@ -1,0 +1,26 @@
+Started log log/Anonymouth_anonymous_2013-02-09_02-28-09.txt
+===================================================
+02-28-09: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+02-28-09: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+02-28-09: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+02-28-09: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+02-28-09: Populating event drivers...
+02-28-09: adding event drivers under Basic
+02-28-09: adding event drivers under Part-Of-Speech
+02-28-09: adding event drivers under Grams
+02-28-09: adding event drivers under Dictionary
+02-28-09: adding event drivers under Counters
+02-28-09: adding event drivers under Readability Metrics
+02-28-09: adding event drivers under Misc.
+02-28-09: done!
+02-28-09: Populating canonicizers...
+02-28-09: done!
+02-28-09: Populating event cullers...
+02-28-09: done!
+02-28-09: Creating Documents Tab...
+02-28-20: Preset feature set selected in the features tab.
+02-28-20: loaded preset feature set: Translation
+02-28-21: Feature selected in the features tab: Top Letter bigrams
+02-28-22: Feature selected in the features tab: Top Letter trigrams
+02-28-23: Feature selected in the features tab: Special Characters
+02-28-56: Feature set description edited in the features tab.

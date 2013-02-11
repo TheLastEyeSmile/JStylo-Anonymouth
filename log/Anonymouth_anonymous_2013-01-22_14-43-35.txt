@@ -1,0 +1,28 @@
+Started log log/Anonymouth_anonymous_2013-01-22_14-43-35.txt
+===================================================
+14-43-35: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+14-43-36: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+14-43-36: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+14-43-36: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+14-43-36: Populating event drivers...
+14-43-36: adding event drivers under Basic
+14-43-36: adding event drivers under Part-Of-Speech
+14-43-36: adding event drivers under Grams
+14-43-36: adding event drivers under Dictionary
+14-43-36: adding event drivers under Counters
+14-43-36: adding event drivers under Readability Metrics
+14-43-36: adding event drivers under Misc.
+14-43-36: done!
+14-43-36: Populating canonicizers...
+14-43-36: done!
+14-43-36: Populating event cullers...
+14-43-36: done!
+14-43-36: EditorInnerTabSpawner spawning tab
+14-43-39: 'Add Document(s)...' button clicked under the 'Test Documents' section on the documents tab.
+14-43-47: Trying to load test documents:
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_01.txt
+14-43-48: 'Remove Document(s)...' button clicked under the 'Test Documents' section on the documents tab.
+14-43-48: Failed removing test documents - no documents are selected
+14-43-51: 'Remove Document(s)...' button clicked under the 'Test Documents' section on the documents tab.
+14-43-53: Removed test documents:
+		> e_01.txt

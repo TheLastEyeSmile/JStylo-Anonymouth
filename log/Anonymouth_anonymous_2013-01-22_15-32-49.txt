@@ -1,0 +1,30 @@
+Started log log/Anonymouth_anonymous_2013-01-22_15-32-49.txt
+===================================================
+15-32-50: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+15-32-50: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+15-32-50: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+15-32-50: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+15-32-50: Populating event drivers...
+15-32-50: adding event drivers under Basic
+15-32-50: adding event drivers under Part-Of-Speech
+15-32-50: adding event drivers under Grams
+15-32-50: adding event drivers under Dictionary
+15-32-50: adding event drivers under Counters
+15-32-50: adding event drivers under Readability Metrics
+15-32-50: adding event drivers under Misc.
+15-32-50: done!
+15-32-50: Populating canonicizers...
+15-32-50: done!
+15-32-50: Populating event cullers...
+15-32-50: done!
+15-32-50: EditorInnerTabSpawner spawning tab
+15-32-52: 'Add Document(s)...' button clicked under the 'User Sample Documents' section on the documents tab.
+15-32-59: Trying to load User Sample documents:
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_02.txt
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_03.txt
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_04.txt
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_05.txt
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_06.txt
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_07.txt
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_08.txt
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_09.txt

@@ -1,0 +1,26 @@
+Started log log/Anonymouth_anonymous_2013-01-22_17-31-42.txt
+===================================================
+17-31-42: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+17-31-42: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+17-31-42: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+17-31-43: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+17-31-43: Populating event drivers...
+17-31-43: adding event drivers under Basic
+17-31-43: adding event drivers under Part-Of-Speech
+17-31-43: adding event drivers under Grams
+17-31-43: adding event drivers under Dictionary
+17-31-43: adding event drivers under Counters
+17-31-43: adding event drivers under Readability Metrics
+17-31-43: adding event drivers under Misc.
+17-31-43: done!
+17-31-43: Populating canonicizers...
+17-31-43: done!
+17-31-43: Populating event cullers...
+17-31-43: done!
+17-31-43: EditorInnerTabSpawner spawning tab
+17-31-46: Classifier selected in the available classifiers tree in the classifiers tab: SMO
+17-31-46: 'Add' button clicked in the analysis tab.
+17-31-51: 'Add' button clicked in the analysis tab.
+17-31-54: 'Add' button clicked in the analysis tab.
+17-31-56: Classifier selected in the available classifiers tree in the classifiers tab: MultilayerPerceptron
+17-31-57: 'Add' button clicked in the analysis tab.

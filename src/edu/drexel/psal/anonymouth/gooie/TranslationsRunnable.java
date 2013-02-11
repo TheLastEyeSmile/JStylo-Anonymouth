@@ -53,19 +53,19 @@ public class TranslationsRunnable extends EditorTabDriver implements Runnable
 		// set up the progress bar
 		window.getProgressBar().setIndeterminate(false);
 		window.getProgressBar().setMinimum(0);
-		window.getProgressBar().setMaximum(translator.getAllLangs().length);
+		window.getProgressBar().setMaximum(translator.getUsedLangs().length);
 		window.getProgressBar().setValue(0);
 		
 		// finish set up for translation
 		Date start = new Date();
 		//main.translationsComboBox.addItem("ORIGINAL - " + sentence.getUntagged().trim());
 		//main.translationsComboBox.setSelectedIndex(0);
-		window.setText("Translating Sentence... 0 of " + translator.getAllLangs().length + " languages.");
+		window.setText("Translating Sentence... 0 of " + translator.getUsedLangs().length + " languages.");
 		
 		// translate all languages and add them and their anonIndex to the ArrayLists
-		for (int i = 0; i < translator.getAllLangs().length; i++)
+		for (int i = 0; i < translator.getUsedLangs().length; i++)
 		{
-			Language lang = translator.getAllLangs()[i];
+			Language lang = translator.getUsedLangs()[i];
 			
 			String translation = translator.getTranslation(sentence.getUntagged().trim(), lang);
 			TaggedSentence taggedTrans = new TaggedSentence(translation);
@@ -73,7 +73,7 @@ public class TranslationsRunnable extends EditorTabDriver implements Runnable
 			sentence.getTranslations().add(taggedTrans);
 			main.translationsTable.setValueAt(sentence.getTranslations().get(i).getUntagged(), i, 0);
 			window.getProgressBar().setValue(i+1);
-			window.setText("Translating Sentence... " + (i+1) + " of " + translator.getAllLangs().length + " languages.");
+			window.setText("Translating Sentence... " + (i+1) + " of " + translator.getUsedLangs().length + " languages.");
 		}
 		
 		// sorts the translations by anonIndex and populates the translation drop down.

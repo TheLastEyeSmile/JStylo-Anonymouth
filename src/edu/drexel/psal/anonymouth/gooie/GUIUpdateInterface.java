@@ -12,6 +12,7 @@ import edu.drexel.psal.jstylo.generics.FeatureDriver.ParamTag;
 
 import com.jgaap.generics.*;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -54,6 +55,20 @@ public class GUIUpdateInterface {
 	 * ========================
 	 */
 	
+	public static void updateDocPrepColor(GUIMain main)
+	{
+		if (main.documentsAreReady())
+		{
+			main.prepDocLabel.setBackground(main.ready);
+			main.PPSP.prepDocLabel.setBackground(main.ready);
+		}
+		else
+		{
+			main.prepDocLabel.setBackground(main.notReady);
+			main.PPSP.prepDocLabel.setBackground(main.notReady);
+		}	
+	}
+	
 	/**
 	 * Updates the documents tab view with the current problem set.
 	 */
@@ -69,40 +84,44 @@ public class GUIUpdateInterface {
 		// update user sample documents table
 		updateUserSampleDocTable(main);
 		
-		// update preview box
-		clearDocPreview(main);
+		updateDocPrepColor(main);
 	}
 	
 	/**
 	 * Updates the test documents table with the current problem set. 
 	 */
-	protected static void updateTestDocTable(GUIMain main) {
-		JTable testDocsTable = main.testDocsJTable;
-		DefaultTableModel testTableModel = main.testDocsTableModel;
-		testDocsTable.clearSelection();
-		testTableModel.setRowCount(0);
-		List<Document> testDocs = main.ps.getTestDocs();
+	protected static void updateTestDocTable(GUIMain main) 
+	{
+		DefaultListModel dlm = (DefaultListModel)main.prepMainDocList.getModel();
+		DefaultListModel dlm2 = (DefaultListModel)main.PPSP.prepMainDocList.getModel();
+		dlm.removeAllElements();
+		dlm2.removeAllElements();
+		List<Document>testDocs = main.ps.getTestDocs();
 		for (int i=0; i<testDocs.size(); i++)
-			testTableModel.addRow(new Object[]{
-					testDocs.get(i).getTitle(),
-					testDocs.get(i).getFilePath()
-			});
+		{
+			dlm.addElement(testDocs.get(i).getTitle());
+			dlm2.addElement(testDocs.get(i).getTitle());
+		}
+		
+		updateDocPrepColor(main);
 	}
 	
 	/**
 	 * Updates the User Sample documents table with the current problem set. 
 	 */
 	protected static void updateUserSampleDocTable(GUIMain main) {
-		JTable userSampleDocsTable = main.userSampleDocsJTable;
-		DefaultTableModel userSampleTableModel = main.userSampleDocsTableModel;
-		userSampleDocsTable.clearSelection();
-		userSampleTableModel.setRowCount(0);
+		DefaultListModel dlm = (DefaultListModel)main.prepSampleDocsList.getModel();
+		DefaultListModel dlm2 = (DefaultListModel)main.PPSP.prepSampleDocsList.getModel();
+		dlm.removeAllElements();
+		dlm2.removeAllElements();
 		List<Document> userSampleDocs = main.ps.getTrainDocs(ProblemSet.getDummyAuthor());
 		for (int i=0; i<userSampleDocs.size(); i++)
-			userSampleTableModel.addRow(new Object[]{// todo this is where it fails (from the note in DocsTabDriver).. it fails with a "NullPointerException".... (when "create new problem set" is clicked when there isn't a problem set there. [ i.e. as soon as Anonymouth starts up]) 
-					userSampleDocs.get(i).getTitle(),
-					userSampleDocs.get(i).getFilePath()
-			});
+		{
+			dlm.addElement(userSampleDocs.get(i).getTitle());// todo this is where it fails (from the note in DocsTabDriver).. it fails with a "NullPointerException".... (when "create new problem set" is clicked when there isn't a problem set there. [ i.e. as soon as Anonymouth starts up]) 
+			dlm2.addElement(userSampleDocs.get(i).getTitle());
+		}
+		
+		updateDocPrepColor(main);
 	}
 
 	/**
@@ -124,6 +143,9 @@ public class GUIUpdateInterface {
 		}
 		DefaultTreeModel trainTreeModel = new DefaultTreeModel(root);
 		main.trainCorpusJTree.setModel(trainTreeModel);
+		main.PPSP.trainCorpusJTree.setModel(trainTreeModel);
+		
+		updateDocPrepColor(main);
 	}
 	
 	/**
@@ -140,6 +162,20 @@ public class GUIUpdateInterface {
 	 * features tab operations
 	 * =======================
 	 */
+	
+	public static void updateFeatPrepColor(GUIMain main)
+	{
+		if (main.featuresAreReady())
+		{
+			main.prepFeatLabel.setBackground(main.ready);
+			//main.PPSP.prepFeatLabel.setBackground(main.ready);
+		}
+		else
+		{
+			main.prepFeatLabel.setBackground(main.notReady);
+			//main.PPSP.prepFeatLabel.setBackground(main.ready);
+		}	
+	}
 	
 	/**
 	 * Updates the feature set view when a new feature set is selected / created.
@@ -242,16 +278,31 @@ public class GUIUpdateInterface {
 	 * ===============
 	 */
 	
+	public static void updateClassPrepColor(GUIMain main)
+	{
+		if (main.classifiersAreReady())
+		{
+			main.prepClassLabel.setBackground(main.ready);
+			//main.PPSP.prepClassLabel.setBackground(main.ready);
+		}
+		else
+		{
+			main.prepClassLabel.setBackground(main.notReady);
+			//main.PPSP.prepClassLabel.setBackground(main.notReady);
+		}	
+	}
+	
 	/**
 	 * Updates the list of selected classifiers with respect to the list of classifiers.
 	 */
 	protected static void updateClassList(GUIMain main) {
-		DefaultComboBoxModel model = main.classSelClassJListModel;
+		DefaultListModel model = (DefaultListModel)main.classJList.getModel();
 		List<Classifier> classifiers = main.classifiers;
 		
 		model.removeAllElements();
 		for (Classifier c: classifiers) {
-			model.addElement(c.getClass().getName());
+			String className = c.getClass().getName();
+			model.addElement(className.substring(className.lastIndexOf(".")+1));
 		}
 	}
 }

@@ -1,0 +1,39 @@
+Started log log/Anonymouth_anonymous_2013-01-21_21-46-23.txt
+===================================================
+21-46-24: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+21-46-24: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+21-46-24: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+21-46-24: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+21-46-24: Populating event drivers...
+21-46-24: adding event drivers under Basic
+21-46-24: adding event drivers under Part-Of-Speech
+21-46-24: adding event drivers under Grams
+21-46-24: adding event drivers under Dictionary
+21-46-24: adding event drivers under Counters
+21-46-24: adding event drivers under Readability Metrics
+21-46-24: adding event drivers under Misc.
+21-46-24: done!
+21-46-24: Populating canonicizers...
+21-46-24: done!
+21-46-24: Populating event cullers...
+21-46-24: done!
+21-46-24: EditorInnerTabSpawner spawning tab
+21-47-39: Preset feature set selected in the features tab.
+21-47-39: loaded preset feature set: Translation
+21-47-40: Feature selected in the features tab: Average characters per word
+21-47-40: Feature selected in the features tab: Top Letter bigrams
+21-47-41: Feature selected in the features tab: Top Letter trigrams
+21-47-42: Feature selected in the features tab: Word Lengths
+21-47-42: Feature selected in the features tab: Function Words
+21-47-43: Feature selected in the features tab: Punctuation
+21-47-46: Feature selected in the features tab: Words
+21-47-47: Feature selected in the features tab: Special Characters
+21-47-47: Feature selected in the features tab: Top Letter bigrams
+21-47-48: Feature selected in the features tab: Letters
+21-47-48: Feature selected in the features tab: Average characters per word
+21-47-49: Feature selected in the features tab: Character count
+21-47-50: Feature selected in the features tab: Average characters per word
+21-47-50: Feature selected in the features tab: Letters
+21-47-51: Feature selected in the features tab: Top Letter bigrams
+21-47-52: Feature selected in the features tab: Word Lengths
+21-47-53: Feature selected in the features tab: Special Characters

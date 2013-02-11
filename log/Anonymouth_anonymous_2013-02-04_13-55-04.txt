@@ -1,0 +1,21 @@
+Started log log/Anonymouth_anonymous_2013-02-04_13-55-04.txt
+===================================================
+13-55-04: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+13-55-04: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+13-55-04: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+13-55-04: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+13-55-04: Populating event drivers...
+13-55-04: adding event drivers under Basic
+13-55-04: adding event drivers under Part-Of-Speech
+13-55-04: adding event drivers under Grams
+13-55-04: adding event drivers under Dictionary
+13-55-04: adding event drivers under Counters
+13-55-04: adding event drivers under Readability Metrics
+13-55-04: adding event drivers under Misc.
+13-55-04: done!
+13-55-04: Populating canonicizers...
+13-55-04: done!
+13-55-04: Populating event cullers...
+13-55-04: done!
+13-55-04: EditorInnerTabSpawner spawning tab
+13-55-28: Classifier selected in the available classifiers tree in the classifiers tab: SMO

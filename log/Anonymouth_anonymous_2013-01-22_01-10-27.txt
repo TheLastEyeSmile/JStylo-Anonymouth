@@ -1,0 +1,20 @@
+Started log log/Anonymouth_anonymous_2013-01-22_01-10-27.txt
+===================================================
+01-10-28: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+01-10-28: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+01-10-28: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+01-10-28: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+01-10-28: Populating event drivers...
+01-10-28: adding event drivers under Basic
+01-10-28: adding event drivers under Part-Of-Speech
+01-10-28: adding event drivers under Grams
+01-10-28: adding event drivers under Dictionary
+01-10-28: adding event drivers under Counters
+01-10-28: adding event drivers under Readability Metrics
+01-10-28: adding event drivers under Misc.
+01-10-28: done!
+01-10-28: Populating canonicizers...
+01-10-28: done!
+01-10-28: Populating event cullers...
+01-10-28: done!
+01-10-28: EditorInnerTabSpawner spawning tab

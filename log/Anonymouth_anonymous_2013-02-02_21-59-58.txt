@@ -1,0 +1,23 @@
+Started log log/Anonymouth_anonymous_2013-02-02_21-59-58.txt
+===================================================
+21-59-58: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+21-59-58: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+21-59-58: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+21-59-58: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+21-59-58: Populating event drivers...
+21-59-58: adding event drivers under Basic
+21-59-58: adding event drivers under Part-Of-Speech
+21-59-58: adding event drivers under Grams
+21-59-58: adding event drivers under Dictionary
+21-59-58: adding event drivers under Counters
+21-59-58: adding event drivers under Readability Metrics
+21-59-58: adding event drivers under Misc.
+21-59-58: done!
+21-59-58: Populating canonicizers...
+21-59-58: done!
+21-59-58: Populating event cullers...
+21-59-58: done!
+21-59-58: EditorInnerTabSpawner spawning tab
+22-00-01: 'Load Problem Set' button clicked on the documents tab
+22-00-02: Trying to load problem set from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1.xml
+22-00-34: GUI Update: update documents tab with current problem set started

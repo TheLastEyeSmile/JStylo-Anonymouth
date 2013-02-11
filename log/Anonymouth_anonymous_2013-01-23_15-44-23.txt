@@ -1,0 +1,22 @@
+Started log log/Anonymouth_anonymous_2013-01-23_15-44-23.txt
+===================================================
+15-44-24: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+15-44-24: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+15-44-24: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+15-44-24: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+15-44-24: Populating event drivers...
+15-44-24: adding event drivers under Basic
+15-44-24: adding event drivers under Part-Of-Speech
+15-44-24: adding event drivers under Grams
+15-44-24: adding event drivers under Dictionary
+15-44-24: adding event drivers under Counters
+15-44-24: adding event drivers under Readability Metrics
+15-44-24: adding event drivers under Misc.
+15-44-24: done!
+15-44-24: Populating canonicizers...
+15-44-24: done!
+15-44-24: Populating event cullers...
+15-44-24: done!
+15-44-24: EditorInnerTabSpawner spawning tab
+15-44-27: Preset feature set selected in the features tab.
+15-44-27: loaded preset feature set: Translation

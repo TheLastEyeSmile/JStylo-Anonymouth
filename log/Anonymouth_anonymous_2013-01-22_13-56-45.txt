@@ -1,0 +1,23 @@
+Started log log/Anonymouth_anonymous_2013-01-22_13-56-45.txt
+===================================================
+13-56-45: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+13-56-45: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+13-56-45: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+13-56-45: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+13-56-46: Populating event drivers...
+13-56-46: adding event drivers under Basic
+13-56-46: adding event drivers under Part-Of-Speech
+13-56-46: adding event drivers under Grams
+13-56-46: adding event drivers under Dictionary
+13-56-46: adding event drivers under Counters
+13-56-46: adding event drivers under Readability Metrics
+13-56-46: adding event drivers under Misc.
+13-56-46: done!
+13-56-46: Populating canonicizers...
+13-56-46: done!
+13-56-46: Populating event cullers...
+13-56-46: done!
+13-56-46: EditorInnerTabSpawner spawning tab
+13-56-50: 'Add Document(s)...' button clicked under the 'Test Documents' section on the documents tab.
+13-56-56: Trying to load test documents:
+		> C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\corpora\drexel_1\e\e_01.txt

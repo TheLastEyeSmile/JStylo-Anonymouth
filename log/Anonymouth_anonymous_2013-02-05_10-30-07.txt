@@ -1,0 +1,24 @@
+Started log log/Anonymouth_anonymous_2013-02-05_10-30-07.txt
+===================================================
+10-30-10: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+10-30-10: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+10-30-10: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+10-30-10: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+10-30-10: Populating event drivers...
+10-30-10: adding event drivers under Basic
+10-30-10: adding event drivers under Part-Of-Speech
+10-30-10: adding event drivers under Grams
+10-30-10: adding event drivers under Dictionary
+10-30-10: adding event drivers under Counters
+10-30-10: adding event drivers under Readability Metrics
+10-30-10: adding event drivers under Misc.
+10-30-10: done!
+10-30-10: Populating canonicizers...
+10-30-10: done!
+10-30-10: Populating event cullers...
+10-30-10: done!
+10-30-10: EditorInnerTabSpawner spawning tab
+12-38-07: 'Save Problem Set' button clicked on the documents tab.
+12-38-10: Save problem set canceled
+12-38-12: 'Save Problem Set' button clicked on the documents tab.
+12-38-13: Save problem set canceled

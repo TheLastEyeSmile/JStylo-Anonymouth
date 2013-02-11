@@ -1,0 +1,26 @@
+Started log log/Anonymouth_anonymous_2013-01-23_15-24-31.txt
+===================================================
+15-24-31: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+15-24-32: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+15-24-32: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+15-24-32: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+15-24-32: Populating event drivers...
+15-24-32: adding event drivers under Basic
+15-24-32: adding event drivers under Part-Of-Speech
+15-24-32: adding event drivers under Grams
+15-24-32: adding event drivers under Dictionary
+15-24-32: adding event drivers under Counters
+15-24-32: adding event drivers under Readability Metrics
+15-24-32: adding event drivers under Misc.
+15-24-32: done!
+15-24-32: Populating canonicizers...
+15-24-32: done!
+15-24-32: Populating event cullers...
+15-24-32: done!
+15-24-32: EditorInnerTabSpawner spawning tab
+15-24-38: 'Load Problem Set' button clicked on the documents tab
+15-24-40: Trying to load problem set from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1.xml
+15-24-40: GUI Update: update documents tab with current problem set started
+15-24-45: 'Remove Document(s)...' button clicked under the 'Test Documents' section on the documents tab.
+15-24-46: Removed test documents:
+		> e_01.txt

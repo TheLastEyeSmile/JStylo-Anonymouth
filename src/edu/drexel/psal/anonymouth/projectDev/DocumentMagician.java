@@ -211,6 +211,7 @@ public class DocumentMagician {
 			writer.write(modifiedDocument);
 			writer.close();
 		} catch (IOException e) {
+			
 			//TODO: log this. 
 			e.printStackTrace();
 		}

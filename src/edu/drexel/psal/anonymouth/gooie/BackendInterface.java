@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -297,7 +298,7 @@ public class BackendInterface {
 				Logger.logln(wekaResults.toString());
 				//main.getResultsTable().setDefaultRenderer(Object.class, new MyTableRenderer()); 
 				//addNewDocEditTab();
-				main.resultsTable.setModel(makeResultsTable(wekaResults));
+				makeResultsTable(wekaResults, main);
 				//main.getResultsTable().getColumnModel().getColumn(resultsMaxIndex).setCellRenderer(new MyTableRenderer());
 				
 			}
@@ -336,7 +337,7 @@ public class BackendInterface {
 					Logger.logln(wekaResults.toString());
 					//main.getResultsTable().setDefaultRenderer(Object.class, new MyTableRenderer()); 
 					//addNewDocEditTab();
-					main.resultsTable.setModel(makeResultsTable(wekaResults));
+					makeResultsTable(wekaResults, main);
 					//main.getResultsTable().getColumnModel().getColumn(resultsMaxIndex).setCellRenderer(new MyTableRenderer());
 					//XXX STOP HERE
 					pw.setText("Setting Results... Done");
@@ -350,12 +351,12 @@ public class BackendInterface {
 			}
 			//System.out.println("FINISHED in EditTabProcessButtonClicked - Program use may continue.");
 			String chosenOne = EditorTabDriver.chosenAuthor;
-			if(chosenOne.equals(ProblemSet.getDummyAuthor()))
-				main.classificationLabel.setText("Unfortunately, your document seems to have been written by: "+EditorTabDriver.chosenAuthor);//TODO: change this nonsense
-			else if (chosenOne.equals("n/a"))
-				main.classificationLabel.setText("Please process your document in order to recieve a classification result.");
-			else
-				main.classificationLabel.setText("Your document appears as if '"+EditorTabDriver.chosenAuthor+"' wrote it!");
+//			if(chosenOne.equals(ProblemSet.getDummyAuthor()))
+//				main.classificationLabel.setText("Unfortunately, your document seems to have been written by: "+EditorTabDriver.chosenAuthor);//TODO: change this nonsense
+//			else if (chosenOne.equals("n/a"))
+//				main.classificationLabel.setText("Please process your document in order to recieve a classification result.");
+//			else
+//				main.classificationLabel.setText("Your document appears as if '"+EditorTabDriver.chosenAuthor+"' wrote it!");
 			
 			int selectedIndex = 1;
 			int trueIndex = selectedIndex - 1;
@@ -416,8 +417,8 @@ public class BackendInterface {
 
 		public void run(){
 			pw.setText("Target Selected");
-			TableCellRenderer renderer = new PredictionRenderer(main);
-			main.resultsTable.setDefaultRenderer(Object.class, renderer);
+//			TableCellRenderer renderer = new PredictionRenderer(main);
+//			main.resultsTable.setDefaultRenderer(Object.class, renderer);
 		    if(EditorTabDriver.isFirstRun == false)
 		    	main.resultsTableLabel.setText("Results of this Document's Classification (% probability of authorship per author)");
 			EditorTabDriver.theFeatures = wizard.getAllRelevantFeatures();
@@ -577,20 +578,23 @@ public class BackendInterface {
 	}
 	
 	
-	public static TableModel makeResultsTable(Map<String,Map<String,Double>> resultMap){
+	public static void makeResultsTable(Map<String,Map<String,Double>> resultMap, GUIMain main)
+	{
+		main.resultsTableModel.getDataVector().removeAllElements();
+		
 		Iterator<String> mapKeyIter = resultMap.keySet().iterator();
-		int numAuthors = DocumentMagician.numSampleAuthors+1;
-		Object[] authors;
-		Object[][] predictions = new Object[2][numAuthors];
 		Map<String,Double> tempMap = resultMap.get(mapKeyIter.next()); 
 		
-		authors = (tempMap.keySet()).toArray(); 
+		int numAuthors = DocumentMagician.numSampleAuthors+1;
 		
-		int i = 0;
+		Object[] authors = (tempMap.keySet()).toArray();
+		Double[] predictions = new Double[authors.length];
+		Map<Double, Object> predMap = new HashMap<Double, Object>();
+		
 		Object[] keyRing = tempMap.values().toArray();
-		int maxIndex =0;
-		Double biggest =.01;
-		for(i=0;i<numAuthors;i++){
+		int maxIndex = 0;
+		Double biggest = .01;
+		for(int i = 0; i < numAuthors; i++){
 			Double tempVal = ((Double)keyRing[i])*100;
 			// compare PRIOR to rounding.
 			if(biggest < tempVal){
@@ -599,15 +603,20 @@ public class BackendInterface {
 			}
 			int precision = 100;
 			tempVal = Math.floor(tempVal*precision+.5)/precision;	
-			predictions[0][i] = (Object)tempVal;
+			predictions[i] = tempVal;
+			predMap.put(predictions[i], authors[i]);
 		}
-		predictions[1][0] =(Object) "Actual Author: ";
-		predictions[1][1] =(Object) DocumentMagician.authorToRemove;
-		TableModel modelTable = new DefaultTableModel(predictions,authors);
+		
+		Arrays.sort(predictions);
+		
+		for (int i = numAuthors-1; i >= 0; i--)
+		{
+			main.resultsTableModel.addRow(new Object[]{predMap.get(predictions[i]), predictions[i] + "%"});
+		}
+		
 		EditorTabDriver.resultsMaxIndex = maxIndex;
 		EditorTabDriver.chosenAuthor = (String)authors[maxIndex];
 		EditorTabDriver.maxValue = (Object)biggest;
-		return modelTable;
 	}
 	
 }
@@ -615,20 +624,20 @@ public class BackendInterface {
 class PredictionRenderer implements TableCellRenderer {
 	
 	private GUIMain main;
-
-	  public static final DefaultTableCellRenderer DEFAULT_RENDERER = new DefaultTableCellRenderer();
-
-	  public PredictionRenderer(GUIMain main){
-		  this.main = main;
-		  this.main.chosenAuthor = EditorTabDriver.chosenAuthor;
-		  this.main.resultsMaxIndex = EditorTabDriver.resultsMaxIndex;
-	  }
+	
+	public static final DefaultTableCellRenderer DEFAULT_RENDERER = new DefaultTableCellRenderer();
+	
+	public PredictionRenderer(GUIMain main)
+	{
+		this.main = main;
+		this.main.chosenAuthor = EditorTabDriver.chosenAuthor;
+		this.main.resultsMaxIndex = EditorTabDriver.resultsMaxIndex;
+	}
 	  
 	  
-	  public Component getTableCellRendererComponent(JTable table, Object value,
-	      boolean isSelected, boolean hasFocus, int row, int column) {
-	    Component renderer = DEFAULT_RENDERER.getTableCellRendererComponent(
-	        table, value, isSelected, hasFocus, row, column);
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) 
+	{
+		Component renderer = DEFAULT_RENDERER.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 	    ((JLabel) renderer).setOpaque(true);
 	    Color foreground, background;
 	    
@@ -649,5 +658,5 @@ class PredictionRenderer implements TableCellRenderer {
 	    renderer.setForeground(foreground);
 	    renderer.setBackground(background);
 	    return renderer;
-	  }
 	}
+}

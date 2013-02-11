@@ -344,7 +344,6 @@ public class GUIMain extends javax.swing.JFrame
 		
 		protected JPanel sentenceEditingPanel;
 		protected JPanel documentPanel;
-		protected JPanel resultsPanel;
 		protected JPanel documentOptionsPanel;
 		
 		protected JScrollPane sentencePane;
@@ -356,14 +355,6 @@ public class GUIMain extends javax.swing.JFrame
 		protected JButton copyToSentenceButton;
 		private JPanel spacer1;
 		protected JButton restoreSentenceButton;
-		protected JLabel classificationLabel;
-		protected JPanel resultsBoxPanel_InnerBottomPanel;
-		protected JTable resultsTable;
-		protected JScrollPane resultsTablePane;
-		protected JPanel resultsBoxPanel;
-		protected JLabel resultsTableLabel;
-		protected JPanel resultsTableLabelPanel;
-		protected JPanel resultsBoxAndResultsLabelPanel;
 		protected JTextPane editorBox;
 		protected JScrollPane editBox;
 		protected JPanel editorBoxPanel;
@@ -390,7 +381,22 @@ public class GUIMain extends javax.swing.JFrame
 		protected JButton prevSentenceButton;
 		protected JButton transButton;
 	//---------------------------------------------------------------------
-		protected JPanel resultsPane;
+		protected JTabbedPane resultsTabPane;
+		protected JPanel resultsPanel;
+		protected JPanel resultsOptionsPanel;
+		protected DefaultComboBoxModel displayComboBoxModel;
+		protected JComboBox displayComboBox;
+		protected JTextArea displayTextArea;
+		//protected JLabel classificationLabel;
+		protected JPanel resultsBoxPanel_InnerBottomPanel;
+		protected JTable resultsTable;
+		protected DefaultTableModel resultsTableModel;
+		protected JScrollPane resultsTablePane;
+		protected JPanel resultsBoxPanel;
+		protected JLabel resultsTableLabel;
+		protected JPanel resultsTableLabelPanel;
+		protected JPanel resultsBoxAndResultsLabelPanel;
+	//---------------------------------------------------------------------
 		
 		private String oldEditorBoxDoc = " ";
 		private TableModel oldResultsTableModel = null;
@@ -540,9 +546,9 @@ public class GUIMain extends javax.swing.JFrame
 			this.setJMenuBar(menuBar);
 			
 			getContentPane().setLayout(new MigLayout(
-					"fill", // layout constraints
+					"wrap 2, fill", // layout constraints
 					"[grow 20, fill][grow 80, growprio 110, fill]", // column constraints
-					"[fill]")); // row constraints)
+					"[grow, fill][150:25%:]")); // row constraints)
 			
 			editorHelpTabPane = new JTabbedPane();
 			{
@@ -558,39 +564,16 @@ public class GUIMain extends javax.swing.JFrame
 				editorTabPane.addTab("Clusters", createClustersTab());
 			}
 			
-			resultsPane = new JPanel();
-			resultsPane.setLayout(new MigLayout(
-					"wrap",
-					"grow, fill",
-					"grow, fill"));
+			resultsTabPane = new JTabbedPane();
 			{
-				resultsTableLabel = new JLabel("Classification Results:");
-            	resultsTableLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            	resultsTableLabel.setOpaque(true);
-            	resultsTableLabel.setBackground(inst.tan);
-            	resultsTableLabel.setBorder(BorderFactory.createRaisedBevelBorder());
-            	resultsPane.add(resultsTableLabel, "height 20!, growx");
-            	
-            	resultsTablePane = new JScrollPane();
-                TableModel resultsTableModel = 
-				new DefaultTableModel(
-                                      new String[][] { { "", "" }, { "", "" } },
-                                      new String[] { "", "" });
-                resultsTable = new JTable();
-                resultsTablePane.setViewportView(resultsTable);
-                resultsTable.setModel(resultsTableModel);
-                resultsPane.add(resultsTablePane, "span, growx");
-                
-            	classificationLabel = new JLabel("");
-            	classificationLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            	resultsPane.add(classificationLabel, "span, height 20!");
+				resultsTabPane.addTab("Results", createResultsTab());
 			}
 			
 			
 			
 			getContentPane().add(editorHelpTabPane, "width 300!, spany");
 			getContentPane().add(editorTabPane, "width 600::");
-			getContentPane().add(resultsPane, "width 600::, height 100:25%:");
+			getContentPane().add(resultsTabPane, "width 600::, height 150:25%:");
 			
 			
 			
@@ -1333,6 +1316,108 @@ public class GUIMain extends javax.swing.JFrame
 			}
 		}
 		return clusterScrollPane;
+	}
+	
+	private JPanel createResultsTab()
+	{
+		resultsPanel = new JPanel();
+		resultsPanel.setLayout(new MigLayout(
+				"wrap 2, ins 0 0",
+				"[100:20%:][grow, fill]",
+				"[20][grow, fill]"));
+		{
+			resultsTableLabel = new JLabel("Classification Results:");
+			resultsTableLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			resultsTableLabel.setOpaque(true);
+			resultsTableLabel.setBackground(tan);
+			resultsTableLabel.setBorder(BorderFactory.createRaisedBevelBorder());
+			resultsPanel.add(resultsTableLabel, "height 20!, span, grow");
+			
+			resultsOptionsPanel = new JPanel();
+			resultsOptionsPanel.setLayout(new MigLayout(
+					"wrap 2",
+					"[][grow, fill]",
+					"[][grow, fill]"));
+			{
+				JLabel displayTypeLabel = new JLabel("Display:");
+				
+				displayComboBoxModel = new DefaultComboBoxModel(new String[]{"Table", "Bar Graph"});
+				displayComboBox = new JComboBox(displayComboBoxModel);
+				
+				displayTextArea = new JTextArea();
+				
+				resultsOptionsPanel.add(displayTypeLabel);
+				resultsOptionsPanel.add(displayComboBox, "grow");
+				resultsOptionsPanel.add(new JScrollPane(displayTextArea), "span, grow");
+			}
+			resultsPanel.add(resultsOptionsPanel, "grow");
+			
+			String[][] row = new String[1][1];
+			row[0] = new String[] {"N/A", "N/A"};
+        	String[] header = {"Author:", "% Chance Document Belongs To Author"};
+			
+			// feature description pane--------------------------------------------------
+			resultsTableModel = new DefaultTableModel(row, header){
+				public boolean isCellEditable(int rowIndex, int mColIndex) {
+			        return false;
+			    }
+			};
+			
+			resultsTable = new JTable(resultsTableModel);
+			try {
+				resultsTable.setDefaultRenderer(String.class, new alignRenderer(resultsTable, JLabel.CENTER, "cell"));
+				resultsTable.getTableHeader().setDefaultRenderer(new alignRenderer(resultsTable, JLabel.CENTER, "header"));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			resultsTable.setRowSelectionAllowed(false);
+			resultsTable.setColumnSelectionAllowed(false);
+			resultsTablePane = new JScrollPane(resultsTable);
+		    resultsPanel.add(resultsTablePane, "grow");
+		}
+        
+        return resultsPanel;
+	}
+	
+	/**\
+	 * Aligns the table header and cells to the specified alignment.
+	 * @param table - The table you want to apply this too.
+	 * @param alignment - the alignment you want. E.G. JLabel.CENTER or JLabel.RIGHT
+	 *
+	 */
+	public static class alignRenderer implements TableCellRenderer {
+
+	    DefaultTableCellRenderer defaultRenderer;
+	    DefaultTableCellRenderer headerRenderer;
+	    String type;
+
+		public alignRenderer(JTable table, int alignment, String type) throws Exception 
+		{
+			this.type = type;
+			if (type == "cell")
+			{
+		        defaultRenderer = (DefaultTableCellRenderer)table.getDefaultRenderer(String.class);
+		        defaultRenderer.setHorizontalAlignment(alignment);
+			}
+			else if (type == "header")
+			{
+				headerRenderer = (DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer();
+		        headerRenderer.setHorizontalAlignment(alignment);
+			}
+			else
+				throw new Exception();
+	    }
+
+	    @Override
+	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,boolean hasFocus, int row, int col) 
+	    {
+	    	// bad input is caught in constructor
+	    	if (type == "cell")
+	    		return defaultRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
+	    	else
+	    		return headerRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
+	    }
 	}
 	
 	/**

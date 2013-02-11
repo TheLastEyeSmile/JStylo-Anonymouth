@@ -1,0 +1,64 @@
+Started log log/Anonymouth_anonymous_2013-02-10_20-13-46.txt
+===================================================
+20-13-54: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+20-13-54: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+20-13-54: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+20-13-54: Reading CumulativeFeatureDriver from C:\Users\Jeff\Desktop\PSAL\JSAN\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+20-13-54: Populating event drivers...
+20-13-54: adding event drivers under Basic
+20-13-54: adding event drivers under Part-Of-Speech
+20-13-54: adding event drivers under Grams
+20-13-54: adding event drivers under Dictionary
+20-13-54: adding event drivers under Counters
+20-13-54: adding event drivers under Readability Metrics
+20-13-54: adding event drivers under Misc.
+20-13-54: done!
+20-13-54: Populating canonicizers...
+20-13-54: done!
+20-13-54: Populating event cullers...
+20-13-54: done!
+20-13-55: Creating Documents Tab...
+20-14-15: Classifier selected in the available classifiers tree in the classifiers tab: SMO
+20-15-15: 'Add' button clicked in the analysis tab.
+20-15-15: Classifier tree unselected in the classifiers tab.
+20-15-24: Classifier selected in the selected classifiers list in the classifiers tab: weka.classifiers.functions.SMO
+20-19-41: Preset feature set selected in the features tab.
+20-19-41: loaded preset feature set: Translation
+20-19-41: Preset feature set selected in the features tab.
+20-19-41: loaded preset feature set: Translation
+20-19-43: Feature selected in the features tab: Top Letter trigrams
+20-19-45: Feature selected in the features tab: Top Letter bigrams
+20-19-46: Feature selected in the features tab: Top Letter trigrams
+20-19-46: Feature selected in the features tab: Word Lengths
+20-19-46: Feature selected in the features tab: Special Characters
+20-19-47: Feature selected in the features tab: Function Words
+20-19-48: Feature selected in the features tab: Special Characters
+20-23-19: Feature selected in the features tab: Word Lengths
+20-23-19: Feature selected in the features tab: Top Letter trigrams
+20-23-19: Feature selected in the features tab: Top Letter bigrams
+20-23-19: Feature selected in the features tab: Letters
+20-23-20: Feature selected in the features tab: Average characters per word
+20-23-20: Feature selected in the features tab: Character count
+20-23-21: Feature selected in the features tab: Average characters per word
+20-23-21: Feature selected in the features tab: Letters
+20-23-21: Feature selected in the features tab: Top Letter bigrams
+20-23-21: Feature selected in the features tab: Top Letter trigrams
+20-23-21: Feature selected in the features tab: Word Lengths
+20-23-21: Feature selected in the features tab: Special Characters
+20-23-22: Feature selected in the features tab: Function Words
+20-23-22: Feature selected in the features tab: Punctuation
+20-23-22: Feature selected in the features tab: Words
+20-23-23: Feature selected in the features tab: Punctuation
+20-23-23: Feature selected in the features tab: Function Words
+20-23-24: Feature selected in the features tab: Special Characters
+20-23-24: Feature selected in the features tab: Word Lengths
+20-23-24: Feature selected in the features tab: Top Letter trigrams
+20-23-25: Feature selected in the features tab: Word Lengths
+20-23-25: Feature selected in the features tab: Special Characters
+20-23-25: Feature selected in the features tab: Function Words
+20-23-25: Feature selected in the features tab: Punctuation
+20-23-26: Feature selected in the features tab: Words
+20-23-32: 'Load Problem Set' button clicked on the documents tab
+20-23-34: Trying to load problem set from C:\Users\Jeff\Documents\jeffu_test1_Desktop.xml
+20-23-34: Failed loading C:\Users\Jeff\Documents\jeffu_test1_Desktop.xml
+20-23-34: java.io.FileNotFoundException: C:\Users\Jeff\Documents\jeffu_test1_Desktop.xml (The system cannot find the file specified)

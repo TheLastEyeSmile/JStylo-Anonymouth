@@ -389,7 +389,9 @@ public class GUIMain extends javax.swing.JFrame
 		protected JButton nextSentenceButton;
 		protected JButton prevSentenceButton;
 		protected JButton transButton;
-
+	//---------------------------------------------------------------------
+		protected JPanel resultsPane;
+		
 		private String oldEditorBoxDoc = " ";
 		private TableModel oldResultsTableModel = null;
 		private TableCellRenderer tcr = new DefaultTableCellRenderer();
@@ -525,7 +527,7 @@ public class GUIMain extends javax.swing.JFrame
 			getContentPane().setLayout(new MigLayout(
 					"fill", // layout constraints
 					"[grow 20, fill][grow 80, growprio 110, fill]", // column constraints
-					"[fill]")); // row constraints)
+					"fill")); // row constraints)
 			
 			editorHelpTabPane = new JTabbedPane();
 			{
@@ -541,10 +543,39 @@ public class GUIMain extends javax.swing.JFrame
 				editorTabPane.addTab("Clusters", createClustersTab());
 			}
 			
+			resultsPane = new JPanel();
+			resultsPane.setLayout(new MigLayout(
+					"wrap",
+					"grow, fill",
+					"grow, fill"));
+			{
+				resultsTableLabel = new JLabel("Classification Results:");
+            	resultsTableLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            	resultsTableLabel.setOpaque(true);
+            	resultsTableLabel.setBackground(inst.tan);
+            	resultsTableLabel.setBorder(BorderFactory.createRaisedBevelBorder());
+            	resultsPane.add(resultsTableLabel, "height 20!, growx");
+            	
+            	resultsTablePane = new JScrollPane();
+                TableModel resultsTableModel = 
+				new DefaultTableModel(
+                                      new String[][] { { "", "" }, { "", "" } },
+                                      new String[] { "", "" });
+                resultsTable = new JTable();
+                resultsTablePane.setViewportView(resultsTable);
+                resultsTable.setModel(resultsTableModel);
+                resultsPane.add(resultsTablePane, "span, growx");
+                
+            	classificationLabel = new JLabel("");
+            	classificationLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            	resultsPane.add(classificationLabel, "span, height 20!");
+			}
 			
 			
-			getContentPane().add(editorHelpTabPane, "width 300!");
+			
+			getContentPane().add(editorHelpTabPane, "width 300!, spany");
 			getContentPane().add(editorTabPane, "width 600::");
+			getContentPane().add(resultsPane, "width 600::, height 100:25%:");
 			
 			
 			
@@ -1089,12 +1120,12 @@ public class GUIMain extends javax.swing.JFrame
 			MigLayout EBPLayout = new MigLayout(
 					"fillx, wrap 3, ins 20 20 0 20",
 					"[70]0[grow, fill]0[140]",
-					"[70]0[70]10[fill]0[grow, fill]10[fill]0[]0[]");
+					"[60]0[60]10[fill]0[grow, fill]10[fill]0[]0[]");
             editBoxPanel.setLayout(EBPLayout);
 			{
             	sentenceBoxLabel = new JLabel("Sentence:");
                 sentenceBoxLabel.setFont(titleFont);
-                editBoxPanel.add(sentenceBoxLabel, "width 70!, height 70!");
+                editBoxPanel.add(sentenceBoxLabel, "width 70!, height 60!");
                 
                 sentencePane = new JScrollPane();
                 sentenceEditPane = new JTextPane();
@@ -1102,7 +1133,7 @@ public class GUIMain extends javax.swing.JFrame
                 sentenceEditPane.setFont(normalFont);
                 sentenceEditPane.setEditable(true);
                 sentencePane.setViewportView(sentenceEditPane);
-                editBoxPanel.add(sentencePane, "growx, height 70!");
+                editBoxPanel.add(sentencePane, "growx, height 60!");
                 
                 sentenceOptionsPanel = new JPanel();
             	sentenceOptionsPanel.setBackground(optionsColor);
@@ -1112,7 +1143,7 @@ public class GUIMain extends javax.swing.JFrame
             			"fill",
             			"10:20:20");
             	sentenceOptionsPanel.setLayout(sentOptLayout);
-            	editBoxPanel.add(sentenceOptionsPanel, "width 140!, height 70!, gapleft 0");
+            	editBoxPanel.add(sentenceOptionsPanel, "width 140!, height 60!, gapleft 0");
             	{
                  	JLabel sentOptionsLabel = new JLabel("Sentence Options:");
                  	sentOptionsLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1131,7 +1162,7 @@ public class GUIMain extends javax.swing.JFrame
                 
                 translationsBoxLabel = new JLabel("Translation:");
                 translationsBoxLabel.setFont(titleFont);
-                editBoxPanel.add(translationsBoxLabel, "width 70!, height 70!");
+                editBoxPanel.add(translationsBoxLabel, "width 70!, height 60!");
                 
                 translationPane = new JScrollPane();
                 translationEditPane = new JTextPane();
@@ -1139,7 +1170,7 @@ public class GUIMain extends javax.swing.JFrame
                 translationEditPane.setFont(normalFont);
                 translationEditPane.setEditable(true);
                 translationPane.setViewportView(translationEditPane);
-                editBoxPanel.add(translationPane, "height 70!");
+                editBoxPanel.add(translationPane, "height 60!");
             	
             	translationOptionsPanel = new JPanel();
             	translationOptionsPanel.setBackground(optionsColor);
@@ -1149,7 +1180,7 @@ public class GUIMain extends javax.swing.JFrame
             			"fill",
             			"10:20:20");
             	translationOptionsPanel.setLayout(transOptLayout);
-            	editBoxPanel.add(translationOptionsPanel, "width 140!, height 70!, gapleft 0");
+            	editBoxPanel.add(translationOptionsPanel, "width 140!, height 60!, gapleft 0");
             	{
                     JLabel transOptionsLabel = new JLabel("Translation Options:");
                     transOptionsLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1222,25 +1253,6 @@ public class GUIMain extends javax.swing.JFrame
                 	nextSentenceButton.setHorizontalTextPosition(SwingConstants.CENTER);
                     documentOptionsPanel.add(nextSentenceButton);
         		}
-    		
-        		resultsTableLabel = new JLabel("Classification Results:");
-            	resultsTableLabel.setFont(titleFont);
-            	resultsTableLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            	editBoxPanel.add(resultsTableLabel, "span, height 20!, growx");
-            	
-            	resultsTablePane = new JScrollPane();
-                TableModel resultsTableModel = 
-				new DefaultTableModel(
-                                      new String[][] { { "", "" }, { "", "" } },
-                                      new String[] { "", "" });
-                resultsTable = new JTable();
-                resultsTablePane.setViewportView(resultsTable);
-                resultsTable.setModel(resultsTableModel);
-                editBoxPanel.add(resultsTablePane, "span, height 60!, growx");
-                
-            	classificationLabel = new JLabel("");
-            	classificationLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            	editBoxPanel.add(classificationLabel, "span, height 20!");
 			}
             tabMade = true;
 		}

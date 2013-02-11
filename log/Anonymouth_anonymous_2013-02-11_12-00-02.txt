@@ -1,0 +1,87 @@
+Started log log/Anonymouth_anonymous_2013-02-11_12-00-02.txt
+===================================================
+12-00-02: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\9_features.xml
+12-00-02: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\translation_feature_set.xml
+12-00-02: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set.xml
+12-00-02: Reading CumulativeFeatureDriver from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\feature_sets\writeprints_feature_set_limited.xml
+12-00-02: Populating event drivers...
+12-00-02: adding event drivers under Basic
+12-00-02: adding event drivers under Part-Of-Speech
+12-00-02: adding event drivers under Grams
+12-00-02: adding event drivers under Dictionary
+12-00-02: adding event drivers under Counters
+12-00-02: adding event drivers under Readability Metrics
+12-00-02: adding event drivers under Misc.
+12-00-02: done!
+12-00-02: Populating canonicizers...
+12-00-02: done!
+12-00-02: Populating event cullers...
+12-00-02: done!
+12-00-02: Creating Documents Tab...
+12-00-05: 'Load Problem Set' button clicked on the documents tab
+12-00-06: Trying to load problem set from C:\Users\Jeff\workspace\PSAL\JStylo-Anonymouth\jsan_resources\problem_sets\jeffu_test1_Desktop.xml
+12-00-06: GUI Update: update documents tab with current problem set started
+12-00-07: Preset feature set selected in the features tab.
+12-00-07: loaded preset feature set: 9 feature-set
+12-00-07: Preset feature set selected in the features tab.
+12-00-07: loaded preset feature set: 9 feature-set
+12-00-08: Classifier selected in the available classifiers tree in the classifiers tab: SMO
+12-00-09: 'Add' button clicked in the analysis tab.
+12-00-09: Classifier tree unselected in the classifiers tab.
+12-00-10: Intial processing starting...
+12-00-10: Created DataAnalyzer
+12-00-10: Created new DocumentMagician, is sparse?  ... false
+12-00-10: Numer of features to return: 200
+12-00-10: calling backendInterface for preTargetSelectionProcessing
+12-00-10: FINISHED INITIALIZING FUNCTION WORDS
+12-00-10: Process button pressed for first time (initial run) in editor tab
+12-00-10: called runIntitial in DataAnalyzer
+12-00-10: Entered initialDocToData in DocumentMagician
+12-00-10: True test doc author: ~* you *~
+12-00-10: Dummy author: ~* you *~
+12-00-10: Calling runPrimaryDocOps
+12-00-10: Setting CumulativeFeatureDriver in DocumentMagician
+12-00-10: Building train (with author) and toModify instances
+12-00-10: InstanceConstuctor constructed
+12-00-10: Saving temporary file: ./edited_documents/anonymous_unmodified.txt
+12-00-10: Runnng JStylo WekaInstancesBuilder from runInstanceBuilder in InstanceConstructor
+12-00-12: Done with runPrimaryDocOps
+12-00-12: Calling runSecondaryDocOps
+12-00-12: Building author and no author train instances
+12-00-12: InstanceConstuctor constructed
+12-00-12: InstanceConstuctor constructed
+12-00-12: Only building train set
+12-00-12: Only building train set
+12-00-12: Done with runSecondaryDocOps
+12-00-12: Exiting initialDocToData in DocumentMagician
+12-00-12: Calling runGeneric
+12-00-12: called computerInfoGain
+12-00-12: called findMostInfluentialEvents... for 200 features
+12-00-12: Attribute created for feature: @attribute 'Average-Sentence-Length{-}' numeric
+12-00-12: Generic name: AVERAGE_SENTENCE_LENGTH
+12-00-12: @attribute 'Average-Sentence-Length{-}' numeric info gain for this feature is: 1.378739198958467, calcHist is: false string in the braces (if applicable):  toModify value is: 26.684211
+12-00-12: Attribute created for feature: @attribute 'Sentence-Count{-}' numeric
+12-00-12: Generic name: SENTENCE_COUNT
+12-00-12: @attribute 'Sentence-Count{-}' numeric info gain for this feature is: 1.3298918975422913, calcHist is: false string in the braces (if applicable):  toModify value is: 19.0
+12-00-12: Attribute created for feature: @attribute 'Gunning-Fog-Readability-Index{-}' numeric
+12-00-12: Generic name: GUNNING_FOG_READABILITY_INDEX
+12-00-12: @attribute 'Gunning-Fog-Readability-Index{-}' numeric info gain for this feature is: 1.1096498825027656, calcHist is: false string in the braces (if applicable):  toModify value is: 18.878812
+12-00-12: Attribute created for feature: @attribute 'Unique-Words-Count{-}' numeric
+12-00-12: Generic name: UNIQUE_WORDS_COUNT
+12-00-12: @attribute 'Unique-Words-Count{-}' numeric info gain for this feature is: 1.0790902882211748, calcHist is: false string in the braces (if applicable):  toModify value is: 210.0
+12-00-12: Attribute created for feature: @attribute 'Complexity{-}' numeric
+12-00-12: Generic name: COMPLEXITY
+12-00-12: @attribute 'Complexity{-}' numeric info gain for this feature is: 1.0429764658835292, calcHist is: false string in the braces (if applicable):  toModify value is: 0.414201
+12-00-12: Attribute created for feature: @attribute 'Average-Syllables-in-Word{-}' numeric
+12-00-12: Generic name: AVERAGE_SYLLABLES_IN_WORD
+12-00-12: @attribute 'Average-Syllables-in-Word{-}' numeric info gain for this feature is: 0.9962381462933259, calcHist is: false string in the braces (if applicable):  toModify value is: 1.779093
+12-00-12: Attribute created for feature: @attribute 'Flesch-Reading-Ease-Score{-}' numeric
+12-00-12: Generic name: FLESCH_READING_EASE_SCORE
+12-00-12: @attribute 'Flesch-Reading-Ease-Score{-}' numeric info gain for this feature is: 0.8557128783435568, calcHist is: false string in the braces (if applicable):  toModify value is: 29.239284
+12-00-12: Attribute created for feature: @attribute 'Letter-Space{-}' numeric
+12-00-12: Generic name: LETTER_SPACE
+12-00-12: @attribute 'Letter-Space{-}' numeric info gain for this feature is: 0.7966998980194109, calcHist is: false string in the braces (if applicable):  toModify value is: 2596.0
+12-00-12: Attribute created for feature: @attribute 'Character-Space{-}' numeric
+12-00-12: Generic name: CHARACTER_SPACE
+12-00-12: @attribute 'Character-Space{-}' numeric info gain for this feature is: 0.7595677585872356, calcHist is: false string in the braces (if applicable):  toModify value is: 3174.0
+12-00-16: Fatal error encountered, termination requested.
